@@ -10,11 +10,7 @@
   
 
   
-  <meta name="description" content="&amp;lt;?php
-/*-----保存COOKIE-----*/
-$url = &amp;#39;www.xxx.com&amp;#39;; //url地址
-$post = &amp;quot;id=user&amp;amp;pwd=123456&amp;quot;; //POST数据
-$ch = curl_init($url); //初始">
+  <meta name="description" content="12345678910111213/*-----保存COOKIE-----*/$url = &amp;apos;www.xxx.com&amp;apos;; //url地址$post = &amp;quot;id=user&amp;amp;pwd=123456&amp;quot;; //POST数据$ch = curl_init($url">
   
 
   
@@ -87,21 +83,7 @@ $ch = curl_init($url); //初始">
   <div class="article-content">
     <div class="entry">
       
-        <p><code>&lt;?php
-/*-----保存COOKIE-----*/
-$url = &#39;www.xxx.com&#39;; //url地址
-$post = &quot;id=user&amp;pwd=123456&quot;; //POST数据
-$ch = curl_init($url); //初始化
-curl_setopt($ch,CURLOPT_HEADER,1); //将头文件的信息作为数据流输出
-curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); //返回获取的输出文本流
-curl_setopt($ch,CURLOPT_POSTFIELDS,$post); //发送POST数据
-$content = curl_exec($ch); //执行curl并赋值给$content
-preg_match(&#39;/Set-Cookie:(.*);/iU&#39;,$content,$str); //正则匹配
-$cookie = $str[1]; //获得COOKIE（SESSIONID）
-curl_close($ch); //关闭curl
-/*-----使用COOKIE-----*/
-curl_setopt($ch,CURLOPT_COOKIE,$cookie);
-``</code></p>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/*-----保存COOKIE-----*/</span><br><span class="line">$url = &apos;www.xxx.com&apos;; //url地址</span><br><span class="line">$post = &quot;id=user&amp;pwd=123456&quot;; //POST数据</span><br><span class="line">$ch = curl_init($url); //初始化</span><br><span class="line">curl_setopt($ch,CURLOPT_HEADER,1); //将头文件的信息作为数据流输出</span><br><span class="line">curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); //返回获取的输出文本流</span><br><span class="line">curl_setopt($ch,CURLOPT_POSTFIELDS,$post); //发送POST数据</span><br><span class="line">$content = curl_exec($ch); //执行curl并赋值给$content</span><br><span class="line">preg_match(&apos;/Set-Cookie:(.*);/iU&apos;,$content,$str); //正则匹配</span><br><span class="line">$cookie = $str[1]; //获得COOKIE（SESSIONID）</span><br><span class="line">curl_close($ch); //关闭curl</span><br><span class="line">/*-----使用COOKIE-----*/</span><br><span class="line">curl_setopt($ch,CURLOPT_COOKIE,$cookie);</span><br></pre></td></tr></table></figure>
 <p>转载自 <a href="http://www.jb51.net/article/46222.htm" target="_blank" rel="noopener">http://www.jb51.net/article/46222.htm</a></p>
 
       

@@ -11,7 +11,7 @@
 
   
   <meta name="description" content="目前有两种设置的方法。
-全局设置，就是每个文件上传的时候都会携带的。通过修改options.formData来控制。比如如下demo添加一个uid=123。`// 初始化的时候直接添加var uploader = new WebUploader.Uploader({    …    formData">
+全局设置，就是每个文件上传的时候都会携带的。通过修改options.formData来控制。比如如下demo添加一个uid=123。初始化的时候直接添加12345678910111213141516171819202122232425262728var uploader = ">
   
 
   
@@ -85,22 +85,7 @@
     <div class="entry">
       
         <p>目前有两种设置的方法。</p>
-<p>全局设置，就是每个文件上传的时候都会携带的。通过修改options.formData来控制。比如如下demo添加一个uid=123。<br>`// 初始化的时候直接添加<br>var uploader = new WebUploader.Uploader({<br>    …<br>    formData: {<br>        uid: 123<br>    }<br>    …<br>});</p>
-<p>// 初始化以后添加<br>uploader.options.formData.uid = 123;<br>局部设置，给每个独立的文件上传设置。通过绑定一个uploadBeforeSend事件来添加。</p>
-<p>uploader.on( ‘uploadBeforeSend’, function( block, data ) {<br>    // block为分块数据。</p>
-<pre><code>// file为分块对应的file对象。
-var file = block.file;
-
-
-// 修改data可以控制发送哪些携带数据。
-data.uid = 123;
-
-// 将存在file对象中的md5数据携带发送过去。
-// data.fileMd5 = file.md5;
-
-// 删除其他数据
-// delete data.key;
-</code></pre><p>});<br><code>`</code></p>
+<p>全局设置，就是每个文件上传的时候都会携带的。通过修改options.formData来控制。比如如下demo添加一个uid=123。<br><figure class="highlight plain"><figcaption><span>初始化的时候直接添加</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">var uploader = new WebUploader.Uploader(&#123;</span><br><span class="line">    ...</span><br><span class="line">    formData: &#123;</span><br><span class="line">        uid: 123</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 初始化以后添加</span><br><span class="line">uploader.options.formData.uid = 123;</span><br><span class="line">局部设置，给每个独立的文件上传设置。通过绑定一个uploadBeforeSend事件来添加。</span><br><span class="line"></span><br><span class="line">uploader.on( &apos;uploadBeforeSend&apos;, function( block, data ) &#123;</span><br><span class="line">    // block为分块数据。</span><br><span class="line"></span><br><span class="line">    // file为分块对应的file对象。</span><br><span class="line">    var file = block.file;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    // 修改data可以控制发送哪些携带数据。</span><br><span class="line">    data.uid = 123;</span><br><span class="line"></span><br><span class="line">    // 将存在file对象中的md5数据携带发送过去。</span><br><span class="line">    // data.fileMd5 = file.md5;</span><br><span class="line"></span><br><span class="line">    // 删除其他数据</span><br><span class="line">    // delete data.key;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
 <p>转载自 <a href="https://github.com/fex-team/webuploader/issues/145" target="_blank" rel="noopener">https://github.com/fex-team/webuploader/issues/145</a></p>
 
       

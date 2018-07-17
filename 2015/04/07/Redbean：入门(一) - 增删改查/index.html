@@ -10,7 +10,7 @@
   
 
   
-  <meta name="description" content="`&amp;lt;?php    require_once ‘rb.php’;    $tableName = “link”;    //链接数据库    R::setup(“mysql:host=localhost;dbname=hwibs_model”,”root”,””);    //创建一个表（也可">
+  <meta name="description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556    require_once &amp;apos;rb.php&amp;apos;;    $tableN">
   
 
   
@@ -83,55 +83,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>`&lt;?php<br>    require_once ‘rb.php’;<br>    $tableName = “link”;<br>    //链接数据库<br>    R::setup(“mysql:host=localhost;dbname=hwibs_model”,”root”,””);<br>    //创建一个表（也可以指为实例化一个表）<br>    $handler = R::dispense($tableName);</p>
-<pre><code>#####################################   add #####################################
-
-/*同上[同时实例化多个表]
-    list($handler_1,$handler_2) = R::dispenseALL(&quot;test_1,test_2&quot;);
-*/
-//对象方式给字段赋值
-//::注意，如果字段不存在，store方法过后，会自动添加对应的字段，并且自动根据字段值设置字段的对应字段类型
-$handler-&gt;name = &quot;haha&quot;;
-$handler-&gt;url = &quot;isxiugai&quot;;
-$handler-&gt;plushtime = time() - 5000;
-//如果有下划线的字段名，则可以使用驼峰法命名，将自动转换为下划线
-$handler-&gt;isMyName = false;// = is_my_name
-//执行,此静态方法会返回添加成功后的自增id值(单个)
-$inser_id = R::store($handler);
-
-#####################################   query ####################################
-//获取记录句柄(参数1为表名，参数2为id值),返回值为对象集合
-//如果id不存在，则返回0
-//注意，这个获取到的句柄，可以用于删除操作
-$bean  = R::load($tableName,4);//获取单个
-$beans = R::loadAll($tableName,array(1,2,3,4));//获取多个
-
-#####################################   update #####################################
-
-//1.注意，修改跟add的唯一区别就是id，如果id不为空，则为修改，否则则为添加!
-//2.如果id不存在的情况下，既不会添加，也不会修改！所以一般在修改前，需要事先用load进行判断是否存在
-
-foreach ($beans as $k=&gt;$v){
-    $beans[$k]-&gt;url = rand(100,5555);//测试[循环将每个记录对象中的url赋值一个随机数]
-}
-R::storeAll($beans);//执行修改
-
-
-#####################################   delete #####################################
-//删除单个::成功或失败都是返回null
-var_dump(R::trash(R::load($tableName,1)));
-//删除多个::如果有不存在的，则会只删除存在的,成功或失败都是返回null
-var_dump(R::trashAll(R::loadALL($tableName,array(117,118))));
-
-
-#####################################   other #####################################
-//清除表中所有数据::相当于truncate，因为会将自增指针重置
-//R::wipe($tableName);
-//删除数据库中所有的表,[无语的功能，要这个搞毛]
-//var_dump(R::nuke());
-//关闭链接
-R::close();
-</code></pre><p>?&gt;<br><code>`</code></p>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">    require_once &apos;rb.php&apos;;</span><br><span class="line">    $tableName = &quot;link&quot;;</span><br><span class="line">    //链接数据库</span><br><span class="line">    R::setup(&quot;mysql:host=localhost;dbname=hwibs_model&quot;,&quot;root&quot;,&quot;&quot;);</span><br><span class="line">    //创建一个表（也可以指为实例化一个表）</span><br><span class="line">    $handler = R::dispense($tableName);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    #####################################   add #####################################</span><br><span class="line">    </span><br><span class="line">    /*同上[同时实例化多个表]</span><br><span class="line">        list($handler_1,$handler_2) = R::dispenseALL(&quot;test_1,test_2&quot;);</span><br><span class="line">    */</span><br><span class="line">    //对象方式给字段赋值</span><br><span class="line">    //::注意，如果字段不存在，store方法过后，会自动添加对应的字段，并且自动根据字段值设置字段的对应字段类型</span><br><span class="line">    $handler-&gt;name = &quot;haha&quot;;</span><br><span class="line">    $handler-&gt;url = &quot;isxiugai&quot;;</span><br><span class="line">    $handler-&gt;plushtime = time() - 5000;</span><br><span class="line">    //如果有下划线的字段名，则可以使用驼峰法命名，将自动转换为下划线</span><br><span class="line">    $handler-&gt;isMyName = false;// = is_my_name</span><br><span class="line">    //执行,此静态方法会返回添加成功后的自增id值(单个)</span><br><span class="line">    $inser_id = R::store($handler);</span><br><span class="line">    </span><br><span class="line">    #####################################   query ####################################</span><br><span class="line">    //获取记录句柄(参数1为表名，参数2为id值),返回值为对象集合</span><br><span class="line">    //如果id不存在，则返回0</span><br><span class="line">    //注意，这个获取到的句柄，可以用于删除操作</span><br><span class="line">    $bean  = R::load($tableName,4);//获取单个</span><br><span class="line">    $beans = R::loadAll($tableName,array(1,2,3,4));//获取多个</span><br><span class="line"></span><br><span class="line">    #####################################   update #####################################</span><br><span class="line">    </span><br><span class="line">    //1.注意，修改跟add的唯一区别就是id，如果id不为空，则为修改，否则则为添加!</span><br><span class="line">    //2.如果id不存在的情况下，既不会添加，也不会修改！所以一般在修改前，需要事先用load进行判断是否存在</span><br><span class="line">    </span><br><span class="line">    foreach ($beans as $k=&gt;$v)&#123;</span><br><span class="line">        $beans[$k]-&gt;url = rand(100,5555);//测试[循环将每个记录对象中的url赋值一个随机数]</span><br><span class="line">    &#125;</span><br><span class="line">    R::storeAll($beans);//执行修改</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    #####################################   delete #####################################</span><br><span class="line">    //删除单个::成功或失败都是返回null</span><br><span class="line">    var_dump(R::trash(R::load($tableName,1)));</span><br><span class="line">    //删除多个::如果有不存在的，则会只删除存在的,成功或失败都是返回null</span><br><span class="line">    var_dump(R::trashAll(R::loadALL($tableName,array(117,118))));</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    #####################################   other #####################################</span><br><span class="line">    //清除表中所有数据::相当于truncate，因为会将自增指针重置</span><br><span class="line">    //R::wipe($tableName);</span><br><span class="line">    //删除数据库中所有的表,[无语的功能，要这个搞毛]</span><br><span class="line">    //var_dump(R::nuke());</span><br><span class="line">    //关闭链接</span><br><span class="line">    R::close();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 <p>转载自 <a href="http://www.cnblogs.com/shibazi/archive/2014/08/02/3887246.html" target="_blank" rel="noopener">http://www.cnblogs.com/shibazi/archive/2014/08/02/3887246.html</a></p>
 
       

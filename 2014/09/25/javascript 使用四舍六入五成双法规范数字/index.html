@@ -10,7 +10,7 @@
   
 
   
-  <meta name="description" content="最近因为一些特殊原因，要用到使用 四舍六入五成双 的规则进行有效数字的规范。百度了半天没找到解决方法，居然还有人说 Math.round 是用这种方法的，简直坑爹。。。于是我自写了个算法，要是有什么 bug 欢迎各位帮忙指正，谢谢。function get_significant_figure(nu">
+  <meta name="description" content="最近因为一些特殊原因，要用到使用 四舍六入五成双 的规则进行有效数字的规范。百度了半天没找到解决方法，居然还有人说 Math.round 是用这种方法的，简直坑爹。。。于是我自写了个算法，要是有什么 bug 欢迎各位帮忙指正，谢谢。get_significant_figure(num,len) &amp;#">
   
 
   
@@ -83,38 +83,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>最近因为一些特殊原因，要用到使用 <a href="http://baike.baidu.com/view/1245064.htm" target="_blank" rel="noopener">四舍六入五成双</a> 的规则进行有效数字的规范。百度了半天没找到解决方法，居然还有人说 Math.round 是用这种方法的，简直坑爹。。。于是我自写了个算法，要是有什么 bug 欢迎各位帮忙指正，谢谢。<br><code>function get_significant_figure(num,len) {
-                var num=parseFloat(num);
-                var len=parseInt(len);
-                var _len=len;
-                if (parseFloat(num)==0) {
-                    return num;
-                }
-                var yxsz=parseInt(String(num).replace(/[^\d]/g,&quot;&quot;));
-                if (String(yxsz)[0]&gt;=8) {
-                    len-=1;
-                }
-                if (len&lt;=0) {
-                    len=1;
-                }
-                if (len&gt;=String(yxsz).length) {
-                    return num.toPrecision(len);
-                } else {
-                    var tmp=String((Math.floor(yxsz/Math.pow(10,(String(yxsz).length-len))*100)/100).toFixed(2)).split(&quot;.&quot;);
-                    for (var i=0;i&lt;tmp.length;i++) {
-                        tmp[i]=parseInt(tmp[i]);
-                    }
-                    if (tmp[1]/100&gt;0.5) {
-                        tmp[0]++;
-                    } else if (tmp[1]/100==0.5) {
-                        if (parseInt(String(tmp[0])[String(tmp[0]).length-1])%2==1) {
-                            tmp[0]++;
-                        }
-                    }
-                }
-                return (tmp[0]*(Math.pow(10,(String(yxsz).length+(parseInt(String(yxsz)[0])&gt;=8?1:0)-String(tmp[0]).length)))*(num/yxsz)).toPrecision(_len);
-            }
-``</code></p>
+        <p>最近因为一些特殊原因，要用到使用 <a href="http://baike.baidu.com/view/1245064.htm" target="_blank" rel="noopener">四舍六入五成双</a> 的规则进行有效数字的规范。百度了半天没找到解决方法，居然还有人说 Math.round 是用这种方法的，简直坑爹。。。于是我自写了个算法，要是有什么 bug 欢迎各位帮忙指正，谢谢。<br><figure class="highlight plain"><figcaption><span>get_significant_figure(num,len) &#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">    var num=parseFloat(num);</span><br><span class="line">    var len=parseInt(len);</span><br><span class="line">    var _len=len;</span><br><span class="line">    if (parseFloat(num)==0) &#123;</span><br><span class="line">        return num;</span><br><span class="line">    &#125;</span><br><span class="line">    var yxsz=parseInt(String(num).replace(/[^\d]/g,&quot;&quot;));</span><br><span class="line">    if (String(yxsz)[0]&gt;=8) &#123;</span><br><span class="line">        len-=1;</span><br><span class="line">    &#125;</span><br><span class="line">    if (len&lt;=0) &#123;</span><br><span class="line">        len=1;</span><br><span class="line">    &#125;</span><br><span class="line">    if (len&gt;=String(yxsz).length) &#123;</span><br><span class="line">        return num.toPrecision(len);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        var tmp=String((Math.floor(yxsz/Math.pow(10,(String(yxsz).length-len))*100)/100).toFixed(2)).split(&quot;.&quot;);</span><br><span class="line">        for (var i=0;i&lt;tmp.length;i++) &#123;</span><br><span class="line">            tmp[i]=parseInt(tmp[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        if (tmp[1]/100&gt;0.5) &#123;</span><br><span class="line">            tmp[0]++;</span><br><span class="line">        &#125; else if (tmp[1]/100==0.5) &#123;</span><br><span class="line">            if (parseInt(String(tmp[0])[String(tmp[0]).length-1])%2==1) &#123;</span><br><span class="line">                tmp[0]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return (tmp[0]*(Math.pow(10,(String(yxsz).length+(parseInt(String(yxsz)[0])&gt;=8?1:0)-String(tmp[0]).length)))*(num/yxsz)).toPrecision(_len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>原理是取出所有的有效数字，并截取要求截取的长度 +2，两位用来判断是否需要进位。最后填充 0 直至结果整数与开始时获取到的有效数字长度一致，并根据最初的有效数字与输入数字的比来还原结果，如果长度不符合要求就继续填充 0。例如 3.16501 要求保留三位有效数字，那就是这样的 3.16501–&gt;316501–&gt;31650–&gt;316.50–&gt;316–&gt;316<em>1e(4-3)</em>(3.165/3165)–&gt;3160–&gt;3.16。</p>
 <p>P.S. 我们还要求首位有效数字如果大于等于 8 则多看一位。</p>
 

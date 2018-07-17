@@ -10,8 +10,8 @@
   
 
   
-  <meta name="description" content="通过ssh传输文件SSH进入对方机器：`ssh remoteIP123`scp -rp /path/filename username@remoteIP:/path #将本地文件拷贝到服务器上
-`scp -rp username@remoteIP:/path/filename /path #将远程文">
+  <meta name="description" content="通过ssh传输文件SSH进入对方机器：remoteIP1234``````scp -rp /path/filename username@remoteIP:/path #将本地文件拷贝到服务器上
+-rp username@remoteIP:/path/filename#将远程文件从服务器下载到本地1">
   
 
   
@@ -84,10 +84,9 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>通过ssh传输文件<br>SSH进入对方机器：<br>`ssh remoteIP<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">`scp -rp /path/filename username@remoteIP:/path #将本地文件拷贝到服务器上</span><br></pre></td></tr></table></figure></p>
-<p>`scp -rp username@remoteIP:/path/filename /path #将远程文件从服务器下载到本地<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">`tar cvzf - /path/ | ssh username@remoteip &quot;cd /some/path/; cat -&gt; path.tar.gz&quot; #压缩传输</span><br></pre></td></tr></table></figure></p>
-<p><code>tar cvzf - /path/ | ssh username@remoteip &quot;cd /some/path/; tar xvzf -&quot; #压缩传输一个目录并解压
-``</code></p>
+        <p>通过ssh传输文件<br>SSH进入对方机器：<br><figure class="highlight plain"><figcaption><span>remoteIP</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```scp -rp /path/filename username@remoteIP:/path #将本地文件拷贝到服务器上</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><figcaption><span>-rp username@remoteIP:/path/filename</span><a href="/path">#将远程文件从服务器下载到本地</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```tar cvzf - /path/ | ssh username@remoteip &quot;cd /some/path/; cat -&gt; path.tar.gz&quot; #压缩传输</span><br></pre></td></tr></table></figure>
+<p><code>tar cvzf - /path/ | ssh username@remoteip &quot;cd /some/path/; tar xvzf -&quot; #压缩传输一个目录并解压</code></p>
 <p>转载自 <a href="http://blog.chinaunix.net/uid-20545423-id-1930177.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-20545423-id-1930177.html</a></p>
 
       

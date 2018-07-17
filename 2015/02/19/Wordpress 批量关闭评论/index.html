@@ -11,7 +11,7 @@
 
   
   <meta name="description" content="wordpress 并没有自带批量关闭所有文章评论的功能，这需要通过修改数据库来实现：
-关闭所有文章的评论功能：UPDATEwp_postsSETcomment_status`=’close’1234反之：`UPDATE `wp_posts` SET`comment_status`=&amp;apos;op">
+关闭所有文章的评论功能：`wp_posts` SET`comment_status`12345```反之：```UPDATE `wp_posts` SET`comment_status`=&amp;apos;open&amp;a">
   
 
   
@@ -85,7 +85,7 @@
     <div class="entry">
       
         <p>wordpress 并没有自带批量关闭所有文章评论的功能，这需要通过修改数据库来实现：</p>
-<p>关闭所有文章的评论功能：<br><code>UPDATE</code>wp_posts<code>SET</code>comment_status`=’close’<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">反之：</span><br><span class="line">`UPDATE `wp_posts` SET`comment_status`=&apos;open&apos;</span><br></pre></td></tr></table></figure></p>
+<p>关闭所有文章的评论功能：<br><figure class="highlight plain"><figcaption><span>`wp_posts` SET`comment_status`</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">反之：</span><br><span class="line">```UPDATE `wp_posts` SET`comment_status`=&apos;open&apos;</span><br></pre></td></tr></table></figure></p>
 <p>P.S. 过年了，也没啥文章好写了。。就把最近用到的东西拿出来记下，不过这博客不是本来就应该派这用处的么</p>
 
       

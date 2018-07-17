@@ -87,11 +87,9 @@
         <p>　　新入手了个 pi 2B，先上张全家福（好吧图有点大）<br><a href="http://futa.ooo/wp-content/uploads/2015/09/20150924_195814.jpg"><img src="http://futa.ooo/wp-content/uploads/2015/09/20150924_195814-300x169.jpg" alt="20150924_195814"></a><br>　　那啥，把系统移动到 u 盘里的好处应该不用我说了吧，相信各位也应该百度过了。但是！百度下来的各种教程却是各种麻烦，有用 U-Boot 的，有用 BerryBoot 的，反正就是各种奇奇葩葩的第三方。其实，事情并没有那么复杂：</p>
 <p>为确保不会发生错误，本文所有语句均在 root 用户下执行**</p>
 <p><strong>第一步：给 U 盘分区</strong><br>　　因为 U 盘比较大，所以不想全部用在树莓派上，当然各位要是土豪可以跳过这一步。<br>　　在这里需要注意的是，常用文件分区（FAT32/NTFS/exFAT）一定要分在第一个区，树莓派的 ext3 要分在第二个区，不然傻乎乎的 Windows 会不认识。如图：<br><a href="http://futa.ooo/wp-content/uploads/2015/09/QQ图片20150924201713.png"><img src="http://futa.ooo/wp-content/uploads/2015/09/QQ图片20150924201713.png" alt="QQ图片20150924201713"></a><br>　　分区时可以不用管树莓派分区的文件系统，因为后续操作会覆盖掉。</p>
-<p><strong>第二步：将 sd 卡中的系统迁移至 U 盘</strong><br>　　很简单，用 dd 就行了。在这里我的 U 盘是 sda，第二个分区：<br>`dd if=/dev/mmcblk0p2 of=/dev/sda2 bs=4M<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　写完以后，修复 U 盘分区：</span><br><span class="line">`e2fsck -f /dev/sda2</span><br><span class="line">resize2fs /dev/sda2</span><br></pre></td></tr></table></figure></p>
+<p><strong>第二步：将 sd 卡中的系统迁移至 U 盘</strong><br>　　很简单，用 dd 就行了。在这里我的 U 盘是 sda，第二个分区：<br><figure class="highlight plain"><figcaption><span>if</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">　　写完以后，修复 U 盘分区：</span><br><span class="line">```e2fsck -f /dev/sda2</span><br><span class="line">resize2fs /dev/sda2</span><br></pre></td></tr></table></figure></p>
 <p><a href="http://futa.ooo/wp-content/uploads/2015/09/QQ截图20150924202346.png"><img src="http://futa.ooo/wp-content/uploads/2015/09/QQ截图20150924202346.png" alt="QQ截图20150924202346"></a></p>
-<p><strong>第三步：重新配置启动设备   重要！！！</strong><br>　　挂载刚刚写完的分区上系统：<br><code>mkdir sda2
-mount /dev/sda2 sda2
-``</code></p>
+<p><strong>第三步：重新配置启动设备   重要！！！</strong><br>　　挂载刚刚写完的分区上系统：<br><figure class="highlight plain"><figcaption><span>sda2</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount /dev/sda2 sda2</span><br></pre></td></tr></table></figure></p>
 <p>　　修改以下两个文件，内容如图：</p>
 <ul>
 <li>/boot/cmdline.txt</li>
