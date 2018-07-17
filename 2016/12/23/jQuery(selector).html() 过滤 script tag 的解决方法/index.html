@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>jQuery(selector).html() 过滤 script tag 的解决方法 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="之前用 pjax 做个项目，使用了 .html() 方法将获取到的数据插入 container。但是却发现其会自动过滤 script tag，现找到解决方法 (jquery html() strips out script tags)，在此记录一下　　以下是我应用到项目里的部分代码，对 stacko">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="jQuery(selector).html() 过滤 script tag 的解决方法"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>jQuery(selector).html() 过滤 script tag 的解决方法</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/12/23/jQuery(selector).html() 过滤 script tag 的解决方法/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-12-23T09:59:20.000Z">
+          2016-12-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>　　之前用 pjax 做个项目，使用了 .html() 方法将获取到的数据插入 container。但是却发现其会自动过滤 script tag，现找到解决方法 (<a href="http://stackoverflow.com/questions/4079179/jquery-html-strips-out-script-tags" target="_blank" rel="noopener">jquery html() strips out script tags</a>)，在此记录一下<br>　　以下是我应用到项目里的部分代码，对 stackoverflow 的答案多进行了一次判断<br>[javascript]<br>    $(document).on(“pjax:end”, function(event, data) {<br>        var responseDom = $(data.responseText);<br>        if (!$(event.target).filter(“script”).length) {<br>            responseDom.filter(‘script’).each(function(){<br>                if (this.src) {<br>                    var script = document.createElement(‘script’), i, attrName, attrValue, attrs = this.attributes;<br>                    for(i = 0; i &lt; attrs.length; i++) {<br>                        attrName = attrs[i].name;<br>                        attrValue = attrs[i].value;<br>                        script[attrName] = attrValue;<br>                    }<br>                    event.target.appendChild(script);<br>                } else {<br>                    $.globalEval(this.text || this.textContent || this.innerHTML || ‘’);<br>                }<br>            });<br>        }<br>    });<br>[/javascript]</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

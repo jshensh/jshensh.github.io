@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Mysql复制表结构、表数据 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="1、复制表结构及数据到新表CREATE TABLE 新表SELECT * FROM 旧表这种方法会将oldtable中所有的内容都拷贝过来，当然我们可以用delete from newtable;来删除。不过这种方法的一个最不好的地方就是新表中没有了旧表的primary key、Extra（auto">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Mysql复制表结构、表数据"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Mysql复制表结构、表数据</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/08/02/Mysql复制表结构、表数据/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-08-01T18:55:46.000Z">
+          2014-08-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>1、复制表结构及数据到新表<br>CREATE TABLE 新表SELECT * FROM 旧表<br>这种方法会将oldtable中所有的内容都拷贝过来，当然我们可以用delete from newtable;来删除。<br>不过这种方法的一个最不好的地方就是新表中没有了旧表的primary key、Extra（auto_increment）等属性。需要自己用”alter”添加，而且容易搞错。</p>
+<p>2、只复制表结构到新表<br>CREATE TABLE 新表SELECT * FROM 旧表WHERE 1=2<br>或CREATE TABLE 新表LIKE 旧表</p>
+<p>3、复制旧表的数据到新表(假设两个表结构一样)<br>INSERT INTO 新表SELECT * FROM 旧表</p>
+<p>4、复制旧表的数据到新表(假设两个表结构不一样)<br>INSERT INTO 新表(字段1,字段2,…….) SELECT 字段1,字段2,…… FROM 旧表</p>
+<p>5、可以将表1结构复制到表2<br>SELECT * INTO 表2 FROM 表1 WHERE 1=2</p>
+<p>6、可以将表1内容全部复制到表2<br>SELECT * INTO 表2 FROM 表1</p>
+<p>7、 show create table 旧表;<br>这样会将旧表的创建命令列出。我们只需要将该命令拷贝出来，更改table的名字，就可以建立一个完全一样的表</p>
+<p>8、mysqldump<br>用mysqldump将表dump出来，改名字后再导回去或者直接在命令行中运行</p>
+<p>转载自 <a href="http://www.2cto.com/database/201202/120259.html" target="_blank" rel="noopener">http://www.2cto.com/database/201202/120259.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

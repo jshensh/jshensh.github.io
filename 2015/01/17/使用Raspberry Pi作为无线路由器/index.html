@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用Raspberry Pi作为无线路由器 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="鉴于之前的教程过于麻烦。。自己也从头试了一下，发现有点问题，于是本人决定全部推倒重写一遍（注：本文采用的无线网卡为 TP-LINK WN823N，RTL8192CU 芯片）
+另外，文章中用了 vi 编辑器，树莓派自带 vim-tiny，有点反人类，apt-get install vim 解决问题
+参">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="使用Raspberry Pi作为无线路由器"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>使用Raspberry Pi作为无线路由器</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/17/使用Raspberry Pi作为无线路由器/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-16T20:14:47.000Z">
+          2015-01-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>鉴于之前的教程过于麻烦。。自己也从头试了一下，发现有点问题，于是本人决定全部推倒重写一遍（注：本文采用的无线网卡为 TP-LINK WN823N，RTL8192CU 芯片）</p>
+<p>另外，文章中用了 vi 编辑器，树莓派自带 vim-tiny，有点反人类，apt-get install vim 解决问题</p>
+<p>参考了以下两篇文章（如果只按照其中的一篇来都不会成功，所以整理了一下）：</p>
+<ul>
+<li><a href="http://wangye.org/blog/archives/845/" target="_blank" rel="noopener">http://wangye.org/blog/archives/845/</a></li>
+</ul>
+<ul>
+<li><a href="http://shumeipai.nxez.com/2014/04/01/raspberry-pi-wireless-router.html" target="_blank" rel="noopener">http://shumeipai.nxez.com/2014/04/01/raspberry-pi-wireless-router.html</a></li>
+</ul>
+<p><strong>一、安装dhcp服务和ap热点服务</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install isc-dhcp-server hostapd</span><br></pre></td></tr></table></figure>
+<p><strong>二、配置无线网络</strong><br><strong>本文搭建的无线网络使用了 192.168.51 网段，如有需要，请自行修改，后文同</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">auto lo</span><br><span class="line"></span><br><span class="line">iface lo inet loopback</span><br><span class="line">iface eth0 inet dhcp</span><br><span class="line"></span><br><span class="line">allow-hotplug wlan0</span><br><span class="line">iface wlan0 inet static</span><br><span class="line">    address 192.168.51.1</span><br><span class="line">    netmask 255.255.255.0</span><br><span class="line"></span><br><span class="line">iface default inet dhcp</span><br></pre></td></tr></table></figure>
+<p><strong>三、修改 DHCP Server 设置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/dhcp/dhcpd.conf</span><br></pre></td></tr></table></figure>
+<p>在最后添加，注意是在最后：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">subnet 192.168.51.0 netmask 255.255.255.0 &#123;</span><br><span class="line">    range 192.168.51.100 192.168.51.254;</span><br><span class="line">    option subnet-mask 255.255.255.0;</span><br><span class="line">    option broadcast-address 192.168.51.255;</span><br><span class="line">    option routers 192.168.51.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>四、打开内核的网卡转发能力</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+<p>将 net.ipv4.ip_forward=1 的注释去掉</p>
+<p><strong>五、重新编译 hostapd 使其支持 RTL8192CU 芯片的无线网卡</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://futa.ooo/wp-content/uploads/2015/01/RTL8188-hostapd-master.zip</span><br><span class="line">unzip RTL8188-hostapd-master.zip</span><br><span class="line">cd RTL8188-hostapd-master/hostapd</span><br><span class="line">make;make install</span><br></pre></td></tr></table></figure>
+<p><strong>六、修改 iptables 的 nat 规则并保存</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT</span><br><span class="line">iptables-save &gt; /etc/iptables.ipv4.nat</span><br></pre></td></tr></table></figure>
+<p>开机自动加载 iptables 规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.local</span><br></pre></td></tr></table></figure>
+<p>在 exit 0; 前面添加 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-restore&lt;/etc/iptables.ipv4.nat</span><br></pre></td></tr></table></figure>
+<p><strong>七、修改无线网络的设置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/hostapd/hostapd.conf</span><br></pre></td></tr></table></figure>
+<p>只需要改两行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># Basic configuration</span><br><span class="line"></span><br><span class="line">interface=wlan0</span><br><span class="line">ssid=sxbxjhwm_raspberry # SSID，修改</span><br><span class="line">channel=1</span><br><span class="line">#bridge=br0</span><br><span class="line"></span><br><span class="line"># WPA and WPA2 configuration</span><br><span class="line"></span><br><span class="line">macaddr_acl=0</span><br><span class="line">auth_algs=1</span><br><span class="line">ignore_broadcast_ssid=0</span><br><span class="line">wpa=3</span><br><span class="line">wpa_passphrase=87654321 # 密码，修改</span><br><span class="line">wpa_key_mgmt=WPA-PSK</span><br><span class="line">wpa_pairwise=TKIP</span><br><span class="line">rsn_pairwise=CCMP</span><br><span class="line"></span><br><span class="line"># Hardware configuration</span><br><span class="line"></span><br><span class="line">driver=rtl871xdrv</span><br><span class="line">ieee80211n=1</span><br><span class="line">hw_mode=g</span><br><span class="line">device_name=RTL8192CU</span><br><span class="line">manufacturer=Realtek</span><br></pre></td></tr></table></figure>
+<p><strong>P.S. 如果 DHCP 获取不到 IP，需要添加自启动：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.local</span><br></pre></td></tr></table></figure>
+<p>在 exit 0 之前添加以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ifdown wlan0</span><br><span class="line">ifup wlan0</span><br><span class="line">ifconfig wlan0 192.168.51.1 netmask 255.255.255.0</span><br><span class="line">service isc-dhcp-server restart</span><br><span class="line">service hostapd restart</span><br></pre></td></tr></table></figure>
+<hr>
+<p>实验成功，效果图：<br><a href="http://futa.ooo/wp-content/uploads/2015/01/QQ截图20150116205540.jpg"><img src="http://futa.ooo/wp-content/uploads/2015/01/QQ截图20150116205540-300x154.jpg" alt="QQ截图20150116205540"></a><br><a href="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205445-e1421413729569.jpg"><img src="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205445-e1421413729569-169x300.jpg" alt="QQ图片20150116205445"></a><br><a href="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205452.png"><img src="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205452-169x300.png" alt="QQ图片20150116205452"></a><br><a href="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205458.png"><img src="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205458-169x300.png" alt="QQ图片20150116205458"></a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/树莓派/">树莓派</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

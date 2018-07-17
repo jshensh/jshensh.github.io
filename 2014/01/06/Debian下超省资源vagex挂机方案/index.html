@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Debian下超省资源vagex挂机方案 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="最近免费VPS出的比较多，免费的显而易见性能不会那么好，所以就需要一个更省资源的挂机方案！所以选择了debian，以下步骤仅仅适用于debian 6 32bits系统！64位的和其他系统自己根据实际情况修改！提醒一点，因为是编译安装，编译过程会比较慢，这个跟VPS的性能有关，时间最长的我经历过4个小">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Debian下超省资源vagex挂机方案"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Debian下超省资源vagex挂机方案</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/01/06/Debian下超省资源vagex挂机方案/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-01-06T06:49:28.000Z">
+          2014-01-06
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近免费VPS出的比较多，免费的显而易见性能不会那么好，所以就需要一个更省资源的挂机方案！<br>所以选择了debian，以下步骤仅仅适用于debian 6 32bits系统！<br>64位的和其他系统自己根据实际情况修改！<br><strong>提醒一点，因为是编译安装，编译过程会比较慢，这个跟VPS的性能有关，时间最长的我经历过4个小时以上！所以建议以下所有的过程都在screen里面执行！</strong></p>
+<p>1.安装相关依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get -q -y --force-yes install vnc4server xterm jwm mercurial libasound2-dev libcurl4-openssl-dev libnotify-dev libxt-dev libiw-dev mesa-common-dev autoconf2.13 yasm bzip2 libidl-dev zip</span><br></pre></td></tr></table></figure>
+<p>2.下载firefox 3.6.28的源码包，解压并编译安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/3.6.28-candidates/build1/source/firefox-3.6.28.source.tar.bz2</span><br><span class="line">bzip2 -d firefox-3.6.28.source.tar.bz2</span><br><span class="line">tar -xvf firefox-3.6.28.source.tar</span><br><span class="line">cd mozilla-*</span><br><span class="line">./configure --enable-application=browser &amp;&amp; make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>3.下载flash插件并安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://fpdownload.adobe.com/get/flashplayer/pdc/10.3.183.19/install_flash_player_10_linux.tar.gz</span><br><span class="line">tar xvzf install_flash_player_10_linux.tar.gz</span><br><span class="line">mkdir -p ~/.mozilla/plugins/</span><br><span class="line">cp libflashplayer.so ~/.mozilla/plugins/</span><br></pre></td></tr></table></figure>
+<p>4.启动VNC并设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vncserver</span><br><span class="line">vi ~/.vnc/xstartup</span><br></pre></td></tr></table></figure>
+<p>把以下两行内容添加到末尾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">startjwm &amp;</span><br><span class="line">firefox --display=:1</span><br></pre></td></tr></table></figure>
+<p>添加权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x ~/.vnc/xstartup</span><br></pre></td></tr></table></figure>
+<p>5.设置VNC开机启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/init.d/vncserver</span><br></pre></td></tr></table></figure>
+<p>将以下内容填入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">### BEGIN INIT INFO</span><br><span class="line"># Provides: vncserver</span><br><span class="line"># Required-Start: $remote_fs $syslog</span><br><span class="line"># Required-Stop: $remote_fs $syslog</span><br><span class="line"># Default-Start: 2 3 4 5</span><br><span class="line"># Default-Stop: 0 1 6</span><br><span class="line"># Short-Description: Start daemon at boot time</span><br><span class="line"># Description: Enable service provided by daemon.</span><br><span class="line">### END INIT INFO</span><br><span class="line">PATH=&quot;$PATH:/usr/X11R6/bin/&quot;</span><br><span class="line"># The Username:Group that will run VNC</span><br><span class="line">export USER=&quot;root&quot;</span><br><span class="line">#$&#123;RUNAS&#125;</span><br><span class="line"># The display that VNC will use</span><br><span class="line">DISPLAY=&quot;1&quot;</span><br><span class="line"># Color depth (between 8 and 32)</span><br><span class="line">DEPTH=&quot;16&quot;</span><br><span class="line"># The Desktop geometry to use.</span><br><span class="line">#GEOMETRY=&quot;x&quot;</span><br><span class="line">GEOMETRY=&quot;800x600&quot;</span><br><span class="line">#You Can Choice GEOMETRY=&quot;1024x768&quot; &amp;&amp; GEOMETRY=&quot;1280x1024&quot;</span><br><span class="line"># The name that the VNC Desktop will have.</span><br><span class="line">NAME=&quot;Vncserver&quot;</span><br><span class="line">OPTIONS=&quot;-name $&#123;NAME&#125; -depth $&#123;DEPTH&#125; -geometry $&#123;GEOMETRY&#125; :$&#123;DISPLAY&#125;&quot;</span><br><span class="line">. /lib/lsb/init-functions</span><br><span class="line">case &quot;$1&quot; in</span><br><span class="line">start)</span><br><span class="line">su $&#123;USER&#125; -c &quot;/usr/bin/vncserver $&#123;OPTIONS&#125;&quot;</span><br><span class="line">;;</span><br><span class="line">stop)</span><br><span class="line">su $&#123;USER&#125; -c &quot;/usr/bin/vncserver -kill :$&#123;DISPLAY&#125;&quot;</span><br><span class="line">;;</span><br><span class="line">restart)</span><br><span class="line">$0 stop</span><br><span class="line">$0 start</span><br><span class="line">;;</span><br><span class="line">esac</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+<p>添加权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/init.d/vncserver</span><br></pre></td></tr></table></figure>
+<p>使配置生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update-rc.d vncserver defaults</span><br></pre></td></tr></table></figure>
+<p>6.添加计划任务，定时重启vnc或者系统，以防止firefox假死不出分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+<p>规则就不多说，根据自己的实际情况编写。</p>
+<p>规则编写可参考以下两篇文章<br><a href="http://www.linuxde.net/2011/12/3758.html" target="_blank" rel="noopener">http://www.linuxde.net/2011/12/3758.html</a><br><a href="http://hi.baidu.com/aboc/blog/item/3d469358b9f468cd9d82047d.html" target="_blank" rel="noopener"><br>http://hi.baidu.com/aboc/blog/item/3d469358b9f468cd9d82047d.html</a></p>
+<p>7.重启，安装插件进行相关设置即可！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<p>相关设置，请参考<br><a href="http://sunsea.im/linux-vps-vagex-automatic-money.html" target="_blank" rel="noopener">http://sunsea.im/linux-vps-vagex-automatic-money.html</a></p>
+<p>转载自：<a href="http://sunsea.im/debian-vagex.html" target="_blank" rel="noopener">http://sunsea.im/debian-vagex.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

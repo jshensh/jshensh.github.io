@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>jquery事件重复绑定解决办法 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="$.fn.live 重复绑定解决：使用die()方法，在live()方法绑定前，将此元素上的前面被绑定的事件统统解除，然后再通过live()方法绑定新的事件。
+
+1234//先通过die()方法解除，再通过live()绑定$(“#selectAll”).die().live(“click”,func">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="jquery事件重复绑定解决办法"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>jquery事件重复绑定解决办法</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/03/01/jquery事件重复绑定解决办法/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-03-01T07:09:43.000Z">
+          2016-03-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <ol>
+<li>$.fn.live 重复绑定<br>解决：使用die()方法，在live()方法绑定前，将此元素上的前面被绑定的事件统统解除，然后再通过live()方法绑定新的事件。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//先通过die()方法解除，再通过live()绑定</span><br><span class="line">$(“#selectAll”).die().live(“click”,function()&#123;</span><br><span class="line">//事件运行代码</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>click等事件<br>解决:使用unbind(“click”)方法先解除绑定的事件再绑定新事件,即在给对象绑定事件之前先移除该对象上的原有事件<br>完整测试代码:<br>[html]        <div class="box"></div></p>
+<pre><code>    &lt;button id=&quot;test&quot;&gt;重复绑定触发按钮&lt;/button&gt;(点击此按钮两次及以上,即可触发重复绑定,再点击下面的按钮就可看到结果)
+    &lt;br/&gt;&lt;br/&gt;
+    &lt;button id=&quot;test1&quot;&gt;click重复绑定测试按钮&lt;/button&gt;
+    &lt;button id=&quot;test2&quot;&gt;click绑定一次测试按钮&lt;/button&gt;
+    &lt;button id=&quot;test3&quot;&gt;live重复绑定测试按钮&lt;/button&gt;
+    &lt;button id=&quot;test4&quot;&gt;live绑定一次测试按钮&lt;/button&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;../static/jquery-1.6.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function(){
+        var i = 1,j=1,k=1,h=1,n=1;
+        var triggerBind = function(){
+            $(&quot;#test1&quot;).click(function() {
+                alert(&quot;click未解除绑定重复绑定执行第&quot; + j++ + &quot;次&quot;);
+            });
+            $(&quot;#test2&quot;).unbind(&apos;click&apos;).click(function() {
+                alert(&quot;click解除绑定执行&quot; + k++ + &quot;次&quot;);
+            });
+
+            $(&quot;#test3&quot;).live(&quot;click&quot;,function() {
+                alert(&quot;live未解除绑定重复执行第&quot; + h++ + &quot;次&quot;);
+            });
+            $(&quot;#test4&quot;).die().live(&quot;click&quot;,function() {
+                alert(&quot;live解除绑定后执行&quot; + n++ + &quot;次&quot;);
+            });
+        }                
+        $(&quot;#test&quot;).click(function() {
+            triggerBind();
+            alert(&quot;触发绑定点击第&quot; + i++ + &quot;次&quot;);
+        });
+    });
+&lt;/script&gt;[/html]
+</code></pre></li>
+</ol>
+<p>转载自 <a href="http://www.cnblogs.com/heiniuhaha/archive/2011/08/07/jquery-event-repeat-bind.html" target="_blank" rel="noopener">http://www.cnblogs.com/heiniuhaha/archive/2011/08/07/jquery-event-repeat-bind.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

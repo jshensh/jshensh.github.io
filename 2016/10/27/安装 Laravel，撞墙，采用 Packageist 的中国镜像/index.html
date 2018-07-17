@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>安装 Laravel，撞墙，采用 Packageist 的中国镜像 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="参考：
+
+https://laravel.com/docs/5.2 – 英文手册
+
+
+http://laravel-china.org/docs/5.1 – 中文手册
+
+
+http://pkg.phpcomposer.com/ – Packagist / Composer 中国全量镜像内（绕过垃圾的">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="安装 Laravel，撞墙，采用 Packageist 的中国镜像"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>安装 Laravel，撞墙，采用 Packageist 的中国镜像</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/10/27/安装 Laravel，撞墙，采用 Packageist 的中国镜像/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-10-26T19:11:00.000Z">
+          2016-10-27
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>参考：</p>
+<ul>
+<li><a href="https://laravel.com/docs/5.2" target="_blank" rel="noopener">https://laravel.com/docs/5.2</a> – 英文手册</li>
+</ul>
+<ul>
+<li><a href="http://laravel-china.org/docs/5.1" target="_blank" rel="noopener">http://laravel-china.org/docs/5.1</a> – 中文手册</li>
+</ul>
+<ul>
+<li><a href="http://pkg.phpcomposer.com/" target="_blank" rel="noopener">http://pkg.phpcomposer.com/</a> – Packagist / Composer 中国全量镜像内（绕过垃圾的墙）</li>
+</ul>
+<p><strong>安装 Laravel，创建 blog 项目</strong><br>安装方法有两种：</p>
+<ol>
+<li>全局安装 Laravel Installer，然后用下面的指令创建新项目： laravel new blog</li>
+</ol>
+<ol start="2">
+<li>不安装啥，直接用 Composer 创建新项目：composer create-project –prefer-dist laravel/laravel blog</li>
+</ol>
+<p>看起来第一种方案比较好，然而：<br>！说明！由于墙的存在，全局安装 Laravel Installer 的方案可能不会成功。</p>
+<p><strong>全局安装 Laravel Installer</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer global require &quot;laravel/installer&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>执行命令</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">laravel new blog</span><br></pre></td></tr></table></figure>
+<p>悲剧了，出现错误：<br>cURL error 7: Failed to connect to cabinet.laravel.com port 80: Timed out……<br>直接用 Composer 创建 Laravel 项目</p>
+<p>参照网上的方案，先执行加速 composer 的执行（用国内的镜像，好人呐！）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer config -g repo.packagist composer https://packagist.phpcomposer.com</span><br></pre></td></tr></table></figure>
+<p>然后执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer global require &quot;laravel/installer&quot;</span><br></pre></td></tr></table></figure>
+<p>创建项目</p>
+<p>转载自 <a href="http://blog.sina.com.cn/s/blog_6262a50e0102ws9z.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_6262a50e0102ws9z.html</a>，有删改</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

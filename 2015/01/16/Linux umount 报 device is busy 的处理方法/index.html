@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux umount 报 device is busy 的处理方法 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="今天在IDC 辐射了半天，又弄了套DG。 在Linux 挂盘这块也小学了两招。
+一. umout 移动硬盘开始用sftp 将安装文件copy到服务器的时候，速度太慢了，500k/s。几个G的东西，copy 这些就要半个多小时，扛不住，拿移动硬盘来copy了。 结果移动硬盘的格式不对。 是NTFS 格">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Linux umount 报 device is busy 的处理方法"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Linux umount 报 device is busy 的处理方法</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/16/Linux umount 报 device is busy 的处理方法/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-16T03:07:40.000Z">
+          2015-01-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>今天在IDC 辐射了半天，又弄了套DG。 在Linux 挂盘这块也小学了两招。</p>
+<p><strong>一. umout 移动硬盘</strong><br>开始用sftp 将安装文件copy到服务器的时候，速度太慢了，500k/s。几个G的东西，copy 这些就要半个多小时，扛不住，拿移动硬盘来copy了。 结果移动硬盘的格式不对。 是NTFS 格式，Linux 识别不了。 只能格式化成FAT32的。 而GG 的win7 系统又不具备格式化成FAT32的功能。 有点小变态。让同事在XP 下帮我格式化了。</p>
+<p>安装文件copy到服务器后，同事直接将移动硬盘从服务器上拔下来了。 导致的结果是，用df 命令查看，挂载的移动硬盘还存在。</p>
+<p>[root@qs-wg-db1 ~]# df -lh<br>Filesystem Size Used Avail Use% Mounted on<br>/dev/sdb3 125G 3.3G 115G 3% /<br>/dev/sdb1 99M 12M 82M 13% /boot<br>tmpfs 3.9G 0 3.9G 0% /dev/shm<br>/dev/sda1 275G 72G 189G 28% /u01<br>/dev/sdc1 10G 2.0G 8.1G 20% /datatmp</p>
+<p>就是这个/dev/sdc1。</p>
+<p>这时使用umount 命令，会提示设备忙，无法挂载。</p>
+<p>处理方法：<br>[root@qs-wg-db1 ~]# fuser -km /datatmp<br>[root@qs-wg-db1 ~]# df -lh<br>Filesystem Size Used Avail Use% Mounted on<br>/dev/sdb3 125G 3.3G 115G 3% /<br>/dev/sdb1 99M 12M 82M 13% /boot<br>tmpfs 3.9G 0 3.9G 0% /dev/shm<br>/dev/sda1 275G 72G 189G 28% /u01<br>/dev/sdc1 10G 2.0G 8.1G 20% /datatmp<br>[root@qs-wg-db1 ~]# umount /datatmp<br>[root@qs-wg-db1 ~]# df -lh<br>Filesystem Size Used Avail Use% Mounted on<br>/dev/sdb3 125G 3.3G 115G 3% /<br>/dev/sdb1 99M 12M 82M 13% /boot<br>tmpfs 3.9G 0 3.9G 0% /dev/shm<br>/dev/sda1 275G 72G 189G 28% /u01</p>
+<p>成功umount了。</p>
+<p><strong>二. umount 光驱</strong><br>安装DB 之前，检查了一下相关包，少了3个。 从系统安装盘上找了包，安装了一下。 当时是直接将/dev/cdrom mount 到了/mnt目录。 也是图个方便。 结果收工时去拿盘，光驱弹不出来。 同事让我把cdrom umout掉。 同样的提示，设备忙。</p>
+<p>处理方法：<br>[root@qs-wg-db1 ~]#fuser –km /dev/cdrom<br>[root@qs-wg-db1 ~]#eject – 弹出光驱</p>
+<p>在网上搜了一下，正确挂载CD-ROM的方法应该如下：</p>
+<h1 id="mkdir-cdrom"><a href="#mkdir-cdrom" class="headerlink" title="mkdir cdrom"></a>mkdir cdrom</h1><h1 id="mount-dev-cdrom-mnt-cdrom"><a href="#mount-dev-cdrom-mnt-cdrom" class="headerlink" title="mount /dev/cdrom /mnt/cdrom"></a>mount /dev/cdrom /mnt/cdrom</h1><p>或者</p>
+<h1 id="mount-dev-cdrom-media-cdrom"><a href="#mount-dev-cdrom-media-cdrom" class="headerlink" title="mount /dev/cdrom /media/cdrom"></a>mount /dev/cdrom /media/cdrom</h1><p>直接挂载在/mnt,/media等系统目录下，在umount时会出现出错信息“umount: /mnt/cdrom: device is busy”的情况。</p>
+<p>如果一个文件系统处于“busy”状态的时候，不能卸载该文件系统。如下情况将导致文件系统处于“busy”状态：<br>1) 文件系统上面有打开的文件<br>2) 某个进程的工作目录在此文件系统上<br>3) 文件系统上面的缓存文件正在被使用</p>
+<p><strong>三. fuser 命令</strong><br>前面2个umout 都使用了这个fuser 命令。 man了一下这个命令。 内容如下：</p>
+<p>[root@qs-wg-db1 ~]# man fuser<br>FUSER(1) User Commands FUSER(1)</p>
+<p>NAME<br>fuser - identify processes using files or sockets</p>
+<p>SYNOPSIS<br>fuser [-a|-s|-c] [-4|-6] [-n space ] [-k [-i] [-signal ] ] [-muvf] name<br>fuser -l<br>fuser -V</p>
+<p>DESCRIPTION<br>fuser displays the PIDs of processes using the specified files or file systems. In the default display mode, each file name is followed by a letter denoting the type<br>of access:<br>c current directory.<br>e executable being run.<br>f open file. f is omitted in default display mode.<br>F open file for writing. F is omitted in default display mode.<br>r root directory.<br>m mmap’ed file or shared library.</p>
+<p>fuser returns a non-zero return code if none of the specified files is accessed or in case of a fatal error. If at least one access has been found, fuser returns zero.<br>In order to look up processes using TCP and UDP sockets, the corresponding name space has to be selected with the -n option. By default fuser will look in both IPv6 and IPv4 sockets. To change the default, behavior, use the -4 and -6 options. The socket(s) can be specified by the local and remote port, and the remote address. All fields are optional, but commas in front of missing fields must be present:<br>[lcl_port][,[rmt_host][,[rmt_port]]]<br>Either symbolic or numeric values can be used for IP addresses and port numbers.</p>
+<p>fuser outputs only the PIDs to stdout, everything else is sent to stderr.</p>
+<p>OPTIONS<br>-a Show all files specified on the command line. By default, only files that are accessed by at least one process are shown.<br>-c Same as -m option, used for POSIX compatibility.<br>-f Silently ignored, used for POSIX compatibility.<br>-k Kill processes accessing the file. Unless changed with -signal, SIGKILL is sent. An fuser process never kills itself, but may kill other fuser processes. The effective user ID of the process executing fuser is set to its real user ID before attempting to kill.<br>-i Ask the user for confirmation before killing a process. This option is silently ignored if -k is not present too.<br>-l List all known signal names.<br>-m name specifies a file on a mounted file system or a block device that is mounted. All processes accessing files on that file system are listed. If adirectory file is specified, it is automatically changed to name/. to use any file system that might be mounted on that directory.</p>
+<p>-n space Select a different name space. The name spaces file (file names, the default), udp (local UDP ports), and tcp (local TCP ports) are supported. For ports, either the port number or the symbolic name can be specified. If there is no ambiguity, the shortcut notation name/Ispace (e.g. 80/tcp ) can be used.<br>-s Silent operation. -u and -v are ignored in this mode. -a must not be used with -s.<br>-signal Use the specified signal instead of SIGKILL when killing processes. Signals can be specified either by name (e.g. -HUP) or by number (e.g. -1). This option is silently ignored if the -k option is not used.<br>-u Append the user name of the process owner to each PID.<br>-v Verbose mode. Processes are shown in a ps-like style. The fields PID, USER and COMMAND are similar to ps. ACCESS shows how the process accesses the file. If the access is by the kernel (e.g. in the case of a mount point, awap file, etc.), kernel is shown instead of the PID.<br>-V Display version information.<br>-4 Search only for IPv4 sockets. This option must not be used with the -6 option and only has an effect with the tcp and udp namespaces.<br>-6 Search only for IPv6 sockets. This option must not be used with the -4 option and only has an effect with the tcp and udp namespaces.</p>
+<ul>
+<li>Reset all options and set the signal back to SIGKILL.<br>FILES<br>/proc location of the proc file system</li>
+</ul>
+<p>fuser 命令显示访问某个文件的进程的PID. 其中-k 和 -m 参数上面红色部分有说明。-k 是kill 访问这个文件的进程。 没有进程访问，就可以成功umount了.</p>
+<p>转载自 <a href="http://blog.csdn.net/tianlesoftware/article/details/6194295" target="_blank" rel="noopener">http://blog.csdn.net/tianlesoftware/article/details/6194295</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>重写了下博客的播放器 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="国庆无聊，对博客的播放器做了比较大幅度的修改，总结一下现有以下改进:
+
+添加了”自动播放”复选框，可以由用户自主决定是否需要播放背景音乐(其实歌都不错的。。)
+
+
+使用 node.js 重写了多标签的背景音乐控制器，主要是为了避免产生当用户打开多个标签后背景音乐同时播放的问题
+
+抱着开源共享的想法，">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="重写了下博客的播放器"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>重写了下博客的播放器</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/10/07/重写了下博客的播放器/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-10-07T02:03:16.000Z">
+          2015-10-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>国庆无聊，对博客的播放器做了比较大幅度的修改，总结一下现有以下改进:</p>
+<ol>
+<li>添加了”自动播放”复选框，可以由用户自主决定是否需要播放背景音乐(其实歌都不错的。。)</li>
+</ol>
+<ol start="2">
+<li>使用 node.js 重写了多标签的背景音乐控制器，主要是为了避免产生当用户打开多个标签后背景音乐同时播放的问题</li>
+</ol>
+<p>抱着开源共享的想法，现在这里共享一下控制器源码。播放器的就不特地写了，都是前端的东西，右键”查看源代码”即可。如果有什么 bug，希望各位提出，谢谢各位。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">var app = require(&apos;express&apos;)();</span><br><span class="line">var http = require(&apos;http&apos;).Server(app);</span><br><span class="line">var io = require(&apos;socket.io&apos;)(http);</span><br><span class="line"></span><br><span class="line">app.get(&apos;/&apos;, function(req, res)&#123;</span><br><span class="line">	res.send(&apos;&lt;h1&gt;Welcome Realtime Server&lt;/h1&gt;&apos;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">function count(o)&#123;</span><br><span class="line">    var t = typeof o;</span><br><span class="line">    if (t == &apos;string&apos;) &#123;</span><br><span class="line">        return o.length;</span><br><span class="line">    &#125; else if (t == &apos;object&apos;) &#123;</span><br><span class="line">        var n = 0;</span><br><span class="line">        for (var i in o) &#123;</span><br><span class="line">                n++;</span><br><span class="line">        &#125;</span><br><span class="line">        return n;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line">Date.prototype.Format = function (fmt) &#123;</span><br><span class="line">    var o = &#123;</span><br><span class="line">        &quot;M+&quot;: this.getMonth() + 1,</span><br><span class="line">        &quot;d+&quot;: this.getDate(),</span><br><span class="line">        &quot;h+&quot;: this.getHours(),</span><br><span class="line">        &quot;m+&quot;: this.getMinutes(),</span><br><span class="line">        &quot;s+&quot;: this.getSeconds(),</span><br><span class="line">        &quot;q+&quot;: Math.floor((this.getMonth() + 3) / 3),</span><br><span class="line">        &quot;S&quot;: this.getMilliseconds()</span><br><span class="line">    &#125;;</span><br><span class="line">    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + &quot;&quot;).substr(4 - RegExp.$1.length));</span><br><span class="line">    for (var k in o)</span><br><span class="line">    if (new RegExp(&quot;(&quot; + k + &quot;)&quot;).test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : ((&quot;00&quot; + o[k]).substr((&quot;&quot; + o[k]).length)));</span><br><span class="line">    return fmt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var dump_log=function(msg) &#123;</span><br><span class="line">	//console.log(&quot;\033[40;33m&quot;+new Date().Format(&quot;yyyy-MM-dd hh:mm:ss&quot;)+&quot;\033[0m\n&quot;+msg+&quot;\nNow &quot;+count(clients)+&quot; user(s) online.&quot;);</span><br><span class="line">	console.log(new Date().Format(&quot;yyyy-MM-dd hh:mm:ss&quot;)+&quot;\n&quot;+msg+&quot;\nNow &quot;+count(clients)+&quot; user(s) online.&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var onlineCount = 0;</span><br><span class="line">var index=0;</span><br><span class="line">global[&apos;clients&apos;]=&#123;&#125;;</span><br><span class="line"></span><br><span class="line">io.on(&apos;connection&apos;, function(socket)&#123;</span><br><span class="line"></span><br><span class="line">	socket.on(&apos;bindkey&apos;, function(str)&#123;</span><br><span class="line">		if (!str.match(/^[a-z0-9]&#123;64&#125;$/)) &#123;</span><br><span class="line">			dump_log(&quot;data: &quot;+str+&quot;\nip: &quot;+socket.handshake.address);</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		socket.bindkey = str;</span><br><span class="line">		socket.index = index;</span><br><span class="line">		if (typeof global[&apos;clients&apos;][str]==&quot;undefined&quot;) &#123;</span><br><span class="line">			global[&apos;clients&apos;][str]=&#123;&#125;;</span><br><span class="line">			onlineCount++;</span><br><span class="line">		&#125;</span><br><span class="line">		global[&apos;clients&apos;][str][index]=&#123;&apos;playing&apos;:(count(global[&apos;clients&apos;][str])==0?1:0),&apos;socket&apos;:socket,&apos;ip&apos;:socket.handshake.address,&apos;index&apos;:index&#125;;</span><br><span class="line">		socket.emit(&quot;message&quot;,[0,index,global[&apos;clients&apos;][str][index][&apos;playing&apos;]]);</span><br><span class="line">		dump_log(&quot;bindkey: &quot;+str+&quot;, index: &quot;+index+&quot;, ip: &quot;+socket.handshake.address);</span><br><span class="line">		index++;</span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">	socket.on(&apos;disconnect&apos;, function()&#123;</span><br><span class="line">		delete global[&apos;clients&apos;][socket.bindkey][socket.index];</span><br><span class="line">		if (count(global[&apos;clients&apos;][socket.bindkey])!==0) &#123;</span><br><span class="line">			for (var ckey in global[&apos;clients&apos;][socket.bindkey]) &#123;</span><br><span class="line">				var ready_play=global[&apos;clients&apos;][socket.bindkey][ckey];</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">			ready_play[&apos;playing&apos;]=1;</span><br><span class="line">			ready_play.socket.emit(&quot;message&quot;,[1,ready_play.socket.index,1]);</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			delete global[&apos;clients&apos;][socket.bindkey];</span><br><span class="line">			onlineCount--;</span><br><span class="line">		&#125;</span><br><span class="line">		dump_log(&quot;bindkey: &quot;+socket.bindkey+&quot;, index: &quot;+socket.index+&quot;, ip: &quot;+socket.handshake.address+&quot; offline.&quot;);</span><br><span class="line">	&#125;);</span><br><span class="line">  </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">http.listen(3000, function()&#123;</span><br><span class="line">	console.log(&apos;listening on *:3000&apos;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Docker 项目地址: <a href="https://github.com/jshensh/audioController" target="_blank" rel="noopener">https://github.com/jshensh/audioController</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

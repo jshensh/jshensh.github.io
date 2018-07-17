@@ -1,0 +1,713 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 2 页 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/10/23/CentOS 7 grub Linux 修改默认的启动操作系统/"><span>CentOS 7 grub Linux 修改默认的启动操作系统</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/10/23/CentOS 7 grub Linux 修改默认的启动操作系统/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-10-23T07:36:42.000Z">
+          2016-10-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>可以用下面的方法修改grub默认的启动OS。</p>
+<p><strong>查看当前的启动内核</strong><br>[root@localhost ~]# grub2-editenvlist<br>saved_entry=CentOS Linux(3.10.0-123.20.1.el7.x86_64) 7 (Core)</p>
+<p><strong>查找要默认启动的操作系统名字</strong><br>[root@localhost ~]# cat /etc/grub2.cfg | grep 3.4.44<br>menuentry ‘CentOS Linux (3.4.44) 7(Core)’ –class centos –class gnu-linux –class gnu –class os–unrestricted $menuentry_id_option’gnulinux-3.10.0-123.el7.x86_64-advanced-e3146a2a-a237-4081-ba08-dbf258de434a’{<br>        linux16 /vmlinuz-3.4.44 root=/dev/mapper/centos-rootro rd.lvm.lv=centos/swap vconsole.font=latarcyrheb-sun16 rd.lvm.lv=centos/rootcrashkernel=auto  vconsole.keymap=us rhgbquiet LANG=en_US.UTF-8<br>        initrd16 /initramfs-3.4.44.img</p>
+<p><strong>设置新的默认启动操作系统选项</strong><br>[root@localhost ~]# grub2-set-default  “CentOSLinux (3.4.44) 7 (Core)”</p>
+<p><strong>查看是否生效</strong><br>[root@localhost ~]# grub2-editenv list<br>saved_entry=CentOS Linux (3.4.44) 7 (Core)</p>
+<p>转载自 <a href="http://blog.csdn.net/wjw7869/article/details/47302107" target="_blank" rel="noopener">http://blog.csdn.net/wjw7869/article/details/47302107</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/09/10/CentOS 7 主机名的修改/"><span>CentOS 7 主机名的修改</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/09/10/CentOS 7 主机名的修改/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-09-10T09:58:55.000Z">
+          2016-09-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>如何在CentOS 7上修改主机名</p>
+<p>在CentOS中，有三种定义的主机名:静态的（static），瞬态的（transient），和灵活的（pretty）。“静态”主机名也称为内核主机名，是系统在启动时从/etc/hostname自动初始化的主机名。“瞬态”主机名是在系统运行时临时分配的主机名，例如，通过DHCP或mDNS服务器分配。静态主机名和瞬态主机名都遵从作为互联网域名同样的字符限制规则。而另一方面，“灵活”主机名则允许使用自由形式（包括特殊/空白字符）的主机名，以展示给终端用户（如Linuxidc）。</p>
+<p>在CentOS 7中，有个叫hostnamectl的命令行工具，它允许你查看或修改与主机名相关的配置。</p>
+<p>1.要查看主机名相关的设置：<br>[root@localhost ~]# hostnamectl  </p>
+<p>  Static hostname: localhost.localdomain<br>        Icon name: computer<br>          Chassis: n/a<br>        Machine ID: 80a4fa4970614cf6be9597ecd6f097a9<br>          Boot ID: 28420e272e1847a583718262758bd0f7<br>    Virtualization: vmware<br>  Operating System: CentOS Linux 7 (Core)<br>      CPE OS Name: cpe:/o:centos:centos:7<br>            Kernel: Linux 3.10.0-123.el7.x86_64<br>      Architecture: x86_64<br>或</p>
+<p>[root@localhost ~]# hostnamectl status<br>  Static hostname: localhost.localdomain<br>        Icon name: computer<br>          Chassis: n/a<br>        Machine ID: 80a4fa4970614cf6be9597ecd6f097a9<br>          Boot ID: 28420e272e1847a583718262758bd0f7<br>    Virtualization: vmware<br>  Operating System: CentOS Linux 7 (Core)<br>      CPE OS Name: cpe:/o:centos:centos:7<br>            Kernel: Linux 3.10.0-123.el7.x86_64<br>      Architecture: x86_64</p>
+<p>2.只查看静态、瞬态或灵活主机名，分别使用“–static”，“–transient”或“–pretty”选项。<br>[root@localhost ~]# hostnamectl –static<br>localhost.localdomain<br>[root@localhost ~]# hostnamectl –transient<br>localhost.localdomain<br>[root@localhost ~]# hostnamectl –pretty</p>
+<p>3.要同时修改所有三个主机名：静态、瞬态和灵活主机名：<br>[root@localhost ~]# hostnamectl set-hostname Linuxidc<br>[root@localhost ~]# hostnamectl –pretty<br>Linuxidc<br>[root@localhost ~]# hostnamectl –static<br>Linuxidc<br>[root@localhost ~]# hostnamectl –transient<br>Linuxidc</p>
+<p>就像上面展示的那样，在修改静态/瞬态主机名时，任何特殊字符或空白字符会被移除，而提供的参数中的任何大写字母会自动转化为小写。一旦修改了静态主机名，/etc/hostname 将被自动更新。然而，/etc/hosts 不会更新以保存所做的修改，所以你每次在修改主机名后一定要手动更新/etc/hosts，之后再重启CentOS 7。否则系统再启动时会很慢。</p>
+<p>4.手动更新/etc/hosts</p>
+<p>vim /etc/hosts</p>
+<p>127.0.0.1      Linuxidc  hunk_zhu</p>
+<p>#127.0.0.1  localhost localhost.localdomain localhost4 localhost4.localdomain<br>::1        localhost localhost.localdomain localhost6 localhost6.localdomai</p>
+<p>5.重启CentOS 7 之后（reboot -f ），<br>[root@Linuxidc ~]# hostname<br>Linuxidc<br>[root@hunk_zhu ~]# hostnamectl –transient<br>Linuxidc<br>[root@hunk_zhu ~]# hostnamectl –static<br>Linuxidc<br>[root@hunk_zhu ~]# hostnamectl –pretty<br>Linuxidc</p>
+<p>6.如果你只想修改特定的主机名（静态，瞬态或灵活），你可以使用“–static”，“–transient”或“–pretty”选项。<br>例如，要永久修改主机名，你可以修改静态主机名：<br>[root@localhost ~]# hostnamectl –static set-hostname Linuxidc<br>重启CentOS 7 之后（reboot -f ），<br>[root@Linuxidc ~]# hostnamectl –static<br>Linuxidc<br>[root@Hunk_zhu ~]# hostnamectl –transient<br>Linuxidc<br>[root@Hunk_zhu ~]# hostnamectl –pretty<br>Linuxidc<br>[root@Hunk_zhu ~]# hostname</p>
+<p>其实，你不必重启机器以激活永久主机名修改。上面的命令会立即修改内核主机名。注销并重新登入后在命令行提示来观察新的静态主机名。</p>
+<p>转载自 <a href="http://www.linuxidc.com/Linux/2014-11/109238.htm" target="_blank" rel="noopener">http://www.linuxidc.com/Linux/2014-11/109238.htm</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/09/10/编译wndr4300 openwrt 15.05固件/"><span>编译wndr4300 openwrt 15.05固件</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/09/10/编译wndr4300 openwrt 15.05固件/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-09-10T06:59:05.000Z">
+          2016-09-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>为wndr4300编译openwrt 15.05系统，内容如下:</p>
+<p>操作环境 ubuntu 14.04 64位</p>
+<ol>
+<li>安装依赖包</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>下载源码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /home</span><br><span class="line">git clone git://git.openwrt.org/15.05/openwrt.git</span><br><span class="line">cd openwrt</span><br><span class="line">git checkout 15.05</span><br><span class="line">./scripts/feeds update -a</span><br><span class="line">./scripts/feeds install luci</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>编译 获取官方配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://downloads.openwrt.org/chaos_calmer/15.05/ar71xx/nand/config.diff</span><br></pre></td></tr></table></figure>
+<p>将 config.diffg 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG_TARGET_ar71xx_nand_R6100=y</span><br></pre></td></tr></table></figure>
+<p>修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG_TARGET_ar71xx_nand_WNDR4300=y</span><br></pre></td></tr></table></figure>
+<p>生成配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat config.diff &gt;&gt; .config</span><br><span class="line">make defconfig</span><br></pre></td></tr></table></figure>
+<p>修改 /root 为128MB<br>修改 target/linux/ar71xx/image/Makefile 文件, 修改 wndr4300_mtdlayout 中 23552k(ubi) 为 120832k(ubi)， 25600k@0x6c0000(firmware) 为 122880k@0x6c0000(firmware)</p>
+<p>也可以使用配置向导</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
+<p>运行编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make V=99</span><br></pre></td></tr></table></figure>
+<ol>
+<li>生成文件位置<br>最后文件生成在 bin 目录下： openwrt/bin/ar71xx/openwrt-15.05-ar71xx-nand-wndr4300-squashfs-sysupgrade.tar openwrt/bin/ar71xx/openwrt-15.05-ar71xx-nand-wndr4300-ubi-factory.img</li>
+</ol>
+<p>转载自 <a href="http://www.jayclub.net/make-wndr4300-openwrt-15-05.html" target="_blank" rel="noopener">http://www.jayclub.net/make-wndr4300-openwrt-15-05.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/openwrt/">openwrt</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/08/09/针对 bs 的 collapse 写了个添加项的 func/"><span>针对 bs 的 collapse 写了个添加项的 func</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/08/09/针对 bs 的 collapse 写了个添加项的 func/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-08-09T09:42:58.000Z">
+          2016-08-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近在做个项目，用到了 bs 的 collapse，模拟了 select 的操作。但是其中选择的项不是很方便更改，于是写了个 function 来更改其中的 li。在这做个笔记，避免日后忘记，大神见笑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var createPanel=function(to,id,title,lis) &#123;</span><br><span class="line">    var collapseIn=typeof arguments[4]!==&quot;undefined&quot;?arguments[4]:$(&quot;#&quot;+to+&quot; .panel&quot;).length?1:0;</span><br><span class="line">    $(&quot;#&quot;+to).append($(&apos;&lt;div class=&quot;panel panel-default&quot; id=&quot;panel_&apos;+to+&apos;_&apos;+id+&apos;&quot;&gt;&lt;div class=&quot;panel-heading&quot; role=&quot;tab&quot; id=&quot;heading_&apos;+to+&apos;_&apos;+id+&apos;&quot;&gt;&lt;h4 class=&quot;panel-title&quot;&gt;&lt;a&apos;+(collapseIn?&apos;&apos;:&apos; class=&quot;collapsed&quot;&apos;)+&apos; role=&quot;button&quot; data-toggle=&quot;collapse&quot; data-parent=&quot;#&apos;+to+&apos;&quot; href=&quot;#collapse_&apos;+to+&apos;_&apos;+id+&apos;&quot; aria-expanded=&quot;&apos;+(collapseIn?&apos;false&apos;:&apos;true&apos;)+&apos;&quot; aria-controls=&quot;collapse_&apos;+to+&apos;_&apos;+id+&apos;&quot;&gt;&apos;+title+&apos;&lt;/a&gt;&lt;/h4&gt;&lt;/div&gt;&lt;div id=&quot;collapse_&apos;+to+&apos;_&apos;+id+&apos;&quot; class=&quot;panel-collapse collapse&apos;+(collapseIn?&apos;&apos;:&apos; in&apos;)+&apos;&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;heading_&apos;+to+&apos;_&apos;+id+&apos;&quot;&gt;&lt;ul class=&quot;list-group&quot;&gt;&apos;+((function() &#123; var op=&quot;&quot;; for (var i in lis) &#123; op+=&apos;&lt;li class=&quot;list-group-item&quot; data-menuid=&quot;&apos;+i+&apos;&quot;&gt;&apos;+lis[i]+&apos;&lt;/li&gt;&apos;; &#125; return op; &#125;)())+&apos;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;&apos;));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mixed createPanel ( string appendToDomId, mixed panelId, mixed title, object liData, [ bool collapseIn ] )</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;panel-group&quot; id=&quot;subject&quot; role=&quot;tablist&quot; aria-multiselectable=&quot;true&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">createPanel(&quot;subject&quot;,0,&quot;学科1&quot;,&#123;1:&quot;Chinese&quot;,2:&quot;English&quot;,3:&quot;German&quot;&#125;,true);</span><br><span class="line">createPanel(&quot;subject&quot;,&quot;1&quot;,&quot;学科2&quot;,&#123;1:&quot;Physics&quot;,2:&quot;Economics&quot;&#125;);</span><br></pre></td></tr></table></figure>
+<p>我不忍吐槽 bs 的文档，汉化根本不完全。。。这是原文档链接 <a href="http://v3.bootcss.com/javascript/#collapse" target="_blank" rel="noopener">http://v3.bootcss.com/javascript/#collapse</a>。嗯，就这样吧。。。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/07/25/iptables防火墙规则的添加、删除、修改、保存/"><span>iptables防火墙规则的添加、删除、修改、保存</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/07/25/iptables防火墙规则的添加、删除、修改、保存/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-07-24T19:08:02.000Z">
+          2016-07-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>本文介绍iptables这个Linux下最强大的防火墙工具，包括配置iptables三个链条的默认规则、添加iptables规则、修改规则、删除规则等。</p>
+<p><strong>一、查看规则集</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables --list -n // 加一个-n以数字形式显示IP和端口，看起来更舒服</span><br></pre></td></tr></table></figure>
+<p><strong>二、配置默认规则</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT DROP  // 不允许进</span><br><span class="line">iptables -P FORWARD DROP  // 不允许转发</span><br><span class="line">iptables -P OUTPUT ACCEPT  // 允许出</span><br></pre></td></tr></table></figure>
+<p><strong>三、增加规则</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -s 192.168.0.0/24 -j ACCEPT</span><br><span class="line">//允许源IP地址为192.168.0.0/24网段的包流进（包括所有的协议，这里也可以指定单个IP）</span><br><span class="line">iptables -A INPUT -d 192.168.0.22 -j ACCEPT</span><br><span class="line">//允许所有的IP到192.168.0.22的访问</span><br><span class="line">iptables -A INPUT -p tcp --dport 80 -j ACCEPT </span><br><span class="line">//开放本机80端口</span><br><span class="line">iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT</span><br></pre></td></tr></table></figure>
+<pre><code>//开放本机的ICMP协议
+</code></pre><p><strong>四、删除规则</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -D INPUT -s 192.168.0.21 -j ACCEPT</span><br><span class="line">//删除刚才建立的第一条规则</span><br></pre></td></tr></table></figure>
+<p><strong>五、规则的保存</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">//清空规则缓冲区（这个操作会将上面的增加操作全部清空，若须保留建议先执行一下句：保存）</span><br><span class="line">service iptables save</span><br><span class="line">//将规则保存在/etc/sysconfig/iptables文件里</span><br><span class="line">service iptables restart</span><br><span class="line">//重启Iptables服务</span><br></pre></td></tr></table></figure>
+<p>最后说明一下，iptables防火墙的配置文件存放于：/etc/sysconfig/iptables</p>
+<p>转载自 <a href="http://www.splaybow.com/post/iptables-rule-add-delete-modify-save.html" target="_blank" rel="noopener">http://www.splaybow.com/post/iptables-rule-add-delete-modify-save.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/07/24/百度 Fex 的 webUploader 上传文件携带其他参数/"><span>百度 Fex 的 webUploader 上传文件携带其他参数</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/07/24/百度 Fex 的 webUploader 上传文件携带其他参数/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-07-24T06:27:10.000Z">
+          2016-07-24
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>目前有两种设置的方法。</p>
+<p>全局设置，就是每个文件上传的时候都会携带的。通过修改options.formData来控制。比如如下demo添加一个uid=123。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 初始化的时候直接添加</span><br><span class="line">var uploader = new WebUploader.Uploader(&#123;</span><br><span class="line">    ...</span><br><span class="line">    formData: &#123;</span><br><span class="line">        uid: 123</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 初始化以后添加</span><br><span class="line">uploader.options.formData.uid = 123;</span><br><span class="line">局部设置，给每个独立的文件上传设置。通过绑定一个uploadBeforeSend事件来添加。</span><br><span class="line"></span><br><span class="line">uploader.on( &apos;uploadBeforeSend&apos;, function( block, data ) &#123;</span><br><span class="line">    // block为分块数据。</span><br><span class="line"></span><br><span class="line">    // file为分块对应的file对象。</span><br><span class="line">    var file = block.file;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    // 修改data可以控制发送哪些携带数据。</span><br><span class="line">    data.uid = 123;</span><br><span class="line"></span><br><span class="line">    // 将存在file对象中的md5数据携带发送过去。</span><br><span class="line">    // data.fileMd5 = file.md5;</span><br><span class="line"></span><br><span class="line">    // 删除其他数据</span><br><span class="line">    // delete data.key;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="https://github.com/fex-team/webuploader/issues/145" target="_blank" rel="noopener">https://github.com/fex-team/webuploader/issues/145</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/07/24/利用位运算进行权限管理/"><span>利用位运算进行权限管理</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/07/24/利用位运算进行权限管理/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-07-23T21:14:24.000Z">
+          2016-07-24
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>原理</strong><br>在Linux文件系统中，一个用户对文件或目录所拥有的权限分为三种：”可读”、”可写”和”可执行”，分别用 1 、2 和 4 来表示，它们之间可以任意组合：有“可读”、“可写”权限就用 3 来表示（1 + 2 = 3）；有”可读“、”可执行“权限就用5来表示（1 + 4 = 5），三种权限全部拥有就用 7 表示（1 + 2 + 4 = 7）。<br>实际上，这种运算是基于二进制的。<br>假设可执行、可写、可读三种权限分别对应三个状态位，如果用户具有某种权限，那么将对应的状态位标识为“1”，反之则标识为“0”。</p>
+<table><br><br><tr>可执行可写可读二进制十进制</tr><br><br><tbody><br><tr><br><td>0<br></td><br><td>0<br></td><br><td>0<br></td><br><td>=&gt;<br></td><br><td>000<br></td><br><td>=&gt;<br></td><br><td>0<br></td></tr><br><tr><br><td>0<br></td><br><td>0<br></td><br><td>1<br></td><br><td>=&gt;<br></td><br><td>001<br></td><br><td>=&gt;<br></td><br><td>1<br></td></tr><br><tr><br><td>0<br></td><br><td>1<br></td><br><td>1<br></td><br><td>=&gt;<br></td><br><td>011<br></td><br><td>=&gt;<br></td><br><td>3<br></td></tr><br><tr><br><td>1<br></td><br><td>1<br></td><br><td>1<br></td><br><td>=&gt;<br></td><br><td>111<br></td><br><td>=&gt;<br></td><br><td>7<br></td></tr><br></tbody><br></table>
+
+<p>如果只有“可读”权限，那么就对应二进制数：001，将这个二进制数转成十进制就得到1；如果同时具有“可读”、“可写”权限，二进制数则对应为： 011，转十进制得：3；同理，三种权限都有的，十进制就等于7。<br>过位运算符很容易就可以做到类似的权限控制：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">//定义权限</span><br><span class="line">define(&apos;READ&apos;, 1&lt;&lt; 0);    // 把可读权限放在最右边</span><br><span class="line">define(&apos;WRITE&apos;, 1&lt;&lt;1);    // 可读权限向左移一位</span><br><span class="line">define(&apos;EXCUTE&apos;, 1&lt;&lt;2);   // 可执行权限向左移两位</span><br><span class="line"> </span><br><span class="line">//赋予权限</span><br><span class="line">$user_permission = READ | WRITE;</span><br><span class="line"> </span><br><span class="line">//验证权限</span><br><span class="line">echo &apos;可读：&apos;, ($user_permission &amp; READ) ? &apos;Yes&apos; : &apos;No&apos;, &quot;\n&quot;;</span><br><span class="line">echo &apos;可写：&apos;, ($user_permission &amp; WRITE) ? &apos;Yes&apos; : &apos;No&apos;, &quot;\n&quot;;</span><br><span class="line">echo &apos;可执行：&apos;, ($user_permission &amp; EXCUTE) ? &apos;Yes&apos; : &apos;No&apos;, &quot;\n&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>PHP语言本身的错误控制也是用位运算来做的，它甚至还利用了按位异或和按位非，使得错误控制更加精确。<br><strong><br>优点和缺陷</strong><br>位运算的运算对象是二进制的位，速度快，效率高，而且节省存储空间，位运算做权限控制又相当地灵活。但是，位运算也有很大的局限，因为在32位计算机上，位移不能超过32次，这就要求权限数量不超过32种。</p>
+<p>转自 <a href="http://xiaobin.net/200906/bitwise-permission/" target="_blank" rel="noopener">http://xiaobin.net/200906/bitwise-permission/</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/07/21/警惕五个思维陷阱/"><span>警惕五个思维陷阱</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/07/21/警惕五个思维陷阱/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-07-21T08:05:48.000Z">
+          2016-07-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>我经常能收到各种回复、提问、私信，有五种我不会回答，有这五种思维的人在现实生活中，我也会尽量远离，这是我爸活着的时候教我的。后来我一位广东朋友跟我说，这不是我爸一个人悟出来的，这是一种在他们那边流传很久的智慧，用广东话讲“费神教会你”。<br><img src="http://futa.ooo/wp-content/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>给自己找借口</strong><br>我收到很多人抱怨自己特别有天赋，被家庭环境所耽误，有些人的确是，这我不否认。但是如果你继续在抱怨的泥潭里，谁也帮不了你。你必须行动起来，改变这一切，大多数时候，尤其是你成年以后，很少有人能干涉你的生活，除了你自己，只有你自己同意。<br>有位姑娘抱怨“我视野不够是被家庭条件所限，父母没有钱让我环游世界，开拓眼界，所以我发展一直不好。我该怎么办？”<br>我爸妈也没给我钱让我环游世界去，不光如此我和妹妹还都是大学家里就不再给钱了，我和妹妹的大学假期都是在打工中度过的。可我妹妹在大学就帮助瑞士老师做过设计展。<br>开拓视野，真的只有环游世界这一个办法吗？你不思考总结，你环游了世界又怎么样。有句话说的好“没感悟，行万里路也是邮差。”人生开拓视野读书、见人、行路、历事都可以，没钱环游世界，读书不就行了？没钱买书，大学图书馆又不收费，多读点书不就行了。为什么《认识商业》《沟通的艺术：看入人里，看出人外》《成功心理学：发现工作与生活的意义》在开头章节都通过总结、评测进行自我认知。我们必须了解自己，正视自己，学会承担责任，为自己的决定负责。你自己被家庭条件阻碍，视野不够，又有几个人的父母资助他们的孩子环游世界去了？你如果不正视自己之前的错误决策，继续为自己找借口，那就只能被困在原地。<br>大学没有利用好，那毕业后就好好努力呗！为自己找了借口，是舒服了，心理安慰了。潜意识，也会觉得反正不是我的错，那我就继续这样呗。这种思维方式何谈改变呀？！<br><img src="http://futa.ooo/wp-content/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>偷换概念</strong><br>这种人更可怕，我们北京俗语说“干什么不吆喝什么”，“你说前门楼子，他说胯骨肘子”。<br>比如我们如果想吸粉成为大号，那就充分搜集信息，找到渠道、学习写作技巧。大家聊天也是围绕这个，可是善于偷换概念的人，他思维是跳跃的，他不围绕这个。<br>有个人问抱怨他文章浏览量低，我说你提高文章质量看的人就多了。他说你是红人，所以浏览量高。<br>他问你怎么能在短时间内让微信公众号粉丝多起来。我给了他几个平台，建议他写完文章都发发。他说“你怎么这么浮躁。”<br>有个姑娘单身，问我怎么能够建立亲密关系，我给她推荐《沟通的艺术：看入人里，看出人外》里关于亲密关系的章节。她说“跟男朋友耍心机，感情得不到好结果。”你跟你妈不讲沟通技巧，你妈都讨厌你，别说跟男朋友了。讲沟通技巧怎么就变成耍心机了？你跟他保持亲密关系，进行语言和非语言沟通就变成耍心机了？<br>不要觉得这是个例，大家可以看看我浏览量几十万的《如何通过爱好赚钱》那篇文章，有几十个回复都是“做自己喜欢的事赚不到钱”，你赚不到钱是能力不行，跟做自己喜欢的事有什么关系？我一直做自己喜欢的事、特立独行的猫一直做自己喜欢的事，我们没有比别人赚钱少呀？赚钱这个事，跟你的能力、思维逻辑有直接关系，跟你喜欢不喜欢你的工作，没什么关系。三百六十行，行行出状元。《理解未来的7个原则：如何看到不可见，做到不可能》用整本书讲如何赚钱，明确提出周期性和线性的决定性作用：周期性变化告诉我们许多种不同的确定性。人类已经找出300个显著的周期，可以在某种程度上精确的预测未来。莎士比亚说：世间事，也有涨潮时节，及时把握，终可功成名就。<br>这种偷换概念的思维方式、沟通方式，是最好的拒绝别人分享的方式。因为沟通太累，大多数人都会闭嘴，有这种思维的人因为沟通效率差、做事效率低、抓不住重点会被处处受限。<br><img src="http://futa.ooo/wp-content/uploads/2016/07/p35778177.jpg" alt="p35778177"><br>看什么都是“鸡汤”<br>直接上个截图当例子，大家就明白了。<br><a href="http://futa.ooo/wp-content/uploads/2016/07/p35779107.jpg"><img src="http://futa.ooo/wp-content/uploads/2016/07/p35779107.jpg" alt="p35779107"></a><br>正常我们的逻辑，我会问怎么当上旅行体验师？这个工作前景如何？薪水如何？需要什么技能？工作内容是什么？<br>逻辑思维的关键是“学会提问”，以开放式的心态，学会提问，你学习知识的途径就是一个立体的 ，随时随地都在接受信息，都在吸收知识，这也被称为“淘金式”思维。<br>相反，截图里的这个例子，是封闭式思维的学习方式。想有孩子，以后会做家长的人千万要注意，教育孩子一定要确认孩子的思维方式，在上学前，教会孩子开放式的思维方式，让孩子学会主动摄取知识，这样孩子学习轻松成绩好。封闭式学习思维的孩子尽管很用功，很努力成绩也总是不尽如人意，尤其是在中学以后，他们在学习上会更痛苦。<br><img src="http://futa.ooo/wp-content/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>行动前，先给自己设置障碍，然后放弃</strong><br>我经常会收到，问我如何写作的，我写过很多关于基础写作的文章，帮助他们。可是他们总会说“这太难了。”<br>还有人问我什么样的读书类文章会受欢迎，我说横向或者纵向阅读的主题书单，然后他说正常人根本就没有这种阅读量。然后我给他推荐《沟通圣经：听说读写全方位沟通技巧》第12章增进阅读速度，第13章提高阅读效率，然后他说“还得先学阅读，这工程太浩大了。”<br>有人说我不喜欢现在工作，怎么能找到喜欢的工作并且赚到钱。我的建议只需要评估自己、树立自己想要的目标、了解实现目标需要的技能、学习和提高自身能力、努力实现目标。他们通常会说“可是怎么开始呢？”<br>他们在行动前，就被自己抛出的问题吓到了，然后就没有然后了。他们会说自己拖延症、选择恐惧症。<br><img src="http://futa.ooo/wp-content/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>通过片面信息、以点概面的否定</strong><br>逻辑分析的首要条件是什么？“充分占有信息”。盲目的通过片面信息否定，有时候很可笑。<br>比如有人看了我的便签说“字如其人，看这字就是个生活混乱的男人。”难道我两个孩子都是你生的？你给喂的奶？<br>我还收到过“第三行打了两个句号，作者是个浮躁的人。”<br>我鼓励大家无论男女都要经济独立，马上有人说“满身铜臭，就知道钱。”<br>我总是做工具书总结，有人说“你应该多读名著陶冶情操，就不会这么世俗了。”我上学的时候，一直担任班里的图书管理员，在初中、高中的假期协助图书馆老师完成了两个学校的图书馆电子化录入，就是把书读完，把主要内容录入到电脑里，方便检索。学校给学生选的书，大家可以想想算不算名著。我个人分析我世俗应该跟读不读名著没什么关系。<br>我分享理财攻略，马上有人说“这个人充满物欲。”你父母生病，住院办给你打电话跟你说“单间自费，1000元每天，您预定吗？”的时候，咱们可以再来聊这个话题。</p>
+<p>写了这么多，希望能帮到大家。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/06/27/记录一下钱升钱的面试题和第一小题答案/"><span>记录一下钱升钱的面试题和第一小题答案</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/06/27/记录一下钱升钱的面试题和第一小题答案/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-06-26T17:08:45.000Z">
+          2016-06-27
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><a href="http://futa.ooo/wp-content/uploads/2016/06/IMG20160626101617.jpg"><img src="http://futa.ooo/wp-content/uploads/2016/06/IMG20160626101617.jpg" alt="IMG20160626101617"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `metro` (</span><br><span class="line">  `line` INT(11) UNSIGNED NOT NULL,</span><br><span class="line">  `stop` VARCHAR(100) DEFAULT NULL,</span><br><span class="line">  `sequence` INT(11) UNSIGNED DEFAULT NULL,</span><br><span class="line">  KEY `idx_line` (`line`),</span><br><span class="line">  KEY `idx_station` (`stop`)</span><br><span class="line">) ENGINE=INNODB DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO metro(line,`stop`,sequence)</span><br><span class="line">VALUES (2,&apos;徐泾东&apos;,1)</span><br><span class="line">, (2,&apos;虹桥2号航站楼&apos;,2)</span><br><span class="line">, (2,&apos;淞虹路&apos;,3)</span><br><span class="line">, (2,&apos;北新泾&apos;,4)</span><br><span class="line">, (2,&apos;威宁路&apos;,5)</span><br><span class="line">, (2,&apos;娄山关路&apos;,6)</span><br><span class="line">, (2,&apos;中山公园&apos;,7)</span><br><span class="line">, (2,&apos;江苏路&apos;,8)</span><br><span class="line">, (2,&apos;静安寺&apos;,9)</span><br><span class="line">, (2,&apos;南京西路&apos;,10)</span><br><span class="line">, (2,&apos;人民广场&apos;,11)</span><br><span class="line">, (2,&apos;南京东路&apos;,12)</span><br><span class="line">, (2,&apos;陆家嘴&apos;,13)</span><br><span class="line">, (2,&apos;东昌路&apos;,14)</span><br><span class="line">, (2,&apos;世纪大道&apos;,15)</span><br><span class="line">, (2,&apos;上海科技馆&apos;,16)</span><br><span class="line">, (2,&apos;世纪公园&apos;,17)</span><br><span class="line">, (2,&apos;龙阳路&apos;,18)</span><br><span class="line">, (2,&apos;张江高科&apos;,19)</span><br><span class="line">, (2,&apos;金科路&apos;,20)</span><br><span class="line">, (9,&apos;杨高中路&apos;,1)</span><br><span class="line">, (9,&apos;世纪大道&apos;,2)</span><br><span class="line">, (9,&apos;商城路&apos;,3)</span><br><span class="line">, (9,&apos;小南门&apos;,4)</span><br><span class="line">, (9,&apos;陆家滨路&apos;,5)</span><br><span class="line">, (9,&apos;马当路&apos;,6)</span><br><span class="line">, (9,&apos;打浦路&apos;,7)</span><br><span class="line">, (9,&apos;嘉善路&apos;,8)</span><br><span class="line">, (9,&apos;肇嘉浜路&apos;,9)</span><br><span class="line">, (9,&apos;徐家汇&apos;,10)</span><br><span class="line">, (9,&apos;宜山路&apos;,11)</span><br><span class="line">, (9,&apos;桂林路&apos;,12)</span><br><span class="line">, (9,&apos;漕河泾开发区&apos;,13)</span><br><span class="line">, (9,&apos;合川路&apos;,14)</span><br><span class="line">, (9,&apos;星中路&apos;,16)</span><br><span class="line">, (9,&apos;七宝&apos;,17)</span><br><span class="line">, (9,&apos;中春路&apos;,18)</span><br><span class="line">, (9,&apos;九亭&apos;,19)</span><br><span class="line">, (9,&apos;泗泾&apos;,20)</span><br><span class="line">, (9,&apos;佘山&apos;,21)</span><br><span class="line">, (9,&apos;洞泾&apos;,22)</span><br><span class="line">, (9,&apos;松江大学城&apos;,23)</span><br><span class="line">, (9,&apos;松江新城&apos;,24)</span><br><span class="line">, (9,&apos;松江体育中心&apos;,25)</span><br><span class="line">, (9,&apos;醉白池&apos;,26)</span><br><span class="line">, (9,&apos;松江南站&apos;,27);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/* 是否存在一次换成的路线 */</span><br><span class="line">SELECT count(1)</span><br><span class="line">    FROM metro AS t,metro AS t1 </span><br><span class="line">    WHERE t.`stop`=t1.`stop` /* 一次换乘 */</span><br><span class="line">        AND t.line=(SELECT line FROM metro WHERE `stop`=&apos;淞虹路&apos;) /* 出发点 */</span><br><span class="line">        AND t1.line=(SELECT line FROM metro WHERE `stop`=&apos;漕河泾开发区&apos;) /* 终点 */;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/* 明细换乘路线 -- 可能还需要改进 */</span><br><span class="line">SELECT t2.* </span><br><span class="line">FROM metro AS t2, </span><br><span class="line">    (SELECT t.line,t.sequence</span><br><span class="line">    FROM metro AS t,metro AS t1 </span><br><span class="line">    WHERE t.`stop`=t1.`stop` </span><br><span class="line">        AND t.line=(SELECT line FROM metro WHERE `stop`=&apos;淞虹路&apos;)</span><br><span class="line">        AND t1.line=(SELECT line FROM metro WHERE `stop`=&apos;漕河泾开发区&apos;)) AS tt</span><br><span class="line">    WHERE t2.line=tt.line </span><br><span class="line">        AND t2.sequence&lt;=tt.sequence </span><br><span class="line">        AND t2.sequence&gt;=(SELECT sequence FROM metro WHERE `stop`=&apos;淞虹路&apos;)</span><br><span class="line">UNION   </span><br><span class="line">SELECT t2.* </span><br><span class="line">FROM metro AS t2, </span><br><span class="line">    (SELECT t1.line,t1.sequence</span><br><span class="line">    FROM metro AS t,metro AS t1 </span><br><span class="line">    WHERE t.`stop`=t1.`stop` </span><br><span class="line">        AND t.line=(SELECT line FROM metro WHERE `stop`=&apos;淞虹路&apos;)</span><br><span class="line">        AND t1.line=(SELECT line FROM metro WHERE `stop`=&apos;漕河泾开发区&apos;)) AS tt</span><br><span class="line">    WHERE t2.line=tt.line </span><br><span class="line">        AND t2.sequence&gt;=tt.sequence</span><br><span class="line">        AND t2.sequence&lt;=(SELECT sequence FROM metro WHERE `stop`=&apos;漕河泾开发区&apos;);</span><br></pre></td></tr></table></figure>
+<p><del>另求各位大神看看后面的题目，谢谢</del><br>全部答案已放出 <a href="https://github.com/jshensh/phpcon2016-qsq" target="_blank" rel="noopener">https://github.com/jshensh/phpcon2016-qsq</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/06/16/css3 calc()：css简单的数学运算-加减乘除/"><span>css3 calc()：css简单的数学运算-加减乘除</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/06/16/css3 calc()：css简单的数学运算-加减乘除/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-06-15T21:08:25.000Z">
+          2016-06-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>多好的东西啊，不用js，一个css就解决了。<br>[css].box{<br>border:1px solid #ddd;<br>width:calc(100% - 100px);<br>background:#9AC8EB;<br>}[/css]<br>3栏等宽布局。<br>[css].box{<br>margin-left:20px;<br>width:calc(100%/3 - 20px);<br>}<br>.box:nth-child(3n){<br>margin-left:0;<br>}[/css]</p>
+<p><strong>实例：</strong><br>[html]&lt;!DOCTYPE html&gt;</p>
+<p><html></html></p>
+<p><head></head></p>
+<p><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></p>
+<p><title>css3 calc()：css简单的数学运算-加减乘除–刘和虎的博客</title></p>
+<p><script type="text/javascript" src="http://www.liuhehu.com/wp-content/themes/sohodesign/js/jquery-1.7.1.min.js"></script></p>
+<p><script type="text/javascript" src="js/iehtml5.js"></script></p>
+<p><style><br>.box{<br>border:1px solid #ddd;<br>margin:0 auto;<br>width:calc(100% - 100px);<br>width:-moz-calc(100% - 100px);<br>width:-webkit-calc(100% - 100px);<br>background:#9AC8EB;<br>}<br></style><br></p>
+<p><body></body></p>
+<p><div class="box">width:calc(100% - 100px)</div></p>
+<p><script><br>/<em><br>作者：刘和虎
+</em>/<br>$(function(){<br>});<br></script><br><br>[/html]</p>
+<p><strong>运算规则</strong><br>calc()使用通用的数学运算规则，但是也提供更智能的功能：</p>
+<p>使用“+”“-”“*”“/”四则运算；<br>可以使用百分比、px、em、rem等单位；<br>可以混合使用各种单位进行计算。</p>
+<p><strong>浏览器支持</strong><br>firefox 4.0+已经开支支持calc()功能，不过要使用-moz-calc()私有属性，chrome从19 dev版，也开始支持私有的-webkit-calc()写法，IE9这次则牛逼了一次，原生支持标准的不带前缀的写法了。Opera貌似还不支持～～</p>
+<p><strong>注意：</strong><br>在<a href="http://www.qianduan.net/calc-at-at-at-page-intelligent-layout.html看到的，他的原文中width:calc(100%-100px)是没有空格的，经测试无效，就像其评论中：calc()里面的表达式好像要注意格式。" target="_blank" rel="noopener">http://www.qianduan.net/calc-at-at-at-page-intelligent-layout.html看到的，他的原文中width:calc(100%-100px)是没有空格的，经测试无效，就像其评论中：calc()里面的表达式好像要注意格式。</a></p>
+<p>转载自 <a href="http://www.liuhehu.com/?p=320" target="_blank" rel="noopener">http://www.liuhehu.com/?p=320</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/" class="pagination-prev">上一页</a>
+  
+  
+  <a href="/page/3/" class="pagination-next">下一页</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>WordPress for BAE 不使用插件实现评论回复邮件提醒功能 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="表示这是博主原创。。。转载请注明原文链接该方法仅限在 BAE 版 WordPress 上使用当然如果要在普通版本的 WordPress 上实现功能的话，请自行修改 wp_mail 那一行">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="WordPress for BAE 不使用插件实现评论回复邮件提醒功能"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>WordPress for BAE 不使用插件实现评论回复邮件提醒功能</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/05/12/WordPress for BAE 不使用插件实现评论回复邮件提醒功能/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-05-11T18:50:34.000Z">
+          2013-05-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>表示这是博主原创。。。转载请注明原文链接<br>该方法<strong>仅限在 BAE 版 WordPress 上使用</strong><br>当然如果要在普通版本的 WordPress 上实现功能的话，请自行修改 wp_mail 那一行<br><a id="more"></a><br>找到你网站根目录下的 wp-comments-post.php ，在里面找这样一行代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$location = empty($_POST[&apos;redirect_to&apos;]) ? get_comment_link($comment_id) : $_POST[&apos;redirect_to&apos;] . &apos;#comment-&apos; . $comment_id;</span><br></pre></td></tr></table></figure>
+<p>在前面加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">if (!empty($comment_parent)) &#123;</span><br><span class="line">$get_comment_parent = get_comment($comment_parent);</span><br><span class="line">$mail_subject=$comment-&gt;comment_author.&apos; 回复了您的评论 - &apos;.get_option(&apos;blogname&apos;);</span><br><span class="line">$mail_message=&apos;</span><br><span class="line"></span><br><span class="line">您在《&apos;.$post-&gt;post_title.&apos;》发表的评论内容：  </span><br><span class="line">&apos;.</span><br><span class="line">$get_comment_parent-&gt;comment_content.&apos;</span><br><span class="line"></span><br><span class="line">&apos;.</span><br><span class="line">&apos;</span><br><span class="line"></span><br><span class="line">由 &apos;.$comment-&gt;comment_author.&apos; 于 &apos;.$comment-&gt;comment_date.&apos; 回复您的评论内容：  </span><br><span class="line">&apos;.</span><br><span class="line">$comment-&gt;comment_content.&apos;</span><br><span class="line"></span><br><span class="line">&apos;.</span><br><span class="line">&apos;</span><br><span class="line"></span><br><span class="line">点击链接查看或回复：  </span><br><span class="line">&apos;.</span><br><span class="line">&apos;[&apos;.get_comment_link($comment_id).&apos;](&apos;.get_comment_link($comment_id).&apos;)</span><br><span class="line"></span><br><span class="line">&apos;;</span><br><span class="line">if ($comment-&gt;comment_author_email !== $get_comment_parent-&gt;comment_author_email) &#123;</span><br><span class="line">wp_mail($get_comment_parent-&gt;comment_author_email,$mail_subject,&apos;&apos;.$mail_message);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>保存，上传覆盖原文件即可</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/程序发布/">程序发布</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

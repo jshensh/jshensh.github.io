@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux下用fdisk和resize2fs动态修改分区大小 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="我的Archlinux发现root(/)分区不够用了，于是想把/home分区的空间腾出一些来，原理：用resize2fs调整/home文件系统的大小，用fdisk调整分区的大小。试验结果：由于开始不小心把/home(/dev/sda4)分区删掉了，所以没试验成功，于是用以下步骤扩大了root分区：
+">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Linux下用fdisk和resize2fs动态修改分区大小"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Linux下用fdisk和resize2fs动态修改分区大小</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/02/22/Linux下用fdisk和resize2fs动态修改分区大小/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-02-21T20:55:55.000Z">
+          2015-02-22
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>我的Archlinux发现root(/)分区不够用了，于是想把/home分区的空间腾出一些来，<br>原理：用resize2fs调整/home文件系统的大小，用fdisk调整分区的大小。<br>试验结果：由于开始不小心把/home(/dev/sda4)分区删掉了，所以没试验成功，于是用以下步骤扩大了root分区：</p>
+<ol>
+<li>fdisk把root（/dev/sda3）分区删除，注意删除前记录开始柱面号，具体命令：<br>fdisk /dev/sda ，p命令显示的Start列）</li>
+<li>用同样的开始柱面号，建立（fdisk /），命令 n</li>
+<li>再使用resize2fs重新修改分区的大小，命令：resize2fs /dev/sda3。</li>
+<li>重启系统，出现挂载/home分区失败，按照提示：mount -o remount,rw /，同时删除/etc/fstab下的含有/home那一行。</li>
+<li>再重启系统。<br>成功了！(以后可以试一下用lvm动态调整分区)</li>
+</ol>
+<p>转载自 <a href="http://blog.chinaunix.net/uid-8747186-id-3189880.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-8747186-id-3189880.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

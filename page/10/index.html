@@ -1,0 +1,769 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 10 页 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/01/16/Linux umount 报 device is busy 的处理方法/"><span>Linux umount 报 device is busy 的处理方法</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/16/Linux umount 报 device is busy 的处理方法/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-16T03:07:40.000Z">
+          2015-01-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>今天在IDC 辐射了半天，又弄了套DG。 在Linux 挂盘这块也小学了两招。</p>
+<p><strong>一. umout 移动硬盘</strong><br>开始用sftp 将安装文件copy到服务器的时候，速度太慢了，500k/s。几个G的东西，copy 这些就要半个多小时，扛不住，拿移动硬盘来copy了。 结果移动硬盘的格式不对。 是NTFS 格式，Linux 识别不了。 只能格式化成FAT32的。 而GG 的win7 系统又不具备格式化成FAT32的功能。 有点小变态。让同事在XP 下帮我格式化了。</p>
+<p>安装文件copy到服务器后，同事直接将移动硬盘从服务器上拔下来了。 导致的结果是，用df 命令查看，挂载的移动硬盘还存在。</p>
+<p>[root@qs-wg-db1 ~]# df -lh<br>Filesystem Size Used Avail Use% Mounted on<br>/dev/sdb3 125G 3.3G 115G 3% /<br>/dev/sdb1 99M 12M 82M 13% /boot<br>tmpfs 3.9G 0 3.9G 0% /dev/shm<br>/dev/sda1 275G 72G 189G 28% /u01<br>/dev/sdc1 10G 2.0G 8.1G 20% /datatmp</p>
+<p>就是这个/dev/sdc1。</p>
+<p>这时使用umount 命令，会提示设备忙，无法挂载。</p>
+<p>处理方法：<br>[root@qs-wg-db1 ~]# fuser -km /datatmp<br>[root@qs-wg-db1 ~]# df -lh<br>Filesystem Size Used Avail Use% Mounted on<br>/dev/sdb3 125G 3.3G 115G 3% /<br>/dev/sdb1 99M 12M 82M 13% /boot<br>tmpfs 3.9G 0 3.9G 0% /dev/shm<br>/dev/sda1 275G 72G 189G 28% /u01<br>/dev/sdc1 10G 2.0G 8.1G 20% /datatmp<br>[root@qs-wg-db1 ~]# umount /datatmp<br>[root@qs-wg-db1 ~]# df -lh<br>Filesystem Size Used Avail Use% Mounted on<br>/dev/sdb3 125G 3.3G 115G 3% /<br>/dev/sdb1 99M 12M 82M 13% /boot<br>tmpfs 3.9G 0 3.9G 0% /dev/shm<br>/dev/sda1 275G 72G 189G 28% /u01</p>
+<p>成功umount了。</p>
+<p><strong>二. umount 光驱</strong><br>安装DB 之前，检查了一下相关包，少了3个。 从系统安装盘上找了包，安装了一下。 当时是直接将/dev/cdrom mount 到了/mnt目录。 也是图个方便。 结果收工时去拿盘，光驱弹不出来。 同事让我把cdrom umout掉。 同样的提示，设备忙。</p>
+<p>处理方法：<br>[root@qs-wg-db1 ~]#fuser –km /dev/cdrom<br>[root@qs-wg-db1 ~]#eject – 弹出光驱</p>
+<p>在网上搜了一下，正确挂载CD-ROM的方法应该如下：</p>
+<h1 id="mkdir-cdrom"><a href="#mkdir-cdrom" class="headerlink" title="mkdir cdrom"></a>mkdir cdrom</h1><h1 id="mount-dev-cdrom-mnt-cdrom"><a href="#mount-dev-cdrom-mnt-cdrom" class="headerlink" title="mount /dev/cdrom /mnt/cdrom"></a>mount /dev/cdrom /mnt/cdrom</h1><p>或者</p>
+<h1 id="mount-dev-cdrom-media-cdrom"><a href="#mount-dev-cdrom-media-cdrom" class="headerlink" title="mount /dev/cdrom /media/cdrom"></a>mount /dev/cdrom /media/cdrom</h1><p>直接挂载在/mnt,/media等系统目录下，在umount时会出现出错信息“umount: /mnt/cdrom: device is busy”的情况。</p>
+<p>如果一个文件系统处于“busy”状态的时候，不能卸载该文件系统。如下情况将导致文件系统处于“busy”状态：<br>1) 文件系统上面有打开的文件<br>2) 某个进程的工作目录在此文件系统上<br>3) 文件系统上面的缓存文件正在被使用</p>
+<p><strong>三. fuser 命令</strong><br>前面2个umout 都使用了这个fuser 命令。 man了一下这个命令。 内容如下：</p>
+<p>[root@qs-wg-db1 ~]# man fuser<br>FUSER(1) User Commands FUSER(1)</p>
+<p>NAME<br>fuser - identify processes using files or sockets</p>
+<p>SYNOPSIS<br>fuser [-a|-s|-c] [-4|-6] [-n space ] [-k [-i] [-signal ] ] [-muvf] name<br>fuser -l<br>fuser -V</p>
+<p>DESCRIPTION<br>fuser displays the PIDs of processes using the specified files or file systems. In the default display mode, each file name is followed by a letter denoting the type<br>of access:<br>c current directory.<br>e executable being run.<br>f open file. f is omitted in default display mode.<br>F open file for writing. F is omitted in default display mode.<br>r root directory.<br>m mmap’ed file or shared library.</p>
+<p>fuser returns a non-zero return code if none of the specified files is accessed or in case of a fatal error. If at least one access has been found, fuser returns zero.<br>In order to look up processes using TCP and UDP sockets, the corresponding name space has to be selected with the -n option. By default fuser will look in both IPv6 and IPv4 sockets. To change the default, behavior, use the -4 and -6 options. The socket(s) can be specified by the local and remote port, and the remote address. All fields are optional, but commas in front of missing fields must be present:<br>[lcl_port][,[rmt_host][,[rmt_port]]]<br>Either symbolic or numeric values can be used for IP addresses and port numbers.</p>
+<p>fuser outputs only the PIDs to stdout, everything else is sent to stderr.</p>
+<p>OPTIONS<br>-a Show all files specified on the command line. By default, only files that are accessed by at least one process are shown.<br>-c Same as -m option, used for POSIX compatibility.<br>-f Silently ignored, used for POSIX compatibility.<br>-k Kill processes accessing the file. Unless changed with -signal, SIGKILL is sent. An fuser process never kills itself, but may kill other fuser processes. The effective user ID of the process executing fuser is set to its real user ID before attempting to kill.<br>-i Ask the user for confirmation before killing a process. This option is silently ignored if -k is not present too.<br>-l List all known signal names.<br>-m name specifies a file on a mounted file system or a block device that is mounted. All processes accessing files on that file system are listed. If adirectory file is specified, it is automatically changed to name/. to use any file system that might be mounted on that directory.</p>
+<p>-n space Select a different name space. The name spaces file (file names, the default), udp (local UDP ports), and tcp (local TCP ports) are supported. For ports, either the port number or the symbolic name can be specified. If there is no ambiguity, the shortcut notation name/Ispace (e.g. 80/tcp ) can be used.<br>-s Silent operation. -u and -v are ignored in this mode. -a must not be used with -s.<br>-signal Use the specified signal instead of SIGKILL when killing processes. Signals can be specified either by name (e.g. -HUP) or by number (e.g. -1). This option is silently ignored if the -k option is not used.<br>-u Append the user name of the process owner to each PID.<br>-v Verbose mode. Processes are shown in a ps-like style. The fields PID, USER and COMMAND are similar to ps. ACCESS shows how the process accesses the file. If the access is by the kernel (e.g. in the case of a mount point, awap file, etc.), kernel is shown instead of the PID.<br>-V Display version information.<br>-4 Search only for IPv4 sockets. This option must not be used with the -6 option and only has an effect with the tcp and udp namespaces.<br>-6 Search only for IPv6 sockets. This option must not be used with the -4 option and only has an effect with the tcp and udp namespaces.</p>
+<ul>
+<li>Reset all options and set the signal back to SIGKILL.<br>FILES<br>/proc location of the proc file system</li>
+</ul>
+<p>fuser 命令显示访问某个文件的进程的PID. 其中-k 和 -m 参数上面红色部分有说明。-k 是kill 访问这个文件的进程。 没有进程访问，就可以成功umount了.</p>
+<p>转载自 <a href="http://blog.csdn.net/tianlesoftware/article/details/6194295" target="_blank" rel="noopener">http://blog.csdn.net/tianlesoftware/article/details/6194295</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/01/11/移动端重构系列10——侧边栏导航/"><span>移动端重构系列10——侧边栏导航</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/11/移动端重构系列10——侧边栏导航/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-10T22:46:48.000Z">
+          2015-01-11
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>本系列文章，如果没有特别说明，兼容安卓4.0.4+</p>
+<p>panel一般用来做侧边栏导航，铺满整屏高度，有两种展现形式：第一种直接盖在整块内容栏（包括header和footer部分）上面，如图一；第二种把整块内容栏推开panel的宽度，如图二<br><a href="http://futa.ooo/wp-content/uploads/2015/01/panel1.jpg"><img src="http://futa.ooo/wp-content/uploads/2015/01/panel1.jpg" alt="panel1"></a><br><a href="http://futa.ooo/wp-content/uploads/2015/01/panel2.jpg"><img src="http://futa.ooo/wp-content/uploads/2015/01/panel2.jpg" alt="panel2"></a></p>
+<p>设计结构如下：<br>[html]<header class="header"></header></p>
+<p><div class="wrap-page"><br>    <section class="page"></section><br>    …<br></div></p>
+<p><footer class="footer"></footer></p>
+<p><section class="panel"></section>[/html]<br><strong>第一种实现方案：</strong><br><a href="http://jsbin.com/sapip/1" target="_blank" rel="noopener">demo 1</a><br>先将panel通过translate偏移负的本身宽度，离开可视区域，然后通过切换active这个class来实现无偏移。当然除此之外，top和bottom的0实现了100%高度，z-index要保证大于header和footer的层级。<br>[css]$panelWidth:      120px !default;<br>.panel{<br>    position: absolute;<br>    top: 0;<br>    bottom: 0;<br>    left: 0;<br>    z-index: 980;<br>    width: $panelWidth;<br>    background-color: #333;<br>    @include translate3d(-$panelWidth, 0, 0);<br>    @extend %transition-transform;<br>}<br>.panel.active{<br>    @include translate3d(0, 0, 0);<br>}[/css]<br>同样我们也可以通过给body添加删除class如panel-active来控制panel的位置。</p>
+<p><strong>第二种实现方案</strong><br><a href="http://jsbin.com/sapip/2" target="_blank" rel="noopener">demo 2</a>，在demo1的基础上根据第二种方案顺便处理下了当panel出现时，内容禁止滚动<br>因为需要实现整块内容栏（包括header和footer部分）偏移panel的宽度，所以第一反应是应该有个div把整块内容栏包裹下，如下：<br>[html]<div class="wrap-container"><br>    <header class="header"></header><br>    <div class="wrap-page"><br>        <section class="page"></section><br>        …<br>    </div><br>    <footer class="footer"></footer><br></div></p>
+<p><section class="panel"></section>[/html]<br>多了一层结构，看起来有点不爽，不过使用起来还是很爽的。首先panel偏移负的本身宽度，接下来通过控制wrap-container的class来实现内容栏偏移panel的宽度<br>[css].panel{<br>    position: absolute;<br>    top: 0;<br>    bottom: 0;<br>    left: 0;<br>    z-index: $zIndexOverlay;<br>    width: $panelWidth;<br>    background-color: #333;<br>    @include translate3d(-$panelWidth, 0, 0);<br>}<br>.wrap-container{<br>    @extend %transition-transform;<br>}<br>.wrap-container.panel-active{<br>    @include translate3d($panelWidth, 0, 0);<br>}[/css]<br>既然这里需要一个父元素来实现一个偏移，为什么body不可以呢？所以果断干掉wrap-container，恢复最初的结构<br>[css].panel{<br>    position: absolute;<br>    top: 0;<br>    bottom: 0;<br>    left: 0;<br>    z-index: $zIndexOverlay;<br>    width: $panelWidth;<br>    background-color: #333;<br>    @include translate3d(-$panelWidth, 0, 0);<br>}<br>body.has-panel{<br>    @extend %transition-transform;<br>}<br>body.panel-active{<br>    @include translate3d($panelWidth, 0, 0);<br>}[/css]</p>
+<p><strong>总结</strong><br>一般来说使用比较多的还是第二种方案，因为第一种直接把左边的那个点击图标遮盖住了。而panel实际使用的时候还是挺不太好办的，因为左边的第一个icon一般都是放首页，返回什么的，当然适用不适用还是根据各自业务需要走</p>
+<p>转载自：<a href="http://www.w3cplus.com/mobile/mobile-terminal-refactoring-sidebar-menu.html" target="_blank" rel="noopener">http://www.w3cplus.com/mobile/mobile-terminal-refactoring-sidebar-menu.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/01/03/记一下 openwrt 可能忘记的常用命令/"><span>记一下 openwrt 可能忘记的常用命令</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/03/记一下 openwrt 可能忘记的常用命令/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-03T09:04:05.000Z">
+          2015-01-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>将 /dev/sda1 分区挂载为 swap 交换区：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkswap /dev/sda1</span><br><span class="line">swapon /dev/sda1</span><br></pre></td></tr></table></figure>
+<p>挂载 vfat：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">opkg install kmod-fs-vfat // fat，fat32</span><br><span class="line">opkg install kmod-nls-utf8 kmod-nls-cp437 kmod-nls-iso8859-1 // 文件系统的语言支持</span><br><span class="line">mkdir sda1</span><br><span class="line">mount -t vfat /dev/sda1 sda1</span><br></pre></td></tr></table></figure>
+<p>挂载 ntfs：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">opkg install kmod-fuse ntfs-3g</span><br><span class="line">mkdir sda1</span><br><span class="line">ntfs-3g /dev/sda1 sda1</span><br></pre></td></tr></table></figure>
+<p>格式化分区：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opkg install e2fsprogs</span><br><span class="line">mkfs.ext4 /dev/sda1</span><br></pre></td></tr></table></figure>
+<p>支持 extroot：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opkg install block-mount</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<p>复制flash根分区文件到外部存储</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir /mnt/sda1</span><br><span class="line">mount /dev/sda1 /mnt/sda1</span><br><span class="line">mkdir -p /tmp/cproot</span><br><span class="line">mount --bind / /tmp/cproot/</span><br><span class="line">tar -C /tmp/cproot/ -cvf - . | tar -C /mnt/sda1 -xf -</span><br><span class="line">umount /dev/sda1</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/openwrt/">openwrt</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/01/01/使用 HTML5 WebSocket 构建实时 Web 应用/"><span>使用 HTML5 WebSocket 构建实时 Web 应用</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/01/使用 HTML5 WebSocket 构建实时 Web 应用/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-12-31T21:37:21.000Z">
+          2015-01-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>作为下一代的 Web 标准，HTML5 拥有许多引人注目的新特性，如 Canvas、本地存储、多媒体编程接口、WebSocket 等等。这其中有“Web 的 TCP ”之称的 WebSocket 格外吸引开发人员的注意。WebSocket 的出现使得浏览器提供对 Socket 的支持成为可能，从而在浏览器和服务器之间提供了一个基于 TCP 连接的双向通道。Web 开发人员可以非常方便地使用 WebSocket 构建实时 web 应用，开发人员的手中从此又多了一柄神兵利器。本文首先介绍 HTML5 WebSocket 的基本概念以及这个规范试图解决的问题，然后介绍 WebSocket 的基本原理和编程接口。接下来会通过一个简单案例来示范怎样实现一个 WebSocket 应用，并且展示 WebSocket 如何在功能强大和编程简单易用上达到的完美统一。最后介绍了目前主流浏览器对 WebSocket 支持的状况、局限性以及未来的展望。</p>
+<h2 id="实时-Web-应用的窘境"><a href="#实时-Web-应用的窘境" class="headerlink" title="实时 Web 应用的窘境"></a>实时 Web 应用的窘境</h2><p>Web 应用的信息交互过程通常是客户端通过浏览器发出一个请求，服务器端接收和审核完请求后进行处理并返回结果给客户端，然后客户端浏览器将信息呈现出来，这种机制对于信息变化不是特别频繁的应用尚能相安无事，但是对于那些实时要求比较高的应用来说，比如说在线游戏、在线证券、设备监控、新闻在线播报、RSS 订阅推送等等，当客户端浏览器准备呈现这些信息的时候，这些信息在服务器端可能已经过时了。所以保持客户端和服务器端的信息同步是实时 Web 应用的关键要素，对 Web 开发人员来说也是一个难题。在 WebSocket 规范出来之前，开发人员想实现这些实时的 Web 应用，不得不采用一些折衷的方案，其中最常用的就是轮询 (Polling) 和 Comet 技术，而 Comet 技术实际上是轮询技术的改进，又可细分为两种实现方式，一种是长轮询机制，一种称为流技术。下面我们简单介绍一下这几种技术：<br><strong>轮询：</strong><br>这是最早的一种实现实时 Web 应用的方案。客户端以一定的时间间隔向服务端发出请求，以频繁请求的方式来保持客户端和服务器端的同步。这种同步方案的最大问题是，当客户端以固定频率向服务器发起请求的时候，服务器端的数据可能并没有更新，这样会带来很多无谓的网络传输，所以这是一种非常低效的实时方案。<br><strong>长轮询：</strong><br>长轮询是对定时轮询的改进和提高，目地是为了降低无效的网络传输。当服务器端没有数据更新的时候，连接会保持一段时间周期直到数据或状态改变或者时间过期，通过这种机制来减少无效的客户端和服务器间的交互。当然，如果服务端的数据变更非常频繁的话，这种机制和定时轮询比较起来没有本质上的性能的提高。<br><strong>流：</strong><br>流技术方案通常就是在客户端的页面使用一个隐藏的窗口向服务端发出一个长连接的请求。服务器端接到这个请求后作出回应并不断更新连接状态以保证客户端和服务器端的连接不过期。通过这种机制可以将服务器端的信息源源不断地推向客户端。这种机制在用户体验上有一点问题，需要针对不同的浏览器设计不同的方案来改进用户体验，同时这种机制在并发比较大的情况下，对服务器端的资源是一个极大的考验。<br>综合这几种方案，您会发现这些目前我们所使用的所谓的实时技术并不是真正的实时技术，它们只是在用 Ajax 方式来模拟实时的效果，在每次客户端和服务器端交互的时候都是一次 HTTP 的请求和应答的过程，而每一次的 HTTP 请求和应答都带有完整的 HTTP 头信息，这就增加了每次传输的数据量，而且这些方案中客户端和服务器端的编程实现都比较复杂，在实际的应用中，为了模拟比较真实的实时效果，开发人员往往需要构造两个 HTTP 连接来模拟客户端和服务器之间的双向通讯，一个连接用来处理客户端到服务器端的数据传输，一个连接用来处理服务器端到客户端的数据传输，这不可避免地增加了编程实现的复杂度，也增加了服务器端的负载，制约了应用系统的扩展性。</p>
+<hr>
+<h2 id="WebSocket-的拯救"><a href="#WebSocket-的拯救" class="headerlink" title="WebSocket 的拯救"></a>WebSocket 的拯救</h2><p>HTML5 WebSocket 设计出来的目的就是要取代轮询和 Comet 技术，使客户端浏览器具备像 C/S 架构下桌面系统的实时通讯能力。 浏览器通过 JavaScript 向服务器发出建立 WebSocket 连接的请求，连接建立以后，客户端和服务器端就可以通过 TCP 连接直接交换数据。因为 WebSocket 连接本质上就是一个 TCP 连接，所以在数据传输的稳定性和数据传输量的大小方面，和轮询以及 Comet 技术比较，具有很大的性能优势。Websocket.org 网站对传统的轮询方式和 WebSocket 调用方式作了一个详细的测试和比较，将一个简单的 Web 应用分别用轮询方式和 WebSocket 方式来实现，在这里引用一下他们的测试结果图：</p>
+<h5 id="图-1-轮询和-WebSocket-实现方式的网络负载对比图"><a href="#图-1-轮询和-WebSocket-实现方式的网络负载对比图" class="headerlink" title="图 1. 轮询和 WebSocket 实现方式的网络负载对比图"></a>图 1. 轮询和 WebSocket 实现方式的网络负载对比图</h5><p><img src="http://futa.ooo/wp-content/uploads/2015/01/image002.jpg" alt="图 1. 轮询和 WebSocket 实现方式的网络负载对比图"><br>通过这张图可以清楚的看出，在流量和负载增大的情况下，WebSocket 方案相比传统的 Ajax 轮询方案有极大的性能优势。这也是为什么我们认为 WebSocket 是未来实时 Web 应用的首选方案的原因。</p>
+<hr>
+<h2 id="WebSocket-规范"><a href="#WebSocket-规范" class="headerlink" title="WebSocket 规范"></a>WebSocket 规范</h2><p>WebSocket 协议本质上是一个基于 TCP 的协议。为了建立一个 WebSocket 连接，客户端浏览器首先要向服务器发起一个 HTTP 请求，这个请求和通常的 HTTP 请求不同，包含了一些附加头信息，其中附加头信息<strong>”Upgrade: WebSocket”</strong>表明这是一个申请协议升级的 HTTP 请求，服务器端解析这些附加的头信息然后产生应答信息返回给客户端，客户端和服务器端的 WebSocket 连接就建立起来了，双方就可以通过这个连接通道自由的传递信息，并且这个连接会持续存在直到客户端或者服务器端的某一方主动的关闭连接。<br>下面我们来详细介绍一下 WebSocket 规范，由于这个规范目前还是处于草案阶段，版本的变化比较快，我们选择 <strong>draft-hixie-thewebsocketprotocol-76</strong>版本来描述 WebSocket 协议。因为这个版本目前在一些主流的浏览器上比如 Chrome,、FireFox、Opera 上都得到比较好的支持，您如果参照的是新一些的版本话，内容可能会略有差别。<br>一个典型的 WebSocket 发起请求和得到响应的例子看起来如下：</p>
+<h5 id="清单-1-WebSocket-握手协议"><a href="#清单-1-WebSocket-握手协议" class="headerlink" title="清单 1. WebSocket 握手协议"></a>清单 1. WebSocket 握手协议</h5><p><strong>客户端到服务端：</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">GET /demo HTTP/1.1 </span><br><span class="line">Host: example.com </span><br><span class="line">Connection: Upgrade </span><br><span class="line">Sec-WebSocket-Key2: 12998 5 Y3 1 .P00 </span><br><span class="line">Upgrade: WebSocket </span><br><span class="line">Sec-WebSocket-Key1: 4@1 46546xW%0l 1 5 </span><br><span class="line">Origin: http://example.com </span><br><span class="line">[8-byte security key] </span><br><span class="line"></span><br><span class="line">&lt;strong&gt;服务端到客户端：&lt;/strong&gt;</span><br><span class="line">HTTP/1.1 101 WebSocket Protocol Handshake </span><br><span class="line">Upgrade: WebSocket </span><br><span class="line">Connection: Upgrade </span><br><span class="line">WebSocket-Origin: http://example.com </span><br><span class="line">WebSocket-Location: ws://example.com/demo </span><br><span class="line">[16-byte hash response]</span><br></pre></td></tr></table></figure>
+<p>这些请求和通常的 HTTP 请求很相似，但是其中有些内容是和 WebSocket 协议密切相关的。我们需要简单介绍一下这些请求和应答信息，”Upgrade:WebSocket”表示这是一个特殊的 HTTP 请求，请求的目的就是要将客户端和服务器端的通讯协议从 HTTP 协议升级到 WebSocket 协议。从客户端到服务器端请求的信息里包含有”Sec-WebSocket-Key1”、“Sec-WebSocket-Key2”和”[8-byte securitykey]”这样的头信息。这是客户端浏览器需要向服务器端提供的握手信息，服务器端解析这些头信息，并在握手的过程中依据这些信息生成一个 16 位的安全密钥并返回给客户端，以表明服务器端获取了客户端的请求，同意创建 WebSocket 连接。一旦连接建立，客户端和服务器端就可以通过这个通道双向传输数据了。<br>在实际的开发过程中，为了使用 WebSocket 接口构建 Web 应用，我们首先需要构建一个实现了 WebSocket 规范的服务器，服务器端的实现不受平台和开发语言的限制，只需要遵从 WebSocket 规范即可，目前已经出现了一些比较成熟的 WebSocket 服务器端实现，比如：</p>
+<ul>
+<li>Kaazing WebSocket Gateway —  一个 Java 实现的 WebSocket Server</li>
+<li>mod_pywebsocket — 一个 Python 实现的 WebSocket Server</li>
+<li>Netty —一个 Java 实现的网络框架其中包括了对 WebSocket 的支持</li>
+<li>node.js —一个 Server 端的 JavaScript 框架提供了对 WebSocket 的支持<br>如果以上的 WebSocket 服务端实现还不能满足您的业务需求的话，开发人员完全可以根据 WebSocket 规范自己实现一个服务器。在“WebSocket 实战”这一节，我们将使用 Microsoft .NET 平台上的 C# 语言来打造一个简单的 WebSocket 服务器，继而构建一个简单的实时聊天系统。</li>
+</ul>
+<hr>
+<h2 id="WebSocket-JavaScript-接口"><a href="#WebSocket-JavaScript-接口" class="headerlink" title="WebSocket JavaScript 接口"></a>WebSocket JavaScript 接口</h2><p>上一节介绍了 WebSocket 规范，其中主要介绍了 WebSocket 的握手协议。握手协议通常是我们在构建 WebSocket 服务器端的实现和提供浏览器的 WebSocket 支持时需要考虑的问题，而针对 Web 开发人员的 WebSocket JavaScript 客户端接口是非常简单的，以下是 WebSocket JavaScript 接口的定义：</p>
+<h5 id="清单-2-WebSocket-JavaScript-定义"><a href="#清单-2-WebSocket-JavaScript-定义" class="headerlink" title="清单 2. WebSocket JavaScript 定义"></a>清单 2. WebSocket JavaScript 定义</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[Constructor(in DOMString url, in optional DOMString protocol)] </span><br><span class="line">interface WebSocket &#123; </span><br><span class="line">  readonly attribute DOMString URL; </span><br><span class="line">       // ready state </span><br><span class="line">  const unsigned short CONNECTING = 0; </span><br><span class="line">  const unsigned short OPEN = 1; </span><br><span class="line">  const unsigned short CLOSED = 2; </span><br><span class="line">  readonly attribute unsigned short readyState; </span><br><span class="line">  readonly attribute unsigned long bufferedAmount; </span><br><span class="line">  //networking </span><br><span class="line">  attribute Function onopen; </span><br><span class="line">  attribute Function onmessage; </span><br><span class="line">  attribute Function onclose; </span><br><span class="line">  boolean send(in DOMString data); </span><br><span class="line">  void close(); </span><br><span class="line">&#125;; </span><br><span class="line">WebSocket implements EventTarget;</span><br></pre></td></tr></table></figure>
+<p>其中 URL 属性代表 WebSocket 服务器的网络地址，协议通常是”ws”,send 方法就是发送数据到服务器端，close 方法就是关闭连接。除了这些方法，还有一些很重要的事件：onopen，onmessage，onerror 以及 onclose。我们借用 <strong>Nettuts</strong> 网站上的一张图来形象的展示一下 WebSocket 接口：</p>
+<h5 id="图-2-WebSocket-JavaScript-接口"><a href="#图-2-WebSocket-JavaScript-接口" class="headerlink" title="图 2. WebSocket JavaScript 接口"></a>图 2. WebSocket JavaScript 接口</h5><p><img src="http://futa.ooo/wp-content/uploads/2015/01/image003.gif" alt="图 2. WebSocket JavaScript 接口"><br>下面是一段简单的 JavaScript 代码展示了怎样建立 WebSocket 连接和获取数据：</p>
+<h5 id="清单-3-建立-WebSocket-连接的实例-JavaScript-代码"><a href="#清单-3-建立-WebSocket-连接的实例-JavaScript-代码" class="headerlink" title="清单 3. 建立 WebSocket 连接的实例 JavaScript 代码"></a>清单 3. 建立 WebSocket 连接的实例 JavaScript 代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var  wsServer = &apos;ws://localhost:8888/Demo&apos;; </span><br><span class="line">var  websocket = new WebSocket(wsServer); </span><br><span class="line">websocket.onopen = function (evt) &#123; onOpen(evt) &#125;; </span><br><span class="line">websocket.onclose = function (evt) &#123; onClose(evt) &#125;; </span><br><span class="line">websocket.onmessage = function (evt) &#123; onMessage(evt) &#125;; </span><br><span class="line">websocket.onerror = function (evt) &#123; onError(evt) &#125;; </span><br><span class="line">function onOpen(evt) &#123; </span><br><span class="line">console.log(&quot;Connected to WebSocket server.&quot;); </span><br><span class="line">&#125; </span><br><span class="line">function onClose(evt) &#123; </span><br><span class="line">console.log(&quot;Disconnected&quot;); </span><br><span class="line">&#125; </span><br><span class="line">function onMessage(evt) &#123; </span><br><span class="line">console.log(&apos;Retrieved data from server: &apos; + evt.data); </span><br><span class="line">&#125; </span><br><span class="line">function onError(evt) &#123; </span><br><span class="line">console.log(&apos;Error occured: &apos; + evt.data); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="浏览器支持"><a href="#浏览器支持" class="headerlink" title="浏览器支持"></a>浏览器支持</h2><p>  下面是主流浏览器对 HTML5 WebSocket 的支持情况：</p>
+<table summary="浏览器支持"><tr>浏览器支持情况</tr><tbody xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><tr><br><td>Chrome<br></td><br><td>Supported in version 4+<br></td></tr><tr><br><td>Firefox<br></td><br><td>Supported in version 4+<br></td></tr><tr><br><td>Internet Explorer<br></td><br><td>Supported in version 10+<br></td></tr><tr><br><td>Opera<br></td><br><td>Supported in version 10+<br></td></tr><tr><br><td>Safari<br></td><br><td>Supported in version 5+<br></td></tr></tbody></table>
+
+<hr>
+<h2 id="WebSocket-实战"><a href="#WebSocket-实战" class="headerlink" title="WebSocket 实战"></a>WebSocket 实战</h2><p>这一节里我们用一个案例来演示怎么使用 WebSocket 构建一个实时的 Web 应用。这是一个简单的实时多人聊天系统，包括客户端和服务端的实现。客户端通过浏览器向聊天服务器发起请求，服务器端解析客户端发出的握手请求并产生应答信息返回给客户端，从而在客户端和服务器之间建立连接通道。服务器支持广播功能，每个聊天用户发送的信息会实时的发送给所有的用户，当用户退出聊天室时，服务器端需要清理相应用户的连接信息，避免资源的泄漏。以下我们分别从服务器端和客户端来演示这个 Web 聊天系统的实现，在实现方式上我们采用了 C# 语言来实现 WebSocket 服务器，而客户端是一个运行在浏览器里的 HTML 文件。</p>
+<h3 id="WebSocket-服务器端实现"><a href="#WebSocket-服务器端实现" class="headerlink" title="WebSocket 服务器端实现"></a>WebSocket 服务器端实现</h3><p>这个聊天服务器的实现和基于套接字的网络应用程序非常类似，首先是服务器端要启动一个套接字监听来自客户端的连接请求，关键的区别在于 WebSocket 服务器需要解析客户端的 WebSocket 握手信息，并根据 WebSocket 规范的要求产生相应的应答信息。一旦 WebSocket 连接通道建立以后，客户端和服务器端的交互就和普通的套接字网络应用程序是一样的了。所以在下面的关于 WebSocket 服务器端实现的描述中，我们主要阐述 WebSocket 服务器怎样处理 WebSocket 握手信息，至于 WebSocket 监听端口的建立，套接字信息流的读取和写入，都是一些常用的套接字编程的方式，我们就不多做解释了，您可以自行参阅本文的附件源代码文件。<br>在描述 WebSocket 规范时提到，一个典型的 WebSocket Upgrade 信息如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /demo HTTP/1.1 </span><br><span class="line">Host: example.com </span><br><span class="line">Connection: Upgrade </span><br><span class="line">Sec-WebSocket-Key2: 12998 5 Y3 1 .P00 </span><br><span class="line">Upgrade: WebSocket </span><br><span class="line">Sec-WebSocket-Key1: 4@1 46546xW%0l 1 5 </span><br><span class="line">Origin: http://example.com </span><br><span class="line">[8-byte security key]</span><br></pre></td></tr></table></figure>
+<p>其中 Sec-WebSocket-Key1，Sec-WebSocket-Key2 和 [8-byte security key] 这几个头信息是 WebSocket 服务器用来生成应答信息的来源，依据 <strong>draft-hixie-thewebsocketprotocol-76</strong> 草案的定义，WebSocket 服务器基于以下的算法来产生正确的应答信息：</p>
+<ol>
+<li>逐个字符读取 Sec-WebSocket-Key1 头信息中的值，将数值型字符连接到一起放到一个临时字符串里，同时统计所有空格的数量；</li>
+<li>将在第 1 步里生成的数字字符串转换成一个整型数字，然后除以第 1 步里统计出来的空格数量，将得到的浮点数转换成整数型；</li>
+<li>将第 2 步里生成的整型值转换为符合网络传输的网络字节数组；</li>
+<li>对 Sec-WebSocket-Key2 头信息同样进行第 1 到第 3 步的操作，得到另外一个网络字节数组；</li>
+<li>将 [8-byte security key] 和在第 3，第 4 步里生成的网络字节数组合并成一个 16 字节的数组；</li>
+<li>对第 5 步生成的字节数组使用 MD5 算法生成一个哈希值，这个哈希值就作为安全密钥返回给客户端，以表明服务器端获取了客户端的请求，同意创建 WebSocket 连接<br>至此，客户端和服务器的 WebSocket 握手就完成了，WebSocket 通道也建立起来了。下面首先介绍一下服务器端实现是如何根据用户传递的握手信息来生成网络字节数组的。.NET 平台提供了很方便的对字符串，数值以及数组操作的函数，所以生成字节数组的方法还是非常简单明了的，代码如下：</li>
+</ol>
+<h5 id="清单-4-生成网络字节数组的代码"><a href="#清单-4-生成网络字节数组的代码" class="headerlink" title="清单 4. 生成网络字节数组的代码"></a>清单 4. 生成网络字节数组的代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">   private byte[] 　 BuildServerPartialKey(string clientKey) </span><br><span class="line">&#123; </span><br><span class="line">     string partialServerKey = &quot;&quot;; </span><br><span class="line">    byte[] currentKey; </span><br><span class="line">    int spacesNum = 0; </span><br><span class="line">    char[] keyChars = clientKey.ToCharArray(); </span><br><span class="line">    foreach (char currentChar in keyChars) </span><br><span class="line">    &#123; </span><br><span class="line">        if (char.IsDigit(currentChar)) partialServerKey += currentChar; </span><br><span class="line">       if (char.IsWhiteSpace(currentChar)) spacesNum++; </span><br><span class="line">    &#125; </span><br><span class="line">    try </span><br><span class="line">    &#123; </span><br><span class="line">             currentKey = BitConverter.GetBytes((int)(Int64.Parse(partialServerKey) </span><br><span class="line">/ spacesNum)); </span><br><span class="line">       if (BitConverter.IsLittleEndian) Array.Reverse(currentKey); </span><br><span class="line">    &#125; </span><br><span class="line">    catch </span><br><span class="line">    &#123; </span><br><span class="line">       if (currentKey!= null) Array.Clear(currentKey, 0, currentKey.Length); </span><br><span class="line">    &#125; </span><br><span class="line">    return currentKey; </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>得到网络字节数组以后，服务器端生成 16 位安全密钥的方法如下所示：</p>
+<h5 id="清单-5-生成-16-位安全密钥的代码"><a href="#清单-5-生成-16-位安全密钥的代码" class="headerlink" title="清单 5. 生成 16 位安全密钥的代码"></a>清单 5. 生成 16 位安全密钥的代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> private byte[] BuildCompleteServerKey(byte[] serverKey1, byte[] serverKey2,<br> byte[] last8Bytes)<br> {<br>     byte[] concatenatedKeys = new byte[16];<br>    Array.Copy(serverKey1, 0, concatenatedKeys, 0, 4);<br>    Array.Copy(serverKey2, 0, concatenatedKeys, 4, 4);<br>    Array.Copy(last8Bytes, 0, concatenatedKeys, 8, 8);<br>    System.Security.Cryptography.MD5 MD5Service =<br> System.Security.Cryptography.MD5.Create();<br>   return MD5Service.ComputeHash(concatenatedKeys);<br> }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p>整个实现是非常简单明了的，就是将生成的网络字节数组和客户端提交的头信息里的 [8-byte security key] 合并成一个 16 位字节数组并用 MD5 算法加密，然后将生成的安全密钥作为应答信息返回给客户端，双方的 WebSocekt 连接通道就建立起来了。实现了 WebSocket 握手信息的处理逻辑，一个具有基本功能的 WebSocket 服务器就完成了。整个 WebSocket 服务器由两个核心类构成，一个是 WebSocketServer，另外一个是 SocketConnection，出于篇幅的考虑，我们不介绍每个类的属性和方法了，文章的附件会给出详细的源代码，有兴趣的读者可以参考。<br>服务器刚启动时的画面如下：</p>
+<h5 id="图-3-WebSocket-服务器刚启动的画面"><a href="#图-3-WebSocket-服务器刚启动的画面" class="headerlink" title="图 3. WebSocket 服务器刚启动的画面"></a>图 3. WebSocket 服务器刚启动的画面</h5><p><img src="http://futa.ooo/wp-content/uploads/2015/01/image004.jpg" alt="图 3. WebSocket 服务器刚启动的画面"><br>客户端可以依据这个信息填写聊天服务器的连接地址，当有客户端连接到聊天服务器上时，服务器会打印出客户端和服务器的握手信息，每个客户的聊天信息也会显示在服务器的界面上，运行中的聊天服务器的界面如下：</p>
+<h5 id="图-4-有客户端连接到-WebSocket-服务器的"><a href="#图-4-有客户端连接到-WebSocket-服务器的" class="headerlink" title="图 4. 有客户端连接到 WebSocket 服务器的"></a>图 4. 有客户端连接到 WebSocket 服务器的</h5><p><img src="http://futa.ooo/wp-content/uploads/2015/01/image005.jpg" alt="图 4. 有客户端连接到 WebSocket 服务器的"><br>以上我们简单描述了实现一个 WebSocket 服务器的最基本的要素，下一节我们会描述客户端的实现。</p>
+<h3 id="客户端实现"><a href="#客户端实现" class="headerlink" title="客户端实现"></a>客户端实现</h3><p>客户端的实现相对于服务器端的实现来说要简单得多了，我们只需要发挥想象去设计 HTML 用户界面，然后呼叫 WebSocket JavaScript 接口来和 WebSocket 服务器端来交互就可以了。当然别忘了使用一个支持 HTML5 和 WebSocket 的浏览器，在笔者写这篇文章的时候使用的浏览器是 Firefox。客户端的页面结构是非常简洁的，初始运行界面如下：</p>
+<h5 id="图-5-聊天室客户端初始页面"><a href="#图-5-聊天室客户端初始页面" class="headerlink" title="图 5. 聊天室客户端初始页面"></a>图 5. 聊天室客户端初始页面</h5><p><img src="http://futa.ooo/wp-content/uploads/2015/01/image006.jpg" alt="图 5. 聊天室客户端初始页面"><br>当页面初次加载的时候，首先会检测当前的浏览器是否支持 WebSocket 并给出相应的提示信息。用户按下连接按钮时，页面会初始化一个到聊天服务器的 WebSocekt 连接，初始化成功以后，页面会加载对应的 WebSocket 事件处理函数，客户端 JavaScript 代码如下所示：</p>
+<h5 id="清单-6-初始化客户端-WebSocket-对象的代码"><a href="#清单-6-初始化客户端-WebSocket-对象的代码" class="headerlink" title="清单 6. 初始化客户端 WebSocket 对象的代码"></a>清单 6. 初始化客户端 WebSocket 对象的代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">function ToggleConnectionClicked() &#123;</span><br><span class="line">         if (SocketCreated &amp;amp;&amp;amp; (ws.readyState == 0 || ws.readyState == 1)) &#123;  </span><br><span class="line">               ws.close();</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               Log(&quot;准备连接到聊天服务器 ...&quot;);</span><br><span class="line">               try &#123;</span><br><span class="line">                ws = </span><br><span class="line">                new WebSocket(&quot;ws://&quot; + document.getElementById(&quot;Connection&quot;).value);</span><br><span class="line">                 SocketCreated = true;</span><br><span class="line">               &#125; catch (ex) &#123;</span><br><span class="line">                 Log(ex, &quot;ERROR&quot;);</span><br><span class="line">                 return;</span><br><span class="line">               &#125;</span><br><span class="line">               document.getElementById(&quot;ToggleConnection&quot;).innerHTML = &quot;断开&quot;;</span><br><span class="line">               ws.onopen = WSonOpen;</span><br><span class="line">               ws.onmessage = WSonMessage;</span><br><span class="line">               ws.onclose = WSonClose;</span><br><span class="line">               ws.onerror = WSonError;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line"></span><br><span class="line">       function WSonOpen() &#123;</span><br><span class="line">           Log(&quot;连接已经建立。&quot;, &quot;OK&quot;);</span><br><span class="line">           $(&quot;#SendDataContainer&quot;).show(&quot;slow&quot;);</span><br><span class="line">       &#125;;</span><br><span class="line"></span><br><span class="line">       function WSonMessage(event) &#123;</span><br><span class="line">           Log(event.data);            </span><br><span class="line">       &#125;;</span><br><span class="line"></span><br><span class="line">       function WSonClose() &#123;</span><br><span class="line">           Log(&quot;连接关闭。&quot;, &quot;ERROR&quot;);</span><br><span class="line">           document.getElementById(&quot;ToggleConnection&quot;).innerHTML = &quot;连接&quot;;</span><br><span class="line">           $(&quot;#SendDataContainer&quot;).hide(&quot;slow&quot;);</span><br><span class="line">       &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       function WSonError() &#123;</span><br><span class="line">           Log(&quot;WebSocket错误。&quot;, &quot;ERROR&quot;);</span><br><span class="line">       &#125;;</span><br></pre></td></tr></table></figure>
+<p>当用户按下发送按钮，客户端会调用WebSocket对象向服务器发送信息，并且这个消息会广播给所有的用户，实现代码如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function SendDataClicked()</span><br><span class="line"> &#123;</span><br><span class="line">            if (document.getElementById(&quot;DataToSend&quot;).value != &quot;&quot;) &#123;</span><br><span class="line">                ws.send(document.getElementById(&quot;txtName&quot;).value + &quot;说 :\&quot;&quot; + </span><br><span class="line">document.getElementById(&quot;DataToSend&quot;).value + &quot;\&quot;&quot;);</span><br><span class="line">                document.getElementById(&quot;DataToSend&quot;).value = &quot;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<p>如果有多个用户登录到聊天服务器，客户端页面的运行效果如下所示：</p>
+<h5 id="图-6-聊天客户端运行页面"><a href="#图-6-聊天客户端运行页面" class="headerlink" title="图 6. 聊天客户端运行页面"></a>图 6. 聊天客户端运行页面</h5><p><img src="http://futa.ooo/wp-content/uploads/2015/01/image007.jpg" alt="图 6. 聊天客户端运行页面"><br>至此我们已经完成了一个完整的 WebSocket 客户端实现，用户可以体验一下这个聊天室的简单和快捷，完全不用考虑页面的刷新和繁琐的 Ajax 调用，享受桌面程序的用户体验。WebSocket 的强大和易用可见一斑，您完全可以在这个基础上加入更多的功能，设计更加漂亮的用户界面，切身体验 WebSocket 的震撼力。完整的客户端代码请参阅附件提供的源代码。</p>
+<hr>
+<h2 id="WebSocket-的局限性"><a href="#WebSocket-的局限性" class="headerlink" title="WebSocket 的局限性"></a>WebSocket 的局限性</h2><p>WebSocket 的优点已经列举得很多了，但是作为一个正在演变中的 Web 规范，我们也要看到目前用 Websocket 构建应用程序的一些风险。首先，WebSocket 规范目前还处于草案阶段，也就是它的规范和 API 还是有变动的可能，另外的一个风险就是微软的 IE 作为占市场份额最大的浏览器，和其他的主流浏览器相比，对 HTML5 的支持是比较差的，这是我们在构建企业级的 Web 应用的时候必须要考虑的一个问题。</p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了 HTML5 WebSocket 的横空出世以及它尝试解决的的问题，然后介绍了 WebSocket 规范和 WebSocket 接口，以及和传统的实时技术相比在性能上的优势，并且演示了怎样使用 WebSocket 构建一个实时的 Web 应用，最后我们介绍了当前的主流浏览器对 HTML5 的支持情况和 WebSocket 的局限性。不过，我们应该看到，尽管 HTML5 WebSocket 目前还有一些局限性，但是已经是大势所趋，微软也明确表达了未来对 HTML5 的支持，而且这些支持我们可以在 Windows 8 和 IE10 里看到，我们也在各种移动设备，平板电脑上看到了 HTML5 和 WebSocket 的身影。WebSocket 将会成为未来开发实时 Web 应用的生力军应该是毫无悬念的了，作为 Web 开发人员，关注 HTML5，关注 WebSocket 也应该提上日程了，否则我们在新一轮的软件革新的浪潮中只能做壁上观了。</p>
+<p>下载示例代码：<a href="http://futa.ooo/wp-content/uploads/2015/01/new-source.zip">new-source</a></p>
+<p>转载自 <a href="http://www.ibm.com/developerworks/cn/web/1112_huangxa_websocket/" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/web/1112_huangxa_websocket/</a></p>
+<p>另祝各位元旦快乐！</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/12/20/iptables 开启80端口/"><span>iptables 开启80端口</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/12/20/iptables 开启80端口/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-12-20T03:59:13.000Z">
+          2014-12-20
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>经常使用CentOS的朋友，可能会遇到和我一样的问题。最近在Linux CentOS防火墙下安装配置 ORACLE<br>数据库的时候，总显示因为网络端口而导致的EM安装失败，遂打算先关闭一下CentOS防火墙。偶然看到CentOS防火墙的配置操作说明，感觉不错。执行”setup”命令启动文字模式配置实用程序,在”选择一种工具”中选择”防火墙配置”,然后选择”运行工具”按钮,出现CentOS防火墙配置界面,<br>将”安全级别”设为”禁用”,然后选择”确定”即可. </p>
+<p>这样重启计算机后,CentOS防火墙默认已经开放了80和22端口 </p>
+<p>简介：CentOS是Linux家族的一个分支。 </p>
+<p>CentOS防火墙在虚拟机的CENTOS装好APACHE不能用,郁闷,解决方法如下 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/sbin/iptables -I INPUT -p tcp --dport 80 -j ACCEPT </span><br><span class="line">/sbin/iptables -I INPUT -p tcp --dport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<p>然后保存： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/rc.d/init.d/iptables save</span><br></pre></td></tr></table></figure>
+<p>centos 5.3，5.4以上的版本需要用 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service iptables save</span><br></pre></td></tr></table></figure>
+<p>来实现保存到配置文件。<br>这样重启计算机后,CentOS防火墙默认已经开放了80和22端口。 </p>
+<p>这里应该也可以不重启计算机： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/iptables restart</span><br></pre></td></tr></table></figure>
+<p>CentOS防火墙的关闭，关闭其服务即可：<br>查看CentOS防火墙信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/iptables status</span><br></pre></td></tr></table></figure></p>
+<p>关闭CentOS防火墙服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/iptables stop</span><br></pre></td></tr></table></figure></p>
+<p>永久关闭？不知道怎么个永久法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig –level 35 iptables off</span><br></pre></td></tr></table></figure>
+<p>上面的内容是针对老版本的centos，下面的内容是基于新版本。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT DROP</span><br></pre></td></tr></table></figure>
+<p>这样就拒绝所有访问 CentOS 5.3 本系统数据，除了 Chain RH-Firewall-1-INPUT (2 references) 的规则外 ， 呵呵。 </p>
+<p>用命令配置了 iptables 一定还要 service iptables save 才能保存到配置文件。<br>cat /etc/sysconfig/iptables 可以查看 防火墙 iptables 配置文件内容 </p>
+<h1 id="Generated-by-iptables-save-v1-3-5-on-Sat-Apr-14-07-51-07-2001"><a href="#Generated-by-iptables-save-v1-3-5-on-Sat-Apr-14-07-51-07-2001" class="headerlink" title="Generated by iptables-save v1.3.5 on Sat Apr 14 07:51:07 2001"></a>Generated by iptables-save v1.3.5 on Sat Apr 14 07:51:07 2001</h1><p>*filter<br>:INPUT DROP [0:0]<br>:FORWARD ACCEPT [0:0]<br>:OUTPUT ACCEPT [1513:149055]<br>:RH-Firewall-1-INPUT - [0:0]<br>-A INPUT -j RH-Firewall-1-INPUT<br>-A FORWARD -j RH-Firewall-1-INPUT<br>-A RH-Firewall-1-INPUT -i lo -j ACCEPT<br>-A RH-Firewall-1-INPUT -p icmp -m icmp –icmp-type any -j ACCEPT<br>-A RH-Firewall-1-INPUT -p esp -j ACCEPT<br>-A RH-Firewall-1-INPUT -p ah -j ACCEPT<br>-A RH-Firewall-1-INPUT -d 224.0.0.251 -p udp -m udp –dport 5353 -j ACCEPT<br>-A RH-Firewall-1-INPUT -p udp -m udp –dport 631 -j ACCEPT<br>-A RH-Firewall-1-INPUT -p tcp -m tcp –dport 631 -j ACCEPT<br>-A RH-Firewall-1-INPUT -m state –state RELATED,ESTABLISHED -j ACCEPT<br>-A RH-Firewall-1-INPUT -p tcp -m state –state NEW -m tcp –dport 22 -j ACCEPT<br>-A RH-Firewall-1-INPUT -j REJECT –reject-with icmp-host-prohibited<br>COMMIT </p>
+<h1 id="Completed-on-Sat-Apr-14-07-51-07-2001"><a href="#Completed-on-Sat-Apr-14-07-51-07-2001" class="headerlink" title="Completed on Sat Apr 14 07:51:07 2001"></a>Completed on Sat Apr 14 07:51:07 2001</h1><p>另外补充:<br>CentOS 防火墙配置 80端口<br>看了好几个页面内容都有错，下面是正确方法： </p>
+<p>#/sbin/iptables -I INPUT -p tcp –dport 80 -j ACCEPT </p>
+<p>#/sbin/iptables -I INPUT -p tcp –dport 22 -j ACCEPT </p>
+<p>然后保存： </p>
+<p>#/etc/rc.d/init.d/iptables save </p>
+<p>再查看是否已经有了：<br>[root@vcentos ~]# /etc/init.d/iptables status<br>Table: filter<br>Chain INPUT (policy ACCEPT)<br>num target prot opt source destination<br>1 ACCEPT udp – 0.0.0.0/0 0.0.0.0/0 udp dpt:80<br>2 ACCEPT tcp – 0.0.0.0/0 0.0.0.0/0 tcp dpt:80<br>3 RH-Firewall-1-INPUT all – 0.0.0.0/0 0.0.0.0/0 </p>
+<p>Chain FORWARD (policy ACCEPT)<br>num target prot opt source destination<br>1 RH-Firewall-1-INPUT all – 0.0.0.0/0 0.0.0.0/0</p>
+<ul>
+<li>设置iptables为自动启动<br>chkconfig –level 2345 iptables on </li>
+</ul>
+<p>可能因为大家使用的版本不一，所有使用方法也略有不同。 </p>
+<p>如果需要远程管理mysql，则使用以下指令临时打开，用完后关闭 </p>
+<ul>
+<li>打开指令  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp -s xxx.xxx.xxx.xxx --dport 3306 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<ul>
+<li>关闭指令  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -D INPUT -p tcp -s xxx.xxx.xxx.xxx --dport 3306 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://www.blogjava.net/Alpha/archive/2012/09/17/387950.html" target="_blank" rel="noopener">http://www.blogjava.net/Alpha/archive/2012/09/17/387950.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/12/16/PHP 快速读取大文件/"><span>PHP 快速读取大文件</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/12/16/PHP 快速读取大文件/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-12-16T05:57:14.000Z">
+          2014-12-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近想分析一下iis的日志，由于日志文件800M等大文件，所以怎样使用PHP快速读取成了问题！首先排除了file，因为加载太慢,内存溢出！<br>后来考虑用指针fgets，但是读取还是有点慢，如果只读取1000条以内的数据还是可以接受的<br>最后试用了PHP的stream_get_line函数 ，读取快速，读取50万条数据大文件，大概需要20秒左右的时间！例子代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$fp = fopen(&apos;./iis.log&apos;, &apos;r&apos;); //文件</span><br><span class="line">while (!feof($fp)) &#123;</span><br><span class="line">	//for($j=1;$j&lt;=1000;$j++) &#123;		 //读取下面的1000行并存储到数组中</span><br><span class="line">	 $logarray[] = stream_get_line($fp, 65535, &quot;\n&quot;);</span><br><span class="line">		// break;</span><br><span class="line">	 // &#125;</span><br><span class="line"> </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://www.wenlingnet.com/index.php/172/" target="_blank" rel="noopener">http://www.wenlingnet.com/index.php/172/</a></p>
+<p>P.S. 说实话这个是挺快的，就是没法指定起始位置<br><a href="http://futa.ooo/wp-content/uploads/2014/12/QQ图片20141216215656.png"><img src="http://futa.ooo/wp-content/uploads/2014/12/QQ图片20141216215656-1024x551.png" alt="QQ图片20141216215656"></a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/12/10/脚上的泡都是自己走的/"><span>脚上的泡都是自己走的</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/12/10/脚上的泡都是自己走的/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-12-10T06:49:04.000Z">
+          2014-12-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>早上爸爸送妹妹去上课，我正好去超市买东西，大家一起走，回家的路上，碰上以前同学在等公交，爸爸说要捎上她，我拒绝了。爸爸有点不高兴的说“都认识人，捎一段给她送家去，她自己从公交站走到家得走挺老远的呢！”我就跟爸爸说了我们小时候的一件事，我们一起上学的时候，有一次连着下雨好多天，我几双鞋都湿了，怎么都晾不干，我妈找出一双旧鞋让我穿。这位同学看到之后说“这鞋是你捡的吧？我前天刚扔垃圾桶的！”我说“这鞋我的。”她坚持“我前天扔垃圾桶的，就是这双！”无论我怎么解释，她就说这是她扔的，还找来跟她不错的同学作证！说我这鞋是捡她的，连着好多天，不停的说我从垃圾桶捡了她的鞋。把我烦的不行，回家我让我妈把我的鞋烤干了，把那双旧鞋给了她。我以为这事完了，没想到她就自以为她说的是对的，到处跟人说我捡她旧鞋。一连说了好几年。从那儿以后只要看见她，我就想起这事，我爸一说要捎着她，我果断就拒绝了。</p>
+<p>无独有偶，我高中同学里有个类似的事，同学A没事就欺负同学B，比如冬天半夜趁着同学B上厕所，把宿舍门锁上，同学B在门口敲门不让其他人开，同学B只好去找宿管老师，可还是冻两小时发烧了。再比如大家一起去洗澡，他把同学B的衣服带走，让同学B找不到衣服。再比如挑拨别的同学打同学B，等等损人不利己的事。大家毕业以后，各奔东西，巧的是，同学B开了公司，当了老板，同学A去他公司面试，同学B找借口没有收同学A。同学A在我们的同学群里谴责同学B，不讲同学情谊，一点也没有人情味。</p>
+<p>最近陪爸妈看电视，有个大叔家里拆迁，他回家要分家产，父母和兄弟姐妹都不同意，大叔很可怜，家里只有个两居室，儿子要结婚了，可是没房子，老两口的退休金根本不够给孩子买房子，想趁着这次拆迁要点钱，给儿子买房子，可是家里都不给。本来挺可怜这大叔的，可是等大叔父母和兄弟姐妹诉说之后，有了戏剧性的转折。大叔父母拿出了一个协议，大叔二十多年前结婚的时候跟父母商定，父母给一万块钱，他离家结婚，对父母生的时候不养，死了不用葬。大叔拿了钱，真的履行了协议，除了春节带着孩子回家看看父母以外，父母生病、盖房、搬家等等从来没管过。律师看了协议之后说协议无效，大叔很高兴，说是不是可以分家里拆迁的钱和房子。律师说家里财产是父母的，爱给谁给谁。协议无效，子女对父母有赡养义务，你必须赡养父母。</p>
+<p>很多遇到困难的人总说自己很可怜，总说别人不对，遇到不顺的事就抱怨。我就是这样，每次我跟我妈抱怨，我妈就告诉我“脚上的泡都是自己走的”。我很喜欢《生命的寻路人》里的一句话“每件事都不止是表面呈现的样貌。看得见的世界只是知觉的一种层次。”一方面是说我们不要对别人的故事妄下结论，事情可能不像我们看到的一样。另外一方面是指我们面对困难的时候，要多想自己是不是有什么不对。人生路上，有些绊脚的石头，是我们自己放的。 </p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/11/29/mssql 时间格式化/"><span>mssql 时间格式化</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/11/29/mssql 时间格式化/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-11-29T08:51:04.000Z">
+          2014-11-29
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>1 取值后格式化<br>{0:d}小型：如2005-5-6<br>{0:D}大型：如2005年5月6日<br>{0:f}完整型<br>2 当前时间获取<br>DateTime.Now.ToShortDateString<br>3 取值中格式化<br>SQL Server里面可能经常会用到的日期格式转换方法:<br>sql server使用convert来取得datetime日期数据，以下实例包含各种日期格式的转换<br>语句及查询结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">Select CONVERT(varchar(100), GETDATE(), 0): 05 16 2006 10:57AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 1): 05/16/06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 2): 06.05.16</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 3): 16/05/06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 4): 16.05.06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 5): 16-05-06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 6): 16 05 06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 7): 05 16, 06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 8): 10:57:46</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 9): 05 16 2006 10:57:46:827AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 10): 05-16-06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 11): 06/05/16</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 12): 060516</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 13): 16 05 2006 10:57:46:937</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 14): 10:57:46:967</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 20): 2006-05-16 10:57:47</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 21): 2006-05-16 10:57:47.157</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 22): 05/16/06 10:57:47 AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 23): 2006-05-16</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 24): 10:57:47</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 25): 2006-05-16 10:57:47.250</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 100): 05 16 2006 10:57AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 101): 05/16/2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 102): 2006.05.16</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 103): 16/05/2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 104): 16.05.2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 105): 16-05-2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 106): 16 05 2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 107): 05 16, 2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 108): 10:57:49</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 109): 05 16 2006 10:57:49:437AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 110): 05-16-2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 111): 2006/05/16</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 112): 20060516</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 113): 16 05 2006 10:57:49:513</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 114): 10:57:49:547</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 120): 2006-05-16 10:57:49</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 121): 2006-05-16 10:57:49.700</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 126): 2006-05-16T10:57:49.827</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 130): 18 ???? ?????? 1427 10:57:49:907AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 131): 18/04/1427 10:57:49:920AM</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://blog.csdn.net/dlyhs/archive/2009/05/12/4170986.aspx" target="_blank" rel="noopener">http://blog.csdn.net/dlyhs/archive/2009/05/12/4170986.aspx</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/11/28/linux下SSH传输文件/"><span>linux下SSH传输文件</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/11/28/linux下SSH传输文件/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-11-28T06:31:26.000Z">
+          2014-11-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>通过ssh传输文件<br>SSH进入对方机器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh remoteIP</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -rp /path/filename username@remoteIP:/path #将本地文件拷贝到服务器上</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -rp username@remoteIP:/path/filename /path #将远程文件从服务器下载到本地</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar cvzf - /path/ | ssh username@remoteip &quot;cd /some/path/; cat -&gt; path.tar.gz&quot; #压缩传输</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar cvzf - /path/ | ssh username@remoteip &quot;cd /some/path/; tar xvzf -&quot; #压缩传输一个目录并解压</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://blog.chinaunix.net/uid-20545423-id-1930177.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-20545423-id-1930177.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/10/31/纯靠点小聪明搞定学校 WiFi 该死的 web 登陆/"><span>纯靠点小聪明搞定学校 WiFi 该死的 web 登陆</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/10/31/纯靠点小聪明搞定学校 WiFi 该死的 web 登陆/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-10-31T08:38:23.000Z">
+          2014-10-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>去年学校还是用的 WPA2 PSK 加密的说，但因为我破了密码以后好心把密码传了出去就。。。唉自作自受。。。于是，学校今年升级了设备，改用 web 验证方法验证用户:<br><a href="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-10-27-17-19-56.png"><img src="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-10-27-17-19-56-576x1024.png" alt="Screenshot_2014-10-27-17-19-56"></a><br>真是丧心病狂。当然，学校也发现了学生使用学校网络的需求，遂给学生也提供了个 WiFi，但是！<br><a href="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-09-25-20-57-28.png"><img src="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-09-25-20-57-28-1024x576.png" alt="Screenshot_2014-09-25-20-57-28"></a><br><a href="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-09-25-20-58-18.png"><img src="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-09-25-20-58-18-1024x576.png" alt="Screenshot_2014-09-25-20-58-18"></a><br>哎呦我勒个去，然后试 ssh，无效，没招了，想用 remote rdp，尼玛也屏蔽。学校你这是作死的节奏啊。然后，从开学开始的一个月里，我试图直接获取管理权限，但是，试了各种弱口令后，无果。于是放弃获取管理权限，放低要求，只要能用就行。<br>既然技术不够，那看来只能走点歪门邪道试试咯。前几周，闲得无聊发现某任课老师上网本反应极慢，就向其提出重装系统的建议，老师答应了。之后我发现，老师的办公室里有有线网络，但是需要老师自己设定 IP 地址及网关等各种信息。没错，老师给我了:<br><a href="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-11-01-00-44-28.png"><img src="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-11-01-00-44-28-576x1024.png" alt="Screenshot_2014-11-01-00-44-28"></a><br>顺手记录了 mac 地址备用。用手机连上学校 WiFi 以后，发现被 DHCP 分配的 IP 地址与办公室有线网络并不在同一网段中，顿觉希望渺茫，手动指定了 IP 地址以后，无效。也懒得改手机的 mac 地址，没继续试下去。<br>换个思路，向老师索取了学校 WiFi 的账号及初始密码。想着总有老师是不用学校 WiFi 的吧，随手改了账号的后三位数字一试，居然真的登上了:<br><a href="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-10-27-17-18-57.png"><img src="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-10-27-17-18-57-576x1024.png" alt="Screenshot_2014-10-27-17-18-57"></a><br>真是机智的小淘气。</p>
+<p>还没完，表示俺是住宿生，寝室门口有一台学校的路由器，但是，并没有开无线:<br><a href="http://futa.ooo/wp-content/uploads/2014/11/20141026_150554.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/11/20141026_150554-1024x576.jpg" alt="20141026_150554"></a><br>百度了一下，发现这种路由器需要连接 console 口来管理，但尼玛我没有设备能连接有线网络啊:<br><a href="http://futa.ooo/wp-content/uploads/2014/11/20141026_151359.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/11/20141026_151359-1024x576.jpg" alt="20141026_151359"></a><br>而且我不知道这台路由的 IP 地址，怎么办好呢。。。各位要不猜一下我干了什么<img src="http://futa.ooo/wp-content/uploads/2014/11/869530255AD4DE7DE8AB2F80CF218AB8A7598D8B5.jpg" alt="869530255AD4DE7DE8AB2F80CF218AB8A7598D8B5"></p>
+<p>顺便提一下，学校网速还是不错的:<br><a href="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-10-24-11-09-22.png"><img src="http://futa.ooo/wp-content/uploads/2014/11/Screenshot_2014-10-24-11-09-22-576x1024.png" alt="Screenshot_2014-10-24-11-09-22"></a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/page/9/" class="pagination-prev">上一页</a>
+  
+  
+  <a href="/page/11/" class="pagination-next">下一页</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

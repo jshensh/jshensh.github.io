@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>常用正则表达式 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="说明：正则表达式通常用于两种任务：1.验证，2.搜索/替换。用于验证时，通常需要在前后分别加上^和$，以匹配整个待验证字符串；搜索/替换时是否加上此限定则根据搜索的要求而定，此外，也有可能要在前后加上\b而不是^和$。此表所列的常用正则表达式，除个别外均未在前后加上任何限定，请根据需要，自行处理。
+">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="常用正则表达式"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>常用正则表达式</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/11/22/常用正则表达式/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-11-22T06:31:29.000Z">
+          2015-11-22
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>说明：正则表达式通常用于两种任务：1.验证，2.搜索/替换。用于验证时，通常需要在前后分别加上^和$，以匹配整个待验证字符串；搜索/替换时是否加上此限定则根据搜索的要求而定，此外，也有可能要在前后加上\b而不是^和$。此表所列的常用正则表达式，除个别外均未在前后加上任何限定，请根据需要，自行处理。</p>
+<table>
+
+<tr><br>说明<br>正则表达式<br></tr>
+
+<p><tbody></tbody></p>
+<tr>
+
+<td>网址（URL）<br></td>
+
+<td>[a-zA-z]+://[^\s]*<br></td><br></tr><br><tr><br><br><td>IP地址(IP Address)<br></td>
+
+<td>((2[0-4]\d|25[0-5]|[01]?\d\d?).){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)<br></td><br></tr><br><tr><br><br><td>电子邮件(Email)<br></td>
+
+<td>\w+([-+.]\w+)<em>@\w+([-.]\w+)</em>.\w+([-.]\w+)*<br></td><br></tr><br><tr><br><br><td>QQ号码<br></td>
+
+<td>[1-9]\d{4,}<br></td><br></tr><br><tr><br><br><td>HTML标记(包含内容或自闭合)<br></td>
+
+<td>&lt;(.<em>)(.</em>)&gt;.<em>&lt;\/\1&gt;|&lt;(.</em>) \/&gt;<br></td><br></tr><br><tr><br><br><td>密码(由数字/大写字母/小写字母/标点符号组成，四种都必有，8位以上)<br></td>
+
+<td>(?=^.{8,}$)(?=.<em>\d)(?=.</em>\W+)(?=.<em>[A-Z])(?=.</em>[a-z])(?!.<em>\n).</em>$<br></td><br></tr><br><tr><br><br><td>日期(年-月-日)<br></td>
+
+<td>(\d{4}|\d{2})-((1[0-2])|(0?[1-9]))-(([12][0-9])|(3[01])|(0?[1-9]))<br></td><br></tr><br><tr><br><br><td>日期(月/日/年)<br></td>
+
+<td>((1[0-2])|(0?[1-9]))/(([12][0-9])|(3[01])|(0?[1-9]))/(\d{4}|\d{2})<br></td><br></tr><br><tr><br><br><td>时间(小时:分钟, 24小时制)<br></td>
+
+<td>((1|0?)[0-9]|2[0-3]):([0-5][0-9])<br></td><br></tr><br><tr><br><br><td>汉字(字符)<br></td>
+
+<td>[\u4e00-\u9fa5]<br></td><br></tr><br><tr><br><br><td>中文及全角标点符号(字符)<br></td>
+
+<td>[\u3000-\u301e\ufe10-\ufe19\ufe30-\ufe44\ufe50-\ufe6b\uff01-\uffee]<br></td><br></tr><br><tr><br><br><td>中国大陆固定电话号码<br></td>
+
+<td>(\d{4}-|\d{3}-)?(\d{8}|\d{7})<br></td><br></tr><br><tr><br><br><td>中国大陆手机号码<br></td>
+
+<td>1\d{10}<br></td><br></tr><br><tr><br><br><td>中国大陆邮政编码<br></td>
+
+<td>[1-9]\d{5}<br></td><br></tr><br><tr><br><br><td>中国大陆身份证号(15位或18位)<br></td>
+
+<td>\d{15}(\d\d[0-9xX])?<br></td><br></tr><br><tr><br><br><td>非负整数(正整数或零)<br></td>
+
+<td>\d+<br></td><br></tr><br><tr><br><br><td>正整数<br></td>
+
+<td>[0-9]<em>[1-9][0-9]</em><br></td><br></tr><br><tr><br><br><td>负整数<br></td>
+
+<td>-[0-9]<em>[1-9][0-9]</em><br></td><br></tr><br><tr><br><br><td>整数<br></td>
+
+<td>-?\d+<br></td><br></tr><br><tr><br><br><td>小数<br></td>
+
+<td>(-?\d+)(.\d+)?<br></td><br></tr><br><tr><br><br><td>不包含abc的单词<br></td>
+
+<p><td>\b((?!abc)\w)+\b<br></td><br></p></tr><br><br></table><br>转载自 <a href="http://deerchao.net/tutorials/regex/common.htm" target="_blank" rel="noopener">http://deerchao.net/tutorials/regex/common.htm</a><p></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

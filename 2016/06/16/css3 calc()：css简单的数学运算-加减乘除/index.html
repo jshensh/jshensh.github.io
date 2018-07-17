@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>css3 calc()：css简单的数学运算-加减乘除 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="多好的东西啊，不用js，一个css就解决了。[css].box{border:1px solid #ddd;width:calc(100% - 100px);background:#9AC8EB;}[/css]3栏等宽布局。[css].box{margin-left:20px;width:calc(">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="css3 calc()：css简单的数学运算-加减乘除"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>css3 calc()：css简单的数学运算-加减乘除</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/06/16/css3 calc()：css简单的数学运算-加减乘除/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-06-15T21:08:25.000Z">
+          2016-06-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>多好的东西啊，不用js，一个css就解决了。<br>[css].box{<br>border:1px solid #ddd;<br>width:calc(100% - 100px);<br>background:#9AC8EB;<br>}[/css]<br>3栏等宽布局。<br>[css].box{<br>margin-left:20px;<br>width:calc(100%/3 - 20px);<br>}<br>.box:nth-child(3n){<br>margin-left:0;<br>}[/css]</p>
+<p><strong>实例：</strong><br>[html]&lt;!DOCTYPE html&gt;</p>
+<p><html></html></p>
+<p><head></head></p>
+<p><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></p>
+<p><title>css3 calc()：css简单的数学运算-加减乘除–刘和虎的博客</title></p>
+<p><script type="text/javascript" src="http://www.liuhehu.com/wp-content/themes/sohodesign/js/jquery-1.7.1.min.js"></script></p>
+<p><script type="text/javascript" src="js/iehtml5.js"></script></p>
+<p><style><br>.box{<br>border:1px solid #ddd;<br>margin:0 auto;<br>width:calc(100% - 100px);<br>width:-moz-calc(100% - 100px);<br>width:-webkit-calc(100% - 100px);<br>background:#9AC8EB;<br>}<br></style><br></p>
+<p><body></body></p>
+<p><div class="box">width:calc(100% - 100px)</div></p>
+<p><script><br>/<em><br>作者：刘和虎
+</em>/<br>$(function(){<br>});<br></script><br><br>[/html]</p>
+<p><strong>运算规则</strong><br>calc()使用通用的数学运算规则，但是也提供更智能的功能：</p>
+<p>使用“+”“-”“*”“/”四则运算；<br>可以使用百分比、px、em、rem等单位；<br>可以混合使用各种单位进行计算。</p>
+<p><strong>浏览器支持</strong><br>firefox 4.0+已经开支支持calc()功能，不过要使用-moz-calc()私有属性，chrome从19 dev版，也开始支持私有的-webkit-calc()写法，IE9这次则牛逼了一次，原生支持标准的不带前缀的写法了。Opera貌似还不支持～～</p>
+<p><strong>注意：</strong><br>在<a href="http://www.qianduan.net/calc-at-at-at-page-intelligent-layout.html看到的，他的原文中width:calc(100%-100px)是没有空格的，经测试无效，就像其评论中：calc()里面的表达式好像要注意格式。" target="_blank" rel="noopener">http://www.qianduan.net/calc-at-at-at-page-intelligent-layout.html看到的，他的原文中width:calc(100%-100px)是没有空格的，经测试无效，就像其评论中：calc()里面的表达式好像要注意格式。</a></p>
+<p>转载自 <a href="http://www.liuhehu.com/?p=320" target="_blank" rel="noopener">http://www.liuhehu.com/?p=320</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

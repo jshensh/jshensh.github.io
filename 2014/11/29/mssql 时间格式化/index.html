@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mssql 时间格式化 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="1 取值后格式化{0:d}小型：如2005-5-6{0:D}大型：如2005年5月6日{0:f}完整型2 当前时间获取DateTime.Now.ToShortDateString3 取值中格式化SQL Server里面可能经常会用到的日期格式转换方法:sql server使用convert来取得da">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="mssql 时间格式化"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>mssql 时间格式化</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/11/29/mssql 时间格式化/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-11-29T08:51:04.000Z">
+          2014-11-29
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>1 取值后格式化<br>{0:d}小型：如2005-5-6<br>{0:D}大型：如2005年5月6日<br>{0:f}完整型<br>2 当前时间获取<br>DateTime.Now.ToShortDateString<br>3 取值中格式化<br>SQL Server里面可能经常会用到的日期格式转换方法:<br>sql server使用convert来取得datetime日期数据，以下实例包含各种日期格式的转换<br>语句及查询结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">Select CONVERT(varchar(100), GETDATE(), 0): 05 16 2006 10:57AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 1): 05/16/06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 2): 06.05.16</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 3): 16/05/06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 4): 16.05.06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 5): 16-05-06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 6): 16 05 06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 7): 05 16, 06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 8): 10:57:46</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 9): 05 16 2006 10:57:46:827AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 10): 05-16-06</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 11): 06/05/16</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 12): 060516</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 13): 16 05 2006 10:57:46:937</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 14): 10:57:46:967</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 20): 2006-05-16 10:57:47</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 21): 2006-05-16 10:57:47.157</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 22): 05/16/06 10:57:47 AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 23): 2006-05-16</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 24): 10:57:47</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 25): 2006-05-16 10:57:47.250</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 100): 05 16 2006 10:57AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 101): 05/16/2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 102): 2006.05.16</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 103): 16/05/2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 104): 16.05.2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 105): 16-05-2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 106): 16 05 2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 107): 05 16, 2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 108): 10:57:49</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 109): 05 16 2006 10:57:49:437AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 110): 05-16-2006</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 111): 2006/05/16</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 112): 20060516</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 113): 16 05 2006 10:57:49:513</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 114): 10:57:49:547</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 120): 2006-05-16 10:57:49</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 121): 2006-05-16 10:57:49.700</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 126): 2006-05-16T10:57:49.827</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 130): 18 ???? ?????? 1427 10:57:49:907AM</span><br><span class="line">Select CONVERT(varchar(100), GETDATE(), 131): 18/04/1427 10:57:49:920AM</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://blog.csdn.net/dlyhs/archive/2009/05/12/4170986.aspx" target="_blank" rel="noopener">http://blog.csdn.net/dlyhs/archive/2009/05/12/4170986.aspx</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

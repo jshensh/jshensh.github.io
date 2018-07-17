@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>jQuery倒计时--显示详细的天、小时、分、秒 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243&amp;lt;!DOCTYPE html PUBLIC &amp;quot;-//W3C//DTD XHTML 1.0 Transitional//EN&amp;quo">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="jQuery倒计时--显示详细的天、小时、分、秒"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>jQuery倒计时--显示详细的天、小时、分、秒</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/08/12/jQuery倒计时--显示详细的天、小时、分、秒/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-08-11T20:29:11.000Z">
+          2013-08-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt; </span><br><span class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt; </span><br><span class="line">&lt;head&gt; </span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gbk&quot; /&gt; </span><br><span class="line">&lt;title&gt;Jquery实现倒计时效果&lt;/title&gt; </span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"> </span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt; </span><br><span class="line"> var SysSecond; </span><br><span class="line"> var InterValObj; </span><br><span class="line">  </span><br><span class="line"> $(document).ready(function() &#123; </span><br><span class="line">  SysSecond = parseInt($(&quot;#remainSeconds&quot;).html()); //这里获取倒计时的起始时间 </span><br><span class="line">  InterValObj = window.setInterval(SetRemainTime, 1000); //间隔函数，1秒执行 </span><br><span class="line"> &#125;); </span><br><span class="line"> </span><br><span class="line"> //将时间减去1秒，计算天、时、分、秒 </span><br><span class="line"> function SetRemainTime() &#123; </span><br><span class="line">  if (SysSecond &gt; 0) &#123; </span><br><span class="line">   SysSecond = SysSecond - 1; </span><br><span class="line">   var second = Math.floor(SysSecond % 60);             // 计算秒     </span><br><span class="line">   var minite = Math.floor((SysSecond / 60) % 60);      //计算分 </span><br><span class="line">   var hour = Math.floor((SysSecond / 3600) % 24);      //计算小时 </span><br><span class="line">   var day = Math.floor((SysSecond / 3600) / 24);        //计算天 </span><br><span class="line"> </span><br><span class="line">   $(&quot;#remainTime&quot;).html(day + &quot;天&quot; + hour + &quot;小时&quot; + minite + &quot;分&quot; + second + &quot;秒&quot;); </span><br><span class="line">  &#125; else &#123;//剩余时间小于或等于0的时候，就停止间隔函数 </span><br><span class="line">   window.clearInterval(InterValObj); </span><br><span class="line">   //这里可以添加倒计时时间为0后需要执行的事件 </span><br><span class="line">  &#125; </span><br><span class="line"> &#125; </span><br><span class="line">&lt;/script&gt; </span><br><span class="line"> </span><br><span class="line">&lt;/head&gt; </span><br><span class="line"> </span><br><span class="line">&lt;body&gt; </span><br><span class="line">     </span><br><span class="line">&lt;div id=&quot;remainSeconds&quot; style=&quot;display:none&quot;&gt;360000&lt;/div&gt; </span><br><span class="line">&lt;div id=&quot;remainTime&quot; style=&quot;font-size:20px;font-weight:800;color:#FF9900&quot;&gt;&lt;/div&gt; </span><br><span class="line"> </span><br><span class="line">&lt;/body&gt; </span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

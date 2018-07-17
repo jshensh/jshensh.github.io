@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>nginx与ngrok共存（nginx反代ngrok） | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="记得之前刚搭建起来ngrok时当时很兴奋觉得很舒服，但是很快产生了一个问题，ngrok占用80和443的话，那nginx该怎么办呢，虽然想过ngrok监听别的端口，但是一些程序却必须使用80和443，然后当时就想到了反代，但是泛域名反代而且端口不同，如何正确处理主机头成了问题，反代一个域名可以将主机">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="nginx与ngrok共存（nginx反代ngrok）"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>nginx与ngrok共存（nginx反代ngrok）</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/04/02/nginx与ngrok共存（nginx反代ngrok）/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-04-01T23:19:24.000Z">
+          2016-04-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>记得之前刚搭建起来ngrok时当时很兴奋觉得很舒服，但是很快产生了一个问题，ngrok占用80和443的话，那nginx该怎么办呢，虽然想过ngrok监听别的端口，但是一些程序却必须使用80和443，然后当时就想到了反代，但是泛域名反代而且端口不同，如何正确处理主机头成了问题，反代一个域名可以将主机头写成固定的，但是泛域名则是不确定主机头的，网上查了许久资料均未找到答案，后来不报希望的试了下，竟然成功了，今日想起来这件事情，便写博文记录下来。<br>下，竟然成功了，今日想起来这件事情，便写博文记录下来。</p>
+<p><strong>涉及到的配置文件<br>nginx的nginx.conf</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">user nginx;</span><br><span class="line">#上面用户可根据情况换成root（不推荐）</span><br><span class="line">worker_processes 1;</span><br><span class="line">error_log /var/log/nginx/error.log warn;</span><br><span class="line">pid /var/run/nginx.pid;</span><br><span class="line">events &#123;</span><br><span class="line">worker_connections 1024;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">include /etc/nginx/mime.types;</span><br><span class="line">default_type application/octet-stream;</span><br><span class="line">log_format main &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">&apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">&apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line">access_log /var/log/nginx/access.log main;</span><br><span class="line">sendfile on;</span><br><span class="line">keepalive_timeout 65;</span><br><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>ngrok反向代理文件（主要！）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">listen 80;</span><br><span class="line">server_name *.0n0.win;</span><br><span class="line">root html;</span><br><span class="line">index index.html index.htm index.php;</span><br><span class="line">location / &#123;</span><br><span class="line">proxy_pass http://127.0.0.1:81;</span><br><span class="line">proxy_redirect off;</span><br><span class="line">proxy_set_header Host $host:81;</span><br><span class="line">proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;</span><br><span class="line">proxy_max_temp_file_size 0;</span><br><span class="line">proxy_connect_timeout 90;</span><br><span class="line">proxy_send_timeout 90;</span><br><span class="line">proxy_read_timeout 90;</span><br><span class="line">proxy_buffer_size 4k;</span><br><span class="line">proxy_buffers 4 32k;</span><br><span class="line">proxy_busy_buffers_size 64k;</span><br><span class="line">proxy_temp_file_write_size 64k;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">listen 443;</span><br><span class="line">server_name *.0n0.win;</span><br><span class="line">ssl on;</span><br><span class="line">ssl_certificate /root/ngrok/rootCA.pem;</span><br><span class="line">ssl_certificate_key /root/ngrok/rootCA.key;</span><br><span class="line">root html;</span><br><span class="line">index index.html index.htm index.php;</span><br><span class="line">location / &#123;</span><br><span class="line">proxy_pass https://127.0.0.1:444;</span><br><span class="line">proxy_redirect off;</span><br><span class="line">proxy_set_header Host $host:444;</span><br><span class="line">proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;</span><br><span class="line">proxy_max_temp_file_size 0;</span><br><span class="line">proxy_connect_timeout 90;</span><br><span class="line">proxy_send_timeout 90;</span><br><span class="line">proxy_read_timeout 90;</span><br><span class="line">proxy_buffer_size 4k;</span><br><span class="line">proxy_buffers 4 32k;</span><br><span class="line">proxy_busy_buffers_size 64k;</span><br><span class="line">proxy_temp_file_write_size 64k;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>我的nginx包含的模块</strong><br>那两个模块可根据自己需要自行删除或添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-mail --with-mail_ssl_module --with-ipv6 --with-http_spdy_module --add-module=/root/mk/ngx_http_substitutions_filter_module --add-module=/root/mk/headers-more-nginx-module</span><br></pre></td></tr></table></figure>
+<p><strong>两个模块的git</strong><br>两个都是反代时替换内容用到的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/mk &amp;&amp;cd /root/mk</span><br><span class="line">git clone https://github.com/openresty/headers-more-nginx-module.git</span><br><span class="line">git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="https://blog.ni-co.moe/p/345.html" target="_blank" rel="noopener">https://blog.ni-co.moe/p/345.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

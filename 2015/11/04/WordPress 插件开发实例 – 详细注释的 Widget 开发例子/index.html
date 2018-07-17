@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>WordPress 插件开发实例 – 详细注释的 Widget 开发例子 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="在 wp-content\plugins 下创建 example-widget.php 代码如下 :
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="WordPress 插件开发实例 – 详细注释的 Widget 开发例子"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>WordPress 插件开发实例 – 详细注释的 Widget 开发例子</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/11/04/WordPress 插件开发实例 – 详细注释的 Widget 开发例子/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-11-04T02:24:27.000Z">
+          2015-11-04
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在 wp-content\plugins 下创建 example-widget.php 代码如下 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * Plugin Name: Example Widget</span><br><span class="line"> * Plugin URI: http://example.com/widget</span><br><span class="line"> * Description: A widget that serves as an example for developing more advanced widgets.</span><br><span class="line"> * Version: 0.1</span><br><span class="line"> * Author: Justin Tadlock</span><br><span class="line"> * Author URI: http://justintadlock.com</span><br><span class="line"> *</span><br><span class="line"> * This program is distributed in the hope that it will be useful,</span><br><span class="line"> * but WITHOUT ANY WARRANTY; without even the implied warranty of</span><br><span class="line"> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span><br><span class="line"> */</span><br><span class="line">    </span><br><span class="line">/**</span><br><span class="line"> * Add function to widgets_init that&apos;ll load our widget.</span><br><span class="line"> * @since 0.1</span><br><span class="line"> */</span><br><span class="line">add_action( &apos;widgets_init&apos;, &apos;example_load_widgets&apos; );</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Register our widget.</span><br><span class="line"> * &apos;Example_Widget&apos; is the widget class used below.</span><br><span class="line"> *</span><br><span class="line"> * @since 0.1</span><br><span class="line"> */</span><br><span class="line">function example_load_widgets() &#123;</span><br><span class="line">    register_widget( &apos;Example_Widget&apos; );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Example Widget class.</span><br><span class="line"> * This class handles everything that needs to be handled with the widget:</span><br><span class="line"> * the settings, form, display, and update.  Nice!</span><br><span class="line"> *</span><br><span class="line"> * @since 0.1</span><br><span class="line"> */</span><br><span class="line">class Example_Widget extends WP_Widget &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Widget setup.</span><br><span class="line">     */</span><br><span class="line">    function Example_Widget() &#123;</span><br><span class="line">        /* Widget settings. */</span><br><span class="line">        $widget_ops = array( &apos;classname&apos; =&gt; &apos;example&apos;, &apos;description&apos; =&gt; __(&apos;An example widget that displays a person\&apos;s name and sex.&apos;, &apos;example&apos;) );</span><br><span class="line"></span><br><span class="line">        /* Widget control settings. */</span><br><span class="line">        $control_ops = array( &apos;width&apos; =&gt; 300, &apos;height&apos; =&gt; 350, &apos;id_base&apos; =&gt; &apos;example-widget&apos; );</span><br><span class="line"></span><br><span class="line">        /* Create the widget. */</span><br><span class="line">        $this-&gt;WP_Widget( &apos;example-widget&apos;, __(&apos;Example Widget&apos;, &apos;example&apos;), $widget_ops, $control_ops );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * How to display the widget on the screen.</span><br><span class="line">     */</span><br><span class="line">    function widget( $args, $instance ) &#123;</span><br><span class="line">        extract( $args );</span><br><span class="line"></span><br><span class="line">        /* Our variables from the widget settings. */</span><br><span class="line">        $title = apply_filters(&apos;widget_title&apos;, $instance[&apos;title&apos;] );</span><br><span class="line">        $name = $instance[&apos;name&apos;];</span><br><span class="line">        $sex = $instance[&apos;sex&apos;];</span><br><span class="line">        $show_sex = isset( $instance[&apos;show_sex&apos;] ) ? $instance[&apos;show_sex&apos;] : false;</span><br><span class="line"></span><br><span class="line">        /* Before widget (defined by themes). */</span><br><span class="line">        echo $before_widget;</span><br><span class="line"></span><br><span class="line">        /* Display the widget title if one was input (before and after defined by themes). */</span><br><span class="line">        if ( $title )</span><br><span class="line">            echo $before_title . $title . $after_title;</span><br><span class="line"></span><br><span class="line">        /* Display name from widget settings if one was input. */</span><br><span class="line">        if ( $name )</span><br><span class="line">            printf( &apos;&lt;p&gt;&apos; . __(&apos;Hello. My name is %1$s.&apos;, &apos;example&apos;) . &apos;&lt;/p&gt;&apos;, $name );</span><br><span class="line"></span><br><span class="line">        /* If show sex was selected, display the user&apos;s sex. */</span><br><span class="line">        if ( $show_sex )</span><br><span class="line">            printf( &apos;&lt;p&gt;&apos; . __(&apos;I am a %1$s.&apos;, &apos;example.&apos;) . &apos;&lt;/p&gt;&apos;, $sex );</span><br><span class="line"></span><br><span class="line">        /* After widget (defined by themes). */</span><br><span class="line">        echo $after_widget;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Update the widget settings.</span><br><span class="line">     */</span><br><span class="line">    function update( $new_instance, $old_instance ) &#123;</span><br><span class="line">        $instance = $old_instance;</span><br><span class="line"></span><br><span class="line">        /* Strip tags for title and name to remove HTML (important for text inputs). */</span><br><span class="line">        $instance[&apos;title&apos;] = strip_tags( $new_instance[&apos;title&apos;] );</span><br><span class="line">        $instance[&apos;name&apos;] = strip_tags( $new_instance[&apos;name&apos;] );</span><br><span class="line"></span><br><span class="line">        /* No need to strip tags for sex and show_sex. */</span><br><span class="line">        $instance[&apos;sex&apos;] = $new_instance[&apos;sex&apos;];</span><br><span class="line">        $instance[&apos;show_sex&apos;] = $new_instance[&apos;show_sex&apos;];</span><br><span class="line"></span><br><span class="line">        return $instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Displays the widget settings controls on the widget panel.</span><br><span class="line">     * Make use of the get_field_id() and get_field_name() function</span><br><span class="line">     * when creating your form elements. This handles the confusing stuff.</span><br><span class="line">     */</span><br><span class="line">    function form( $instance ) &#123;</span><br><span class="line"></span><br><span class="line">        /* Set up some default widget settings. */</span><br><span class="line">        $defaults = array( &apos;title&apos; =&gt; __(&apos;Example&apos;, &apos;example&apos;), &apos;name&apos; =&gt; __(&apos;John Doe&apos;, &apos;example&apos;), &apos;sex&apos; =&gt; &apos;male&apos;, &apos;show_sex&apos; =&gt; true );</span><br><span class="line">        $instance = wp_parse_args( (array) $instance, $defaults ); ?&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- Widget Title: Text Input --&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">            &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &apos;title&apos; ); ?&gt;&quot;&gt;&lt;?php _e(&apos;Title:&apos;, &apos;hybrid&apos;); ?&gt;&lt;/label&gt;</span><br><span class="line">            &lt;input id=&quot;&lt;?php echo $this-&gt;get_field_id( &apos;title&apos; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &apos;title&apos; ); ?&gt;&quot; value=&quot;&lt;?php echo $instance[&apos;title&apos;]; ?&gt;&quot; style=&quot;width:100%;&quot; /&gt;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- Your Name: Text Input --&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">            &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &apos;name&apos; ); ?&gt;&quot;&gt;&lt;?php _e(&apos;Your Name:&apos;, &apos;example&apos;); ?&gt;&lt;/label&gt;</span><br><span class="line">            &lt;input id=&quot;&lt;?php echo $this-&gt;get_field_id( &apos;name&apos; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &apos;name&apos; ); ?&gt;&quot; value=&quot;&lt;?php echo $instance[&apos;name&apos;]; ?&gt;&quot; style=&quot;width:100%;&quot; /&gt;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- Sex: Select Box --&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">            &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &apos;sex&apos; ); ?&gt;&quot;&gt;&lt;?php _e(&apos;Sex:&apos;, &apos;example&apos;); ?&gt;&lt;/label&gt; </span><br><span class="line">            &lt;select id=&quot;&lt;?php echo $this-&gt;get_field_id( &apos;sex&apos; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &apos;sex&apos; ); ?&gt;&quot; class=&quot;widefat&quot; style=&quot;width:100%;&quot;&gt;</span><br><span class="line">                &lt;option &lt;?php if ( &apos;male&apos; == $instance[&apos;format&apos;] ) echo &apos;selected=&quot;selected&quot;&apos;; ?&gt;&gt;male&lt;/option&gt;</span><br><span class="line">                &lt;option &lt;?php if ( &apos;female&apos; == $instance[&apos;format&apos;] ) echo &apos;selected=&quot;selected&quot;&apos;; ?&gt;&gt;female&lt;/option&gt;</span><br><span class="line">            &lt;/select&gt;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- Show Sex? Checkbox --&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">            &lt;input class=&quot;checkbox&quot; type=&quot;checkbox&quot; &lt;?php checked( $instance[&apos;show_sex&apos;], true ); ?&gt; id=&quot;&lt;?php echo $this-&gt;get_field_id( &apos;show_sex&apos; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &apos;show_sex&apos; ); ?&gt;&quot; /&gt; </span><br><span class="line">            &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &apos;show_sex&apos; ); ?&gt;&quot;&gt;&lt;?php _e(&apos;Display sex publicly?&apos;, &apos;example&apos;); ?&gt;&lt;/label&gt;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line"></span><br><span class="line">    &lt;?php</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>转载自：<a href="http://summerbluet.com/225" target="_blank" rel="noopener">http://summerbluet.com/225</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

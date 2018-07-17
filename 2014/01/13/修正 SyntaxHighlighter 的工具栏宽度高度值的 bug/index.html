@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>修正 SyntaxHighlighter 的工具栏宽度高度值的 bug | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="话不多说。。先上对比图
+修改前修改后
+相信许多博客和本站一样，使用了 SyntaxHighlighter Evolved 这款代码高亮插件，但是，开了工具栏以后，会发现工具栏的下半部分有很多的留白，效果很不好。修改的方法很简单，相信看了上面两张图就能知道，给 div 一个固定的高度与宽度就行了。
+打">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="修正 SyntaxHighlighter 的工具栏宽度高度值的 bug"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>修正 SyntaxHighlighter 的工具栏宽度高度值的 bug</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/01/13/修正 SyntaxHighlighter 的工具栏宽度高度值的 bug/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-01-12T19:14:57.000Z">
+          2014-01-13
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>话不多说。。先上对比图</p>
+<p>修改前<br><a href="http://futa.ooo/wp-content/uploads/2014/01/toolbar0.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/01/toolbar0.jpg" alt="toolbar0"></a><br>修改后<br><a href="http://futa.ooo/wp-content/uploads/2014/01/toolbar1.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/01/toolbar1.jpg" alt="toolbar1"></a></p>
+<p>相信许多博客和本站一样，使用了 SyntaxHighlighter Evolved 这款代码高亮插件，但是，开了工具栏以后，会发现工具栏的下半部分有很多的留白，效果很不好。修改的方法很简单，相信看了上面两张图就能知道，给 div 一个固定的高度与宽度就行了。</p>
+<p>打开 你的博客的根目录/wp-content/plugins/syntaxhighlighter/syntaxhighlighter2/styles/shCore.css ，定位到第 165 行，插入下面的两句代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">height: 16px !important;</span><br><span class="line">width: 96px !important;</span><br></pre></td></tr></table></figure>
+<p>如图<br><a href="http://futa.ooo/wp-content/uploads/2014/01/toolbar.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/01/toolbar.jpg" alt="toolbar"></a></p>
+<p>保存以后上传覆盖源文件即可</p>
+<p>表示我也是看到 <a href="http://www.oschina.net/code/snippet_59831_15056" target="_blank" rel="noopener">http://www.oschina.net/code/snippet_59831_15056</a> 的效果以后才想起来改这个的。。。不改的话太难看了。。。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

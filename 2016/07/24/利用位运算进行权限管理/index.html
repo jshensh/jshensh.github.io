@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>利用位运算进行权限管理 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="原理在Linux文件系统中，一个用户对文件或目录所拥有的权限分为三种：”可读”、”可写”和”可执行”，分别用 1 、2 和 4 来表示，它们之间可以任意组合：有“可读”、“可写”权限就用 3 来表示（1 + 2 = 3）；有”可读“、”可执行“权限就用5来表示（1 + 4 = 5），三种权限全部拥有">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="利用位运算进行权限管理"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>利用位运算进行权限管理</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/07/24/利用位运算进行权限管理/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-07-23T21:14:24.000Z">
+          2016-07-24
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>原理</strong><br>在Linux文件系统中，一个用户对文件或目录所拥有的权限分为三种：”可读”、”可写”和”可执行”，分别用 1 、2 和 4 来表示，它们之间可以任意组合：有“可读”、“可写”权限就用 3 来表示（1 + 2 = 3）；有”可读“、”可执行“权限就用5来表示（1 + 4 = 5），三种权限全部拥有就用 7 表示（1 + 2 + 4 = 7）。<br>实际上，这种运算是基于二进制的。<br>假设可执行、可写、可读三种权限分别对应三个状态位，如果用户具有某种权限，那么将对应的状态位标识为“1”，反之则标识为“0”。</p>
+<table><br><br><tr>可执行可写可读二进制十进制</tr><br><br><tbody><br><tr><br><td>0<br></td><br><td>0<br></td><br><td>0<br></td><br><td>=&gt;<br></td><br><td>000<br></td><br><td>=&gt;<br></td><br><td>0<br></td></tr><br><tr><br><td>0<br></td><br><td>0<br></td><br><td>1<br></td><br><td>=&gt;<br></td><br><td>001<br></td><br><td>=&gt;<br></td><br><td>1<br></td></tr><br><tr><br><td>0<br></td><br><td>1<br></td><br><td>1<br></td><br><td>=&gt;<br></td><br><td>011<br></td><br><td>=&gt;<br></td><br><td>3<br></td></tr><br><tr><br><td>1<br></td><br><td>1<br></td><br><td>1<br></td><br><td>=&gt;<br></td><br><td>111<br></td><br><td>=&gt;<br></td><br><td>7<br></td></tr><br></tbody><br></table>
+
+<p>如果只有“可读”权限，那么就对应二进制数：001，将这个二进制数转成十进制就得到1；如果同时具有“可读”、“可写”权限，二进制数则对应为： 011，转十进制得：3；同理，三种权限都有的，十进制就等于7。<br>过位运算符很容易就可以做到类似的权限控制：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">//定义权限</span><br><span class="line">define(&apos;READ&apos;, 1&lt;&lt; 0);    // 把可读权限放在最右边</span><br><span class="line">define(&apos;WRITE&apos;, 1&lt;&lt;1);    // 可读权限向左移一位</span><br><span class="line">define(&apos;EXCUTE&apos;, 1&lt;&lt;2);   // 可执行权限向左移两位</span><br><span class="line"> </span><br><span class="line">//赋予权限</span><br><span class="line">$user_permission = READ | WRITE;</span><br><span class="line"> </span><br><span class="line">//验证权限</span><br><span class="line">echo &apos;可读：&apos;, ($user_permission &amp; READ) ? &apos;Yes&apos; : &apos;No&apos;, &quot;\n&quot;;</span><br><span class="line">echo &apos;可写：&apos;, ($user_permission &amp; WRITE) ? &apos;Yes&apos; : &apos;No&apos;, &quot;\n&quot;;</span><br><span class="line">echo &apos;可执行：&apos;, ($user_permission &amp; EXCUTE) ? &apos;Yes&apos; : &apos;No&apos;, &quot;\n&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>PHP语言本身的错误控制也是用位运算来做的，它甚至还利用了按位异或和按位非，使得错误控制更加精确。<br><strong><br>优点和缺陷</strong><br>位运算的运算对象是二进制的位，速度快，效率高，而且节省存储空间，位运算做权限控制又相当地灵活。但是，位运算也有很大的局限，因为在32位计算机上，位移不能超过32次，这就要求权限数量不超过32种。</p>
+<p>转自 <a href="http://xiaobin.net/200906/bitwise-permission/" target="_blank" rel="noopener">http://xiaobin.net/200906/bitwise-permission/</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

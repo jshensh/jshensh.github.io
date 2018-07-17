@@ -1,0 +1,805 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 14 页 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/05/16/关于 js function 传值的问题/"><span>关于 js function 传值的问题</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/05/16/关于 js function 传值的问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-05-16T08:05:24.000Z">
+          2014-05-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近无聊在做一个解三元一次方程组的网页，用的 javascript，好吧其实大部分是 jquery 框架。现在已经基本完工了，除了判断方程组是否无解或者有无穷解的部分以外。下午碰到一个挺有意思的问题，拿出来分享一下。<br>先上部分关键代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function get_swap(arr_a,arr_b,k) &#123; //交换系数</span><br><span class="line">    arr_a=$.extend(true, &#123;&#125;, arr_a); //坑啊这句</span><br><span class="line">    for (i=0;i&lt;3;++i) &#123;</span><br><span class="line">        arr_a[i][k]=arr_b[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return arr_a;</span><br><span class="line">&#125;</span><br><span class="line">function get_tteleg(arr_a,arr_b) &#123; //主 function，出结果用</span><br><span class="line">    var gc=(typeof(arguments[2])==&quot;undefined&quot;)?false:arguments[2]; //如果 false 就不要过程。。。</span><br><span class="line">    var d=get_array_fj(arr_a);</span><br><span class="line">    var x=get_array_fj(get_swap(arr_a,arr_b,0))/d;</span><br><span class="line">    var y=get_array_fj(get_swap(arr_a,arr_b,1))/d;</span><br><span class="line">    var z=get_array_fj(get_swap(arr_a,arr_b,2))/d;</span><br><span class="line">    if (gc) &#123;</span><br><span class="line">        var op=&apos;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;D=&apos;+get_array_gc(arr_a))+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;D=&apos;+get_array_fj_gc(arr_a)+&apos;=&apos;+d)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&apos;;</span><br><span class="line">        op+=&apos;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;x= \\frac&#123;&apos;+get_array_gc(get_swap(arr_a,arr_b,0))+&apos;&#125;&#123;D&#125;&apos;)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;x= \\frac&#123;&apos;+get_array_fj_gc(get_swap(arr_a,arr_b,0))+&apos;&#125;&#123;&apos;+d+&apos;&#125;=&apos;+x)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&apos;;</span><br><span class="line">        op+=&apos;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;y= \\frac&#123;&apos;+get_array_gc(get_swap(arr_a,arr_b,1))+&apos;&#125;&#123;D&#125;&apos;)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;y= \\frac&#123;&apos;+get_array_fj_gc(get_swap(arr_a,arr_b,1))+&apos;&#125;&#123;&apos;+d+&apos;&#125;=&apos;+y)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&apos;;</span><br><span class="line">        op+=&apos;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;z= \\frac&#123;&apos;+get_array_gc(get_swap(arr_a,arr_b,2))+&apos;&#125;&#123;D&#125;&apos;)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;z= \\frac&#123;&apos;+get_array_fj_gc(get_swap(arr_a,arr_b,2))+&apos;&#125;&#123;&apos;+d+&apos;&#125;=&apos;+z)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&apos;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        var op=&apos;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;d=&apos;+d)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;x=&apos;+x)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;y=&apos;+y)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;z=&apos;+z)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    return op;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>各种各样的 img 标签是调用 Google 的 api 用 TeX 输出，这个就不细说了。看上面代码中有一句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr_a=$.extend(true, &#123;&#125;, arr_a);</span><br></pre></td></tr></table></figure></p>
+<p> 原先并没有这一句，但因为 get_swap() 是用来交换系数用的，每次交换完输出的 arr_a 就不正常，于是就开始找起了 bug，但由于我并不怎么接触 javascript，只以为它和 php 是一样的，找了半天都没找到问题，但直觉告诉我可能是因为全局变量或者传值的问题，可是我没有定义全局变量啊。直至经位高人指点，才发现 javascript 里 function 传对象和数组传的都是地址，而非值。(参考 <a href="http://www.cftea.com/c/2010/07/TKE282SFVCKL2RLS.asp" target="_blank" rel="noopener">http://www.cftea.com/c/2010/07/TKE282SFVCKL2RLS.asp</a>)这简直就是天大的坑啊，于是乎就想着把数组拆开，一个一个传值，但这样又显得太麻烦，毕竟 4*3 的增广矩阵呢，这不得写死人。。。罢了罢了，后来想过把数组转成 json 格式字符串，传进 function 再 eval，结果发现 jquery 的 $.toJSON 要另外引插件($.toJSON 我 tm 以前做播放器的时候不是用过嘛。。。居然忘记了)，顿时放弃了，然后百度了一两个小时，终于被我找到方法了。我思路是这样的，既然它传地址进来我为何不重新定义一个数组然后 copy 原先那个数组的值呢？嗯。。。其实这个思路也是百度到的。。。。开始是用了 arr.concat() 和 arr.slice(0)，发现无效，原因是我的数组是一个二维数组，不支持。卧槽，然后才发现了这个 <a href="http://www.cnblogs.com/RascallySnake/archive/2010/05/07/1729563.html" target="_blank" rel="noopener">http://www.cnblogs.com/RascallySnake/archive/2010/05/07/1729563.html</a>，$.extend，jquery 自带，效果甚是满意。放个链接出来给各位测试一下 <a href="http://lab.233.imjs.work/math/tteleg.html" target="_blank" rel="noopener">http://lab.233.imjs.work/math/tteleg.html</a></p>
+<p>P.S. 关于三元一次方程组是否无解还有是否有无穷解的问题到现在还是没解决，求个方便点的算法研究一下。。。(不是我要做伸手党。。。实在是高一党，啊呸，中专党对线性代数有点力不从心啊)刚刚倒是问了几位大神，说是增广矩阵的秩可以用来判断，但秩却又是什么。。。又有说可以用高斯消元法去做，做下来的行数还是列数来着的是秩。。。。卧槽这什么跟什么呀。。。我解个三元一次方程组我容易么我。。。二元一次方程组的时候用行列式感觉还行，没想到三元一次的这么复杂啊卧槽。。。附张百度百科的截图，完整的内容戳链接 <a href="http://wapbaike.baidu.com/view/1961580.htm" target="_blank" rel="noopener">增广矩阵 - 百度百科</a><br><a href="http://futa.ooo/wp-content/uploads/2014/05/Screenshot_2014-05-16-23-58-32.png"><img src="http://futa.ooo/wp-content/uploads/2014/05/Screenshot_2014-05-16-23-58-32-168x300.png" alt="Screenshot_2014-05-16-23-58-32"></a><br>诶对还有，一直有个问题想不明白，二元一次方程组可以理解为一个直角平面里两根直线的相交点，三元的则是一个三维的物体，那四元及以上的呢？求解释。。。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/05/15/TeX、LaTeX、TeXLive 小结/"><span>TeX、LaTeX、TeXLive 小结</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/05/15/TeX、LaTeX、TeXLive 小结/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-05-15T08:53:48.000Z">
+          2014-05-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>一直纠结：用什么工具来记录学习中的点滴，用什么写软件的文档 </p>
+<ul>
+<li>在线的（blog、wiki、google doc、google site、…）</li>
+</ul>
+<ul>
+<li>离线的（wiki、LaTeX、sphinx、docbook、doxygen…）</li>
+</ul>
+<p>…<br>然后觉得 git + sphinx 应该是个不错的选择，恩，生成网页、qthelp、chm文件等都还不错，可是，当想生成包含中文的pdf时，又回到了让人倍感头痛的 LaTeX中文问题上面来了…<br>windows下似乎没什么好说的，本文稍偏重ubuntu，总体来说latex中文比前几年好用太多了。本文最初目标，学习最基本的sphinx+latex的中文处理。 </p>
+<h2 id="名词"><a href="#名词" class="headerlink" title="名词"></a>名词</h2><p>相关(类似)的名词太多了，想分清真不容易 </p>
+ <table><br>  <tbody><br>   <tr><br><br><td colspan="1" rowspan="6">  引擎<br></td><br><br><td>  (Knuth)TeX<br></td><br><br><td>  真正的(原始的)TeX<br></td><br>   </tr><br>   <tr><br><br><td>   ε-TeX<br></td><br><br><td>  相对于原始的TeX它提供了一种扩展模式<br></td><br>   </tr><br>   <tr><br><br><td>   pdfTeX<br></td><br><br><td>  它从tex文件不通过dvi文件直接生成pdf文件（开发者已经转向LuaTeX）<br></td><br>   </tr><br>   <tr><br><br><td>   <strong>XeTeX</strong><br></td><br><br><td>  相对于原始的TeX，主要增加了Unicode和 OpenType 的支持<br></td><br>   </tr><br>   <tr><br><br><td>   LuaTeX<br></td><br><br><td>  它使用Lua作为扩展语言，对于LaTeX支持尚不完善？<br></td><br>   </tr><br>   <tr><br><br><td>   …<br></td><br><br><td><br></td><br>   </tr><br>   <tr><br><br><td colspan="1" rowspan="5">   宏集<br></td><br><br><td>  plain TeX<br></td><br><br><td>  最古老的TeX宏集，提供了一些最基本的命令<br></td><br>   </tr><br>   <tr><br><br><td>   AMSTeX<br></td><br><br><td>  是美国数学会提供的一个TeX宏集，它添加了许多数学符号和数学字体<br></td><br>   </tr><br>   <tr><br><br><td>   <strong>LaTeX</strong><br></td><br><br><td>  相对于PlainTeX，它使得科技文档的排版更加直观和方便<br></td><br>   </tr><br>   <tr><br><br><td>   ConTeXt<br></td><br><br><td>  和LaTeX 相比，它更加灵活和自由<br></td><br>   </tr><br>   <tr><br><br><td>   …<br></td><br><br><td><br></td><br>   </tr><br>   <tr><br><br><td colspan="1" rowspan="6">   发行版<br></td><br><br><td>  <strong>TeX Live</strong><br></td><br><br><td>  国际TeX用户组织TUG开发,支持不同的操作系统<br></td><br>   </tr><br>   <tr><br><br><td>   MiKTeX<br></td><br><br><td>  Windows 下广泛使用的一个TeX发行版<br></td><br>   </tr><br>   <tr><br><br><td>   ConTeXt Minimals<br></td><br><br><td>  它包含了最新版本的 ConTeXt<br></td><br>   </tr><br>   <tr><br><br><td>   teTeX<br></td><br><br><td>  一个Unix下的TeX发行版，现在已经停止更新且并入TeXLive<br></td><br>   </tr><br>   <tr><br><br><td>   fpTeX<br></td><br><br><td>  一个Windows的TeX发行版，已不再更新<br></td><br>   </tr><br>   <tr><br><br><td>   …<br></td><br><br><td><br></td><br>   </tr><br>  </tbody><br> </table> 
+
+
+
+
+
+<p>真够乱的，还好，我们只关注一部分： </p>
+<h3 id="LaTeX"><a href="#LaTeX" class="headerlink" title="LaTeX"></a>LaTeX</h3><p>原始的TeX已经有了一组宏集，也就是Knuth所写的著名的Plain TeX(原始的TeX和Plain Tex都是《The TeXbook 》一书中介绍的内容)。<br>但是这些命令仍然很底层，不够方便、直观，于是Leslie Lamport写了另一组宏，称为LaTeX，主要是它版本配置和文中内容适度分开处理。<br>LaTeX 2ε是自1993年以来LaTeX的一个稳定版本，是目前大部分LaTeX书籍的主体内容。 </p>
+<h3 id="ctex"><a href="#ctex" class="headerlink" title="ctex"></a>ctex</h3><p>ctex宏包提供了一个统一的中文LaTeX文档框架,底层支持CCT、CJK和xeCJK三种中文LaTeX系统。 </p>
+<ul>
+<li>CCT 非常不推荐了</li>
+</ul>
+<ul>
+<li>CJK 这个？应该在windows下工作还很不错</li>
+</ul>
+<ul>
+<li>xeCJK 比较推荐</li>
+</ul>
+<p>ctex宏包提供了编写中文LaTeX文档常用的一些宏定义和命令。<br>主要文件包括ctexart.cls、ctexrep.cls、ctexbook.cls 和 ctex.sty、ctexcap.sty。 </p>
+<h3 id="生成pdf流程"><a href="#生成pdf流程" class="headerlink" title="生成pdf流程"></a>生成pdf流程</h3><ul>
+<li>原始的方式</li>
+</ul>
+ <table><br>  <tbody><br>   <tr><br><br><td>  <em>.tex<br></em></td><br><br><td>  ==&gt;<br></td><br><br><td>  .dvi<br></td><br><br><td>  ==&gt;<br></td><br><br><td>  <em>.ps<br></em></td><br><br><td>  ==&gt;<br></td><br><br><td>  .pdf<br></td><br>   </tr><br>   <tr><br><br><td><br></td><br><br><td>  latex<br></td><br><br><td><br></td><br><br><td>  divps<br></td><br><br><td><br></td><br><br><td>  ps2pdf<br></td><br><br><td><br></td><br>   </tr><br>  </tbody><br> </table> 
+
+
+
+
+
+
+
+
+
+<ul>
+<li>dvipdfm(x),少一个 *.ps 步骤</li>
+</ul>
+ <table><br>  <tbody><br>   <tr><br><br><td>  <em>.tex<br></em></td><br><br><td>  ==&gt;<br></td><br><br><td>  .dvi<br></td><br><br><td>  ==&gt;<br></td><br><br><td>  *.pdf<br></td><br>   </tr><br>   <tr><br><br><td><br></td><br><br><td>  latex<br></td><br><br><td><br></td><br><br><td>  dvipdfm<br></td><br><br><td><br></td><br>   </tr><br>  </tbody><br> </table> 
+
+
+
+
+
+
+
+
+
+<ul>
+<li>pdflatex或xelatex，直接生成 pdf</li>
+</ul>
+ <table><br>  <tbody><br>   <tr><br><br><td>  <em>.tex<br></em></td><br><br><td>  ==&gt;<br></td><br><br><td>  .pdf<br></td><br>   </tr><br>   <tr><br><br><td><br></td><br><br><td>  pdflatex<br></td><br><br><td><br></td><br>   </tr><br>  </tbody><br> </table> 
+
+
+
+
+
+
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="TeX-Live"><a href="#TeX-Live" class="headerlink" title="TeX Live"></a>TeX Live</h3><p>种种迹象表明，ubuntu软件仓库中的TeX Live非常非常不好用。于是，只能从官方下载ISO镜像，或者直接网络安装了。 </p>
+<ul>
+<li>下载 texlive2011-20110705.iso</li>
+</ul>
+<ul>
+<li>挂载</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /mnt/texlive</span><br><span class="line">sudo mount -o loop texlive2011-20110705.iso /mnt/texlive</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /mnt/texlive</span><br><span class="line">sudo ./install-tl</span><br></pre></td></tr></table></figure>
+<h3 id="TeXworks"><a href="#TeXworks" class="headerlink" title="TeXworks"></a>TeXworks</h3><p>很不错的一个Tex(LaTeX、ConTeXt等)文档的创作环境，一个基于Unicode的可感知TeX的编辑器，集成了PDF浏览功能，干净、简洁的操作界面。<br>恩，更主要的是Qt4编写的开源软件，跨Windows、Linux、Mac OS环境。 </p>
+<h3 id="中文配置"><a href="#中文配置" class="headerlink" title="中文配置"></a>中文配置</h3><ul>
+<li>主要涉及几个宏包，这些宏包进化太快了，远没有latex稳定，可能了解它们最好的办法就是看其自带的手册了。</li>
+</ul>
+<p>当前的推荐配置(?) </p>
+<ul>
+<li>使用XeLaTeX引擎处理中文</li>
+</ul>
+<ul>
+<li>使用xeCJK宏包解决中西文字体选择、标点符号位置、CJK兼容等问题</li>
+</ul>
+<ul>
+<li>使用ctex宏包和文档类解决中文版式习惯的问题</li>
+</ul>
+<p>不使用这两个宏包（需要设置所用字体，命令fc-list :lang=zh-cn用来查看系统字体） </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\documentclass[11pt,a4paper]&#123;article&#125;</span><br><span class="line">\usepackage&#123;fontspec&#125;</span><br><span class="line">\setmainfont&#123;WenQuanYi Micro Hei&#125;</span><br><span class="line">\begin&#123;document&#125;</span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line">\end&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>直接使用xeCJK宏包。(属于底层的方案) </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\documentclass&#123;article&#125;</span><br><span class="line">\usepackage&#123;xeCJK&#125;</span><br><span class="line">\setCJKmainfont&#123;WenQuanYi Micro Hei&#125;</span><br><span class="line">\begin&#123;document&#125;</span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line">\end&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>使用ctex宏包。高层的方案。(默认的字体是为windows准备的，在linux下，可以直接设置字体，但更建议采用后面的方法，修改ctex的字体文件) </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">\documentclass&#123;ctexart&#125;</span><br><span class="line">\setCJKmainfont&#123;WenQuanYi Micro Hei&#125;</span><br><span class="line">\begin&#123;document&#125;</span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line">\end&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>解决字体问题后，看起来还是很简单的： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">\documentclass&#123;ctexart&#125;</span><br><span class="line">\begin&#123;document&#125;</span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line">\end&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h3><ul>
+<li>如果不想用linux下的字体，还可以把 Windows 下的一些字体直接拷贝到~/.fonts目录中 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp sim* ~/.fonts</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对于xeCJK宏包，使用命令设置字体，比如：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">\setCJKmainfont[BoldFont=Droid Sans Fallback, ItalicFont=AR PL UKai CN]&#123;AR PL UMing CN&#125;</span><br><span class="line">\setCJKmonofont[Scale=0.9]&#123;AR PL UKai CN&#125;</span><br><span class="line">\setCJKfamilyfont&#123;song&#125;[BoldFont=Droid Sans Fallback]&#123;AR PL UMing CN&#125;</span><br><span class="line">\setCJKfamilyfont&#123;sf&#125;[BoldFont=Droid Sans Fallback]&#123;Droid Sans Fallback&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用ctex宏包时，直接修改下面这个文件：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/texlive/2011/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-winfonts.def</span><br></pre></td></tr></table></figure>
+<p>其内容大致如下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">% ctex-xecjk-winfonts.def: Windows 的 xeCJK 字体设置，默认为六种中易字体</span><br><span class="line">% vim:ft=tex</span><br><span class="line"></span><br><span class="line">\setCJKmainfont[BoldFont=&#123;SimHei&#125;,ItalicFont=&#123;[SIMKAI.TTF]&#125;]&#123;SimSun&#125;</span><br><span class="line">\setCJKsansfont&#123;SimHei&#125;</span><br><span class="line">\setCJKmonofont&#123;[SIMFANG.TTF]&#125;</span><br><span class="line"></span><br><span class="line">\setCJKfamilyfont&#123;zhsong&#125;&#123;SimSun&#125;</span><br><span class="line">\setCJKfamilyfont&#123;zhhei&#125;&#123;SimHei&#125;</span><br><span class="line">\setCJKfamilyfont&#123;zhkai&#125;&#123;[SIMKAI.TTF]&#125;</span><br><span class="line">\setCJKfamilyfont&#123;zhfs&#125;&#123;[SIMFANG.TTF]&#125;</span><br><span class="line"></span><br><span class="line">\newcommand*&#123;\songti&#125;&#123;\CJKfamily&#123;zhsong&#125;&#125; % 宋体</span><br><span class="line">\newcommand*&#123;\heiti&#125;&#123;\CJKfamily&#123;zhhei&#125;&#125;   % 黑体</span><br><span class="line">\newcommand*&#123;\kaishu&#125;&#123;\CJKfamily&#123;zhkai&#125;&#125;  % 楷书</span><br><span class="line">\newcommand*&#123;\fangsong&#125;&#123;\CJKfamily&#123;zhfs&#125;&#125; % 仿宋</span><br><span class="line"></span><br><span class="line">\endinput</span><br></pre></td></tr></table></figure>
+<p>将其中的 [SIMKAI.TTF] 和 [SIMFANG.TTF] 用 KaiTi 和 FangSong 替代。(好奇怪，Windows下怎么会这个奇怪的名字，字体直接拷过来，就不需要这么奇怪的名字) </p>
+<h3 id="sphinx"><a href="#sphinx" class="headerlink" title="sphinx"></a>sphinx</h3><p>有了前面一堆东西，终于可以回到Pyhton sphinx了<br>当我们运行 sphinx-build -b latex src target时，它生成 </p>
+<ul>
+<li>Makefile</li>
+</ul>
+<ul>
+<li>XXX.tex</li>
+</ul>
+<ul>
+<li>…</li>
+</ul>
+<p>等文件<br>但是， </p>
+<ul>
+<li>生成的 .tex 中：使用的documentclass是report或article，我们需要的是ctexrep或ctexart</li>
+</ul>
+<ul>
+<li>生成的 Makefile 中：使用的latex和pdflatex，我们需要的是 xelatex</li>
+</ul>
+<p>这样以来，需要简单修改一下的sphinx的latex生成器了，找到目标(这个位置不定，在python中import sphinx，然后查看sphinx.比较容易定位) </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/pymodules/python2.7/sphinx/writers/latex.py</span><br></pre></td></tr></table></figure>
+<ul>
+<li>搜索article和report，改为ctexart和ctexrep<br>Makefile 是通过哪个文件生成的呢？好隐蔽 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/sphinx/texinputs/Makefile</span><br></pre></td></tr></table></figure>
+<p>恩，一个静态文件，直接按照自己需要改就行了。不过我们直接将里面所有的pdflatex直接改成xelatex就够了 </p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://wiki.ctex.org/index.php/%E9%A6%96%E9%A1%B5" target="_blank" rel="noopener">http://wiki.ctex.org/index.php/%E9%A6%96%E9%A1%B5</a></li>
+</ul>
+<ul>
+<li><a href="http://www.newsmth.net/bbscon.php?bid=460&amp;id=282515&amp;ftype=11" target="_blank" rel="noopener">http://www.newsmth.net/bbscon.php?bid=460&amp;id=282515&amp;ftype=11</a></li>
+</ul>
+<ul>
+<li><a href="http://tug.ctan.org/tex-archive/language/chinese/ctex/doc/ctex.pdf" target="_blank" rel="noopener">http://tug.ctan.org/tex-archive/language/chinese/ctex/doc/ctex.pdf</a></li>
+</ul>
+<ul>
+<li><a href="http://code.google.com/p/texworks/" target="_blank" rel="noopener">http://code.google.com/p/texworks/</a></li>
+</ul>
+<p>转载自：<a href="http://blog.csdn.net/dbzhang800/article/details/6820659" target="_blank" rel="noopener">http://blog.csdn.net/dbzhang800/article/details/6820659</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/计算机技术/">计算机技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/04/28/关于复活节 vagex 开放注册/"><span>关于复活节 vagex 开放注册</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/04/28/关于复活节 vagex 开放注册/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-04-28T04:47:54.000Z">
+          2014-04-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>4-30 开放注册，不多说，上个邀请链接。。。额我这里能有百分之十的抽成，对你没任何影响，先谢注册的各位亲啦~ <a href="http://vagex.com/?ref=261795" target="_blank" rel="noopener">http://vagex.com/?ref=261795</a> (对于不知道 vagex 怎么挂的，可以看下 <a href="http://futa.ooo/1086.html">Debian下超省资源vagex挂机方案</a> ⊙﹏⊙)</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/04/28/基于curl的并行请求，实现php中的伪多线程/"><span>基于curl的并行请求，实现php中的伪多线程</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/04/28/基于curl的并行请求，实现php中的伪多线程/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-04-27T17:13:09.000Z">
+          2014-04-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 基于 curl_multi 的并行处理</span><br><span class="line"> *</span><br><span class="line"> * 使用示例</span><br><span class="line"> * Helper_Multicurl::add_curl(&apos;url1&apos;, Helper_Multicurl::mk_curl(&apos;get&apos;, $url1));</span><br><span class="line"> * Helper_Multicurl::add_curl(&apos;url2&apos;, Helper_Multicurl::mk_curl(&apos;get&apos;, $url2));</span><br><span class="line"> * $ret = Helper_Multicurl::multi_exec();</span><br><span class="line"> *</span><br><span class="line"> * @author  肖武 &lt;tsxw24@gmail.com&gt;</span><br><span class="line"> * @version 2012-9-14 15:06 #multicurl.php</span><br><span class="line"> */</span><br><span class="line">class Helper_Multicurl &#123;</span><br><span class="line">    static private $mh     = null;</span><br><span class="line">    static private $arr_ch = array();//curl句柄列表</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 创建curl会话，返回curl句柄</span><br><span class="line">     *</span><br><span class="line">     * @param string $type   请求方式，取值：get，post</span><br><span class="line">     * @param string $url    url地址，可包含问号</span><br><span class="line">     * @param array  $data   key-value对，post或get的参数</span><br><span class="line">     * @param array  $ex_arg 扩展参数,常用参数如下：</span><br><span class="line">     * array(</span><br><span class="line">     *  CURLOPT_COOKIE     =&gt; string 设定HTTP请求中&quot;Cookie: &quot;部分的内容。多个cookie用分号分隔，分号后带一个空格(例如， &quot;fruit=apple; colour=red&quot;)。</span><br><span class="line">     *  CURLOPT_REFERER    =&gt; string 请求头中&quot;Referer: &quot;的内容</span><br><span class="line">     *  CURLOPT_USERAGENT  =&gt; string &quot;User-Agent: &quot;头的字符串。如：“Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)”</span><br><span class="line">     *  CURLOPT_HTTPHEADER =&gt; array  header头列表，如：array(&apos;host:http://abc.com&apos;,&apos;Content-type: text/plain&apos;)</span><br><span class="line">     *  CURLOPT_TIMEOUT    =&gt; int    超时时间，秒</span><br><span class="line">     * )</span><br><span class="line">     *</span><br><span class="line">     * @return resource</span><br><span class="line">     */</span><br><span class="line">    static public function mk_curl($type, $url, array $data=array(), array $ex_arg=array()) &#123;</span><br><span class="line">        //初始化curl会话</span><br><span class="line">        $ch = curl_init();</span><br><span class="line"></span><br><span class="line">        //curl参数</span><br><span class="line">        $option = array(</span><br><span class="line">            CURLOPT_RETURNTRANSFER =&gt; 1,//返回请求结果</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        //get 参数处理(url处理)</span><br><span class="line">        if ($type==&apos;get&apos; &amp;&amp; $data) &#123;</span><br><span class="line">            $url .= (strpos($url, &apos;?&apos;) ? &apos;&amp;&apos; : &apos;?&apos;).http_build_query($data);</span><br><span class="line">        &#125;</span><br><span class="line">        $option[CURLOPT_URL] = $url;</span><br><span class="line"></span><br><span class="line">        //post 参数处理</span><br><span class="line">        if ($type==&apos;post&apos; &amp;&amp; $data) &#123;</span><br><span class="line">            $option[CURLOPT_POSTFIELDS] = $data;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //其它参数合并</span><br><span class="line">        $option += $ex_arg;</span><br><span class="line"></span><br><span class="line">        //批量设置会话参数</span><br><span class="line">        curl_setopt_array($ch, $option);</span><br><span class="line"></span><br><span class="line">        return $ch;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 初始化批量curl会话</span><br><span class="line">     */</span><br><span class="line">    static private function _multi_init() &#123;</span><br><span class="line">        if (is_null(self::$mh)) &#123;</span><br><span class="line">            self::$mh = curl_multi_init();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  清理数据，恢复初始状态</span><br><span class="line">     */</span><br><span class="line">    static private function _clear() &#123;</span><br><span class="line">        self::$mh     = null;</span><br><span class="line">        self::$arr_ch = array();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 添加curl句柄到批量处理中</span><br><span class="line">     *</span><br><span class="line">     * @param string   $k  用于区分不同请求的key，最终的返回结果会和key对应。若有重复后面的覆盖前面</span><br><span class="line">     * @param resource $ch curl会话的句柄</span><br><span class="line">     *</span><br><span class="line">     * @return boolean</span><br><span class="line">     */</span><br><span class="line">    static public function add_curl($k, $ch) &#123;</span><br><span class="line">        self::_multi_init();</span><br><span class="line"></span><br><span class="line">        //添加curl句柄</span><br><span class="line">        $ret = curl_multi_add_handle(self::$mh, $ch);</span><br><span class="line">        if ($ret != 0) &#123;//添加失败</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //若原来有相同$k,则删除，以便覆盖之</span><br><span class="line">        if (isset(self::$arr_ch[$k])) &#123;</span><br><span class="line">            curl_multi_remove_handle(self::$mh, self::$arr_ch[$k]);//移除原curl句柄</span><br><span class="line">            curl_close(self::$arr_ch[$k]);//关闭原curl会话</span><br><span class="line">            unset(self::$arr_ch[$k]);//删除原$k</span><br><span class="line">        &#125;</span><br><span class="line">        self::$arr_ch[$k] = $ch;</span><br><span class="line"></span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 执行批量请求，返回批量数据。原设置的k与其结果一一对应</span><br><span class="line">     *</span><br><span class="line">     * @param array $arr_ch 可选参数。key-curl句柄相对应的列表，用于批量设置curl句柄</span><br><span class="line">     *</span><br><span class="line">     * @return array</span><br><span class="line">     */</span><br><span class="line">    static public function multi_exec(array $arr_ch = array()) &#123;</span><br><span class="line">        $data = array();</span><br><span class="line"></span><br><span class="line">        //批量添加curl会话句柄</span><br><span class="line">        foreach ($arr_ch as $k =&gt; $ch) &#123;</span><br><span class="line">            self::add_curl($k, $ch);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //无批量执行句柄，返回空数组</span><br><span class="line">        if (is_null(self::$mh)) &#123;</span><br><span class="line">            return $data;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //执行</span><br><span class="line">        do &#123;</span><br><span class="line">            $mrc = curl_multi_exec(self::$mh,$active);</span><br><span class="line">        &#125; while ($mrc == CURLM_CALL_MULTI_PERFORM);</span><br><span class="line">        while ($active &amp;&amp; $mrc == CURLM_OK)</span><br><span class="line">        &#123;</span><br><span class="line">            if (curl_multi_select(self::$mh) != -1)</span><br><span class="line">            &#123;</span><br><span class="line">                do &#123;</span><br><span class="line">                    $mrc = curl_multi_exec(self::$mh, $active);</span><br><span class="line">                &#125; while ($mrc == CURLM_CALL_MULTI_PERFORM);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //获取返回结果</span><br><span class="line">        foreach (self::$arr_ch as $k =&gt; $ch) &#123;</span><br><span class="line">            $data[$k] = curl_multi_getcontent($ch);</span><br><span class="line">            curl_multi_remove_handle(self::$mh, $ch);//移除句柄</span><br><span class="line">            curl_close($ch);//关闭会话</span><br><span class="line">        &#125;</span><br><span class="line">        curl_multi_close(self::$mh);//关闭批量会话</span><br><span class="line"></span><br><span class="line">        //清理数据，恢复初始状态，为下一次使用做好准备</span><br><span class="line">        self::_clear();</span><br><span class="line"></span><br><span class="line">        return $data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这工具本质是发起并行请求，但若请求的自己定义的特殊接口，完全可以实现php伪多线程，进行某些数据的并行处理。<br>如自定义一个db查询接口，参数是sql（当然还有一下其它安全验证的参数等），返回值是查询结果。然后使用这个curl并行请求这个接口，那实现多条sql语句同时查询的功能。<br>并行查询数据库只是一个简单的例子，原则上所有不相互依赖的业务逻辑，都可以使用这种方法转为并行处理。</p>
+<p>转载自 <a href="http://blog.csdn.net/tsxw24/article/details/7979172" target="_blank" rel="noopener">http://blog.csdn.net/tsxw24/article/details/7979172</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/04/17/鲜为人知的中国计数——知道3,892,179,868,480,350,000,000这个数怎么念吗？/"><span>鲜为人知的中国计数——知道3,892,179,868,480,350,000,000这个数怎么念吗？</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/04/17/鲜为人知的中国计数——知道3,892,179,868,480,350,000,000这个数怎么念吗？/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-04-17T08:05:27.000Z">
+          2014-04-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>　「不可说」是「不可以说出来」的意思，在佛经中，“不可说”的意思并不一定是这样。<br>　《华严经》「不可言说不可说，充满一切不可说，不可言说诸劫中，说不可说不可尽，……於一微细毛端处，有不可说诸普贤，……一毛端处所有刹，其数无量不可说……」在第四十五卷中，有将近四百个不可说。<br>　《地藏菩萨本愿经》「尔时，十方无量世界不可说不可说一切诸佛，及大菩萨摩诃萨，皆来集会，赞叹释迦牟尼佛……」这里用了两个不可说。<br>　《小般若经》「一切法不可说，须菩提，一切法空相不可说……」<br>　「不可说」倒底有多大，我们试着找找看：<br>　　　　<br>　《华严经》世尊为心王菩萨详细解说了佛所使用的计量单位。经上说∶「尔时，心王菩萨白佛言∶『世尊，诸佛如来，演说、无量、无边、无等、不可数、不可称、不可思、不可量、不可说、不可说不可说。』<br>　『世尊，云何阿僧祇乃至不可说不可说耶？』心王菩萨问世尊，您常说诸佛如来的数目，所用的各种单位如「阿僧祇、演说」……一直到「不可说不可说」倒底是什麽意思？<br>　世尊回答「善男子，一百洛叉为一俱胝，俱胝俱胝为一阿庾多，阿庾多阿庾多为一那由他……」从这里开始，世尊便详细的说明了佛所用的计量单位。一个洛叉是十万，也就是 10^5 (10的 5次方)。<br>　　<br>　　　　1、俱 胝 =100洛叉=100×100000=10000000=10^7 (1千万)<br>　　　　2、阿庾多 =俱胝×俱胝 = 10^14 =1的后面接 14个 0<br>　　　　3、那由他 =阿庾多×阿庾多=10^28 =1的后面接 28个 0<br>　　　　4、频婆罗 =那由他×那由他 =10^56=1的后面接 56个 0。<br>　　　　<br>　　　　列出来就是：100000000000000000000000000000000000000000000000000000000.<br>　　　　<br>　　　　5、矜罗羯 =频婆罗×频婆罗 =10^112<br>　　　　6、阿伽罗 =矜罗羯×矜罗羯 =10^224<br>　　　　7、最胜 =阿伽罗×阿伽罗 =10^448 (如此一级一级的推，下一级就是：<br>　　　　8、摩罗婆 = 10^896 =1的后面接 896 个 0<br>　　　　9、阿婆罗 = 10^1792 =1的后面接 1792个 0<br>　　　　10、多婆罗 = 10^3584 =1的后面接 3584个 0<br>　　　　11、界 分 = 10^7168 =1的后面接 7168个 0<br>　　　　12、普 摩 = 10^14336<br>　　　　13、祢 摩 = 10^28672<br>　　　　14、阿婆钤 = 10^57344<br>　　　　15、弥伽婆 = 10^114688<br>　　　　16、毗罗伽 = 10^229376<br>　　　　17、毗伽婆 = 10^458752<br>　　　　18、僧羯逻摩= 10^917504<br>　　　　19、毗萨罗 = 10^1835008<br>　　　　20、毗赡婆 = 10^3670016 这里离“不可说”还有 100级呢<br>　　　　21、毗盛伽 = 10^7340032 = 1 的后面接7340032 个 0<br>　　　　22、毗素陀 = 10^14680064<br>　　　　23、毗婆诃 = 10^29360128<br>　　　　24、毗薄底 = 10^58720256<br>　　　　25、毗　担 = 10^117440512<br>　　　　26、称 量 = 10^234881024<br>　　　　27、一 持 = 10^469762048<br>　　　　28、异 路 = 10^939524096<br>　　　　29、颠 倒 = 10^1879048192 = 1 的後面接 1879048192个 0<br>　　　　<br>　原来「颠倒」也是计量单位。《心经》上说「远离颠倒梦想」，看很合理，如果说众生的想法都是「颠倒」的话，就说不太通了，例如一个人很饿，他想要有一点食物，这不能说是颠倒梦想；但是如果用於表示众生的梦想太多，则对了。一个人一生能有多少梦想？假设一个人一秒内可以有10个梦想，一生可活 100年，那麽其数是:<br>　100(年)x365(天)x24(小时)x60(分)x60(秒)x10(个)<br>　总数是 =31，536，000，000个梦想。再给多一点化成十数的话就是 100，000，000，000个梦想，1 的後面接 11 个 0. 这个数字别说是「颠倒」，就连「阿庾多」的等级都够不上。不过众生轮回不已，因此累加的梦想是有可能达到颠倒级的。倒底要多少世才能累积到那样的数量梦呢？我们可以算算 看: 颠倒除以一生 = 颠倒 / 一生<br>　　　　= log 1879048192 - log 11<br>　　　　= log 1879048181<br>　也就是说要有 1 後面接 1879048181 个 0 的一生，才能累积到那个梦想数量。该注意到，上面的一生是原来一生是 100岁的 3倍多，也就是设定人有 300岁时才「只」需要那轮回1879048181 的世就可达到「颠倒」的梦想数的。<br>　　　　<br>　　　　30、三末那 =颠倒×颠倒 = 10^3758096384<br>　　　　31、毗睹罗 = 10^7516192768<br>　　　　32、奚婆罗 = 10^15032385536<br>　　　　33、何 察 = 10^30064771072<br>　　　　34、周 广 = 10^60129542144<br>　　　　35、高 出 = 10^120259084288<br>　　　　36、最 妙 = 10^240518168576<br>　　　　37、泥婆罗 = 10^481036337152<br>　　　　38、诃里婆 = 10^962072674304<br>　　　　39、一 勋 = 10^1924145348608<br>　　　　40、诃理蒲 = 10^3848290697216<br>　　　　41、诃理三 = 10^7696581394432<br>　　　　42、奚鲁伽 = 10^15393162788864<br>　　　　43、达罗步陀= 10^30786325577728<br>　　　　44、诃鲁那 = 10^61572651155456<br>　　　　45、摩鲁陀 = 10^123145302310912<br>　　　　46、忏慕陀 = 10^246290604621824<br>　　　　<br>　数字已进入天文数字了，我们必需要改用另外的表示法。10^(2.46290604621824<em>10^14)= 1的後面接上(2. 62906046218244×10的14次方)个 0。这个事实上已无法想像有多大了。<br>　　　　47、瑿攞陀 = 10^(4.9×10^14)<br>　　　　48、摩鲁摩 = 10^(9.8×10^14)<br>　　　　49、调 伏 = 10^(1.9×10^15)<br>　　　　50、离　慢 = 10^(3.9×10^15)<br>　　　　51、不 动 = 10^(7.8×10^15)<br>　　　　52、极 量 = 10^(1.5×10^16)<br>　　　　53、阿摩怛罗= 10^(3.1×10^16)<br>　　　　54、勃摩怛罗= 10^(6.3×10^16)<br>　　　　55、伽摩怛罗= 10^(1.2×10^17)<br>　　　　56、那摩怛罗= 10^(2.5×10^17)<br>　　　　57、奚摩怛罗= 10^(5.0×10^17)<br>　　　　58、鞞么怛罗= 10^(1.0×10^18)<br>　　　　59、钵罗摩怛罗= 10^(2.0×10^18)<br>　　　　60、尸婆摩怛罗= 10^(4.0×10^18)<br>　　　　61、翳 罗 = 10^(8.0×10^18)<br>　　　　62、薛 罗 = 10^(1.6×10^19)<br>　　　　63、谛 罗 = 10^(3.2×10^19)<br>　　　　64、偈 罗 = 10^(6.4×10^19)<br>　　　　65、窣步罗 = 10^(1.3×10^20)<br>　　　　66、泥 罗 = 10^(2.6×10^20)<br>　　　　67、计 罗 = 10^(5.2×10^20)<br>　　　　68、细 罗 = 10^(1.0×10^21) 到目前为止，这些都不是常用单位，佛经上常谈的许多计量单位还未出现。<br>　　　　69、睥 罗 = 10^(2.0×10^21)<br>　　　　70、谜 罗 = 10^(4.0×10^21)<br>　　　　71、娑罗荼 = 10^(8.2×10^21)<br>　　　　72、谜鲁陀 = 10^(1.6×10^22)<br>　　　　73、契鲁陀 = 10^(3.3×10^22)<br>　　　　74、摩睹罗 = 10^(6.6×10^22)<br>　　　　75、娑母罗 = 10^(1.3×10^23)<br>　　　　76、阿野娑 = 10^(2.6×10^23)<br>　　　　77、迦麽罗 = 10^(5.2×10^23)<br>　　　　78、摩伽婆 = 10^(1.1×10^24)<br>　　　　79、阿怛罗 = 10^(2.1×10^24)<br>　　　　80、醯鲁耶 = 10^(4.2×10^24)<br>　　　　81、薛鲁婆 = 10^(8.4×10^24)<br>　　　　82、羯罗波 = 10^(1.7×10^25)<br>　　　　83、诃婆婆 = 10^(3.3×10^25)<br>　　　　84、毗婆罗 = 10^(6.7×10^25)<br>　　　　85、那婆罗 = 10^(1.3×10^26)<br>　　　　86、摩罗摩 = 10^(2.7×10^26)<br>　　　　87、娑婆罗 = 10^(5.4×10^26)<br>　　　　88、迷罗普 = 10^(1.0×10^27)<br>　　　　89、者麽罗 = 10^(2.1×10^27)<br>　　　　90、驮摩罗 = 10^(4.2×10^27)<br>　　　　91、钵罗麽 = 10^(8.6×10^27)<br>　　　　92、毗伽摩 = 10^(1.7×10^28）<br>　　　　93、乌波跋多 = 10^(3.4×10^28）<br>　　　　94、演 说 = 10^(6.9×10^28)<br>　终于『《华严经》【阿僧祇品】第三十∶「尔时，心王菩萨白佛言∶『世尊，诸佛如来，演说、无量、无边、无等、不可数、不可称、不可思、不可量、不可说、不可说不可说。』『世尊，云何阿僧祇乃至不可说不可说耶？』其中的「演说」这时有了明确的意义了，诸佛如来的数量由这个单位起算，一直到“不可说不可说”的单位都有。<br>　　　　<br>　　　　95、无 尽 = 10^(1.3×10^29)<br>　　　　96、出 生 = 10^(2.7×10^29)也作「生」「一生」<br>　　　　97、无 我 = 10^(5.5×10^29)<br>　　　　98、阿畔多 = 10^(1.1×10^30)<br>　　　　99、青莲华 = 10^(2.2×10^30)<br>　　　　100、钵头摩 = 10^(4.4×10^30)<br>　　　　101、僧 祗 = 10^(8.8×10^30)<br>　　　　102、趣 = 10^(1.7×10^31)<br>　　　　103、至 = 10^(3.5×10^31)也称作「喻」 (参见华严经)<br>　　　　104、阿僧祇 = 10^(7.1×10^31)也称作「无数」<br>　　　　105、阿僧祇转= 10^(1.4×10^32)「无数转」「大阿僧祇」<br>　　　　106、无 量 = 10^(2.8×10^32)<br>　　　　107、无量转 = 10^(5.6×10^32)<br>　　　　108、无 边 = 10^(1.1×10^33)<br>　　　　109、无边转 = 10^(2.3×10^33)<br>　　　　110、无 等 = 10^(4.5×10^33)<br>　　　　111、无等转 = 10^(9.0×10^33)<br>　　　　112、不可数 = 10^(1.8×10^34)<br>　　　　113、不可数转= 10^(3.6×10^34)<br>　　　　114、不可称 = 10^(7.2×10^34)<br>　　　　115、不可称转= 10^(1.4×10^35)<br>　　　　116、不可思 = 10^(2.9×10^35)<br>　　　　117、不可思转= 10^(5.8×10^35)「不可议」<br>　　　　118、不可量 = 10^(1.1×10^36)<br>　　　　119、不可量转= 10^(2.2×10^36)<br>　　　　120、不可说 = 10 的[ 46522979840000…(一共接 36个 0 )] 次方。<br>　　　　<br>　到了这里，总算我们要的计量单位都有了着落。《华严经》所说的「不可言说不可说，充满一切不可说，不可言说诸劫中，说不可说不可尽，……於一微细毛端处，有不可说诸普贤，……一毛端处所有刹，其数无量不可说……」这一段我们所提出的「不可说」才算有了真正的意义，对於「介子纳须弥」的说法也才有了真正的描述。而「不可说」并不是最大的数，因为後面还有：<br>　　　　<br>　　　　121、不可说转 = 10^(9.3×10^36)<br>　　　　122、不可说不可说 = 10^(1.8×10^37)<br>　　　　123、不可说不可说转 = 10^(3.721838387×10^37)<br>　　　　<br>　“不可说不可说转”这个数有多大？<br>　假使有人将“不可说不可说转” 这一数字用纸写下来，装订成书，这个数字将有3.721838379×10^37个0，普通A4纸每页4克计，每页纸上写1000个0，那么写完这些0将用的纸将重达1.488735352</em>10^35克，而太阳的质量也不过是1.989*10^33克，这本书的质量是74．8个太阳质量的总和！<br>　　　　 74．8个太阳质量约等于2500万个地球质量。如果每秒钟写一个零，则要写1200亿亿亿年。</p>
+<p>转载自 <a href="http://bbs.tianya.cn/m/post-free-1570746-1.shtml" target="_blank" rel="noopener">http://bbs.tianya.cn/m/post-free-1570746-1.shtml</a></p>
+<p>另注: 博客成立整整一周年了哈哈哈</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/04/11/童鞋下午拍的 s5，真机/"><span>童鞋下午拍的 s5，真机</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/04/11/童鞋下午拍的 s5，真机/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-04-11T05:50:38.000Z">
+          2014-04-11
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>电信定制机<br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_204841.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_204841-300x168.jpg" alt="20140411_204841"></a><br>锁屏界面，有一部机子真被别人锁上了，不知道能不能用 wipe 解锁<br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_205355-e1397318246626.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_205355-e1397318246626-168x300.jpg" alt="20140411_205355"></a><br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_205139-e1397318249778.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_205139-e1397318249778-168x300.jpg" alt="20140411_205139"></a><br>后盖<br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_205121-e1397318333109.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_205121-e1397318333109-168x300.jpg" alt="20140411_205121"></a><br>关于手机<br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_205329-e1397318330873.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_205329-e1397318330873-168x300.jpg" alt="20140411_205329"></a><br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_205336-e1397318328877.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_205336-e1397318328877-168x300.jpg" alt="20140411_205336"></a><br>存储<br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_204922-e1397318326385.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_204922-e1397318326385-168x300.jpg" alt="20140411_204922"></a><br>任务管理器<br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_205040-e1397318273220.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_205040-e1397318273220-168x300.jpg" alt="20140411_205040"></a><br>相机<br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_205438-e1397318203115.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_205438-e1397318203115-168x300.jpg" alt="20140411_205438"></a><br>后置摄像头设置<br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_205446-e1397318244598.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_205446-e1397318244598-168x300.jpg" alt="20140411_205446"></a><br>前置摄像头设置(前置摄像头已挡)<br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_205643-e1397318242542.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_205643-e1397318242542-168x300.jpg" alt="20140411_205643"></a><br>指纹识别!!!压轴<br><a href="http://futa.ooo/wp-content/uploads/2014/04/20140411_205719-e1397318213972.jpg"><img src="http://futa.ooo/wp-content/uploads/2014/04/20140411_205719-e1397318213972-168x300.jpg" alt="20140411_205719"></a></p>
+<p>图传完了。。。不建议买定制机，等一个礼拜以后的公开版吧。。。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/03/31/别“听说”什么都信/"><span>别“听说”什么都信</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/03/31/别“听说”什么都信/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-03-30T23:17:56.000Z">
+          2014-03-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>我爸最近在化疗，开始有人谴责我们为什么不去医院陪着他，还有心情上班，还有心情上网，还有心情在家过日子。这周回家，我跟我爸聊天说起这事，我爸给我讲了一个他这礼拜去上班，在班上遇到我妈同学（这位阿姨在我爸工作地方打扫卫生）的事。我妈的同学说“你家**（我妈名字）怎么不上班呀？”我爸说“不上，我养得起。”我妈同学又说“不上班连保险钱都挣不来。”我问我爸她怎么会这么想呢？我妈在家挣的比她打扫卫生挣的多呀？！我爸说“你知道你妈上班比她打扫卫生挣的多，她不知道呀！她不知道听谁说你妈不上班，就觉得跟她一样不上班就不挣钱。同样的，那些人一听化疗，就觉得这病指不定得多严重呢！可能就是听说了，都没细想想，细问问什么毛病呀？但凡能多想点儿的也会觉得一边化疗，一边还上班呢，肯定是不严重。”</p>
+<p>其实很多时候，我们都靠听说来判断。读《重新理解媒介》的时候里面有一节专门讲传播中的“信息完整度”。一个撰稿人说“错别字不影响约稿频率。谁谁就是错别字满篇，照样被各杂志约稿。”这可能就是个“信息完整度”不够的例子，谁谁的妈妈是某机构负责刊号审核的，他的文章有错别字杂志也会被约稿的原因会不会跟他妈妈有关呢？！可能啊！不知道是不是真的有关。片面的信息实际上会造成误解和分析的偏差。而大多数情况下“听说”恰恰是片面的，有偏差的，友邻“天人合一”提醒我“探究真理，而非人云亦云。避免因轻信、想当然而致不了解。经济学里的“信息不对称”的通感。”</p>
+<p>再比如，我运营来往扎堆，好几个人跟我说，听说阿里竞争不过腾讯要倒闭了，听说来往没什么人用，听说阿里要放弃来往了。其实只要他们加入我的扎堆，就会发现半个多月，我的扎堆已经有两万四千多成员了。</p>
+<p>很多事情瞎打听半天，“听说”什么都信，知道真相之后，是非常可笑的。比如有位编辑A问我写书评要多少稿费，我告诉他“5000”，他就到处打听，其他编辑都说不花钱呀！他就又到处打听为什么那些编辑不花钱，我也会写书评。于是我又被听说“跟某几位男编辑关系密切！”证据他们约稿我都会答应而且免费。可是我之所以告诉编辑A我收钱的原因是因为他在我线上活动发赠书帖从来不跟打招呼，就自己发，发完了还就完了，就不理了，不开奖也不维护。最关键的是，我把每天的工作都集中在下午的一个多小时里，他偏要在这一小时里不断的发QQ信息“土豆姐帮我推荐一下这个！”“求土豆推荐！”“土豆帮个忙！”看完这条信息，怎么都想不起自己想干嘛了。在这种时刻就仿佛孙悟空看到了白骨精，别说帮他，不发火都需要很大的忍耐力！而其他那几位编辑也不全是男的，大多数都是已经有孩子的大姐，只是名字比较像男生，他们跟我约稿，总是先问忙不忙，而且在得知我怀孕之后，还主动不再约恐怖、激烈的书，而尽量选择平和的书约稿。</p>
+<p>什么事屡屡碰壁的时候，我们习惯抱怨外在的因素，其实很多时候可能是内在的原因，向内找解决方法更快。读书群里，总是有个人抱怨其他人读书快，造成编辑要求收到书之后三周内交书评，而他根本没看完，写不出来。群里很多人教他怎么读书，如何能读的又快，又记的好。可是他就是不在意，只是一味的抱怨。其实只有冷静的想一下，就能想明白，这事不是他抱怨别人，要求其他几百人读书慢下来就能解决的。他如果能学习点读书方法，提高一下自己的读书速度。</p>
+<p>之前看乐嘉的书有这么一段“在微博的世界中，感性的人们可以遇事多点理性和思考，少点冲动和口号。在避免永远做围观的看客，让这个社会越来越冷漠的同时，也要避免我们自己怀善人心做恶人事。与此同时，对于那些内心有着强烈愿望和使命感，希望通过网络发声从而影响社会变革的朋友而言，学会说话，说的有效有理有利有节是重要的功课。任何变革难免要有牺牲，但盲目的牺牲绝对不是变革。如果我们暂时无法改变社会，至少我们每个人可从改变自己开始。”</p>
+<p>不是说听什么都不信，但是也别“听说”什么都信。对你没影响的事，听过就过了。对你有影响的事，好好想想，分析分析，真的去考证一下。刚才有个人问我，是不是因为我怀孕了，他骂我，我才不回应。是不是觉得怀孕了，全世界都该让着孕妇。其实我没怀孕的时候，别人骂我，我也不回应。之前有个人写了好几百字“爆黑幕”，分析出我是一写鸡汤文的屌丝男，有诸多缺点，精神分裂。后面这好几百人回复，唰唰每天都掉好几百粉，很多人就说你解释解释。我说我这经常写我肚子大了，我公公的事，我婆婆的事，这些解除关注的人，只要看看日记，广播就知道我是女的。很多解释和争论，完全没有意义，而且会让自己被负能量所影响。每次别人发给我链接说，你看他骂你，你看他说你，我都会发给他们我自我介绍里的一句话“解释和争论，只在两种情况下有意义，一种是这个人很重要，一种是这件事很重要。” </p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/03/22/如何面对别人对自己的评价/"><span>如何面对别人对自己的评价</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/03/22/如何面对别人对自己的评价/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-03-22T02:23:50.000Z">
+          2014-03-22
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>领导要写论文了，这几天他一直研究社交的一些书，我也跟着看了一些书。在豆瓣上总有一些陌生人给我发邮件，希望我给他们建议。可是我根本不认识他们，他们说的问题，我也都没有接触过，大多数情况下我都会说“我没有类似经验，真没法回答这问题。”前天跟领导讨论的时候说到类似的问题，如何面对别人对自己的评价。领导有个观点：当一个人精神足够强大、阅历、知识都成熟之后，更应该自己反思，而非注重别人的评论。除非这个人的意见很重要会影响，比如对事情有决定权。或者找个人你很在意，在你生活中有很高地位。否则别人的意见就没什么用。原因有三点：第一，别人可能自己都没活明白呢！不一定是明白人。第二，别人不一定真的了解你。第三，别人的评论有自己的动机。</p>
+<p>既然深入了这个话题，我们俩决定做个实验。有个人经常说我写作水平差、文笔不好、都是鸡汤文，没什么用。最好别写了，女人不用有什么事业，安心生孩子带孩子得了。然后我们就选取了他为实验对象，研究他的评论。老奸巨猾的领导去试探了他，发现他其实没怎么看过我写的东西，他一直劝我不要写了，是因为我的专栏稿费比他的贵，他希望我别写了，他来写那几个稿费高的专栏。</p>
+<p>我们身边总有这样的聪明人。昨天下班接到某杂志编辑大姐约稿电话，看完资料开始写，1个小时后写完，种花，睡觉。早上起来开始改，改完交稿。我问编辑大姐为什么不夸我效率高，她在电话里沉默一会儿说“你一年也就几次有这效率，他（指我爱人）是不是出差了？！你一个人无聊的没事干呀？！”这个睿智的中年女人只是从我的交稿时间和一通电话就分析出我爱人出差，我很无聊的状态。在社交中，我们需要辨别出什么样的评论对自己是有益的，什么样评论不用去在意。</p>
+<p>有些评论非常有价值，是必须听取的，重点思考的。比如我第一次在编辑部改稿的时候，领导让三位老师给我改稿（三对、三校），一位老师拿过来没看完就暴躁的说，这没法要，简直太差了，根本不符合逻辑。一位老师认真的看，逐段的看写出批注、修改意见、思路。最后一位老师找前面那位老师讨论了半天之后，写了自己的总结。领导把没经过思考就说出来的评论叫“语言暴力”，把经过思考的评论叫做“建设性意见”。而建设性意见大多数时候充满了经验和智慧，是我们需要重视和学习的。</p>
+<p>我经常看某微信分享的案例故事，昨天的文章里有一句“未来感性的人才，会讲故事来打动人心的人，相较于理性思考的人才，可能会更加被企业和社会需要。”其实我倒是觉得，感性和理性是互补的，需要达到一种平衡，两样少了那一样，都会减弱自己的实力。</p>
+<p>《状元媒》里有句话：“大羹必有淡味，大巧必有小拙，白璧必有微瑕。物件和人一样，人尚无完人，更何况是物。”这与《成功这件小事》里迦尼萨说的“就像这个世界如果没有黑暗，就没有光明一样，缺点和优点也是自己拥有的同一个特质的表里两面。譬如说，喜欢独立作业的家伙，一见到人就会觉得累；相反，喜欢和别人打交道的家伙，就无法完全集中精神与独立作业。”两本书是不同国家的，不同类型的书，在人的优点和缺点上有类似的观点。</p>
+<p>那些没有任何建设性的批评，就像是破坏性地震，除了留下一堆废墟，没有什么意义。宁可跟明白人打顿架，不能跟混蛋说句话！价值观不一样，很多事情虽然浪费很多时间还是说不通！北京有句老话：我说玻璃球子，你听胯骨肘子。大家不在一个频率上，对一件事的评价是不一样的。有时候把事情想明白了，就算别人误解，也不会在意，人也更豁达。我公公有次出门扔垃圾，有个拿相机的小伙子问”大爷这是谁的家?”我公公说”我的家。”对方不屑的说”谁信呀？！”我公公无所谓的回答”你不信，我骗别人去。”扔了垃圾，顺手就把门关上了。我说“您怎么不跟他解释解释。”我公公说“一辈子可能就见这一次，他又不是玉皇大帝，甭管他有什么想法，房本也是我名字呀！”要学会控制情绪。解释和争论，只在两种情况下有意义，一种是这个人很重要，一种是这件事很重要。都不重要就算了，把时间放在自己喜欢的事上面吧！</p>
+<p>有个朋友说，其实你把时间和精力重点放在什么地方，你得到的收获就在什么地方多。大家同样混豆瓣，之前问一个每月在豆瓣上收入大概两万的友邻，挣这么多钱有什么技巧。他说把重点放在运营自己的账号上，而不是放在跟人家吵架上。</p>
+<p>读彼得·德鲁克的《旁观者》时，作者反复的强调人是多变的、多元以及独特的，而管理别人，管理自己都要顺应这些特质。实际上在我们生活、工作的社交过程中，无论别人的评价怎么样，我们都是有优点的，也肯定是有缺点的。通过别人或者自己的评价更好的认识自己，更好的发现自己的兴趣和特长，扬长避短发挥出自己的优势比人云亦云的评论更重要。每次我看成功学的书，我领导就重复一句话“大多数时候，别人的成功经验在你身上没什么用，你只需要把你擅长的发挥到极致。”《幸好还有，爱和梦想》的题记里有句话“人生教会我们的从来不是那些我们已经得到的，而是我们怎么得到的。”自我认知的过程，也是成长和收获的过程。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/03/06/WordPress 复制时自动添加文章版权/"><span>WordPress 复制时自动添加文章版权</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/03/06/WordPress 复制时自动添加文章版权/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-03-06T05:49:13.000Z">
+          2014-03-06
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>这个我在许多博客也看到有，我这个版本的好像是 WP 大学流出来的。用法很简单，如下：</p>
+<p>将如下的代码加入到 functions.php 就可以了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">//自动添加文章版权</span><br><span class="line">function add_copyright_text() &#123; ?&gt;</span><br><span class="line">&lt;script type=&apos;text/javascript&apos;&gt;</span><br><span class="line">function addLink() &#123;</span><br><span class="line">    var body_element = document.getElementsByTagName(&apos;body&apos;)[0];</span><br><span class="line">    var selection;</span><br><span class="line">    selection = window.getSelection();</span><br><span class="line">    var pagelink = &quot;&lt;br /&gt;&lt;br /&gt;本文来源：&lt;a href=&apos;&quot;+document.location.href+&quot;&apos;&gt;&quot;+document.location.href+&quot;&lt;/a&gt;&quot;; </span><br><span class="line">    var copy_text = selection + pagelink;</span><br><span class="line">    var new_div = document.createElement(&apos;div&apos;);</span><br><span class="line">    new_div.style.left=&apos;-99999px&apos;;</span><br><span class="line">    new_div.style.position=&apos;absolute&apos;;</span><br><span class="line">    body_element.appendChild(new_div );</span><br><span class="line">    new_div.innerHTML = copy_text ;</span><br><span class="line">    selection.selectAllChildren(new_div );</span><br><span class="line">    window.setTimeout(function() &#123;</span><br><span class="line">        body_element.removeChild(new_div );</span><br><span class="line">    &#125;,0);</span><br><span class="line">&#125;</span><br><span class="line">document.oncopy = addLink;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;?php</span><br><span class="line">&#125;</span><br><span class="line">add_action( &apos;wp_footer&apos;, &apos;add_copyright_text&apos;);</span><br></pre></td></tr></table></figure>
+<p>加完你再复制就会出现类似如下的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这只是一个例子</span><br><span class="line"></span><br><span class="line">本文来源：http://www.zntec.cn/?p=7664&amp;preview=true</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://www.zntec.cn/archives/wordpress-auto-copyright.html" target="_blank" rel="noopener">http://www.zntec.cn/archives/wordpress-auto-copyright.html</a></p>
+<p>另注: 该方法在 Android UC 浏览器上实测无效</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/03/01/无情一点并没错/"><span>无情一点并没错</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/03/01/无情一点并没错/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-02-28T20:56:25.000Z">
+          2014-03-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>早上起床，猛的一照镜子，发现自己和几年前完全不一样了<br>抛开长相上的细微变化，我说的不一样是神态上面的不一样，我对着镜子暗自想到：妈的，竟然变成了这幅冷酷嘴脸。<br>后来我花了5分钟时间细细像了一下为什么我会有这么大的变化，想到了几件事：</p>
+<p>上小学的时候，体育测验。同班姑娘让我帮她拿着她头上的发卡，她去做仰卧起坐。于是我就那么紧紧的把发卡握在手里，一秒钟都不敢走神。后来她考完了，连一句谢谢都没说，就和别人去玩了。<br>第二节体育课，轮到我考试了，我让这个姑娘帮我拿着发卡，她没拒绝。可是等我考完以后，我问她我的发卡呢？她轻描淡写的说：丢了。我问怎么丢了？她说：刚才你考试的时候XX她们叫我过去玩，我跑着跑着就丢了。<br>于是我只得在下午的班主任的课堂上披头散发的上课，然后被正好过来检查“仪容仪表”的教导主任批评，被恼羞成怒的班主任请了家长。而那个姑娘，和别人一起在一脸兴奋的看我挨批评。</p>
+<p>还是上小学，5年级。我们班组织出去春游，需要自己组成小组。于是我和班里的另外两个姑娘组成了3人的小组。我们分配好谁带薯片，谁带水果什么的。<br>然后到了春游那天，我抱着精心准备的三人份的零食和她们两个上了大巴车，其中一个姑娘才告诉我。她俩已经加入别的组了，现在“好心”的提醒我一下。我抱着零食开始掉眼泪，没人知道那天我是如何默默吃掉三份零食的。</p>
+<p>上高中的时候，不知道是谁说看见有司机接我，于是别人开始推测我零花钱比别人多。后来发展到，开始有人管我借钱不还。我成了债主，确要赔着笑脸管别人要钱。最后钱当然是一分没要回来。我还背上了“小肚鸡肠，不乐于助人”的坏形象。</p>
+<p>上了大学，我看同宿舍的一个女生经常为了省钱不吃饭，我那可耻的善良就又钻出来了。。。我经常请她吃饭，还把自己不用的化妆品送给她。几个月后，我听到了关于我的负面新闻，就是这个舍友编造的。当我得知真相的时候，她正安心的坐在床上吃我买的苹果，穿着我的衣服。</p>
+<p>后来到了美国，我的大学教授每次都把中国学生和其他学生区别对待。同班的中国学生拿他一点办法没有。直到那次他再一次触及了我的底线。他无视离他最近的那个白人大胖子一直在刷facebook，却指着我的笔记本电脑说：close that fucking thing！然后我听到了旁边几个白人的笑声。为此我难受了好长时间。<br>等到再上课的时候，教授正在吹嘘他的光辉事迹，我突然对着一个刷facebook的白人说：Hey. you! Close that fucking thing! Listen to the professor! 说完我用手指了指自己的耳朵，全班人都像看疯子一样看着我，我已经做好了被赶出去的准备，可是教授竟然没说什么。下课以后，教授走过来默默地拍了拍我的肩膀，我知道从此往后我再不用遭受种族歧视了。</p>
+<p>于是我开始渐渐不再善良。<br>在我变得没那么善良以后，命运之神开始向我微笑。<br>在我变得没那么善良以后，我开始变得轻松，少了很多累赘的人际关系。<br>在我变得没那么善良以后，我拉黑了曾经不敢拉黑的人，我当着其他学生的面说一个教授“涉嫌威胁，欺诈，并且put me into that deep shit”，收获的是其他人的掌声和教授的退让。<br>在我变得没那么善良以后，我不会顾忌和别人的“友谊”就放弃自己的话语权，我争取到了比原先多得多的机会。<br>在我变得没那么善良以后，我再也不用熬夜做完整个小组8个人的作业，然后没有拿到A还要是自己认错。</p>
+<p>有时候，那种过分的“善良”会伤害到自己，会让一些没有底线，没有良知的人得寸进尺。这个社会上并不是所有人都有着“善”的本质，有些人伤害过别人以后，丝毫不会内疚，不会不安，他们只会笑话你是傻逼，说一切都是你自找的。<br>而当你学会了拒绝别人，学会了以牙还牙，学会了冷酷无情的时候，那些傻逼们反而会尊重你，甚至敬畏你。</p>
+<p>于是，我终于相信了那句话：无情一点没有错。</p>
+<p>===========================================================================</p>
+<p>因为另外一篇日记火了，所以这篇也有不少人来看，然后就有人说我写的是假的。说我写的假的不能再假。说这么明显的种族歧视怎么能公然出现。<br>首先，他不是公然出现的，而且让你感受到的（这你要还不信我就没办法了）。这个让我“close that fucking thing”的老头，曾经在我拿着作业问他为什么得了C的时候给我讲明白了原因，让我多写一份。<br>我一开始没多想，觉得他让我再写一份可能是他想让我写的更好，拿更高的成绩。事实是我太幼稚了，等我把写好的作业email给他的时候，他没有看，是的，看都没看。然后我不甘心，又拿着打印出来的作业，在他office hour去他办公室找他，他才给我看的。但是很敷衍，而且很潦草的给了我一个B。并且这门课是国际关系课（当然我住修的不只是门，别又有人开始瞎推断我学什么，我还修了八竿子打不着的音乐史呢）。按理说，作业的题目应该是学生自己选择（这是教授说的，他说题目自己选择，但是要能概括一个国际上的矛盾冲突，并且用levels of analysis解释清楚）。然后我的第一次作业写的是【法国应不应该干涉利比亚内政】，得了是C，如我刚才提到。后来第二次作业，这个教授一边要求我重新写，一边让我改变题目（他说的是看问题角度，后来通过暗示我明白是改变题目，因为他总是三句话不离东亚的事情），他给我引导了半天，我才明白他想让我写中国大陆和台湾的问题。。。次奥！！！！！！而且他真的是原话这么问我的：should China recover Taiwan?<br>容我咆哮一下。。。。。。。。。。。。。。。。。。。。。<br>好了我咆哮完了。从那以后我就知道我不应该改选他的课。。。如果大家还是觉得这个过程太假，那我真的无力了。<br>然后就是我文章中提到的，他无视白人刷facebook反而来教育我的事情。可能是我一直表现的比较软弱好欺负吧。。。他让我多写一份我就多写一份，上课到座率也比别的SAC学生高，所以他就以为我比较软柿子。。。然后上课他对我那么说，真是吓我一大跳，因为声音特别大。我为什么又说这不公平呢？因为第一，我说了他无视白人犯错误。第二，在之后的那节课又有一个女孩上课看电脑没看他，然后教授用截然不同的语气对她说：would you close that and listen to me?虽然表情还是很严肃，然是语气明显轻多了。这也是为什么我突然觉得极度憋屈，然后对着白人说出来那句话的。</p>
+<p>最后，针对有人说我光有托福，没有SAT之类成绩的，从而推论出我上的学校是野鸡大学的人，我能对你竖中指么？我在国内上了一年，然后是以转学生的身份到的美国。转学生有很多学校是不需要SAT成绩的，我又不是从高中直接上大学，没常识就瞎揣测的人是你吧？？？当然了，也会有人出来说他也是转学但是也需要其他成绩了，对此我只能说咱们申请的学校不一样，要求不一样。这个回答不满意我也没办法。我申请学习需要的成绩就只有——托福，和国内上大学的GPA。没了。其余的都是相关手续了。你要学方舟子打假，首先学精髓，别学一堆糟粕然后出来丢人。</p>
+<p>对于我说涉嫌威胁的教授，那是另外一个教授。怎么区分呢？第一个教授是黑人，这个威胁我的教授是白人。这样就好分别了。</p>
+<p>转载自 <a href="http://www.douban.com/note/274529279/" target="_blank" rel="noopener">http://www.douban.com/note/274529279/</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/社会百态/">社会百态</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/page/13/" class="pagination-prev">上一页</a>
+  
+  
+  <a href="/page/15/" class="pagination-next">下一页</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

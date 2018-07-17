@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>php调用Google translate_tts api实现代码 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="以下是对php调用Google translate_tts api的实现代码进行了分析介绍，需要的朋友可以过来参考下今天用google翻译时，发现个好东西：Google translate_tts，调用这个api就可以听到英文发音，省掉了自己上传音频文件的麻烦。我用php写了个调用的方法，可以把音频">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="php调用Google translate_tts api实现代码"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>php调用Google translate_tts api实现代码</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/08/17/php调用Google translate_tts api实现代码/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-08-16T20:04:47.000Z">
+          2013-08-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>以下是对php调用Google translate_tts api的实现代码进行了分析介绍，需要的朋友可以过来参考下<br>今天用google翻译时，发现个好东西：Google translate_tts，调用这个api就可以听到英文发音，<br>省掉了自己上传音频文件的麻烦。<br>我用php写了个调用的方法，可以把音频文件保存在本地。<br>如下：<br>[code lang=”php”]<br>$newfname = ‘1.wmv’;<br>$reqBaseURL = ‘<a href="http://translate.google.com/translate_tts?tl=en&amp;q=how%20do%20you%20do&#39;" target="_blank" rel="noopener">http://translate.google.com/translate_tts?tl=en&amp;q=how%20do%20you%20do&#39;</a>;<br>$remote_file = fopen($reqBaseURL, “rb”);<br>if ($remote_file){<br> $newf = fopen($newfname, “wb”);<br> if ($newf){<br>  while(!feof($remote_file)){<br>   fwrite($newf, fread($remote_file, 1024 <em> 8),1024 </em> 8);<br>  }<br> }<br>}<br>if ($remote_file) {<br> fclose($remote_file);<br>}<br>if ($newf) {<br> fclose($newf);<br>}</p>
+<p><code>`</code></p>
+<p>转载自：<a href="http://www.jb51.net/article/40369.htm" target="_blank" rel="noopener">http://www.jb51.net/article/40369.htm</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

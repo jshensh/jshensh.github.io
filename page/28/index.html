@@ -1,0 +1,737 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 28 页 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/05/10/表示本博客已搬迁到 Baidu app engine/"><span>表示本博客已搬迁到 Baidu app engine</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/05/10/表示本博客已搬迁到 Baidu app engine/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-05-10T04:02:26.000Z">
+          2013-05-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>速度怎么样亲们 :)</p>
+<p>图片测试</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/05/08/详解 JavaScript 中的 this(转载)/"><span>详解 JavaScript 中的 this(转载)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/05/08/详解 JavaScript 中的 this(转载)/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-05-08T03:43:52.000Z">
+          2013-05-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>其实如果完全掌握了this的工作原理，自然就不会走进这些坑。来看下以下这些情况中的this分别会指向什么：<br>1.全局代码中的this</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">alert(x);// 全局变量x值为2</span><br></pre></td></tr></table></figure>
+<p>全局范围内的this将会指向全局对象，在浏览器中即使window。<br>2.作为单纯的函数调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function fooCoder(x) &#123;</span><br><span class="line">this.x = x;</span><br><span class="line">&#125;</span><br><span class="line">fooCoder(2);</span><br><span class="line">alert(x);// 全局变量x值为2</span><br></pre></td></tr></table></figure>
+<p>这里this指向了全局对象，即window。在严格模式中，则是undefined。<br>3.作为对象的方法调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var name = &quot;clever coder&quot;;</span><br><span class="line">var person = &#123;</span><br><span class="line">name : &quot;foocoder&quot;,</span><br><span class="line">hello : function(sth)&#123;</span><br><span class="line">console.log(this.name + &quot; says &quot; + sth);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">person.hello(&quot;hello world&quot;);</span><br></pre></td></tr></table></figure>
+<p>输出 foocoder says hello world。this指向person对象，即当前对象。<br>4.作为构造函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">new FooCoder();</span><br></pre></td></tr></table></figure>
+<p>函数内部的this指向新创建的对象。<br>5.内部函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var name = &quot;clever coder&quot;;</span><br><span class="line"></span><br><span class="line">var person = &#123;</span><br><span class="line">name : &quot;foocoder&quot;,</span><br><span class="line">hello : function(sth)&#123;</span><br><span class="line">var sayhello = function(sth) &#123;</span><br><span class="line">console.log(this.name + &quot; says &quot; + sth);</span><br><span class="line">&#125;;</span><br><span class="line">sayhello(</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">person.hello(&quot;hello world&quot;);//clever coder says hello world</span><br></pre></td></tr></table></figure>
+<p>在内部函数中，this没有按预想的绑定到外层函数对象上，而是绑定到了全局对象。这里普遍被认为是JavaScript语言的设计错误，因为没有人想让内部函数中的this指向全局对象。一般的处理方式是将this作为变量保存下来，一般约定为that或者self：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var name = &quot;clever coder&quot;;</span><br><span class="line">var person = &#123;</span><br><span class="line">name : &quot;foocoder&quot;,</span><br><span class="line">hello : function(sth)&#123;</span><br><span class="line">var that = this;</span><br><span class="line">var sayhello = function(sth) &#123;</span><br><span class="line">console.log(that.name + &quot; says &quot; + sth);</span><br><span class="line">&#125;;</span><br><span class="line">sayhello(sth);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">person.hello(&quot;hello world&quot;);//foocoder says hello world</span><br></pre></td></tr></table></figure>
+<p>6.使用call和apply设置this</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">person.hello.call(person, &quot;world&quot;);</span><br></pre></td></tr></table></figure>
+<p>apply和call类似，只是后面的参数是通过一个数组传入，而不是分开传入。两者的方法定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">call( thisArg [，arg1，arg2，… ] );  // 参数列表，arg1，arg2，...</span><br></pre></td></tr></table></figure>
+<p>apply(thisArg [，argArray] );     // 参数数组，argArray</p>
+<p>两者都是将某个函数绑定到某个具体对象上使用，自然此时的this会被显式的设置为第一个参数。<br>简单地总结<br>简单地总结以上几点，可以发现，其实只有第六点是让人疑惑的。<br>其实就可以总结为以下几点：<br>当函数作为对象的方法调用时，this指向该对象。<br>当函数作为淡出函数调用时，this指向全局对象（严格模式时，为undefined）<br>构造函数中的this指向新创建的对象<br>嵌套函数中的this不会继承上层函数的this，如果需要，可以用一个变量保存上层函数的this。<br>再总结的简单点，如果在函数中使用了this，只有在该函数直接被某对象调用时，该this才指向该对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">obj.foocoder();</span><br><span class="line">foocoder.call(obj, ...);</span><br><span class="line">foocoder.apply(obj, …);</span><br></pre></td></tr></table></figure>
+<p>更进一步<br>我们可能经常会写这样的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$(&quot;#some-ele&quot;).click = obj.handler;</span><br></pre></td></tr></table></figure>
+<p>如果在handler中用了this，this会绑定在obj上么？显然不是，赋值以后，函数是在回调中执行的，this会绑定到$(“#some-div”)元素上。这就需要理解函数的执行环境。本文不打算长篇赘述函数的执行环境，可以参考《javascript高级程序设计》中对执行环境和作用域链的相关介绍。这里要指出的时，理解js函数的执行环境，会更好地理解this。<br>那我们如何能解决回调函数绑定的问题？ES5中引入了一个新的方法，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">bind():</span><br><span class="line">fun.bind(thisArg[, arg1[, arg2[, ...]]])</span><br></pre></td></tr></table></figure>
+<p>thisArg</p>
+<p>当绑定函数被调用时,该参数会作为原函数运行时的this指向.当使用new 操作符调用绑定函数时,该参数无效.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">arg1, arg2, ...</span><br></pre></td></tr></table></figure>
+<p>当绑定函数被调用时,这些参数加上绑定函数本身的参数会按照顺序作为原函数运行时的参数.<br>该方法创建一个新函数，称为绑定函数，绑定函数会以创建它时传入bind方法的第一个参数作为this，传入bind方法的第二个以及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数.<br>显然bind方法可以很好地解决上述问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$(&quot;#some-ele&quot;).click(person.hello.bind(person));</span><br><span class="line">//相应元素被点击时，输出foocoder says hello world</span><br></pre></td></tr></table></figure>
+<p>其实该方法也很容易模拟，我们看下Prototype.js中bind方法的源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Function.prototype.bind = function()&#123;</span><br><span class="line">  var fn = this, args = Array.prototype.slice.call(arguments), object = args.shift();</span><br><span class="line">  return function()&#123;</span><br><span class="line">    return fn.apply(object,</span><br><span class="line">      args.concat(Array.prototype.slice.call(arguments)));</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>明白了么？<br>相信看完全文以后，this不再是坑 </p>
+<p>原文作者：foocoder</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/05/08/Linux流量监控工具 - iftop (最全面的iftop教程)(转载)/"><span>Linux流量监控工具 - iftop (最全面的iftop教程)(转载)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/05/08/Linux流量监控工具 - iftop (最全面的iftop教程)(转载)/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-05-07T23:52:52.000Z">
+          2013-05-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在类Unix系统中可以使用top查看系统资源、进程、内存占用等信息。查看网络状态可以使用netstat、nmap等工具。若要查看实时的网络流量，监控TCP/IP连接等，则可以使用iftop。</p>
+<p><strong>一、iftop是什么？</strong></p>
+<p>iftop是类似于top的实时流量监控工具。<br>官方网站：<a href="http://www.ex-parrot.com/~pdw/iftop/" target="_blank" rel="noopener">http://www.ex-parrot.com/~pdw/iftop/</a></p>
+<p><strong>二、iftop有什么用？</strong></p>
+<p>iftop可以用来监控网卡的实时流量（可以指定网段）、反向解析IP、显示端口信息等，详细的将会在后面的使用参数中说明。</p>
+<p><strong>三、安装iftop</strong></p>
+<p><strong><strong>安装方法1、**</strong></strong>编译安装**</p>
+<p>如果采用编译安装可以到<a href="http://www.ex-parrot.com/~pdw/iftop/" target="_blank" rel="noopener">iftop官网</a>下载最新的源码包。<br>安装前需要已经安装好基本的编译所需的环境，比如make、gcc、autoconf等。安装iftop还需要安装libpcap和libcurses。<br><strong>CentOS上安装所需依赖包：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">yum install flex byacc libpcap ncurses ncurses-devel libpcap-devel</span><br></pre></td></tr></table></figure>
+<p><strong>Debian上安装所需依赖包：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">apt-get install flex byacc libpcap0.8 libncurses5</span><br></pre></td></tr></table></figure>
+<p>下载iftop</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wget http://www.ex-parrot.com/pdw/iftop/download/iftop-0.17.tar.gz</span><br><span class="line">tar zxvf iftop-0.17.tar.gz</span><br><span class="line">cd iftop-0.17</span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p><strong>安装方法2：(懒人办法，最简单)</strong></p>
+<p>直接省略上面的步骤<br>CentOS系统：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">yum install flex byacc libpcap ncurses ncurses-devel</span><br><span class="line">wget ftp://fr2.rpmfind.net/linux/dag/redhat/el5/en/i386/dag/RPMS/iftop-0.17-1.el5.rf.i386.rpm</span><br><span class="line">rpm -ivh iftop-0.17-1.el5.rf.i386.rpm</span><br></pre></td></tr></table></figure>
+<p>Debian系统 运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install iftop</span><br></pre></td></tr></table></figure>
+<p><strong>四、运行iftop</strong></p>
+<p>直接运行： iftop<br>效果如下图：</p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/05/20140112212729.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/05/20140112212729.jpg" alt="20140112212729"></a></p>
+<p><strong>五、相关参数及说明</strong></p>
+<p><strong>1、iftop界面相关说明</strong></p>
+<p>界面上面显示的是类似刻度尺的刻度范围，为显示流量图形的长条作标尺用的。<br>中间的&lt;_ _=”_”&gt;这两个左右箭头，表示的是流量的方向。<br> TX：发送流量<br> RX：接收流量<br> TOTAL：总流量<br> Cumm：运行iftop到目前时间的总流量<br> peak：流量峰值<br> rates：分别表示过去 2s 10s 40s 的平均流量</p>
+<h3 id="2、iftop相关参数"><a href="#2、iftop相关参数" class="headerlink" title="2、iftop相关参数"></a>2、iftop相关参数</h3><h3 id="常用的参数"><a href="#常用的参数" class="headerlink" title="常用的参数"></a>常用的参数</h3><p> -i设定监测的网卡，如：# iftop -i eth1<br> -B 以bytes为单位显示流量(默认是bits)，如：# iftop -B<br> -n使host信息默认直接都显示IP，如：# iftop -n<br> -N使端口信息默认直接都显示端口号，如: # iftop -N<br> -F显示特定网段的进出流量，如# iftop -F 10.10.1.0/24或# iftop -F 10.10.1.0/255.255.255.0<br> -h（display this message），帮助，显示参数信息<br> -p使用这个参数后，中间的列表显示的本地主机信息，出现了本机以外的IP信息;<br> -b使流量图形条默认就显示;<br> -f这个暂时还不太会用，过滤计算包用的;<br> -P使host信息及端口信息默认就都显示;<br> -m设置界面最上边的刻度的最大值，刻度分五个大段显示，例：# iftop -m 100M</p>
+<h3 id="进入iftop画面后的一些操作命令-注意大小写"><a href="#进入iftop画面后的一些操作命令-注意大小写" class="headerlink" title="进入iftop画面后的一些操作命令(注意大小写)"></a>进入iftop画面后的一些操作命令(注意大小写)</h3><p> 按h切换是否显示帮助;<br> 按n切换显示本机的IP或主机名;<br> 按s切换是否显示本机的host信息;<br> 按d切换是否显示远端目标主机的host信息;<br> 按t切换显示格式为2行/1行/只显示发送流量/只显示接收流量;<br> 按N切换显示端口号或端口服务名称;<br> 按S切换是否显示本机的端口信息;<br> 按D切换是否显示远端目标主机的端口信息;<br> 按p切换是否显示端口信息;<br> 按P切换暂停/继续显示;<br> 按b切换是否显示平均流量图形条;<br> 按B切换计算2秒或10秒或40秒内的平均流量;<br> 按T切换是否显示每个连接的总流量;<br> 按l打开屏幕过滤功能，输入要过滤的字符，比如ip,按回车后，屏幕就只显示这个IP相关的流量信息;<br> 按L切换显示画面上边的刻度;刻度不同，流量图形条会有变化;<br> 按j或按k可以向上或向下滚动屏幕显示的连接记录;<br> 按1或2或3可以根据右侧显示的三列流量数据进行排序;<br> 按&lt;根据左边的本机名或IP排序br&gt; 按&gt;根据远端目标主机的主机名或IP排序;<br> 按o切换是否固定只显示当前的连接;<br> 按f可以编辑过滤代码，这是翻译过来的说法，我还没用过这个！<br> 按!可以使用shell命令，这个没用过！没搞明白啥命令在这好用呢！<br> 按q退出监控。</p>
+<h2 id="六、常见问题"><a href="#六、常见问题" class="headerlink" title="六、常见问题"></a>六、常见问题</h2><p> 1、make: yacc: Command not found<br> make: *** [grammar.c] Error 127<br> 解决方法：apt-get install byacc / yum install byacc<br> 2、configure: error: Curses! Foiled again!<br> (Can’t find a curses library supporting mvchgat.)<br> Consider installing ncurses.<br> 解决方法：apt-get install libncurses5-dev /  yum install ncurses-devel</p>
+<p>转载自 <a href="http://www.vpser.net/manage/iftop.html" target="_blank" rel="noopener">http://www.vpser.net/manage/iftop.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/05/07/PHP利用curl伪造IP和来路(转载)/"><span>PHP利用curl伪造IP和来路(转载)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/05/07/PHP利用curl伪造IP和来路(转载)/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-05-07T05:02:29.000Z">
+          2013-05-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><a href="http://futa.ooo/wp-content/uploads/2013/05/20120101065534935.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/05/20120101065534935-300x93.jpg" alt="20120101065534935"></a><br>效果如图<br>伪造的文件：1.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>查看效果的脚本2.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> 原文链接：<a href="http://www.2cto.com/kf/201201/115774.html" target="_blank" rel="noopener">http://www.2cto.com/kf/201201/115774.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/05/07/FBI密码挑战，你能解开吗？/"><span>FBI密码挑战，你能解开吗？</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/05/07/FBI密码挑战，你能解开吗？/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-05-07T03:29:03.000Z">
+          2013-05-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>时间：2013-05-06 15:00 作者：夏梦竹<br>最近几年，FBI官网都会推出一个新的密码破解挑战赛，据说是为了激发青少年对FBI工作的好奇心而设立。与以往不同的是，这次加入了代码。下面的这幅图就是今年的密码破译游戏，一起看看你能破解吗？</p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/05/wpid-5187545894947.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/05/wpid-5187545894947.jpg" alt="image"></a></p>
+<p>你能破解吗？<br>尽管破解了FBI也不会聘你做探员，但至少可以显摆一下各位精湛的大脑，不管怎样，大家试试吧。<br>想要了解更多关于恐怖分子、间谍和不法分子利用他们的通信类型密码和代码吗？请参阅“Analysis of Criminal Codes and Ciphers”，你也可以查看以往著名案件的”密码破解“法：A 400-Year History。<br>一起来回顾下过去精彩的密码破解案例：</p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/05/wpid-518755436a64a.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/05/wpid-518755436a64a.jpg" alt="image"></a></p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/05/wpid-518755d4ba70e.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/05/wpid-518755d4ba70e.jpg" alt="image"></a></p>
+<p><a href="http://www.fbi.gov/news/stories/2009/december/code_122409" target="_blank" rel="noopener">December 2009</a><br><a href="http://www.fbi.gov/news/stories/2009/may/code_052309" target="_blank" rel="noopener">May 2009</a></p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/05/wpid-5187557d692a5.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/05/wpid-5187557d692a5.jpg" alt="image"></a></p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/05/wpid-518755960a57b.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/05/wpid-518755960a57b.jpg" alt="image"></a></p>
+<p><a href="http://www.fbi.gov/news/stories/2008/december/code_122908" target="_blank" rel="noopener">December 2008</a><br><a href="http://www.fbi.gov/news/stories/2007/november/code112107" target="_blank" rel="noopener">November 2007</a></p>
+<p>在笔者看来还是蛮难的，反正我是看不懂，谁有本事来破解一下？如果你实在想不出答案，也没关系，笔者稍后会公布答案！</p>
+<p>P.S. 本文转载，原文如此，我不是笔者。。。别问我答案。。。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/奇闻异事/">奇闻异事</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/05/06/PHP 爱好者留言板 for BAE/"><span>PHP 爱好者留言板 for BAE</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/05/06/PHP 爱好者留言板 for BAE/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-05-05T18:08:25.000Z">
+          2013-05-06
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>使用说明：</p>
+<ol>
+<li>修改本目录中的 config.php 内的数据库名</li>
+<li>将其打包入 wwwroot.zip 中的 include 目录，覆盖原文件</li>
+<li>上传 wwwroot.zip 解包</li>
+<li>修改数据库编码为 GBK</li>
+<li>将 sql.sql 导入数据库</li>
+<li>使用默认用户名密码登陆后台修改设置</li>
+</ol>
+<p>注：</p>
+<ol>
+<li>默认管理员用户 admin</li>
+<li>默认管理员用户密码 123456</li>
+<li>如需使用留言发信通知，请修改后台的 BCMS Queue 设置</li>
+<li>原作者：PHPfans <a href="http://www.phpfans.net/" target="_blank" rel="noopener">http://www.phpfans.net/</a></li>
+<li>修改者：<a href="http://futa.ooo">http://futa.ooo</a> 联系方式：QQ：<a href="mailto:admin@233.imjs.work" target="_blank" rel="noopener">admin@233.imjs.work</a></li>
+<li>演示站：<a href="http://sxbxjhwm.duapp.com" target="_blank" rel="noopener">http://sxbxjhwm.duapp.com</a> 或者 <a href="http://ly.233.imjs.work" target="_blank" rel="noopener">http://ly.233.imjs.work</a></li>
+<li>您可以自行定制 UEditor 编辑器，不过请注意本程序是 GBK 编码，需要转码后才能使用</li>
+<li>UEditor 官网：<a href="http://ueditor.baidu.com" target="_blank" rel="noopener">http://ueditor.baidu.com</a></li>
+</ol>
+<p>下载地址：<a href="http://pan.baidu.com/share/link?shareid=502967&amp;uk=3725396711" target="_blank" rel="noopener">http://pan.baidu.com/share/link?shareid=502967&uk;=3725396711</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/程序发布/">程序发布</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/05/02/Bandwagon 便宜 VPS/"><span>Bandwagon 便宜 VPS</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/05/02/Bandwagon 便宜 VPS/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-05-02T05:15:01.000Z">
+          2013-05-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>一年只要 $9.99，只不过是 OpenVZ，建议建站，不过不抗 ddos，自行准备好 cdn，只支持 PayPal 付款，有需要的可以找我代购，收 70，赚点零花钱嘛你懂的</p>
+<p>具体配置：<br>Unmanaged service<br>HDD: 5 GB RAID-10<br>RAM: 512 MB<br>SWAP: 512 MB<br>CPU: 1x Intel Xeon E5620<br>BW: 500 GB/mo<br>Link speed: 1 Gigabit<br>Location: US, Arizona</p>
+<p>VPS technology: OpenVZ/KiwiVM<br>Linux OS: 32-bit and 64-bit Centos, Debian, Ubuntu, Fedora<br>Instant OS reload<br>1 Dedicated IPv4 address<br>Full root access<br>PPP and VPN support (tun/tap)<br>Instant RDNS update from control panel<br>No contract, anytime cancellation<br>Strictly unmanaged, no support<br>99% uptime guarantee<br>30-day money back guarantee</p>
+<p>idc 承诺 30 天无条件退款这点让我挺意外的<br>购买链接：<a href="https://bandwagonhost.com/aff.php?aff=561&amp;pid=22" target="_blank" rel="noopener">https://bandwagonhost.com/aff.php?aff=561&pid;=22</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/05/01/本博客新增加“历史上的今天”小工具栏/"><span>本博客新增加“历史上的今天”小工具栏</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/05/01/本博客新增加“历史上的今天”小工具栏/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-05-01T05:58:34.000Z">
+          2013-05-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>效果肿么样亲们 :)</p>
+<p>源码：<br>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/程序发布/">程序发布</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/28/简单解决网站中无法使用SMTP发送邮件的问题(转载)/"><span>简单解决网站中无法使用SMTP发送邮件的问题(转载)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/28/简单解决网站中无法使用SMTP发送邮件的问题(转载)/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-28T00:05:46.000Z">
+          2013-04-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>有许多的虚拟主机都禁止了 MAIL 函数，当然、也是因为防止垃圾邮件的诞生，但是也影响了一部分客户</p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/04/wpid-20130427131924727.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/04/wpid-20130427131924727.jpg" alt="image"></a></p>
+<p>许多的用户就会选择使用 SMTP 来发送邮件，但是有些主机看着探针支持 SMTP 但是却无法发邮件是啥回事？今天我就来说说几种解决方式吧，如果遇见了错误但不懂如何解决的请看！（以Wordpress示范）</p>
+<p>一、修改发信端口</p>
+<p>这个是最低级的一个错误之一，就是端口错误。很多人喜欢乱写，但是常用的有 25、465、587 等。</p>
+<p>如果使用常用无 SSL 发信端口没有用的话，就用 SSL 的！例如 465 这样（许多邮箱的端口不同）的端口。</p>
+<p>二、替换发信函数</p>
+<p>正常情况下 SMTP 都是使用 fsockopen 函数来发信的，当然、如果禁用了我们还可以用其他的！</p>
+<ol>
+<li>替换为 pfsockopen 函数：</li>
+</ol>
+<p>在 “wp-includes” 下找到 “class-smtp.php” 并搜索 “fsockopen” 大约会得出以下结果：</p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/04/wpid-20130427132725598.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/04/wpid-20130427132725598.jpg" alt="image"></a></p>
+<p>在前面加一个 “p” 就可以了，最好是小写。然后保存上传，如果无误的话、你的网站已经可以发信了。</p>
+<ol start="2">
+<li>使用 stream_socket_client 函数：</li>
+</ol>
+<p>同样是找到 “class-smtp.php” 并搜索 “fsockopen”，替换如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@fsockopen($host,</span><br></pre></td></tr></table></figure>
+<p>把上面的代码替换成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@stream_socket_client($host.&quot;:&quot;.$port,</span><br></pre></td></tr></table></figure>
+<p>如果不是很懂的话，请看图：</p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/04/wpid-2013042713330981.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/04/wpid-2013042713330981.jpg" alt="image"></a></p>
+<p>如果第一种方法不行，这种方法一般都是不行的了 …… 不要沮丧，有高手还自定义函数的、我就不介绍了</p>
+<p>三、使用一些神奇的插件</p>
+<p>这个可能性就非常的小啦，不过先前看到有一个人发布的一个插件、可以支持任意主机发信。具体的可能是本地收取了发信内容之后：传送到发信平台（私人或公有的发信服务器、类似百度 BCMS 这种），然后同意进行传送。</p>
+<p>我没有多余的服务器，我也就不搞这些事情了。有时间的话我会去做一个 BCMS 的插件如何呢？</p>
+<p>原文链接：<a href="http://www.zntec.cn/archives/smtp-error.html" target="_blank" rel="noopener">http://www.zntec.cn/archives/smtp-error.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/26/推荐个挺便宜的虚拟主机/"><span>推荐个挺便宜的虚拟主机</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/26/推荐个挺便宜的虚拟主机/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-26T05:52:41.000Z">
+          2013-04-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>博客型主机只需要 48 RMB/年，表示不是很贵。同时为了保证客户安全，这家 IDC 把服务器分成了 20 个 VPS，每个 VPS 装 10 个客户，如果 VPS 被攻击，不会导致服务器被攻击。</p>
+<p>具体配置：<br>512 MB 磁盘<br>10 个 数据库<br>15 GB 月流量<br>10 个 绑定域<br>25 个 子域名<br>全站 数据备份<br>Linux<br>免费指导<br>24小时全额退款<br>DirectAdmin 控制面板<br>洛杉矶Multacom机房</p>
+<p>链接：<a href="http://idc.geassgr.net/" target="_blank" rel="noopener">http://idc.geassgr.net/</a><br>测试站点：<a href="http://20264.com/" target="_blank" rel="noopener">http://20264.com/</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/page/27/" class="pagination-prev">上一页</a>
+  
+  
+  <a href="/page/29/" class="pagination-next">下一页</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

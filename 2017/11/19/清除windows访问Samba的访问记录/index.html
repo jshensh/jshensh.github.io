@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>清除windows访问Samba的访问记录 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="在 windows 中访问 Samba 服务器后，windows 会存储访问记录，比如密码。当我们想清除密码，重新输入时，步骤如下：1. 获取访问记录
+12345678#在windows的命令行(cmd)中运行net use，可见访问Samba服务器的记录：C:\Users\User&amp;gt;net ">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="清除windows访问Samba的访问记录"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>清除windows访问Samba的访问记录</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/11/19/清除windows访问Samba的访问记录/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-11-19T00:45:01.000Z">
+          2017-11-19
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在 windows 中访问 Samba 服务器后，windows 会存储访问记录，比如密码。当我们想清除密码，重新输入时，步骤如下：<br><strong>1. 获取访问记录</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#在windows的命令行(cmd)中运行net use，可见访问Samba服务器的记录：</span><br><span class="line">C:\Users\User&gt;net use</span><br><span class="line">会记录新的网络连接。 </span><br><span class="line">状态       本地        远程                      网络</span><br><span class="line"></span><br><span class="line">-------------------------------------------------------------------------------</span><br><span class="line">OK                     \\192.168.2.1\IPC$         Microsoft Windows Network</span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<p><strong>2. 删除访问记录</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\User&gt;net use \\192.168.2.1\IPC$ /del /y</span><br><span class="line"> \\192.168.2.1\IPC$ 已经删除。</span><br></pre></td></tr></table></figure>
+<p><strong>3. 尝试重新登陆Samba</strong></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/openwrt/">openwrt</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

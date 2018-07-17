@@ -1,0 +1,705 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 9 页 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/02/19/Wordpress 批量关闭评论/"><span>Wordpress 批量关闭评论</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/02/19/Wordpress 批量关闭评论/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-02-18T21:46:45.000Z">
+          2015-02-19
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>wordpress 并没有自带批量关闭所有文章评论的功能，这需要通过修改数据库来实现：</p>
+<p>关闭所有文章的评论功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE `wp_posts` SET`comment_status`=&apos;close&apos;</span><br></pre></td></tr></table></figure>
+<p>反之：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE `wp_posts` SET`comment_status`=&apos;open&apos;</span><br></pre></td></tr></table></figure>
+<p>P.S. 过年了，也没啥文章好写了。。就把最近用到的东西拿出来记下，不过这博客不是本来就应该派这用处的么</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/02/18/Ubuntu 14.04 安装搜狗输入法/"><span>Ubuntu 14.04 安装搜狗输入法</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/02/18/Ubuntu 14.04 安装搜狗输入法/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-02-17T21:43:26.000Z">
+          2015-02-18
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>百度了几篇教程，发现都是要求卸载 ibus，其实这样做没必要，反而卸载后会导致系统工作不正常，比如系统设置里少了很多东西。<br>接下来我就把我自己安装搜狗输入法的过程记一下，以备不时之需。</p>
+<p><strong>一、先安装 fcitx</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo su</span><br><span class="line">apt-get update</span><br><span class="line">apt-get upgrade</span><br><span class="line">apt-get install fcitx</span><br></pre></td></tr></table></figure>
+<p><a href="http://futa.ooo/wp-content/uploads/2015/02/2015-02-18-133012-的屏幕截图.png"><img src="http://futa.ooo/wp-content/uploads/2015/02/2015-02-18-133012-的屏幕截图-300x182.png" alt="2015-02-18 13:30:12 的屏幕截图"></a><br>当然我这里已经安装过了</p>
+<p><strong>二、下载安装搜狗输入法</strong><br>访问 <a href="http://pinyin.sogou.com/linux/" target="_blank" rel="noopener">http://pinyin.sogou.com/linux/</a> 跟着教程来就行</p>
+<p><strong>三、修改系统设置，使用搜狗输入法</strong><br>打开系统设置，选择语言支持<br><a href="http://futa.ooo/wp-content/uploads/2015/02/2015-02-18-133754-的屏幕截图.png"><img src="http://futa.ooo/wp-content/uploads/2015/02/2015-02-18-133754-的屏幕截图-300x217.png" alt="2015-02-18 13:37:54 的屏幕截图"></a><br>将键盘输入方式系统改为 fcitx<br><a href="http://futa.ooo/wp-content/uploads/2015/02/2015-02-18-133826-的屏幕截图.png"><img src="http://futa.ooo/wp-content/uploads/2015/02/2015-02-18-133826-的屏幕截图-232x300.png" alt="2015-02-18 13:38:26 的屏幕截图"></a><br>点击右上角切换当前输入法就可以使用啦<br><a href="http://futa.ooo/wp-content/uploads/2015/02/2015-02-18-134221-的屏幕截图.png"><img src="http://futa.ooo/wp-content/uploads/2015/02/2015-02-18-134221-的屏幕截图-300x169.png" alt="2015-02-18 13:42:21 的屏幕截图"></a></p>
+<p>P.S. 另注各位节日快乐，恭喜发财</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Linux-Desktop/">Linux Desktop</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/02/09/PHP 利用 redis 做统计缓存mysql的压力/"><span>PHP 利用 redis 做统计缓存mysql的压力</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/02/09/PHP 利用 redis 做统计缓存mysql的压力/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-02-09T07:41:09.000Z">
+          2015-02-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    header(&quot;Content-Type:text/html;charset=utf-8&quot;);</span><br><span class="line">    include &apos;lib/mysql.class.php&apos;;</span><br><span class="line">    $mysql_obj = mysql::getConn();</span><br><span class="line">    //redis </span><br><span class="line">    $redis = new Redis();</span><br><span class="line">    $redis-&gt;pconnect(&apos;127.0.0.1&apos;, 6379);</span><br><span class="line"></span><br><span class="line">    if(isset($_SERVER[&apos;HTTP_REFERER&apos;]))&#123;</span><br><span class="line">        $url_md5 = md5($_SERVER[&apos;HTTP_REFERER&apos;]);</span><br><span class="line">    &#125;</span><br><span class="line">    $adve_key = &apos;adve&apos;; </span><br><span class="line">    $adve_key_exists = &apos;adve_exists&apos;;</span><br><span class="line">    if(!$redis-&gt;exists($adve_key_exists))&#123;</span><br><span class="line">        $list = $mysql_obj-&gt;fetch_array(&quot;select * from user_online_adve&quot;);</span><br><span class="line">        if($list)&#123;</span><br><span class="line">            foreach ($list as $key =&gt; $value) &#123;</span><br><span class="line">                $url_hash = md5($value[&apos;adve_url&apos;]);</span><br><span class="line">                $adve_hash_key = $adve_key.&quot;:&quot;.$url_hash;</span><br><span class="line">                $id = $value[&apos;id&apos;];</span><br><span class="line">                $redis-&gt;set($adve_hash_key,$id);</span><br><span class="line">                $redis-&gt;set($adve_key_exists,true);</span><br><span class="line">                //$redis-&gt;hmset($adve_hash_key, array(&apos;id&apos; =&gt;$id));</span><br><span class="line">                //print_r($redis-&gt;get($adve_hash_key));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    $adve_new_key = $adve_key.&apos;:&apos;.$url_md5;</span><br><span class="line">    if($redis-&gt;exists($adve_new_key))&#123;</span><br><span class="line">            $adve_plus = $adve_new_key.&quot;:plus&quot; ;</span><br><span class="line"></span><br><span class="line">            if(!$redis-&gt;exists($adve_plus))&#123;</span><br><span class="line">                $redis-&gt;set($adve_plus,1);  </span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                $redis-&gt;incr($adve_plus);</span><br><span class="line">                $num = $redis-&gt;get($adve_plus);</span><br><span class="line">                if($num &gt;10)&#123;</span><br><span class="line">                    $id = $redis-&gt;get($adve_new_key);</span><br><span class="line">                    // insert to sql;</span><br><span class="line">                    $mysql_obj-&gt;query(&quot;update user_online_adve set adve_num=adve_num+$num where id=$id&quot;);</span><br><span class="line">                    $redis-&gt;set($adve_plus,1);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    header(&apos;HTTP/1.0 301 Moved Permanently&apos;);</span><br><span class="line">    header(&apos;Location: https://itunes.apple.com/cn/app/san-guo-zhi15-ba-wangno-da-lu/id694974270?mt=8&apos;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">    if()&#123;</span><br><span class="line">            $adve_plus = $adve_key.&quot;:plus&quot; ;</span><br><span class="line">            if($redis-&gt;exists($adve_plus))&#123;</span><br><span class="line">                $redis-&gt;incr($adve_plus);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                $redis-&gt;set($adve_plus,1);  </span><br><span class="line">            &#125;</span><br><span class="line">            echo $redis-&gt;get($adve_plus);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    foreach ($list as $key =&gt; $value) &#123;</span><br><span class="line">            $url_hash = md5($value[&apos;adve_url&apos;]);</span><br><span class="line">            $id = $value[&apos;id&apos;];</span><br><span class="line">            $adve_num = $value[&apos;adve_num&apos;];</span><br><span class="line">            $adve_plus = $adve_key.&quot;:plus&quot; ;</span><br><span class="line">            if($redis-&gt;exists($adve_plus))&#123;</span><br><span class="line">                $redis-&gt;incr($adve_plus);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                $redis-&gt;set($adve_plus,1);  </span><br><span class="line">            &#125;</span><br><span class="line">            echo $redis-&gt;get($adve_plus);</span><br><span class="line">            //if($redis-&gt;)</span><br><span class="line">            //$redis-&gt;hmset($adve_key, array(&apos;id&apos; =&gt;$id, &apos;adve_num&apos;=&gt;$adve_num));</span><br><span class="line">            //print_r($redis-&gt;hmget(&quot;adve:$url_hash&quot;, array(&apos;adve_num&apos;)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        print_r($list);</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://www.cnblogs.com/jackluo/p/3401999.html" target="_blank" rel="noopener">http://www.cnblogs.com/jackluo/p/3401999.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/02/08/php class中public,private,protected,static的区别，以及实例/"><span>php class中public,private,protected,static的区别，以及实例</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/02/08/php class中public,private,protected,static的区别，以及实例/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-02-08T08:16:35.000Z">
+          2015-02-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>一，public,private,protected的区别</strong><br>public:权限是最大的，可以内部调用，实例调用等。<br>protected: 受保护类型，用于本类和继承类调用。<br>private: 私有类型，只有在本类中使用。</p>
+<p><strong>二，实例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(E_ALL);</span><br><span class="line"></span><br><span class="line">class test&#123;</span><br><span class="line"> public $public;</span><br><span class="line"> private $private;</span><br><span class="line"> protected $protected;</span><br><span class="line"> static $instance;</span><br><span class="line"> public  function __construct()&#123;</span><br><span class="line"> $this-&gt;public    = &apos;public     &lt;br&gt;&apos;;</span><br><span class="line"> $this-&gt;private   = &apos;private    &lt;br&gt;&apos;;</span><br><span class="line"> $this-&gt;protected = &apos;protected  &lt;br&gt;&apos;;</span><br><span class="line"> &#125;</span><br><span class="line"> static function tank()&#123;</span><br><span class="line"> if (!isset(self::$instance[get_class()]))</span><br><span class="line"> &#123;</span><br><span class="line"> $c = get_class();</span><br><span class="line"> self::$instance = new $c;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> return self::$instance;</span><br><span class="line"> &#125;    </span><br><span class="line"></span><br><span class="line"> public function pub_function() &#123;</span><br><span class="line"> echo &quot;you request public function&lt;br&gt;&quot;;</span><br><span class="line"> echo $this-&gt;public;</span><br><span class="line"> echo $this-&gt;private;        //private,内部可以调用</span><br><span class="line"> echo $this-&gt;protected;      //protected,内部可以调用</span><br><span class="line"> $this-&gt;pri_function();      //private方法，内部可以调用</span><br><span class="line"> $this-&gt;pro_function();      //protected方法，内部可以调用</span><br><span class="line"> &#125;</span><br><span class="line"> protected  function pro_function()&#123;</span><br><span class="line"> echo &quot;you request protected function&lt;br&gt;&quot;;</span><br><span class="line"> &#125;</span><br><span class="line"> private function pri_function()&#123;</span><br><span class="line"> echo &quot;you request private function&lt;br&gt;&quot;;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$test = test::tank();</span><br><span class="line">echo $test-&gt;public;</span><br><span class="line">echo $test-&gt;private;    //Fatal error: Cannot access private property test::$private</span><br><span class="line">echo $test-&gt;protected;  //Fatal error: Cannot access protected property test::$protected</span><br><span class="line">$test-&gt;pub_function();</span><br><span class="line">$test-&gt;pro_function();  //Fatal error: Call to protected method test::pro_function() from context</span><br><span class="line">$test-&gt;pri_function();  //Fatal error: Call to private method test::pri_function() from context</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>从上面的例子中，我们可以看出，<br>public:    可以class内部调用，可以实例化调用。<br>private:   可以class内部调用，实例化调用报错。<br>protected：  可以class内部调用，实例化调用报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class test&#123;</span><br><span class="line"> public $public;</span><br><span class="line"> private $private;</span><br><span class="line"> protected $protected;</span><br><span class="line"> static $instance;</span><br><span class="line"></span><br><span class="line"> public  function __construct()&#123;</span><br><span class="line"> $this-&gt;public    = &apos;public     &lt;br&gt;&apos;;</span><br><span class="line"> $this-&gt;private   = &apos;private    &lt;br&gt;&apos;;</span><br><span class="line"> $this-&gt;protected = &apos;protected  &lt;br&gt;&apos;;</span><br><span class="line"> &#125;</span><br><span class="line"> protected function tank()&#123;                          //私有方法不能继承，换成public,protected</span><br><span class="line"> if (!isset(self::$instance[get_class()]))</span><br><span class="line"> &#123;</span><br><span class="line"> $c = get_class();</span><br><span class="line"> self::$instance = new $c;</span><br><span class="line"> &#125;</span><br><span class="line"> return self::$instance;</span><br><span class="line"> &#125;    </span><br><span class="line"></span><br><span class="line"> public function pub_function() &#123;</span><br><span class="line"> echo &quot;you request public function&lt;br&gt;&quot;;</span><br><span class="line"> echo $this-&gt;public;</span><br><span class="line"> &#125;</span><br><span class="line"> protected  function pro_function()&#123;</span><br><span class="line"> echo &quot;you request protected function&lt;br&gt;&quot;;</span><br><span class="line"> echo $this-&gt;protected;</span><br><span class="line"> &#125;</span><br><span class="line"> private function pri_function()&#123;</span><br><span class="line"> echo &quot;you request private function&lt;br&gt;&quot;;</span><br><span class="line"> echo $this-&gt;private;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class test1 extends test&#123;</span><br><span class="line"></span><br><span class="line"> public function __construct()&#123;</span><br><span class="line"> parent::tank();</span><br><span class="line"> parent::__construct();</span><br><span class="line"> &#125;</span><br><span class="line"> public function tank()&#123;</span><br><span class="line"> echo $this-&gt;public;</span><br><span class="line"> echo $this-&gt;private;       //Notice: Undefined property: test1::$private</span><br><span class="line"> echo $this-&gt;protected;</span><br><span class="line"> $this-&gt;pub_function();</span><br><span class="line"> $this-&gt;pro_function();</span><br><span class="line"> $this-&gt;pri_function();    //Fatal error: Call to private method test::pri_function() from context &apos;test1&apos;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> public  function pro_extends_function()&#123;</span><br><span class="line"> echo &quot;you request extends_protected function&lt;br&gt;&quot;;</span><br><span class="line"> &#125;</span><br><span class="line"> public function pri_extends_function()&#123;</span><br><span class="line"> echo &quot;you request extends_private function&lt;br&gt;&quot;;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">error_reporting(E_ALL);</span><br><span class="line">$test = new test1();</span><br><span class="line">$test -&gt; tank();       //子类和父类有相同名字的属性和方法，实例化子类时，子类的中的属性和方法会盖掉父类的。</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>从上面的例子中，我们可以看出，<br>public:    test中的public可以被继承。<br>private:   test中的private不可以被继承。<br>protected：  test中的protected可以被继承。<br>static：        test中的static可以被继承。</p>
+<p>转载自 <a href="http://blog.163.com/wz_pk007/blog/static/170627050201143104938560/" target="_blank" rel="noopener">http://blog.163.com/wz_pk007/blog/static/170627050201143104938560/</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/02/01/MySQL的if，case语句使用总结/"><span>MySQL的if，case语句使用总结</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/02/01/MySQL的if，case语句使用总结/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-31T21:17:49.000Z">
+          2015-02-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>Mysql的if既可以作为表达式用，也可在存储过程中作为流程控制语句使用，如下是做为表达式使用：</p>
+<p><strong>IF表达式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IF(expr1,expr2,expr3)</span><br></pre></td></tr></table></figure>
+<p>如果 expr1 是TRUE (expr1 &lt;&gt; 0 and expr1 &lt;&gt; NULL)，则 IF()的返回值为expr2; 否则返回值则为 expr3。IF() 的返回值为数字值或字符串值，具体情况视其所在语境而定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select *,if(sva=1,&quot;男&quot;,&quot;女&quot;) as ssva from taname where sva != &quot;&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>作为表达式的if也可以用CASE when来实现：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select CASE sva WHEN 1 THEN &apos;男&apos; ELSE &apos;女&apos; END as ssva from taname where sva != &apos;&apos;</span><br></pre></td></tr></table></figure>
+<p>在第一个方案的返回结果中， value=compare-value。而第二个方案的返回结果是第一种情况的真实结果。如果没有匹配的结果值，则返回结果为ELSE后的结果，如果没有ELSE 部分，则返回值为 NULL。<br>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT CASE 1 WHEN 1 THEN &apos;one&apos;</span><br><span class="line">  WHEN 2 THEN &apos;two&apos; </span><br><span class="line">   ELSE &apos;more&apos; END</span><br><span class="line">as testCol</span><br></pre></td></tr></table></figure>
+<p>将输出one</p>
+<p><strong>IFNULL(expr1,expr2)</strong><br>假如expr1 不为 NULL，则 IFNULL() 的返回值为 expr1; 否则其返回值为 expr2。IFNULL()的返回值是数字或是字符串，具体情况取决于其所使用的语境。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT IFNULL(1,0);</span><br><span class="line">        -&gt; 1</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT IFNULL(NULL,10);</span><br><span class="line">        -&gt; 10</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT IFNULL(1/0,10);</span><br><span class="line">        -&gt; 10</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT IFNULL(1/0,&apos;yes&apos;);</span><br><span class="line">        -&gt; &apos;yes&apos;</span><br></pre></td></tr></table></figure>
+<p>IFNULL(expr1,expr2) 的默认结果值为两个表达式中更加“通用”的一个，顺序为STRING、 REAL或 INTEGER。</p>
+<p><strong>IF ELSE 做为流程控制语句使用</strong><br>if实现条件判断，满足不同条件执行不同的操作，这个我们只要学编程的都知道if的作用了，下面我们来看看mysql 存储过程中的if是如何使用的吧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">IF search_condition THEN </span><br><span class="line">    statement_list  </span><br><span class="line">[ELSEIF search_condition THEN]  </span><br><span class="line">    statement_list ...  </span><br><span class="line">[ELSE </span><br><span class="line">    statement_list]  </span><br><span class="line">END IF</span><br></pre></td></tr></table></figure>
+<p>与PHP中的IF语句类似，当IF中条件search_condition成立时，执行THEN后的statement_list语句，否则判断ELSEIF中的条件，成立则执行其后的statement_list语句，否则继续判断其他分支。当所有分支的条件均不成立时，执行ELSE分支。search_condition是一个条件表达式，可以由“=、&lt;、&lt;=、&gt;、&gt;=、!=”等条件运算符组成，并且可以使用AND、OR、NOT对多个表达式进行组合。<br>例如，建立一个存储过程，该存储过程通过学生学号（student_no）和课程编号（course_no）查询其成绩（grade），返回成绩和成绩的等级，成绩大于90分的为A级，小于90分大于等于80分的为B级，小于80分大于等于70分的为C级，依次到E级。那么，创建存储过程的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">create procedure dbname.proc_getGrade  </span><br><span class="line">(stu_no varchar(20),cour_no varchar(10))  </span><br><span class="line">BEGIN </span><br><span class="line">declare stu_grade float;  </span><br><span class="line">select grade into stu_grade from grade where student_no=stu_no and course_no=cour_no;  </span><br><span class="line">if stu_grade&gt;=90 then </span><br><span class="line">    select stu_grade,&apos;A&apos;;  </span><br><span class="line">elseif stu_grade&lt;90 and stu_grade&gt;=80 then </span><br><span class="line">    select stu_grade,&apos;B&apos;;  </span><br><span class="line">elseif stu_grade&lt;80 and stu_grade&gt;=70 then </span><br><span class="line">    select stu_grade,&apos;C&apos;;  </span><br><span class="line">elseif stu_grade70 and stu_grade&gt;=60 then </span><br><span class="line">    select stu_grade,&apos;D&apos;;  </span><br><span class="line">else </span><br><span class="line">    select stu_grade,&apos;E&apos;;  </span><br><span class="line">end if;  </span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+<p>注意：IF作为一条语句，在END IF后需要加上分号“;”以表示语句结束，其他语句如CASE、LOOP等也是相同的。</p>
+<p>转载自 <a href="http://outofmemory.cn/code-snippet/1149/MySQL-if-case-statement-usage-summary" target="_blank" rel="noopener">http://outofmemory.cn/code-snippet/1149/MySQL-if-case-statement-usage-summary</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/01/31/请别在朋友圈侮辱我的智商/"><span>请别在朋友圈侮辱我的智商</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/31/请别在朋友圈侮辱我的智商/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-31T08:58:23.000Z">
+          2015-01-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-17.jpg" alt="我改相信谁"><br>我读书少，我流量不多。每当我手机上网被你们逼着看看你们转的这些脑残无语乱七八糟的秘籍攻略心灵鸡汤什么的就无比心痛感觉被你们强奸了一百遍啊一百遍！深深的感受到有些人的智商真是无下限，家长老师把你们拉扯到这么大不容易你们自己却连独立思考的精神也没有，我很无奈，我很想哭。<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-18.jpg" alt="有东西"><br>1、蓝翔就是搭了谣言丑闻的顺风车，他家的挖机水平和别家也差不多；<br>2、苹果 6 里的自带地图里钓鱼岛是中国的，高速公路上日本车还是可以加油的；<br>3、羚羊才不会接力跳悬崖，金鱼的记忆才不止七秒；<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-23.jpg" alt="记忆"><br>4、腾讯才不管你一条信息转发多少次，腾讯老总的女儿也好儿子也好私生子也好不会为你冲Q币；<br>5、你大概得吃三百斤虾和十几瓶维生素C才能发生轻微砷中毒，少女被割肾的故事起源于美国远播海外；<br>6、在 ATM 上倒着输入密码只会被告知密码错误，你倒是可以试试倒输三次，当然，你密码正输倒输都一样的不在此列；<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-24.jpg" alt="比例"><br>7、喝一辈子汽水只会超重不会得白血病，吃再多米线只会因明胶而发育不良不会长所谓的细菌虫；<br>8、人乳放置几十年变的血红是因为密封不当而混进了红曲菌你们就不要用这个来赞美你妈了；<br>9、把大蒜扔进油锅里怎么炸都不会变红更别提鉴别地沟油了；<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-25.jpg" alt="地沟油"><br>10、由于头皮和头骨的阻隔，手机对大脑的辐射微乎其微请不要把手机说得有核辐射似的；<br>11、上网之后洗脸只能洗掉你脸上的灰毕竟电磁辐射是电磁波而不是什么颗粒，在电脑桌旁摆一盆仙人掌也不能吸收均匀发散的辐射，把电脑屏幕调成绿色该近视还得近视，空军从未流传过治疗近视的方法否则你让眼镜商怎么活。<br>12、你的任何手机输入什么数字都不会为你启动备用电池，毕竟你手机根本就不存在什么备用电池；<br>13、金陵十三钗根本未在日本上映还谈什么票房，南京大屠杀纪念日是 12 月 13 日而不是 9 月 12 日也不是 5 月 12 日你妹的你的近代史是怎么学的；<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-26.jpg" alt="牙膏"><br>14、牙膏管底部有个绿色色块的是纯天然牙膏黑色的就是全化学物质的，拜托那个色块只是生产线上的标记爱整啥颜色就是啥颜色，要不厂家给你整支从头到脚从里到外全是绿色的牙膏连牙齿都可以给你刷绿的好不好；<br>15、那些说你手机或者电脑收到一张带有“女人必看”、“男人必看”、“不男不女必看”之类的图片或者工资料整方案什么文件的，在任何环境下一旦打开你的手机就会爆炸电脑就会冒黑烟你的隐私艳照就会满天飞第二天你就红过冠希哥的，病毒真正侵入的是你的榆木脑袋而不是你的手机电脑，另外，冠希哥无人可以超越你尽可放心；<br>16、中国 10 大名老中医的各类偏方最近疯转，有人转的是徐文兵有人转的是叫于彤，内容一样年纪一样都是 98 岁，第一条就是香蕉皮 30 克晒干煎水可以降血压看到这第一条我就笑了。大家就不会自己去百度一下徐文兵吗？他 1966 年出生我的数学老师死的早 66 年出生的人今年多大我不会算，但肯定不是 TM 的 98 岁，干脆你说太上老君说我倒真心信了神仙说的谁敢不信是不是，我只说一句话得了病你还是去医院比较靠谱除非你想早点去见马克思。<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-261.jpg" alt="马克思"><br>17、最近电影亲爱的让大家爱心爆棚，什么加油站一辆卖天津大麻花的货车正在加油最后发现堆放麻花扳子下传来了 9 个孩子的哭叫声，原来卖天津大麻花的还兼职卖人卖器官真是吓得你一脸的狗血，我就想问问你妹的你看过卖天津大麻花的标准制式车辆没有 9 个 10 岁的孩子你给我塞进去看看，我真想把这个谣言一个字一个字的塞进你巨大的菊花里，真 9 个孩子被关着一个个器官切着卖那不成了中国第一大案了你也太小看警察蜀黎的能力了。<br>18、那些被人喷了一口烟点了一下穴瞪了一小眼就迷迷糊糊被人骗走钱财骗走身体骗走一切的人，大都是贪财爱占小便宜结果鸡飞蛋打上当了也哒屁无法和老公老婆家人孩子交代了，急中生智把自己被猪油蒙了心的行为都怪到这些武侠穿越修仙小说中才会出现的事情上去，你要信了你的智力大概也是-250。<br>实在是有太多谣言，八妹加上脚趾头都数不过来了，还是自己看图吧！<br>1、微波炉辐射会致癌<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-28.jpg" alt="致癌"><br>2、柿子和蟹、虾和水果、豆浆和鸡蛋等混吃会中毒<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-29.jpg" alt="食物"><br>3、酸性体质能致病<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-31.jpg" alt="致病"><br>4、指甲月牙越多越健康<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-311.jpg" alt="指甲"><br>5、宿便是健康杀手<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-32.jpg" alt="宿便"><br>6、孕妇必须穿防辐射服<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-35.jpg" alt="孕妇"><br>7、可乐杀精<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-41.jpg" alt="精子"><br>8、购物小票会致癌<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-42.jpg" alt="购物票"><br>9、柠檬水能减肥抗癌<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-44.jpg" alt="柠檬水"><br>这还没完呢~赶紧上个厕所咱继续！<br>手机 7 大谣言大起底！你被忽悠了吗？<br>一、55 秒通话等于 1 分钟？<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-45.jpg" alt="时钟"><br>【传言】不要赶着凑够 1 分钟通话。很多人打电话时候常会为正好赶在 1 分钟前结束而庆幸，其实，在你通话到 55 秒的时候就已经算 1 分钟了，所以 55 秒-1 分钟的通话其实是算你两分钟的钱。<br>【求证】国内统一执行打满 1 分钟时计下 1 分钟的费用。但不排除有个例的情况出现，就像有些加油站部分工作人员，通过不当手段短斤少两。但从技术上来说，在这个方面偷费，也很难做到。<br>【结论】这条流传已久的“经验”，原来是假的。<br>二、手机都有“隐形电池”？<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-46.jpg" alt="yinxing.webp"><br>【传言】你的手机电量不足了，为了让它能够继续使用，按<em>3370#键，手机会重新启动，启动完毕后，你就会发现电量增加了 50%。<br>【实验】在一部电量不足三星手机上，依次输入</em>3370#键，手机无任何反应，然后点送发射键，手机显示“UsSd 代码运行中”。这几个字还未仔细看清，又直接跳转为“连接问题或无效 MMI 代码*确定”，再按下确定键，手机复原为初始状态。换用多部其他各型号手机，均是如此。<br>【求证】网络辟谣称，在我们生活的这个三次元世界里，隐形电池是不存在的。拆开一部手机，你会发现内部没有任何“隐形电池”存在的踪影，而且手机厂家也完全没有理由去设置这样一项功能。<br>【结论】这一条也是假的！<br>三、没卡也能打“110”？<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-47.jpg" alt="110"><br>【传言】全世界的手机都可以拨打的共同紧急救援号码是 112，假如你发现自己所在地区无信号覆盖，同时你又遇到了紧急状况，用你的手机拨打 112 准没错，因为这时候你的手机会自动搜索所有可用的网络并建立起紧急呼叫。<br>【实验】拿掉手机卡，小e尝试拨打了 110、119 等紧急电话，结果表明，拨打这些号码时，会有语音提示，但并未接通。也就是说，在无卡状态下，手机并不能实现电话报警。<br>【求证】网络答案称，国内呼叫 112 并无实际作用，它会自动转接一个语音提示，“匪警请拨 110，火警请拨 119……”而呼叫 110、119、120 等中国紧急号码还是需要手机接入 SIM 卡提供商的网络，与普通通话一样。<br>尽管这种做法符合 GSM 的规范，但是为了更好的实施紧急救援，还有待国内服务商完善。<br>【结论】这一条其实不完全算是“谣言”，但在国内没有实际用处，若在国外遇险，可尝试使用这种方法求救。<br>四、手机一格电，辐射大千倍？<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-48.jpg" alt="辐射"><br>【传言】手机剩一格时不要使用：收讯满格与只剩一格时相比，发射强度竟然相差 1000 倍以上。<br>【求证】通常人们说的手机辐射强度是指手机的发信功率，也就是手机发射出来承载着语音和数据信号的电磁波的功率。这个强度与手机的剩余电量没有任何关系，但和手机信号的强度有一定的关系。<br>手机信号的强弱，与基站远近有关，也受高山阻挡或其他信号干扰的影响，这与电量关系不大。这个传言的始作俑者应该是混淆了手机“一格电”和“一格信号”这两种情况。<br>【结论】完全不靠谱。<br>五、手机连线远程开车锁？<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-49.jpg" alt="车锁"><br>【传言】车用遥控器落在车里，通过手机通话远程遥控开锁。<br>【求证】对此，网络辟谣称：汽车遥控器发射的电波频率大多集中在 315Mhz 和 433Mhz 左右，而无论 2G 还是 3G 手机，使用的电波频率都高于这个数值，两者“语言不同”。<br>【结论】简单讲，这条传言是假的！<br>六、边充电边接电话危险？<br><img src="http://futa.ooo/wp-content/uploads/2015/02/2014-10-24_11-43-55.jpg" alt="充电"><br>【传言】当手机正在充电时，请勿接电话！原因是手机在充电时，接听会有潜在危险。<br>【求证】经过安全测试的手机不会发生此类情况，充电时接听也是安全的。但不排除没有使用原装设备充电导致手机发热、爆炸等极端情况发生。<br>【结论】直接用交流电充电时，最好拔下电源再接听。<br>七、关机也会泄露行踪？<br>【传言】手机即使在关机状态，只要有电池，远程的程序就能激活它，暴露你的坐标。万全的办法就是将手机的电池取出，彻底断绝电源。<br>【求证】这条流言的产生估计是受了许多高科技谍战电影的影响。窃听技术的发展历史悠久且被各国情报部门所青睐，最新的技术对大多数人来说都不可能了解到，也让这条流言难以证伪。但至少我们普通人无需担心，因为普通的手机是不具备这种功能的。<br>【结论】通常情况下，无需担心。</p>
+<p>转载自 <a href="http://www.sum16.com/please-dont-insult-my-intelligence-in-the-circle-of-friends.html" target="_blank" rel="noopener">http://www.sum16.com/please-dont-insult-my-intelligence-in-the-circle-of-friends.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/01/30/解决json_encode中文UNICODE转码问题/"><span>解决json_encode中文UNICODE转码问题</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/30/解决json_encode中文UNICODE转码问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-30T00:32:22.000Z">
+          2015-01-30
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>前段时间做东西时用到了 json，php 自带的 json_encode 会将 unicode 字符转码，以 \uxxxx 的形式输出，这样不方便调试，并且，不方便插入数据库（mysql 会自动去掉反斜杠，变成 uxxxx）。于是在网上找到了如下两种解决方案：</p>
+<ol>
+<li>JSON_UNESCAPED_UNICODE：<br>该方法只适用于 php 5.4 及以上版本，使用方法：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo json_encode(&quot;中文&quot;, JSON_UNESCAPED_UNICODE);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>自己写 function 处理：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">function ch_json_encode($data) &#123;</span><br><span class="line">   </span><br><span class="line">   function ch_urlencode($data) &#123;</span><br><span class="line">       if (is_array($data) || is_object($data)) &#123;</span><br><span class="line">           foreach ($data as $k =&gt; $v) &#123;</span><br><span class="line">               if (is_scalar($v)) &#123;</span><br><span class="line">                   if (is_array($data)) &#123;</span><br><span class="line">                       $data[$k] = urlencode($v);</span><br><span class="line">                   &#125; else if (is_object($data)) &#123;</span><br><span class="line">                       $data-&gt;$k = urlencode($v);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125; else if (is_array($data)) &#123;</span><br><span class="line">                   $data[$k] = ch_urlencode($v); //递归调用该函数</span><br><span class="line">               &#125; else if (is_object($data)) &#123;</span><br><span class="line">                   $data-&gt;$k = ch_urlencode($v);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       return $data;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   $ret = ch_urlencode($data);</span><br><span class="line">   $ret = json_encode($ret);</span><br><span class="line">   return urldecode($ret);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>个人觉得第二种方法有 bug，以前有过输出 \’ 的经历。</p>
+<p>参考 <a href="http://blog.csdn.net/lanqiao825/article/details/26700809" target="_blank" rel="noopener">http://blog.csdn.net/lanqiao825/article/details/26700809</a>、<a href="http://blog.sina.com.cn/s/blog_6ad6243801016zqo.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_6ad6243801016zqo.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/01/28/mysql中You can't specify target table for update in FROM clause错误/"><span>mysql中You can&#39;t specify target table for update in FROM clause错误</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/28/mysql中You can't specify target table for update in FROM clause错误/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-27T22:24:07.000Z">
+          2015-01-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>mysql中You can’t specify target table  for update in FROM clause错误的意思是说，不能先select出同一表中的某些值，再update这个表(在同一语句中)。 例如下面这个sql：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">delete from tbl where id in </span><br><span class="line">(</span><br><span class="line">        select max(id) from tbl a where EXISTS</span><br><span class="line">        (</span><br><span class="line">            select 1 from tbl b where a.tac=b.tac group by tac HAVING count(1)&gt;1</span><br><span class="line">        )</span><br><span class="line">        group by tac</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>改写成下面就行了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">delete from tbl where id in </span><br><span class="line">(</span><br><span class="line">    select a.id from </span><br><span class="line">    (</span><br><span class="line">        select max(id) id from tbl a where EXISTS</span><br><span class="line">        (</span><br><span class="line">            select 1 from tbl b where a.tac=b.tac group by tac HAVING count(1)&gt;1</span><br><span class="line">        )</span><br><span class="line">        group by tac</span><br><span class="line">    ) a</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>也就是说将select出的结果再通过中间表select一遍，这样就规避了错误。注意，这个问题只出现于mysql，mssql和oracle不会出现此问题。</p>
+<p>转载自：<a href="http://blog.csdn.net/priestmoon/article/details/8016121" target="_blank" rel="noopener">http://blog.csdn.net/priestmoon/article/details/8016121</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/01/21/使用 php 连接 websocket 服务器/"><span>使用 php 连接 websocket 服务器</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/21/使用 php 连接 websocket 服务器/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-21T00:03:00.000Z">
+          2015-01-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>　　最近在写一个问卷调查（也可以投票用）系统，因为有一个大屏幕需要实时显示结果，于是用了 websocket。考虑到投票用户用的浏览器可能不支持 websocket，于是就只写了一个普通的表单，向 websocket 传消息的任务就交给了 php。百度了下，找到了个现成的客户端（<a href="http://download.csdn.net/download/byjlwaa/5389173" target="_blank" rel="noopener">PHP Websocket 客户端 - 下载频道 - CSDN.NET</a>），但是下载下来以后试了下发现无法正常使用，于是调整了它的 header，server 端则打印出通讯的 log，结果发现，连接是可以正常建立的，发送数据却失败。查了下资料（<a href="http://www.cnblogs.com/yjf512/archive/2013/03/11/2953483.html" target="_blank" rel="noopener">关于websocket - 轩脉刃 - 博客园</a>），发现源码中的 senddata 的 function 是错误的，它没有对数据进行处理就直接发送了。发现问题后，我根据通讯协议对源码做了如下修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">public function sendData($data)</span><br><span class="line">&#123;</span><br><span class="line">	// send actual data:</span><br><span class="line">	fwrite($this-&gt;_Socket, $this-&gt;encode($data)) or die(&apos;Error:&apos; . $errno . &apos;:&apos; . $errstr);</span><br><span class="line">	$wsData = fread($this-&gt;_Socket, 2000);</span><br><span class="line">	$retData = trim($wsData,chr(0).chr(255));        </span><br><span class="line">	return $retData;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">   private function encode( $data ) &#123;</span><br><span class="line">       $data = is_array( $data ) || is_object( $data ) ? json_encode( $data ) : (string) $data;</span><br><span class="line">       $len = strlen( $data );</span><br><span class="line">       $mask=array();</span><br><span class="line">       for ($j=0;$j&lt;4;$j++) &#123;</span><br><span class="line">           $mask[]=mt_rand(1,255);</span><br><span class="line">       &#125;</span><br><span class="line">       $head[0] = 129;</span><br><span class="line">       if ( $len &lt;= 125 ) &#123;</span><br><span class="line">           $head[1] = $len;</span><br><span class="line">       &#125; elseif ( $len &lt;= 65535 ) &#123;</span><br><span class="line">           $split = str_split( sprintf(&apos;%016b&apos;, $len ), 8 );</span><br><span class="line">           $head[1] = 126;</span><br><span class="line">           $head[2] = bindec( $split[0] );</span><br><span class="line">           $head[3] = bindec( $split[1] );</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           $split = str_split( sprintf(&apos;%064b&apos;, $len ), 8 );</span><br><span class="line">           $head[1] = 127;</span><br><span class="line">           for ( $i = 0; $i &lt; 8; $i++ ) &#123;</span><br><span class="line">               $head[$i+2] = bindec( $split[$i] );</span><br><span class="line">           &#125;</span><br><span class="line">           if ( $head[2] &gt; 127 ) &#123;</span><br><span class="line">               return false;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       $head[1]+=128;</span><br><span class="line">       $head=array_merge($head,$mask);</span><br><span class="line">       foreach( $head as $k =&gt; $v ) &#123;</span><br><span class="line">           $head[$k] = chr( $v );</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       $mask_data=&apos;&apos;;</span><br><span class="line">       for ($j=0;$j&lt;$len;$j++) &#123;</span><br><span class="line">           $mask_data.=chr(ord($data[$j]) ^ $mask[$j % 4]);</span><br><span class="line">       &#125;</span><br><span class="line">       return implode(&apos;&apos;, $head ) . $mask_data;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">private function _connect($host, $port)</span><br><span class="line">&#123;</span><br><span class="line">	$key1 = $this-&gt;_generateRandomString(32);</span><br><span class="line">	$key2 = $this-&gt;_generateRandomString(32);</span><br><span class="line">	$key3 = $this-&gt;_generateRandomString(8, false, true);		</span><br><span class="line"></span><br><span class="line">               $header = &quot;GET ws://&quot;.$host.&quot;:&quot;.$port.&quot;/ HTTP/1.1\r\n&quot;;</span><br><span class="line">               $header.= &quot;Host: &quot;.$host.&quot;:&quot;.$port.&quot;\r\n&quot;;</span><br><span class="line">               $header.= &quot;Connection: Upgrade\r\n&quot;;</span><br><span class="line">               $header.= &quot;Pragma: no-cache\r\n&quot;;</span><br><span class="line">               $header.= &quot;Cache-Control: no-cache\r\n&quot;;</span><br><span class="line">               $header.= &quot;Upgrade: websocket\r\n&quot;;</span><br><span class="line">               $header.= &quot;Sec-WebSocket-Version: 13\r\n&quot;;</span><br><span class="line">               $header.= &quot;User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36\r\n&quot;;</span><br><span class="line">               $header.= &quot;Accept-Encoding: gzip, deflate, sdch\r\n&quot;;</span><br><span class="line">               $header.= &quot;Accept-Language: zh-CN,zh;q=0.8\r\n&quot;;</span><br><span class="line">               $header.= &quot;Sec-WebSocket-Key: &quot; . $key1 . &quot;\r\n&quot;;</span><br><span class="line">               $header.= &quot;Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits\r\n&quot;;</span><br><span class="line">               $header.= &quot;\r\n&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	$this-&gt;_Socket = fsockopen($host, $port, $errno, $errstr, 2); </span><br><span class="line">	fwrite($this-&gt;_Socket, $header) or die(&apos;Error: &apos; . $errno . &apos;:&apos; . $errstr); </span><br><span class="line">	$response = fread($this-&gt;_Socket, 2000);</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * @todo: check response here. Currently not implemented cause &quot;2 key handshake&quot; is already deprecated.</span><br><span class="line">	 * See: http://en.wikipedia.org/wiki/WebSocket#WebSocket_Protocol_Handshake</span><br><span class="line">	 */		</span><br><span class="line"></span><br><span class="line">	return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　替换源码中的 sendData 与 _connect 并添加 encode function 即可，因为修改之前的源码是别人发布的，所以下载见文章开头的 csdn 链接。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/01/17/使用Raspberry Pi作为无线路由器/"><span>使用Raspberry Pi作为无线路由器</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/17/使用Raspberry Pi作为无线路由器/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-16T20:14:47.000Z">
+          2015-01-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>鉴于之前的教程过于麻烦。。自己也从头试了一下，发现有点问题，于是本人决定全部推倒重写一遍（注：本文采用的无线网卡为 TP-LINK WN823N，RTL8192CU 芯片）</p>
+<p>另外，文章中用了 vi 编辑器，树莓派自带 vim-tiny，有点反人类，apt-get install vim 解决问题</p>
+<p>参考了以下两篇文章（如果只按照其中的一篇来都不会成功，所以整理了一下）：</p>
+<ul>
+<li><a href="http://wangye.org/blog/archives/845/" target="_blank" rel="noopener">http://wangye.org/blog/archives/845/</a></li>
+</ul>
+<ul>
+<li><a href="http://shumeipai.nxez.com/2014/04/01/raspberry-pi-wireless-router.html" target="_blank" rel="noopener">http://shumeipai.nxez.com/2014/04/01/raspberry-pi-wireless-router.html</a></li>
+</ul>
+<p><strong>一、安装dhcp服务和ap热点服务</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install isc-dhcp-server hostapd</span><br></pre></td></tr></table></figure>
+<p><strong>二、配置无线网络</strong><br><strong>本文搭建的无线网络使用了 192.168.51 网段，如有需要，请自行修改，后文同</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">auto lo</span><br><span class="line"></span><br><span class="line">iface lo inet loopback</span><br><span class="line">iface eth0 inet dhcp</span><br><span class="line"></span><br><span class="line">allow-hotplug wlan0</span><br><span class="line">iface wlan0 inet static</span><br><span class="line">    address 192.168.51.1</span><br><span class="line">    netmask 255.255.255.0</span><br><span class="line"></span><br><span class="line">iface default inet dhcp</span><br></pre></td></tr></table></figure>
+<p><strong>三、修改 DHCP Server 设置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/dhcp/dhcpd.conf</span><br></pre></td></tr></table></figure>
+<p>在最后添加，注意是在最后：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">subnet 192.168.51.0 netmask 255.255.255.0 &#123;</span><br><span class="line">    range 192.168.51.100 192.168.51.254;</span><br><span class="line">    option subnet-mask 255.255.255.0;</span><br><span class="line">    option broadcast-address 192.168.51.255;</span><br><span class="line">    option routers 192.168.51.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>四、打开内核的网卡转发能力</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+<p>将 net.ipv4.ip_forward=1 的注释去掉</p>
+<p><strong>五、重新编译 hostapd 使其支持 RTL8192CU 芯片的无线网卡</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://futa.ooo/wp-content/uploads/2015/01/RTL8188-hostapd-master.zip</span><br><span class="line">unzip RTL8188-hostapd-master.zip</span><br><span class="line">cd RTL8188-hostapd-master/hostapd</span><br><span class="line">make;make install</span><br></pre></td></tr></table></figure>
+<p><strong>六、修改 iptables 的 nat 规则并保存</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT</span><br><span class="line">iptables-save &gt; /etc/iptables.ipv4.nat</span><br></pre></td></tr></table></figure>
+<p>开机自动加载 iptables 规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.local</span><br></pre></td></tr></table></figure>
+<p>在 exit 0; 前面添加 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-restore&lt;/etc/iptables.ipv4.nat</span><br></pre></td></tr></table></figure>
+<p><strong>七、修改无线网络的设置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/hostapd/hostapd.conf</span><br></pre></td></tr></table></figure>
+<p>只需要改两行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># Basic configuration</span><br><span class="line"></span><br><span class="line">interface=wlan0</span><br><span class="line">ssid=sxbxjhwm_raspberry # SSID，修改</span><br><span class="line">channel=1</span><br><span class="line">#bridge=br0</span><br><span class="line"></span><br><span class="line"># WPA and WPA2 configuration</span><br><span class="line"></span><br><span class="line">macaddr_acl=0</span><br><span class="line">auth_algs=1</span><br><span class="line">ignore_broadcast_ssid=0</span><br><span class="line">wpa=3</span><br><span class="line">wpa_passphrase=87654321 # 密码，修改</span><br><span class="line">wpa_key_mgmt=WPA-PSK</span><br><span class="line">wpa_pairwise=TKIP</span><br><span class="line">rsn_pairwise=CCMP</span><br><span class="line"></span><br><span class="line"># Hardware configuration</span><br><span class="line"></span><br><span class="line">driver=rtl871xdrv</span><br><span class="line">ieee80211n=1</span><br><span class="line">hw_mode=g</span><br><span class="line">device_name=RTL8192CU</span><br><span class="line">manufacturer=Realtek</span><br></pre></td></tr></table></figure>
+<p><strong>P.S. 如果 DHCP 获取不到 IP，需要添加自启动：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.local</span><br></pre></td></tr></table></figure>
+<p>在 exit 0 之前添加以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ifdown wlan0</span><br><span class="line">ifup wlan0</span><br><span class="line">ifconfig wlan0 192.168.51.1 netmask 255.255.255.0</span><br><span class="line">service isc-dhcp-server restart</span><br><span class="line">service hostapd restart</span><br></pre></td></tr></table></figure>
+<hr>
+<p>实验成功，效果图：<br><a href="http://futa.ooo/wp-content/uploads/2015/01/QQ截图20150116205540.jpg"><img src="http://futa.ooo/wp-content/uploads/2015/01/QQ截图20150116205540-300x154.jpg" alt="QQ截图20150116205540"></a><br><a href="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205445-e1421413729569.jpg"><img src="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205445-e1421413729569-169x300.jpg" alt="QQ图片20150116205445"></a><br><a href="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205452.png"><img src="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205452-169x300.png" alt="QQ图片20150116205452"></a><br><a href="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205458.png"><img src="http://futa.ooo/wp-content/uploads/2015/01/QQ图片20150116205458-169x300.png" alt="QQ图片20150116205458"></a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/树莓派/">树莓派</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/page/8/" class="pagination-prev">上一页</a>
+  
+  
+  <a href="/page/10/" class="pagination-next">下一页</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>关于 js function 传值的问题 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="最近无聊在做一个解三元一次方程组的网页，用的 javascript，好吧其实大部分是 jquery 框架。现在已经基本完工了，除了判断方程组是否无解或者有无穷解的部分以外。下午碰到一个挺有意思的问题，拿出来分享一下。先上部分关键代码
+123456789101112131415161718192021">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="关于 js function 传值的问题"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>关于 js function 传值的问题</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/05/16/关于 js function 传值的问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-05-16T08:05:24.000Z">
+          2014-05-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近无聊在做一个解三元一次方程组的网页，用的 javascript，好吧其实大部分是 jquery 框架。现在已经基本完工了，除了判断方程组是否无解或者有无穷解的部分以外。下午碰到一个挺有意思的问题，拿出来分享一下。<br>先上部分关键代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function get_swap(arr_a,arr_b,k) &#123; //交换系数</span><br><span class="line">    arr_a=$.extend(true, &#123;&#125;, arr_a); //坑啊这句</span><br><span class="line">    for (i=0;i&lt;3;++i) &#123;</span><br><span class="line">        arr_a[i][k]=arr_b[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return arr_a;</span><br><span class="line">&#125;</span><br><span class="line">function get_tteleg(arr_a,arr_b) &#123; //主 function，出结果用</span><br><span class="line">    var gc=(typeof(arguments[2])==&quot;undefined&quot;)?false:arguments[2]; //如果 false 就不要过程。。。</span><br><span class="line">    var d=get_array_fj(arr_a);</span><br><span class="line">    var x=get_array_fj(get_swap(arr_a,arr_b,0))/d;</span><br><span class="line">    var y=get_array_fj(get_swap(arr_a,arr_b,1))/d;</span><br><span class="line">    var z=get_array_fj(get_swap(arr_a,arr_b,2))/d;</span><br><span class="line">    if (gc) &#123;</span><br><span class="line">        var op=&apos;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;D=&apos;+get_array_gc(arr_a))+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;D=&apos;+get_array_fj_gc(arr_a)+&apos;=&apos;+d)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&apos;;</span><br><span class="line">        op+=&apos;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;x= \\frac&#123;&apos;+get_array_gc(get_swap(arr_a,arr_b,0))+&apos;&#125;&#123;D&#125;&apos;)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;x= \\frac&#123;&apos;+get_array_fj_gc(get_swap(arr_a,arr_b,0))+&apos;&#125;&#123;&apos;+d+&apos;&#125;=&apos;+x)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&apos;;</span><br><span class="line">        op+=&apos;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;y= \\frac&#123;&apos;+get_array_gc(get_swap(arr_a,arr_b,1))+&apos;&#125;&#123;D&#125;&apos;)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;y= \\frac&#123;&apos;+get_array_fj_gc(get_swap(arr_a,arr_b,1))+&apos;&#125;&#123;&apos;+d+&apos;&#125;=&apos;+y)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&apos;;</span><br><span class="line">        op+=&apos;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;z= \\frac&#123;&apos;+get_array_gc(get_swap(arr_a,arr_b,2))+&apos;&#125;&#123;D&#125;&apos;)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;z= \\frac&#123;&apos;+get_array_fj_gc(get_swap(arr_a,arr_b,2))+&apos;&#125;&#123;&apos;+d+&apos;&#125;=&apos;+z)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&apos;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        var op=&apos;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;d=&apos;+d)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;x=&apos;+x)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;y=&apos;+y)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&lt;br /&gt;&lt;img src=&quot;http://chart.googleapis.com/chart?cht=tx&amp;chl=&apos;+encodeURIComponent(&apos;z=&apos;+z)+&apos;&quot; style=&quot;border:none;&quot; /&gt;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    return op;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>各种各样的 img 标签是调用 Google 的 api 用 TeX 输出，这个就不细说了。看上面代码中有一句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr_a=$.extend(true, &#123;&#125;, arr_a);</span><br></pre></td></tr></table></figure></p>
+<p> 原先并没有这一句，但因为 get_swap() 是用来交换系数用的，每次交换完输出的 arr_a 就不正常，于是就开始找起了 bug，但由于我并不怎么接触 javascript，只以为它和 php 是一样的，找了半天都没找到问题，但直觉告诉我可能是因为全局变量或者传值的问题，可是我没有定义全局变量啊。直至经位高人指点，才发现 javascript 里 function 传对象和数组传的都是地址，而非值。(参考 <a href="http://www.cftea.com/c/2010/07/TKE282SFVCKL2RLS.asp" target="_blank" rel="noopener">http://www.cftea.com/c/2010/07/TKE282SFVCKL2RLS.asp</a>)这简直就是天大的坑啊，于是乎就想着把数组拆开，一个一个传值，但这样又显得太麻烦，毕竟 4*3 的增广矩阵呢，这不得写死人。。。罢了罢了，后来想过把数组转成 json 格式字符串，传进 function 再 eval，结果发现 jquery 的 $.toJSON 要另外引插件($.toJSON 我 tm 以前做播放器的时候不是用过嘛。。。居然忘记了)，顿时放弃了，然后百度了一两个小时，终于被我找到方法了。我思路是这样的，既然它传地址进来我为何不重新定义一个数组然后 copy 原先那个数组的值呢？嗯。。。其实这个思路也是百度到的。。。。开始是用了 arr.concat() 和 arr.slice(0)，发现无效，原因是我的数组是一个二维数组，不支持。卧槽，然后才发现了这个 <a href="http://www.cnblogs.com/RascallySnake/archive/2010/05/07/1729563.html" target="_blank" rel="noopener">http://www.cnblogs.com/RascallySnake/archive/2010/05/07/1729563.html</a>，$.extend，jquery 自带，效果甚是满意。放个链接出来给各位测试一下 <a href="http://lab.233.imjs.work/math/tteleg.html" target="_blank" rel="noopener">http://lab.233.imjs.work/math/tteleg.html</a></p>
+<p>P.S. 关于三元一次方程组是否无解还有是否有无穷解的问题到现在还是没解决，求个方便点的算法研究一下。。。(不是我要做伸手党。。。实在是高一党，啊呸，中专党对线性代数有点力不从心啊)刚刚倒是问了几位大神，说是增广矩阵的秩可以用来判断，但秩却又是什么。。。又有说可以用高斯消元法去做，做下来的行数还是列数来着的是秩。。。。卧槽这什么跟什么呀。。。我解个三元一次方程组我容易么我。。。二元一次方程组的时候用行列式感觉还行，没想到三元一次的这么复杂啊卧槽。。。附张百度百科的截图，完整的内容戳链接 <a href="http://wapbaike.baidu.com/view/1961580.htm" target="_blank" rel="noopener">增广矩阵 - 百度百科</a><br><a href="http://futa.ooo/wp-content/uploads/2014/05/Screenshot_2014-05-16-23-58-32.png"><img src="http://futa.ooo/wp-content/uploads/2014/05/Screenshot_2014-05-16-23-58-32-168x300.png" alt="Screenshot_2014-05-16-23-58-32"></a><br>诶对还有，一直有个问题想不明白，二元一次方程组可以理解为一个直角平面里两根直线的相交点，三元的则是一个三维的物体，那四元及以上的呢？求解释。。。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

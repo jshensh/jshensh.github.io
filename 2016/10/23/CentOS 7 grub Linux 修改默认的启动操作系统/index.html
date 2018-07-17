@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 7 grub Linux 修改默认的启动操作系统 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="可以用下面的方法修改grub默认的启动OS。
+查看当前的启动内核[root@localhost ~]# grub2-editenvlistsaved_entry=CentOS Linux(3.10.0-123.20.1.el7.x86_64) 7 (Core)
+查找要默认启动的操作系统名字[root">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="CentOS 7 grub Linux 修改默认的启动操作系统"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>CentOS 7 grub Linux 修改默认的启动操作系统</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/10/23/CentOS 7 grub Linux 修改默认的启动操作系统/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-10-23T07:36:42.000Z">
+          2016-10-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>可以用下面的方法修改grub默认的启动OS。</p>
+<p><strong>查看当前的启动内核</strong><br>[root@localhost ~]# grub2-editenvlist<br>saved_entry=CentOS Linux(3.10.0-123.20.1.el7.x86_64) 7 (Core)</p>
+<p><strong>查找要默认启动的操作系统名字</strong><br>[root@localhost ~]# cat /etc/grub2.cfg | grep 3.4.44<br>menuentry ‘CentOS Linux (3.4.44) 7(Core)’ –class centos –class gnu-linux –class gnu –class os–unrestricted $menuentry_id_option’gnulinux-3.10.0-123.el7.x86_64-advanced-e3146a2a-a237-4081-ba08-dbf258de434a’{<br>        linux16 /vmlinuz-3.4.44 root=/dev/mapper/centos-rootro rd.lvm.lv=centos/swap vconsole.font=latarcyrheb-sun16 rd.lvm.lv=centos/rootcrashkernel=auto  vconsole.keymap=us rhgbquiet LANG=en_US.UTF-8<br>        initrd16 /initramfs-3.4.44.img</p>
+<p><strong>设置新的默认启动操作系统选项</strong><br>[root@localhost ~]# grub2-set-default  “CentOSLinux (3.4.44) 7 (Core)”</p>
+<p><strong>查看是否生效</strong><br>[root@localhost ~]# grub2-editenv list<br>saved_entry=CentOS Linux (3.4.44) 7 (Core)</p>
+<p>转载自 <a href="http://blog.csdn.net/wjw7869/article/details/47302107" target="_blank" rel="noopener">http://blog.csdn.net/wjw7869/article/details/47302107</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

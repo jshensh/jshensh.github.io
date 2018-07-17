@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>禁止 &lt;li&gt; 标签内文字自动换行 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="当中文文字很长的时候（中间没有空格也没有换行符号），不管是IE还是firefox，到达边界都会自动换行。但是有的情况，我们并不希望这样。比如：当在几个li并排排列，不想让每行的最后的一个li的文字自动换行，那就可以用本属性了。使用这个css属性之后，文本只有在遇到空格或者是换行符的时候才能 换行比如">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="禁止 &lt;li&gt; 标签内文字自动换行"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>禁止 &lt;li&gt; 标签内文字自动换行</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/10/03/禁止 <li> 标签内文字自动换行/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-10-02T20:32:10.000Z">
+          2013-10-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>当中文文字很长的时候（中间没有空格也没有换行符号），不管是IE还是firefox，到达边界都会自动换行。<br>但是有的情况，我们并不希望这样。比如：当在几个li并排排列，不想让每行的最后的一个li的文字自动换行，那就可以用本属性了。<br>使用这个css属性之后，文本只有在遇到空格或者是换行符的时候才能 换行<br>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type=&quot;text/css&quot;&gt;   </span><br><span class="line">div&#123;width:300px;border:1px solid red;margin:10px;overflow:hidden;&#125;   </span><br><span class="line">    .nowrap&#123;white-space: nowrap;&#125;   </span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;div class=&quot;nowrap&quot;&gt;   </span><br><span class="line">这是一段很长的文字中间没有空格也没有换行它不会自动换行直到被截取掉&lt;br /&gt;胡锦涛抵达日本开始访问日本方面最高规格迎接 更多&lt;br /&gt;   </span><br><span class="line">&lt;/div&gt;   </span><br><span class="line">&lt;div&gt;这是一段很长的文字中间没有空格也没有换行但它会自动换行&lt;br /&gt;胡锦涛抵达日本开始访问日本方面最高规格迎接 更多&lt;br /&gt;&lt;/div&gt;   </span><br><span class="line">&lt;p&gt;上面两个div里超宽的文字，第一个里面的被禁止换行，然后超宽的被截取了；第二个不做设置，于是自动换行了&lt;/p&gt;   </span><br><span class="line">&lt;a href=&quot;?&quot;&gt;Web标准化 &lt;a href=&quot;http://www.div-css.com&quot;&gt;www.div-css.com&lt;/a&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>curl不使用文件存取cookie php使用curl获取cookie示例 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="1234567891011121314&amp;lt;?php/*-----保存COOKIE-----*/$url = &amp;apos;www.xxx.com&amp;apos;; //url地址$post = &amp;quot;id=user&amp;amp;pwd=123456&amp;quot;; //POST数据$ch = curl">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="curl不使用文件存取cookie php使用curl获取cookie示例"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>curl不使用文件存取cookie php使用curl获取cookie示例</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/02/13/curl不使用文件存取cookie php使用curl获取cookie示例/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-02-13T07:49:45.000Z">
+          2016-02-13
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/*-----保存COOKIE-----*/</span><br><span class="line">$url = &apos;www.xxx.com&apos;; //url地址</span><br><span class="line">$post = &quot;id=user&amp;pwd=123456&quot;; //POST数据</span><br><span class="line">$ch = curl_init($url); //初始化</span><br><span class="line">curl_setopt($ch,CURLOPT_HEADER,1); //将头文件的信息作为数据流输出</span><br><span class="line">curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); //返回获取的输出文本流</span><br><span class="line">curl_setopt($ch,CURLOPT_POSTFIELDS,$post); //发送POST数据</span><br><span class="line">$content = curl_exec($ch); //执行curl并赋值给$content</span><br><span class="line">preg_match(&apos;/Set-Cookie:(.*);/iU&apos;,$content,$str); //正则匹配</span><br><span class="line">$cookie = $str[1]; //获得COOKIE（SESSIONID）</span><br><span class="line">curl_close($ch); //关闭curl</span><br><span class="line">/*-----使用COOKIE-----*/</span><br><span class="line">curl_setopt($ch,CURLOPT_COOKIE,$cookie);</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://www.jb51.net/article/46222.htm" target="_blank" rel="noopener">http://www.jb51.net/article/46222.htm</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

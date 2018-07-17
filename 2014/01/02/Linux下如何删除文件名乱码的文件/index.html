@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux下如何删除文件名乱码的文件 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="刚刚在自己的VPS上下载个带有中文命名的压缩包，然后安装时就碰到这个问题。。。死活就是删不掉。。。rm -rf 没用，rm -rf  没用，rm -rf .*没用。。。只好用节点号删除了
+首先在文件路径下 ls -i列出的文件夹和文件名左侧会有一串数字，这就是节点号
+删除文件find -inum [">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Linux下如何删除文件名乱码的文件"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Linux下如何删除文件名乱码的文件</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/01/02/Linux下如何删除文件名乱码的文件/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-01-02T07:17:21.000Z">
+          2014-01-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>刚刚在自己的VPS上下载个带有中文命名的压缩包，然后安装时就碰到这个问题。。。<br>死活就是删不掉。。。rm -rf 没用，rm -rf <em> 没用，rm -rf </em>.*没用。。。<br>只好用节点号删除了</p>
+<p>首先在文件路径下 ls -i<br>列出的文件夹和文件名左侧会有一串数字，这就是节点号</p>
+<p>删除文件<br>find -inum [节点号] -exec rm {} \;<br>例如 find -inum 1393332 -exec rm {} \;<br>执行后不会有返回结果，但是通过ls可以看到文件已经被删除了</p>
+<p>转载自：<a href="http://www.shenqhy.com/linux-how-to-delete-the-file-name-garbled-file.html" target="_blank" rel="noopener">http://www.shenqhy.com/linux-how-to-delete-the-file-name-garbled-file.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

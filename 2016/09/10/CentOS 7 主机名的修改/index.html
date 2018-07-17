@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 7 主机名的修改 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="如何在CentOS 7上修改主机名
+在CentOS中，有三种定义的主机名:静态的（static），瞬态的（transient），和灵活的（pretty）。“静态”主机名也称为内核主机名，是系统在启动时从/etc/hostname自动初始化的主机名。“瞬态”主机名是在系统运行时临时分配的主机名，例如，">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="CentOS 7 主机名的修改"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>CentOS 7 主机名的修改</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/09/10/CentOS 7 主机名的修改/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-09-10T09:58:55.000Z">
+          2016-09-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>如何在CentOS 7上修改主机名</p>
+<p>在CentOS中，有三种定义的主机名:静态的（static），瞬态的（transient），和灵活的（pretty）。“静态”主机名也称为内核主机名，是系统在启动时从/etc/hostname自动初始化的主机名。“瞬态”主机名是在系统运行时临时分配的主机名，例如，通过DHCP或mDNS服务器分配。静态主机名和瞬态主机名都遵从作为互联网域名同样的字符限制规则。而另一方面，“灵活”主机名则允许使用自由形式（包括特殊/空白字符）的主机名，以展示给终端用户（如Linuxidc）。</p>
+<p>在CentOS 7中，有个叫hostnamectl的命令行工具，它允许你查看或修改与主机名相关的配置。</p>
+<p>1.要查看主机名相关的设置：<br>[root@localhost ~]# hostnamectl  </p>
+<p>  Static hostname: localhost.localdomain<br>        Icon name: computer<br>          Chassis: n/a<br>        Machine ID: 80a4fa4970614cf6be9597ecd6f097a9<br>          Boot ID: 28420e272e1847a583718262758bd0f7<br>    Virtualization: vmware<br>  Operating System: CentOS Linux 7 (Core)<br>      CPE OS Name: cpe:/o:centos:centos:7<br>            Kernel: Linux 3.10.0-123.el7.x86_64<br>      Architecture: x86_64<br>或</p>
+<p>[root@localhost ~]# hostnamectl status<br>  Static hostname: localhost.localdomain<br>        Icon name: computer<br>          Chassis: n/a<br>        Machine ID: 80a4fa4970614cf6be9597ecd6f097a9<br>          Boot ID: 28420e272e1847a583718262758bd0f7<br>    Virtualization: vmware<br>  Operating System: CentOS Linux 7 (Core)<br>      CPE OS Name: cpe:/o:centos:centos:7<br>            Kernel: Linux 3.10.0-123.el7.x86_64<br>      Architecture: x86_64</p>
+<p>2.只查看静态、瞬态或灵活主机名，分别使用“–static”，“–transient”或“–pretty”选项。<br>[root@localhost ~]# hostnamectl –static<br>localhost.localdomain<br>[root@localhost ~]# hostnamectl –transient<br>localhost.localdomain<br>[root@localhost ~]# hostnamectl –pretty</p>
+<p>3.要同时修改所有三个主机名：静态、瞬态和灵活主机名：<br>[root@localhost ~]# hostnamectl set-hostname Linuxidc<br>[root@localhost ~]# hostnamectl –pretty<br>Linuxidc<br>[root@localhost ~]# hostnamectl –static<br>Linuxidc<br>[root@localhost ~]# hostnamectl –transient<br>Linuxidc</p>
+<p>就像上面展示的那样，在修改静态/瞬态主机名时，任何特殊字符或空白字符会被移除，而提供的参数中的任何大写字母会自动转化为小写。一旦修改了静态主机名，/etc/hostname 将被自动更新。然而，/etc/hosts 不会更新以保存所做的修改，所以你每次在修改主机名后一定要手动更新/etc/hosts，之后再重启CentOS 7。否则系统再启动时会很慢。</p>
+<p>4.手动更新/etc/hosts</p>
+<p>vim /etc/hosts</p>
+<p>127.0.0.1      Linuxidc  hunk_zhu</p>
+<p>#127.0.0.1  localhost localhost.localdomain localhost4 localhost4.localdomain<br>::1        localhost localhost.localdomain localhost6 localhost6.localdomai</p>
+<p>5.重启CentOS 7 之后（reboot -f ），<br>[root@Linuxidc ~]# hostname<br>Linuxidc<br>[root@hunk_zhu ~]# hostnamectl –transient<br>Linuxidc<br>[root@hunk_zhu ~]# hostnamectl –static<br>Linuxidc<br>[root@hunk_zhu ~]# hostnamectl –pretty<br>Linuxidc</p>
+<p>6.如果你只想修改特定的主机名（静态，瞬态或灵活），你可以使用“–static”，“–transient”或“–pretty”选项。<br>例如，要永久修改主机名，你可以修改静态主机名：<br>[root@localhost ~]# hostnamectl –static set-hostname Linuxidc<br>重启CentOS 7 之后（reboot -f ），<br>[root@Linuxidc ~]# hostnamectl –static<br>Linuxidc<br>[root@Hunk_zhu ~]# hostnamectl –transient<br>Linuxidc<br>[root@Hunk_zhu ~]# hostnamectl –pretty<br>Linuxidc<br>[root@Hunk_zhu ~]# hostname</p>
+<p>其实，你不必重启机器以激活永久主机名修改。上面的命令会立即修改内核主机名。注销并重新登入后在命令行提示来观察新的静态主机名。</p>
+<p>转载自 <a href="http://www.linuxidc.com/Linux/2014-11/109238.htm" target="_blank" rel="noopener">http://www.linuxidc.com/Linux/2014-11/109238.htm</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

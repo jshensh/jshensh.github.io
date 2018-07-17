@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Shell中处理包含空格的文件名实例 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="这篇文章主要介绍了Shell中处理包含空格的文件名实例,需要的朋友可以参考下
+今天在处理文件时遇到个问题，当文件名包含空格时，for循环就出问题了。例如，我在当前文件夹下建立3个文件名包含空格的文件：
+12345keakons-MacBook-Pro:test keakon$ touch &amp;quot">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Shell中处理包含空格的文件名实例"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Shell中处理包含空格的文件名实例</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/04/13/Shell中处理包含空格的文件名实例/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-04-13T04:24:29.000Z">
+          2015-04-13
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>这篇文章主要介绍了Shell中处理包含空格的文件名实例,需要的朋友可以参考下</p>
+<p>今天在处理文件时遇到个问题，当文件名包含空格时，for循环就出问题了。<br>例如，我在当前文件夹下建立3个文件名包含空格的文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">keakons-MacBook-Pro:test keakon$ touch &quot;test 1&quot;</span><br><span class="line">keakons-MacBook-Pro:test keakon$ touch &quot;test 2&quot;</span><br><span class="line">keakons-MacBook-Pro:test keakon$ touch &quot;test 3&quot;</span><br><span class="line">keakons-MacBook-Pro:test keakon$ ls</span><br><span class="line">test 1 test 2 test 3</span><br></pre></td></tr></table></figure>
+<p>然后for循环输出文件名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">keakons-MacBook-Pro:test keakon$ for file in `ls`;</span><br><span class="line">&gt; do echo $file;</span><br><span class="line">&gt; done</span><br><span class="line">test</span><br><span class="line">1</span><br><span class="line">test</span><br><span class="line">2</span><br><span class="line">test</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<p>可以看到，文件名被分开了。<br>复制操作也不行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">keakons-MacBook-Pro:test keakon$ mkdir ../bak</span><br><span class="line">keakons-MacBook-Pro:test keakon$ for file in `ls`; do cp &quot;$file&quot; ../bak; done</span><br><span class="line">cp: bak is a directory (not copied).</span><br><span class="line">cp: test: No such file or directory</span><br><span class="line">cp: 1: No such file or directory</span><br><span class="line">cp: test: No such file or directory</span><br><span class="line">cp: 2: No such file or directory</span><br><span class="line">cp: test: No such file or directory</span><br><span class="line">cp: 3: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>要解决这个问题，当然就要从单词分隔符着手。而bash中使用的是$IFS（Internal Field Separator）这个变量，内容为” \n\t”：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">keakons-MacBook-Pro:test keakon$ echo $IFS  </span><br><span class="line"> keakons-MacBook-Pro:test keakon$ echo &quot;$IFS&quot; | od -t x1</span><br><span class="line">0000000    20  09  0a  0a                                                </span><br><span class="line">0000004</span><br><span class="line">keakons-MacBook-Pro:test keakon$ echo &quot;&quot; | od -t x1</span><br><span class="line">0000000    0a                                                            </span><br><span class="line">0000001</span><br></pre></td></tr></table></figure>
+<p>然后把它改成”\n\b”，记得修改前先保存一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">keakons-MacBook-Pro:test keakon$ SAVEIFS=$IFS</span><br><span class="line">keakons-MacBook-Pro:test keakon$ IFS=$(echo -en &quot;\n\b&quot;)</span><br></pre></td></tr></table></figure>
+<p>现在再执行上述命令就正常了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">keakons-MacBook-Pro:test keakon$ for file in `ls`; do echo $file; done</span><br><span class="line">test 1</span><br><span class="line">test 2</span><br><span class="line">test 3</span><br><span class="line">keakons-MacBook-Pro:test keakon$ for file in `ls`; do cp &quot;$file&quot; ../bak; done</span><br><span class="line">keakons-MacBook-Pro:test keakon$ ls ../bak</span><br><span class="line">test 1 test 2 test 3</span><br></pre></td></tr></table></figure>
+<p>最后，别忘了恢复$IFS：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">keakons-MacBook-Pro:test keakon$ IFS=$SAVEIFS</span><br><span class="line">keakons-MacBook-Pro:test keakon$ echo &quot;$IFS&quot; | od -t x1</span><br><span class="line">0000000    20  09  0a  0a                                                </span><br><span class="line">0000004</span><br><span class="line">keakons-MacBook-Pro:test keakon$ IFS=$(echo -en &quot; \n\t&quot;)</span><br><span class="line">keakons-MacBook-Pro:test keakon$ echo &quot;$IFS&quot; | od -t x1</span><br><span class="line">0000000    20  0a  09  0a                                                </span><br><span class="line">0000004</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://www.jb51.net/article/49797.htm" target="_blank" rel="noopener">http://www.jb51.net/article/49797.htm</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

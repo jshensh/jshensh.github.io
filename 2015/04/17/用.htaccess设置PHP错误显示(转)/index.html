@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>用.htaccess设置PHP错误显示(转) | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="今天在网上看到使用.htaccess可以在某种程度上更改PHP的错误显示的设置，实际上相当于更改PHP.ini的参数，很是方便。将以下相应代码放到对应目录中的.htaccess文件，即可实现相应功能。
+关闭错误显示：
+12345php_flag display_startup_errors offp">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="用.htaccess设置PHP错误显示(转)"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>用.htaccess设置PHP错误显示(转)</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/04/17/用.htaccess设置PHP错误显示(转)/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-04-17T06:37:32.000Z">
+          2015-04-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>今天在网上看到使用.htaccess可以在某种程度上更改PHP的错误显示的设置，实际上相当于更改PHP.ini的参数，很是方便。将以下相应代码放到对应目录中的.htaccess文件，即可实现相应功能。</p>
+<p>关闭错误显示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">php_flag display_startup_errors off</span><br><span class="line">php_flag display_errors off</span><br><span class="line">php_flag html_errors off</span><br><span class="line">php_value docref_root 0</span><br><span class="line">php_value docref_ext 0</span><br></pre></td></tr></table></figure>
+<p>只显示PHP错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">php_flag  display_errors        on</span><br><span class="line">php_flag  display_startup_errors on</span><br><span class="line">php_value error_reporting        2047</span><br></pre></td></tr></table></figure>
+<p>其中，“2047”为要显示的错误的级别，详细表格如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1 E_ERROR</span><br><span class="line">2 E_WARNING</span><br><span class="line">4 E_PARSE</span><br><span class="line">8 E_NOTICE</span><br><span class="line">16 E_CORE_ERROR</span><br><span class="line">32 E_CORE_WARNING</span><br><span class="line">64 E_COMPILE_ERROR</span><br><span class="line">128 E_COMPILE_WARNING</span><br><span class="line">256 E_USER_ERROR</span><br><span class="line">512 E_USER_WARNING</span><br><span class="line">1024 E_USER_NOTICE</span><br><span class="line">2047 E_ALL</span><br><span class="line">2048 E_STRICT</span><br><span class="line">4096 E_RECOVERABLE_ERROR</span><br></pre></td></tr></table></figure>
+<p>要把错误保存到日志文件中，可以这样设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># enable PHP error logging</span><br><span class="line">php_flag  log_errors on</span><br><span class="line">php_value error_log  /home/path/public_html/domain/PHP_errors.log</span><br></pre></td></tr></table></figure>
+<p>然后，可以设置不允许访问.log文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># prevent access to PHP error log</span><br><span class="line">&lt;Files PHP_errors.log&gt;</span><br><span class="line"> Order allow,deny</span><br><span class="line"> Deny from all</span><br><span class="line"> Satisfy All</span><br><span class="line">&lt;/Files&gt;</span><br></pre></td></tr></table></figure>
+<p>设置错误日志的最大体积，以bytes为单位：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># general directive for</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> setting max error size</span><br><span class="line">log_errors_max_len integer</span><br></pre></td></tr></table></figure>
+<p>综合上述，.htaccess的PHP错误显示设置汇总：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"># PHP error handling for production servers</span><br><span class="line"></span><br><span class="line"># disable display of startup errors</span><br><span class="line">php_flag display_startup_errors off</span><br><span class="line"></span><br><span class="line"># disable display of all other errors</span><br><span class="line">php_flag display_errors off</span><br><span class="line"></span><br><span class="line"># disable html markup of errors</span><br><span class="line">php_flag html_errors off</span><br><span class="line"></span><br><span class="line"># enable logging of errors</span><br><span class="line">php_flag log_errors on</span><br><span class="line"></span><br><span class="line"># disable ignoring of repeat errors</span><br><span class="line">php_flag ignore_repeated_errors off</span><br><span class="line"></span><br><span class="line"># disable ignoring of unique source errors</span><br><span class="line">php_flag ignore_repeated_source off</span><br><span class="line"></span><br><span class="line"># enable logging of php memory leaks</span><br><span class="line">php_flag report_memleaks on</span><br><span class="line"></span><br><span class="line"># preserve most recent error via php_errormsg</span><br><span class="line">php_flag track_errors on</span><br><span class="line"></span><br><span class="line"># disable formatting of error reference links</span><br><span class="line">php_value docref_root 0</span><br><span class="line"></span><br><span class="line"># disable formatting of error reference links</span><br><span class="line">php_value docref_ext 0</span><br><span class="line"></span><br><span class="line"># specify path to php error log</span><br><span class="line">php_value error_log /home/path/public_html/domain/PHP_errors.log</span><br><span class="line"></span><br><span class="line"># specify recording of all php errors</span><br><span class="line">php_value error_reporting 999999999</span><br><span class="line"></span><br><span class="line"># disable max error string length</span><br><span class="line">php_value log_errors_max_len 0</span><br><span class="line"></span><br><span class="line"># protect error log by preventing public access</span><br><span class="line">&lt;Files /home/path/public_html/domain/PHP_errors.log&gt;</span><br><span class="line"> Order allow,deny</span><br><span class="line"> Deny from all</span><br><span class="line"> Satisfy All</span><br><span class="line">&lt;/Files&gt;</span><br></pre></td></tr></table></figure>
+<p>以下则是适合开发者应用的设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># PHP error handling for</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> development servers</span><br><span class="line">php_flag display_startup_errors on</span><br><span class="line">php_flag display_errors on</span><br><span class="line">php_flag html_errors on</span><br><span class="line">php_flag log_errors on</span><br><span class="line">php_flag ignore_repeated_errors off</span><br><span class="line">php_flag ignore_repeated_source off</span><br><span class="line">php_flag report_memleaks on</span><br><span class="line">php_flag track_errors on</span><br><span class="line">php_value docref_root 0</span><br><span class="line">php_value docref_ext 0</span><br><span class="line">php_value error_log /home/path/public_html/domain/PHP_errors.log</span><br><span class="line">php_value error_reporting 999999999</span><br><span class="line">php_value log_errors_max_len 0</span><br><span class="line"></span><br><span class="line">&lt;Files /home/path/public_html/domain/PHP_errors.log&gt;</span><br><span class="line"> Order allow,deny</span><br><span class="line"> Deny from all</span><br><span class="line"> Satisfy All</span><br><span class="line">&lt;/Files&gt;</span><br></pre></td></tr></table></figure>
+<p>本文大部分内容参考这篇文章：<a href="http://perishablepress.com/press/2007/12/17/how-to-enable-php-error-logging-via-htaccess/" target="_blank" rel="noopener">How to Enable PHP Error Logging via htaccess</a> ，大家有兴趣的话可以阅读英文原版。</p>
+<p>转载自 <a href="http://blog.slogra.com/post-79.html" target="_blank" rel="noopener">http://blog.slogra.com/post-79.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

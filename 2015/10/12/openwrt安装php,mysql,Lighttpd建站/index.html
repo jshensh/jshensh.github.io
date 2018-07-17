@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>openwrt安装php,mysql,Lighttpd建站 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="一、安装1、输入如下命令更新软件列表：
+1opkg update
+2、输入如下命令安装php,mysql,Lighttpd及其组件：
+123opkg install php5 php5-mod-gd php5-mod-session php5-mod-pdo php5-mod-pdo-mysql p">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="openwrt安装php,mysql,Lighttpd建站"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>openwrt安装php,mysql,Lighttpd建站</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/10/12/openwrt安装php,mysql,Lighttpd建站/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-10-12T06:55:40.000Z">
+          2015-10-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>一、安装</strong><br>1、输入如下命令更新软件列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opkg update</span><br></pre></td></tr></table></figure>
+<p>2、输入如下命令安装php,mysql,Lighttpd及其组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">opkg install php5 php5-mod-gd php5-mod-session php5-mod-pdo php5-mod-pdo-mysql php5-mod-mysql php5-mod-mcrypt php5-mod-mbstring php5-fastcgi php5-cgi php5-mod-xml php5-mod-ctype php5-mod-curl php5-mod-exif php5-mod-ftp php5-mod-iconv php5-mod-json php5-mod-sockets php5-mod-sqlite3 php5-mod-tokenizer php5-mod-zip php5-mod-mysqli zoneinfo-core zoneinfo-asia</span><br><span class="line">opkg install mysql-server libncursesw libncurses libreadline terminfo uclibcxx zlib libmysqlclient libmcrypt libltdl libmcrypt</span><br><span class="line">opkg install lighttpd lighttpd-mod-fastcgi lighttpd-mod-access lighttpd-mod-alias lighttpd-mod-rewrite lighttpd-mod-redirect libncurses</span><br></pre></td></tr></table></figure>
+<p><strong>二、配置Lighttpd：</strong><br>编辑/etc/lighttpd/lighttpd.conf文件</p>
+<ol>
+<li>找到【server.document-root =”/www”】将【/www】改为你自己网站存放的路径（比如我的是/web）</li>
+<li>在 static-file.exclude-extensions = ( “.php”, “.pl”, “.fcgi” ) 下插入</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fastcgi.server = (</span><br><span class="line">        &quot;.php&quot; =&gt; (</span><br><span class="line">                &quot;localhost&quot; =&gt; (</span><br><span class="line">                        &quot;socket&quot; =&gt; &quot;/tmp/php-fastcgi.socket&quot;,</span><br><span class="line">                        &quot;bin-path&quot; =&gt; &quot;/usr/bin/php-fcgi&quot;</span><br><span class="line">                )</span><br><span class="line">        )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>找到【#server.port = 81】去掉#，将81更改为你想要的端口号</li>
+</ol>
+<p><strong>三、配置php</strong><br>打开/etc/php.ini</p>
+<ol>
+<li>查找;short_open_tag = off改为short_open_tag = on</li>
+<li>查找doc_root = “/www”改为doc_root = “/web”（改为你自己网站存放的路径和Lighttpd的保持一样）</li>
+<li>分别找到以下内容:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">extension=ctype.so</span><br><span class="line">extension=curl.so</span><br><span class="line">extension=gd.so</span><br><span class="line">extension=iconv.so</span><br><span class="line">extension=json.so</span><br><span class="line">extension=mbstring.so</span><br><span class="line">extension=mcrypt.so</span><br><span class="line">extension=mysql.so</span><br><span class="line">extension=pdo.so</span><br><span class="line">extension=pdo-mysql.so</span><br><span class="line">extension=session.so</span><br><span class="line">extension=sockets.so</span><br><span class="line">extension=tokenizer.so</span><br><span class="line">extension=xml.so</span><br></pre></td></tr></table></figure>
+<p>分别将前面的“;”去掉</p>
+<ol start="4">
+<li>找到date.timezone =在后面加上 prc也就是date.timezone = prc</li>
+<li>查找mysql.default_socket =改为mysql.default_socket = /var/run/mysqld.sock</li>
+</ol>
+<p><strong>四、配置mysql</strong></p>
+<ol>
+<li>输入如下命令创建数据库文件夹：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /mnt/data /mnt/data/mysql /mnt/data/tmp</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>输入如下命令创建默认的数据库：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/mysql_install_db --force</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>输入如下命令启动mysql：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/mysqld start</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>输入如下命令创建mysql的密码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/mysqladmin -u root password 123456</span><br></pre></td></tr></table></figure>
+<p>ok到此配置完毕</p>
+<ol start="5">
+<li>输入如下命令启动Lighttpd：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/lighttpd start</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://www.right.com.cn/forum/thread-121342-1-1.html" target="_blank" rel="noopener">http://www.right.com.cn/forum/thread-121342-1-1.html</a>，有删改</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/openwrt/">openwrt</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

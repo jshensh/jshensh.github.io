@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>初识 Docker - 使用 tenxcloud.com 搭建自己的应用 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="2015-09-30 更新:daocloud 提供的配额更慷慨，各位有兴趣的话可以走我的邀请链接: https://account.daocloud.io/signup?invite_code=r7vcv0n2nenytal22llp，绑定微信的话送一个容器配额，一共三个。
+需要搭 WordPres">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="初识 Docker - 使用 tenxcloud.com 搭建自己的应用"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>初识 Docker - 使用 tenxcloud.com 搭建自己的应用</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/09/29/初识 Docker - 使用 tenxcloud.com 搭建自己的应用/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-09-28T23:01:19.000Z">
+          2015-09-29
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>2015-09-30 更新:<br>daocloud 提供的配额更慷慨，各位有兴趣的话可以走我的邀请链接: <a href="https://account.daocloud.io/signup?invite_code=r7vcv0n2nenytal22llp" target="_blank" rel="noopener">https://account.daocloud.io/signup?invite_code=r7vcv0n2nenytal22llp</a>，绑定微信的话送一个容器配额，一共三个。</p>
+<p>需要搭 WordPress 的，请直接移步 <a href="http://www.freehao123.com/tenxcloud/" target="_blank" rel="noopener">http://www.freehao123.com/tenxcloud/</a></p>
+<p>不知道什么是 Docker 的，请移步 <a href="http://baike.baidu.com/view/11854949.htm" target="_blank" rel="noopener">http://baike.baidu.com/view/11854949.htm</a>。我认为这和以前的 PaaS 类云平台(比如 appfog)差不多，都是布置完即成型，所有修改不保存的东西。<br>来看看探针: <a href="http://musics-johnshen.tenxcloud.net/" target="_blank" rel="noopener">http://musics-johnshen.tenxcloud.net/</a> (5M 共享带宽，28 块一个月的，所以要是探针失效了别来找我，多半是我觉得不划算了)<br>好，接下来进入正题，如何在时速云上部署你的 PHP 应用。(其实官方有个 PHP 的 Hello world 的，但哔了狗的不能用)</p>
+<p>首先，<a href="http://futa.ooo/wp-content/uploads/2015/09/Yahei.zip">下载代码包</a>并使用 git 上传到你喜欢的平台。然后打开时速云，选择构建，点击添加源代码，并登录你的 github 账号(当然你要是想只放个探针可以选快速构建，而不是添加源代码，然后在下一步中照我的填):<br><a href="http://futa.ooo/wp-content/uploads/2015/09/Screenshot_2015-09-29-14-31-26.png"><img src="http://futa.ooo/wp-content/uploads/2015/09/Screenshot_2015-09-29-14-31-26.png" alt="Screenshot_2015-09-29-14-31-26"></a><br>选择你要构建的项目之后，你可以修改你的镜像名称，然后点击创建:<br><a href="http://futa.ooo/wp-content/uploads/2015/09/Screenshot_2015-09-29-14-31-52.png"><img src="http://futa.ooo/wp-content/uploads/2015/09/Screenshot_2015-09-29-14-31-52.png" alt="Screenshot_2015-09-29-14-31-52"></a><br>创建完成之后:<br><a href="http://futa.ooo/wp-content/uploads/2015/09/Screenshot_2015-09-29-14-32-07.png"><img src="http://futa.ooo/wp-content/uploads/2015/09/Screenshot_2015-09-29-14-32-07.png" alt="Screenshot_2015-09-29-14-32-07"></a><br>可点击你的项目的名称进入以下界面并快速部署你的应用:<br><a href="http://futa.ooo/wp-content/uploads/2015/09/Screenshot_2015-09-29-14-32-29.png"><img src="http://futa.ooo/wp-content/uploads/2015/09/Screenshot_2015-09-29-14-32-29.png" alt="Screenshot_2015-09-29-14-32-29"></a><br>填上服务名称，创建即可:<br><a href="http://futa.ooo/wp-content/uploads/2015/09/Screenshot_2015-09-29-14-32-48.png"><img src="http://futa.ooo/wp-content/uploads/2015/09/Screenshot_2015-09-29-14-32-48.png" alt="Screenshot_2015-09-29-14-32-48"></a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

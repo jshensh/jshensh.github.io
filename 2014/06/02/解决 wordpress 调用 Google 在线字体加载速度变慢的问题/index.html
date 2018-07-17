@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>解决 wordpress 调用 Google 在线字体加载速度变慢的问题 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="1sed -i s/fonts\.googleapis\.com/fonts.useso.com/g `grep fonts\.googleapis\.com -rl ./`
+解决问题
+最近有消息称我们伟大的墙又升级了，Google 遭到的封锁更加严重，加了 https 都没法打开。这不是问题关键，">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="解决 wordpress 调用 Google 在线字体加载速度变慢的问题"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>解决 wordpress 调用 Google 在线字体加载速度变慢的问题</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/06/02/解决 wordpress 调用 Google 在线字体加载速度变慢的问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-06-02T03:21:20.000Z">
+          2014-06-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i s/fonts\.googleapis\.com/fonts.useso.com/g `grep fonts\.googleapis\.com -rl ./`</span><br></pre></td></tr></table></figure>
+<p>解决问题</p>
+<p><del>最近有消息称我们伟大的墙又升级了，Google 遭到的封锁更加严重，加了 https 都没法打开。这不是问题关键，关键是，wordpress 调用了 Google 的 Open Sans 在线字体，但域 fonts.googleapis.com 也已无法正常访问，导致站点打开速度变慢，这怎么能忍？简直丧心病狂！表示过会还得去看看 chart.googleapis.com 是不是也被封了。。。如果封掉了还得。。。跑偏了，接下来说说应该怎么解决这个问题了。。。<br>之前看到有人说直接禁用 wordpress 调用 Open Sans 字体(<a href="http://www.zzfly.net/open-sans-google-wordpress/" target="_blank" rel="noopener">关闭谷歌的Open Sans字体为WordPress后台加速</a>)，但总觉得这样做未免有点太绝，而且我也有点强迫症。。。总觉得原版的才是最好的。。。于是我就给 fonts.googleapis.com 搭了个反代(其实可以把文件下到自己服务器上改调用地址的，但又不想改 wordpress 文件结构，所以就用 vpsme 搭了个反代)。。。<br>首先，我用 vpsme 搭了个反代，域 fonts.233.imjs.work，因为是共享 ip，端口 20808，附带个规则</del></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server        &#123;</span><br><span class="line">        listen          80;</span><br><span class="line">        server_name     fonts.233.imjs.work;</span><br><span class="line"> </span><br><span class="line">        location / &#123;</span><br><span class="line">        proxy_pass          http://fonts.googleapis.com/;</span><br><span class="line">        proxy_redirect      off;</span><br><span class="line">        proxy_set_header    X-Real-IP       $remote_addr;</span><br><span class="line">        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，重载一下配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service nginx reload</span><br></pre></td></tr></table></figure>
+<p>其次，我进自己 vps ssh 搜了下有哪些文件调用了 Google Apis 的字体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -r &quot;fonts.googleapis.com&quot; /home/wwwroot/233.imjs.work</span><br></pre></td></tr></table></figure>
+<p>出来了五个结果<br><a href="http://futa.ooo/wp-content/uploads/2014/06/Screenshot_2014-06-02-18-09-11.png"><img src="http://futa.ooo/wp-content/uploads/2014/06/Screenshot_2014-06-02-18-09-11-576x1024.png" alt="Screenshot_2014-06-02-18-09-11"></a><br>其中，三个是需要改的(另外两个是别的主题里的，我用不到)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/home/wwwroot/233.imjs.work/wp-content/themes/twentytwelve/functions.php:              $font_url = add_query_arg( $query_args, &quot;$protocol://fonts.googleapis.com/css&quot; );</span><br><span class="line"></span><br><span class="line">/home/wwwroot/233.imjs.work/wp-includes/script-loader.php:    $open_sans_font_url = &quot;//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&amp;subset=$subsets&quot;;</span><br><span class="line"></span><br><span class="line">/home/wwwroot/233.imjs.work/wp-includes/js/tinymce/plugins/compat3x/css/dialog.css:@import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&amp;subset=latin-ext,latin);</span><br></pre></td></tr></table></figure>
+<p>将 fonts.googleapis.com 都修改为刚才的我们的域 fonts.233.imjs.work:20808，保存，立即生效。</p>
+<p>现在可以访问测试下啦，不过我的站还是有点慢的。。。azure 流量超了。。。用 bluevm 的 128 撑一会。。。17 号搬回去。。。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

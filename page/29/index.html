@@ -1,0 +1,550 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 29 页 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/26/MYSQL 批量替换文章中的url地址/"><span>MYSQL 批量替换文章中的url地址</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/26/MYSQL 批量替换文章中的url地址/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-26T04:08:40.000Z">
+          2013-04-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>博客建立初期，因为使用了免费域名，所以文章中上传的图片地址都用了这个域名，导致现在含有这些图片的文章在显示中受到了影响，域名现在已经不再属于我，所以使用 MYSQL 去批量替换掉那些带有旧域名的图片地址被摆上了日程。</p>
+<p>MYSQL 替换语句 UPDATE<br>UPDATE 是 MYSQL 的替换语句，英文直译是更新。</p>
+<p>UPDATE 语句使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE 表名 SET 字段 = REPLACE(字段,&apos;待替换内容&apos;,&apos;替换值&apos;);</span><br></pre></td></tr></table></figure>
+<p>表明和字段名都不需要引号，只是在待替换内容和替换值上是需要引号的，因为他们是字符串类型的，这里要注意下。</p>
+<p>操作步骤：</p>
+<ol>
+<li>备份数据库</li>
+</ol>
+<p>不论你要对你的数据进行何种形式的操作，第一条建议就是备份。</p>
+<ol start="2">
+<li><p>进入空间上提供的 PHPMYADMIN 面板。<br>这玩意现在的空间上大都给提供，你可以使劲找找，这里要提示一下的是，有的空间上给的面板是分字符编码的，WordPress 的朋友注意使用UTF-8的。</p>
+</li>
+<li><p>文章内容的位置<br>WordPress 中的文章被放置在 post 表中的 post_content 字段中。</p>
+</li>
+<li><p>点选 SQL，在语句执行框中输入你刚才学到的 UPDATE 语句，<br>当然这要配合你自己的数据表名、数据库名、替换规则等，<br>我的很简单，像如下那样：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE wp_posts SET post_content = REPLACE( post_content, &apos;xn--1jv01l0h.tk&apos;, &apos;233.imjs.work&apos; );</span><br></pre></td></tr></table></figure>
+<p>执行结束后会有替换数量和时间的提示。<br>点击执行，就大功告成了。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/26/江苏一中学厕所装摄像头 同学称“尿不出来”(图)/"><span>江苏一中学厕所装摄像头 同学称“尿不出来”(图)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/26/江苏一中学厕所装摄像头 同学称“尿不出来”(图)/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-26T02:51:17.000Z">
+          2013-04-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><a href="http://futa.ooo/wp-content/uploads/2013/04/wpid-170014230196189940991n.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/04/wpid-170014230196189940991n.jpg" alt="image"></a></p>
+<p>摄像头就安装在厕所窗户的正上方。</p>
+<p>学校的男厕所里突然多出来一个监控，学生一进厕所就被监控“盯着”，这件尴尬事发生在江苏徐州贾汪区的陶圣中学。对此，学校解释，主要目的是监管学生是否在厕所里有抽烟等违反校际校规的行为。</p>
+<p>根据报料人提供的线索，昨日下午，记者找到了这所位于贾汪区的私立中学。安装摄像头的男厕所位于男生宿舍一楼，走进厕所里，记者就看到了装在南侧窗户上方的监控设备。从监控角度看，摄像头正好对着厕所内的过道，大小便池区域都处在监控范围内。一名学生告诉记者，这个监控器是在十多天前新装上去的，自从厕所被监控以后，很多同学都不太愿意进厕所如厕了，“一进厕所就被拍了下来，不仅心里觉得怪怪的，万一隐私被泄露，谁能受得了。”有同学还表示，自从装了摄像头后，大家都觉得很尴尬，“常常尿不出来”。</p>
+<p>记者了解到，该校只有这一处公共厕所，平时除了学生外，老师们也要进厕所如厕，一名不愿具名的老师表示，在厕所里安装摄像头的行为确实不妥，虽然学校出于方便管理的目的，但是在这么隐私的地方安装监控，容易让师生产生反感。</p>
+<p>记者随后联系了学校一名骆姓负责人，他称陶圣中学是一所民办寄宿制学校，平时学校的管理很严格，总共在三十处安装了监控设备，目的就是做到平时管理不留死角。“像有学生丢了东西、有学生存在违反校际校规行为，都可以通过监控录像进行还原。”骆称，校方在十多天前在厕所里安装了监控设备。“监控安装之后，起到了一个震慑的效果，现在很少再出现学生偷偷抽烟、在厕所里奔跑打闹的现象了。”骆还表示，男厕所里的监控设备正对着厕所过道，主要能看到进出学生的画面，并不会拍下学生如厕画面，监控画面也由学校专人负责，不会出现隐私泄露。</p>
+<p>对于学校的做法，记者昨日采访了法律界人士，江苏茂通律师事务所刘茂通律师认为，陶圣中学在男生厕所内安装监控设备做法明显不妥，公厕、浴室等地点虽是公共场所，但其隐私性极强，安装摄像头有侵犯公民人格中的隐私权之嫌。刘茂通还表示，一般情况下，在公共场所里，只有公安和国家安全机关，以维护国家安全、社会治安，及侦破案件等需要，才能有条件地安装摄像头，但即便如此，无论是警方侦查权还是以公共治安为理由，也不能凌驾于公民隐私权之上。（记者马志亚）</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/社会百态/">社会百态</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/26/BargainVM 几乎免费的VPS 256M-2f-10G-2f-100G/"><span>BargainVM 几乎免费的VPS 256M/10G/100G</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/26/BargainVM 几乎免费的VPS 256M-2f-10G-2f-100G/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-26T00:57:42.000Z">
+          2013-04-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>BargainVM是2012年注册的空间商，是renderhosting.net旗下的站点，现在有一个免费vps试用的计划(原价3.95/月)，只收2元设置费，如果使用优惠码的话只要一元，支持信用卡付款。据很多人说续费是0元，意思相当于永久免费，但是官方没有明确说明永久免费。<br>网上也看到有人说这VPS偶尔挂掉的，不知道具体情况，大家有兴趣的可以去测试一下。</p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/04/wpid-vps.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/04/wpid-vps.jpg" alt="image"></a></p>
+<p>说一下这款特价优惠VPS的具体规格：<br>XEN架构<br>256MB Memory<br>10GB HD<br>100GB Bandwidth<br>1 IP Address</p>
+<p>优惠码： WSO<br>购买链接：<a href="http://www.bargainvm.com/warrior.html" target="_blank" rel="noopener">http://www.bargainvm.com/warrior.html</a></p>
+<p>P.S. 仅供测试，请勿建站，不稳定</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/免费-VPS/">免费 VPS</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/25/嗯。。。传一篇某人的作文/"><span>嗯。。。传一篇某人的作文</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/25/嗯。。。传一篇某人的作文/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-25T04:45:18.000Z">
+          2013-04-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>图片比较大，加载比较慢，请耐心等候图片加载完成，手机党就不用看了，因为图片太大了<br>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/25/Craighosting提供无限cPanel虚拟主机，提供法国、欧洲节点/"><span>Craighosting提供无限cPanel虚拟主机，提供法国、欧洲节点</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/25/Craighosting提供无限cPanel虚拟主机，提供法国、欧洲节点/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-25T03:09:30.000Z">
+          2013-04-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>Craighosting 应该是一个英国的主机商，提供的免费主机节点有法国和欧洲（仅法国可用）！</p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/04/wpid-20130425035155158.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/04/wpid-20130425035155158.jpg" alt="image"></a></p>
+<p>主机速度还是不错的，稳定性就难说了。这个域名是在 CrazyDomains 英国官网买的，估计是贪便宜买的 CO.UK 域名。所以可靠性大大的降低了，不过这个虚拟主机貌似是一个叫做 worldunlimitedhost 的经销商。官网说明这个虚拟主机还支持 X 网站来着！</p>
+<p><a href="http://futa.ooo/wp-content/uploads/2013/04/wpid-20130425035154574.jpg"><img src="http://futa.ooo/wp-content/uploads/2013/04/wpid-20130425035154574.jpg" alt="image"></a></p>
+<p>看清楚了？既然是这样你们做什么也不关我事了，我只是介绍一下的~</p>
+<p>注册地址：<a href="http://craighosting.co.uk/billing/index.php/order" target="_blank" rel="noopener">单击直达注册</a> ！建议注册第一项，也就是 EU 的节点（单证都是法国的！）</p>
+<p>差点忘了，示范地址：<a href="http://craighosting.xn--tiq422d8wmkhj.tk" target="_blank" rel="noopener">单击我直接查看探针</a> ！</p>
+<p>原文链接：<a href="http://www.zntec.cn/archives/craighosting.html" target="_blank" rel="noopener">http://www.zntec.cn/archives/craighosting.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/免费空间/">免费空间</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/25/小胖墩的沮丧(转载)/"><span>小胖墩的沮丧(转载)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/25/小胖墩的沮丧(转载)/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-24T16:56:11.000Z">
+          2013-04-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>　　住我们九楼的小孩，是个小胖墩，每天晚上在小区里跑步。夏天晚上，我在喷水池边乘凉，他跑过来和我搭讪：“阿姨你跑步吗？”我说我懒，他就恭维我说阿姨身材还不错。我笑了，问他多大懂得讨好女人了。<br>　　他不高兴了，说他都谈过恋爱，现在读初中一年级。我控制住自己，问他现在还谈吗？他说现在没谈，不过他和我们小区里另外一个孩子一起竞争他们班班长。他说班长长得好，学习好，老师也喜欢。我问他那你有希望吗？他说希望不是很大，因为情敌家的房子比他们家大两点八平方，而且，情敌妈妈是医生，而自己妈妈没花头，是营业员。然后，他更沮丧地追加说，情敌爸爸还有私家车，自己爸爸虽然有车接送，毕竟是单位的。<br>　　我说竞争女孩要靠自己的呀，你好好读书考上北大，你们班长不就喜欢你了？他说阿姨真老土，等到我考大学，我们班长早就名花有主了；再说了，现在都是看家庭背景的，他们老师最喜欢的学生，爸爸妈妈都是有花头的。他继续跑步，说要减掉十斤。<br>　　小胖墩才十岁出头，岁月寒风已经刮灭了他的梦。他们从现实主义向浪漫主义跋涉，最后会结出什么样的生活果实我无法判断。因为我们这一代，从理想主义走到现实主义，最后也是残兵败将。因此，看着小胖墩远去的小背影，我觉得自己没有能力教育他。这情形仿佛有点像，远在异国的郁达夫，因为爱的屈辱，隔洋狂呼：“中国啊中国，你怎么不强大起来？”<br>　　细想想真是和小胖墩一样沮丧了，在这个年头，穷人天然没有权利谈恋爱的，你看，连马克思都没有处理无产阶级的爱情问题。有钱人谈恋爱才符合爱情的要求，“能吃，能喝，能赴舞会，能去剧场，能拥有艺术，能旅行……”这些年的文学艺术，最动人的爱情场景，有一个是衣衫褴褛饥肠辘辘的吗？<br>　　于是，头顶着灿烂星光，我百转千回，不知道是应该学习马克思，还是应该自强不息，让我们家的小胖墩长大以后不会因为我失去爱情的机会。</p>
+<p>(原文作者：毛尖 选自《乱来》)</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/24/站在最后一排的希特勒(转载)/"><span>站在最后一排的希特勒(转载)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/24/站在最后一排的希特勒(转载)/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-24T00:00:33.000Z">
+          2013-04-24
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>　　最近，又得知两起中学生自杀的事件。两位学生都是因为“学习成绩名次下降”而感到“无脸见人”，其中有位学生是因为被从“重点班”淘汰到“普通班”，得从重点班所在的“光辉楼”回到普通班所在的旧楼，于是干脆从楼上跳了下去。<br>　　我问过一些教师：“你自己被排过名次吗？你被排名次的感觉好吗？”多数教师对“按工作业绩排名次”持否定态度，可是这不妨碍他们给学生按成绩排名次。对是否担心发生悲剧，老师们并没去多想，因为社会需要这种“文化”：如果你不肯给学生排名次，家长会提出他“有权知道”，校长也会认为教师工作不负责。<br>　　我反对以成绩论人，反对按成绩给学生排名次。这个态度引起过一些同行的疑惑乃至攻讦。但我至今仍认为，对这一问题的态度，决定了一个人能否担当教育重任。如果把所谓竞争机制引入中小学教育，是民族教育落后的标志，积久有可能形成灾难。<br>　　上个世纪80年代有部体育题材影片《沙鸥》，我对之一直耿耿于怀。那部电影大概是以中国女排夺得世界冠军为背景的。其中有个镜头，女排得了世界亚军，队员沙鸥在回国途中竟把获得的银牌扔进了大海，她说祖国要的是金牌。当时的那股牛气，的确振奋了全国愤青。后来有国际奥运人士发表意见，对扔银牌的行为甚不以为然，认为不符合奥运精神。然而那以后每次体育健儿凯旋，下飞机时，不知是领导安排，还是有自觉的意识，总是金牌在前，银牌次之，铜牌在后，至于没得到牌子的运动员是怎样下飞机的，无人关注。高官接见，有牌的才能坐他身边，没牌的靠边，或者别想露脸。这种名次文化深入人心，一直灌入孩童稚嫩的心灵。<br>　　现在有些学校不但把学生成绩名次通知家长，而且竟然把学生考试的成绩名次排列公布在教室里，认为这样可以刺激学生奋进，“培养荣誉感”。然而这恰恰是教师缺乏人文意识和人道精神的表现，特别是在基础教育阶段，这种做法严重伤害了学生的身心健康。多年来，有一张照片不时地出现在我脑海中，那是希特勒小学毕业时的照片。1983年（或1984年），创刊不久的《世界知识画报》连载“二战画史”，曾刊登过一张希特勒的小学毕业照。小学生希特勒在合影上站在最后排，两臂交叉。照片说明是：根据当时的惯例，拍照的位置按学习成绩安排，成绩好的学生坐在前排老师身边，成绩差的往后排，11岁的希特勒是成绩最差的学生，所以站在最后一排（大意）。我不知道希特勒成名后是否去看过自己的同学和小学老师，但是我相信他不可能忘记自己所蒙受的这一段耻辱，至于那站在后排的屈辱在他个人命运中起了什么作用，与他对人类犯下的罪行有什么关系，未必没有思考价值。<br>　　这以后，希特勒去林茨的里尔中学读书，他在那里的学习成绩也很差，而且性格孤僻古怪。有意思的是，在他的班上，有一位后来享有盛名的学生，就是维特根斯坦，这两个同学当时都没想到几十年后会发生什么事。出身于富豪家庭的维特根斯坦有教养，深得教师欢心，而“差生”希特勒一定死死地记住了维特根斯坦这个犹太学生的名字。希特勒为什么疯狂地对犹太人实施种族灭绝，这与他幼年少年时的经历是不是一定有关系，我们可能没有足够证据来说明问题，但是作为教育者，完全有可能读懂一个性格有些偏执的孩子心头的不平。<br>　　当然，希特勒少年时代过的究竟是什么样的生活，他在学校究竟还有些什么故事，有着各种各样的说法。但可以肯定的是，在童年和少年，这样一个有点特殊的孩子没有得到良好的教育，没有得到教师的关心爱护。谁能说他后来的所作所为与那张照片的座次无关呢？<br>　　回到我们的话题上来。从孩子读书阶段就按学习成绩排起了名次，似乎我们真是个很重视名次的国度。排名次也许是民族的文化，讲求名次也未必有什么不好。不过，既然如此讲求名次，我们何不把问题放大一下，看看我们中国在世界的名次如何。其他领域不论，还是就教育问题说：中国的基础教育在世界上居于什么水平？中国的著名高校在世界排名如何？和发达国家相比，中国中小学生身心体质如何？中国的教育投资在世界排名究竟是多少？中国的教师待遇在世界排名如何？……这也是排名，为什么一说起来，那些主张在中小学生中展开分数竞争的教育家们就不那么振振有辞了呢？</p>
+<p>(原文作者：金陵客 选自《意林》)</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/社会百态/">社会百态</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/24/L2TP-2f-IPsec PSKVPN 一键安装包/"><span>L2TP/IPsec PSKVPN 一键安装包</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/24/L2TP-2f-IPsec PSKVPN 一键安装包/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-23T17:27:51.000Z">
+          2013-04-24
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>仅作为个人/企业<br>的组网/技术测试用，使用者请自觉遵守国家法律法规。<br>当前版本：1.2</p>
+<p>配置步骤：</p>
+<p>CentOS / Fedora:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirror.zeddicus.com/auto-l2tp/1.2/centos/l2tp.sh</span><br><span class="line">sh l2tp.sh</span><br></pre></td></tr></table></figure>
+<p>Ubuntu / Debian:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirror.zeddicus.com/auto-l2tp/1.2/ubuntu/l2tp.sh</span><br><span class="line">sh l2tp.sh</span><br></pre></td></tr></table></figure>
+<p>备注：安装按提示操作，相关截图及细节请移驾至：<a href="http://www.vpsyou.com/l2tp-vpn" target="_blank" rel="noopener">http://www.vpsyou.com/l2tp-vpn</a> 。</p>
+<p>情况说明：</p>
+<p>XP 用户：请确保“控制面板-&gt;管理工具-&gt;服务”中的 IPSEC 服务被启动</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/page/28/" class="pagination-prev">上一页</a>
+  
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2018 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
