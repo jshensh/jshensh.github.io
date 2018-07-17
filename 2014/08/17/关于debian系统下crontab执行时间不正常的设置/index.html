@@ -10,8 +10,7 @@
   
 
   
-  <meta name="description" content="前两天用用crontab指定了几个脚本,有一个是要凌晨一点钟执行的,今天看了下,发现执行时间比我设置的要晚了8小时,到早上9点。于是马上看了下系统时间date123Mon Jun 25 14:34:18 CST 2012# date -uMon Jun 25 06:34:29 UTC 2012
-显示">
+  <meta name="description" content="前两天用用crontab指定了几个脚本,有一个是要凌晨一点钟执行的,今天看了下,发现执行时间比我设置的要晚了8小时,到早上9点。于是马上看了下系统时间1234# dateMon Jun 25 14:34:18 CST 2012# date -uMon Jun 25 06:34:29 UTC 2012">
   
 
   
@@ -84,8 +83,8 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>前两天用用crontab指定了几个脚本,有一个是要凌晨一点钟执行的,今天看了下,发现执行时间比我设置的要晚了8小时,到早上9点。于是马上看了下系统时间<br><figure class="highlight plain"><figcaption><span>date</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Mon Jun 25 14:34:18 CST 2012</span><br><span class="line"># date -u</span><br><span class="line">Mon Jun 25 06:34:29 UTC 2012</span><br></pre></td></tr></table></figure></p>
-<p>显示的本地时间和UTC的时间都是正常的，但是显示我那系统crontab执行的时间是按照UTC时间来了，于是我再次设置了下时区为国内的，记得我之前好像设置过了，不过还是尝试一下,删除原来的时区文件，又重新复制到本地<br><figure class="highlight plain"><figcaption><span>/etc/localtime</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure></p>
+        <p>前两天用用crontab指定了几个脚本,有一个是要凌晨一点钟执行的,今天看了下,发现执行时间比我设置的要晚了8小时,到早上9点。于是马上看了下系统时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># date</span><br><span class="line">Mon Jun 25 14:34:18 CST 2012</span><br><span class="line"># date -u</span><br><span class="line">Mon Jun 25 06:34:29 UTC 2012</span><br></pre></td></tr></table></figure></p>
+<p>显示的本地时间和UTC的时间都是正常的，但是显示我那系统crontab执行的时间是按照UTC时间来了，于是我再次设置了下时区为国内的，记得我之前好像设置过了，不过还是尝试一下,删除原来的时区文件，又重新复制到本地<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm /etc/localtime</span><br><span class="line">cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure></p>
 <p>然后vi /etc/localtime 查看了下时区文件，确实是CST-8,再向crontab里添加一个测试脚本，重启cron<br>/etc/init.d/cron restart<br>发现它依然没有按照国内的时间来执行，之前也没遇到过问题，而且同样的设置，目前另外的机子上也正常执行，最后才想起我这个用的是debian系统。上网找了一圈，发现debian系统下面，仅是设置/etc/localtime是不够的，更加需要的是/etc/timezone这个文件。<br>找了下debian设置时区的方法，网上说用tzconfig，试了下，提示我要用dpkg-reconfigure tzdata，看来不是所有系统命令都一样的，而且我用的是精简版的系统，有些写入时间命令有些不能执行，估计也跟这个是VPS的关系吧。运行后按照提示设置完毕，重启cron试了下，依然时间不对。想着这个应该是设置/etc/localtime的时区而已。<br>最后用了tzselect程序来设置时区，运行tzselect命令后，按照自己要的时间选择选项，最后选1保存确认即可。再次重启cron，添加测试任务，这次终于按照本地时间运行了，如果不行就重新登录一下或者重启下。早知道debian下要这样设置，就不用搞了这么久了，继续郁闷。</p>
 <p>转载自 <a href="http://www.ddhow.com/blog/crontab.html" target="_blank" rel="noopener">http://www.ddhow.com/blog/crontab.html</a></p>
 

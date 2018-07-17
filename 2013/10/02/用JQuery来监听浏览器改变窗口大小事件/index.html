@@ -10,7 +10,8 @@
   
 
   
-  <meta name="description" content="做web开发的时候会遇到需要监听浏览器窗口大小改变事件，而进行相关操作。这里向大家介绍一下 JQuery 浏览器窗口改变事件。12345678910```这里需要注意 这个事件不要写在页面加载完成事件（ $(function()&amp;#123;…&amp;#125; ）内部，而需要写在他外面。```&amp;lt;sc">
+  <meta name="description" content="做web开发的时候会遇到需要监听浏览器窗口大小改变事件，而进行相关操作。这里向大家介绍一下 JQuery 浏览器窗口改变事件。1$(window).resize();
+这里需要注意 这个事件不要写在页面加载完成事件（ $(function(){…} ）内部，而需要写在他外面。1234567&amp;lt;s">
   
 
   
@@ -83,7 +84,8 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>做web开发的时候会遇到需要监听浏览器窗口大小改变事件，而进行相关操作。这里向大家介绍一下 JQuery 浏览器窗口改变事件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">这里需要注意 这个事件不要写在页面加载完成事件（ $(function()&#123;…&#125; ）内部，而需要写在他外面。</span><br><span class="line">```&lt;script type=”text/javascript”&gt;</span><br><span class="line">$(window).resize(function() &#123;</span><br><span class="line">var width = $(this).width();</span><br><span class="line">var height = $(this).height();</span><br><span class="line">alert(&apos;width&apos;+width+&apos;-height&apos;+height);</span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+        <p>做web开发的时候会遇到需要监听浏览器窗口大小改变事件，而进行相关操作。这里向大家介绍一下 JQuery 浏览器窗口改变事件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(window).resize();</span><br></pre></td></tr></table></figure></p>
+<p>这里需要注意 这个事件不要写在页面加载完成事件（ $(function(){…} ）内部，而需要写在他外面。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=”text/javascript”&gt;</span><br><span class="line">$(window).resize(function() &#123;</span><br><span class="line">var width = $(this).width();</span><br><span class="line">var height = $(this).height();</span><br><span class="line">alert(&apos;width&apos;+width+&apos;-height&apos;+height);</span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>

@@ -14,7 +14,7 @@
 操作环境 ubuntu 14.04 64位
 
 安装依赖包
-apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache ge">
+1sudo apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git cca">
   
 
   
@@ -91,15 +91,21 @@ apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git c
 <p>操作环境 ubuntu 14.04 64位</p>
 <ol>
 <li><p>安装依赖包</p>
-<figure class="highlight plain"><figcaption><span>apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  2. 下载源码</span><br><span class="line">```cd /home</span><br><span class="line">git clone git://git.openwrt.org/15.05/openwrt.git</span><br><span class="line">cd openwrt</span><br><span class="line">git checkout 15.05</span><br><span class="line">./scripts/feeds update -a</span><br><span class="line">./scripts/feeds install luci</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /home</span><br><span class="line">git clone git://git.openwrt.org/15.05/openwrt.git</span><br><span class="line">cd openwrt</span><br><span class="line">git checkout 15.05</span><br><span class="line">./scripts/feeds update -a</span><br><span class="line">./scripts/feeds install luci</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>编译 获取官方配置</p>
-<figure class="highlight plain"><figcaption><span>https://downloads.openwrt.org/chaos_calmer/15.05/ar71xx/nand/config.diff</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">将 config.diffg 文件</span><br><span class="line">```CONFIG_TARGET_ar71xx_nand_R6100=y</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://downloads.openwrt.org/chaos_calmer/15.05/ar71xx/nand/config.diff</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">生成配置</span><br><span class="line">```cat config.diff &gt;&gt; .config</span><br><span class="line">make defconfig</span><br></pre></td></tr></table></figure></p>
+<p>将 config.diffg 文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG_TARGET_ar71xx_nand_R6100=y</span><br></pre></td></tr></table></figure></p>
+<p>修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG_TARGET_ar71xx_nand_WNDR4300=y</span><br></pre></td></tr></table></figure></p>
+<p>生成配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat config.diff &gt;&gt; .config</span><br><span class="line">make defconfig</span><br></pre></td></tr></table></figure></p>
 <p>修改 /root 为128MB<br>修改 target/linux/ar71xx/image/Makefile 文件, 修改 wndr4300_mtdlayout 中 23552k(ubi) 为 120832k(ubi)， 25600k@0x6c0000(firmware) 为 122880k@0x6c0000(firmware)</p>
-<p>也可以使用配置向导<br><figure class="highlight plain"><figcaption><span>menuconfig</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">运行编译</span><br><span class="line">```make V=99</span><br></pre></td></tr></table></figure></p>
+<p>也可以使用配置向导<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure></p>
+<p>运行编译<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make V=99</span><br></pre></td></tr></table></figure></p>
 <ol>
 <li>生成文件位置<br>最后文件生成在 bin 目录下： openwrt/bin/ar71xx/openwrt-15.05-ar71xx-nand-wndr4300-squashfs-sysupgrade.tar openwrt/bin/ar71xx/openwrt-15.05-ar71xx-nand-wndr4300-ubi-factory.img</li>
 </ol>

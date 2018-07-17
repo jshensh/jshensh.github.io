@@ -10,7 +10,7 @@
   
 
   
-  <meta name="description" content="不知道为什么我的系统运行有 gui 的版本会假死。。Ubuntu 14.04：　　所以，我用了 sslocal + tsocks 实现的科学上网，chrome 需要插件 SwitchyOmega，文末提供下载链接及安装配置方法。　　首先，安装 sslocal，install shadowsocks1">
+  <meta name="description" content="不知道为什么我的系统运行有 gui 的版本会假死。。Ubuntu 14.04：　　所以，我用了 sslocal + tsocks 实现的科学上网，chrome 需要插件 SwitchyOmega，文末提供下载链接及安装配置方法。　　首先，安装 sslocal，1pip install shadows">
   
 
   
@@ -83,8 +83,9 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>　　不知道为什么我的系统运行有 gui 的版本会假死。。Ubuntu 14.04：<br><a href="http://futa.ooo/wp-content/uploads/2015/05/2015-05-31-201021屏幕截图.png"><img src="http://futa.ooo/wp-content/uploads/2015/05/2015-05-31-201021屏幕截图-300x174.png" alt="2015-05-31 20:10:21屏幕截图"></a><br>　　所以，我用了 sslocal + tsocks 实现的科学上网，chrome 需要插件 SwitchyOmega，文末提供下载链接及安装配置方法。<br>　　首先，安装 sslocal，<figure class="highlight plain"><figcaption><span>install shadowsocks</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">　　安装完成后，新建 json 配置文件，这里位置为 /etc/shadowsocks.json，文件内容大致如下：</span><br><span class="line">[![QQ截图20150531201514](http://futa.ooo/wp-content/uploads/2015/05/QQ截图20150531201514-300x182.png)](http://futa.ooo/wp-content/uploads/2015/05/QQ截图20150531201514.png)</span><br><span class="line">　　配置完成后，运行 sslocal</span><br><span class="line">```sslocal -c /etc/shadowsocks.json --pid-file /var/run/shadowsocks.pid -d start</span><br></pre></td></tr></table></figure></p>
-<p>　　安装 tsocks 实现 socks5 转 http 代理：<br><code>apt-get install tsocks</code></p>
+        <p>　　不知道为什么我的系统运行有 gui 的版本会假死。。Ubuntu 14.04：<br><a href="http://futa.ooo/wp-content/uploads/2015/05/2015-05-31-201021屏幕截图.png"><img src="http://futa.ooo/wp-content/uploads/2015/05/2015-05-31-201021屏幕截图-300x174.png" alt="2015-05-31 20:10:21屏幕截图"></a><br>　　所以，我用了 sslocal + tsocks 实现的科学上网，chrome 需要插件 SwitchyOmega，文末提供下载链接及安装配置方法。<br>　　首先，安装 sslocal，<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure></p>
+<p>　　安装完成后，新建 json 配置文件，这里位置为 /etc/shadowsocks.json，文件内容大致如下：<br><a href="http://futa.ooo/wp-content/uploads/2015/05/QQ截图20150531201514.png"><img src="http://futa.ooo/wp-content/uploads/2015/05/QQ截图20150531201514-300x182.png" alt="QQ截图20150531201514"></a><br>　　配置完成后，运行 sslocal<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sslocal -c /etc/shadowsocks.json --pid-file /var/run/shadowsocks.pid -d start</span><br></pre></td></tr></table></figure></p>
+<p>　　安装 tsocks 实现 socks5 转 http 代理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install tsocks</span><br></pre></td></tr></table></figure></p>
 <p> 　　配置 tsocks（/etc/tsocks.conf）：<br><a href="http://futa.ooo/wp-content/uploads/2015/05/QQ截图20150531201836.png"><img src="http://futa.ooo/wp-content/uploads/2015/05/QQ截图20150531201836-300x182.png" alt="QQ截图20150531201836"></a><br>　　使用时只需在命令前加上 tsocks 即可，比如 tsocks apt-get update</p>
 <p>　　关于 chrome 的配置：<br>　　下载 <a href="http://futa.ooo/wp-content/uploads/2015/05/SwitchyOmega.zip">SwitchyOmega</a>，并解压。将解压出来的 SwitchyOmega.crx 拖动至 <a href="chrome://extensions/" target="_blank" rel="noopener">chrome://extensions/</a> 安装即可。<br>　　安装完成后会自动弹出配置页，如图配置即可：<br><a href="http://futa.ooo/wp-content/uploads/2015/05/2015-05-31-202554屏幕截图.png"><img src="http://futa.ooo/wp-content/uploads/2015/05/2015-05-31-202554屏幕截图-300x169.png" alt="2015-05-31 20:25:54屏幕截图"></a></p>
 

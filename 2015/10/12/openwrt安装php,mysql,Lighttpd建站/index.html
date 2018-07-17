@@ -10,7 +10,8 @@
   
 
   
-  <meta name="description" content="一、安装1、输入如下命令更新软件列表：update1234567```2、输入如下命令安装php,mysql,Lighttpd及其组件：```opkg install php5 php5-mod-gd php5-mod-session php5-mod-pdo php5-mod-pdo-mysql ">
+  <meta name="description" content="一、安装1、输入如下命令更新软件列表：1opkg update
+2、输入如下命令安装php,mysql,Lighttpd及其组件：123opkg install php5 php5-mod-gd php5-mod-session php5-mod-pdo php5-mod-pdo-mysql php">
   
 
   
@@ -83,12 +84,13 @@
   <div class="article-content">
     <div class="entry">
       
-        <p><strong>一、安装</strong><br>1、输入如下命令更新软件列表：<br><figure class="highlight plain"><figcaption><span>update</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2、输入如下命令安装php,mysql,Lighttpd及其组件：</span><br><span class="line">```opkg install php5 php5-mod-gd php5-mod-session php5-mod-pdo php5-mod-pdo-mysql php5-mod-mysql php5-mod-mcrypt php5-mod-mbstring php5-fastcgi php5-cgi php5-mod-xml php5-mod-ctype php5-mod-curl php5-mod-exif php5-mod-ftp php5-mod-iconv php5-mod-json php5-mod-sockets php5-mod-sqlite3 php5-mod-tokenizer php5-mod-zip php5-mod-mysqli zoneinfo-core zoneinfo-asia</span><br><span class="line">opkg install mysql-server libncursesw libncurses libreadline terminfo uclibcxx zlib libmysqlclient libmcrypt libltdl libmcrypt</span><br><span class="line">opkg install lighttpd lighttpd-mod-fastcgi lighttpd-mod-access lighttpd-mod-alias lighttpd-mod-rewrite lighttpd-mod-redirect libncurses</span><br></pre></td></tr></table></figure></p>
+        <p><strong>一、安装</strong><br>1、输入如下命令更新软件列表：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opkg update</span><br></pre></td></tr></table></figure></p>
+<p>2、输入如下命令安装php,mysql,Lighttpd及其组件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">opkg install php5 php5-mod-gd php5-mod-session php5-mod-pdo php5-mod-pdo-mysql php5-mod-mysql php5-mod-mcrypt php5-mod-mbstring php5-fastcgi php5-cgi php5-mod-xml php5-mod-ctype php5-mod-curl php5-mod-exif php5-mod-ftp php5-mod-iconv php5-mod-json php5-mod-sockets php5-mod-sqlite3 php5-mod-tokenizer php5-mod-zip php5-mod-mysqli zoneinfo-core zoneinfo-asia</span><br><span class="line">opkg install mysql-server libncursesw libncurses libreadline terminfo uclibcxx zlib libmysqlclient libmcrypt libltdl libmcrypt</span><br><span class="line">opkg install lighttpd lighttpd-mod-fastcgi lighttpd-mod-access lighttpd-mod-alias lighttpd-mod-rewrite lighttpd-mod-redirect libncurses</span><br></pre></td></tr></table></figure></p>
 <p><strong>二、配置Lighttpd：</strong><br>编辑/etc/lighttpd/lighttpd.conf文件</p>
 <ol>
 <li>找到【server.document-root =”/www”】将【/www】改为你自己网站存放的路径（比如我的是/web）</li>
 <li><p>在 static-file.exclude-extensions = ( “.php”, “.pl”, “.fcgi” ) 下插入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">        &quot;.php&quot; =&gt; (</span><br><span class="line">                &quot;localhost&quot; =&gt; (</span><br><span class="line">                        &quot;socket&quot; =&gt; &quot;/tmp/php-fastcgi.socket&quot;,</span><br><span class="line">                        &quot;bin-path&quot; =&gt; &quot;/usr/bin/php-fcgi&quot;</span><br><span class="line">                )</span><br><span class="line">        )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fastcgi.server = (</span><br><span class="line">        &quot;.php&quot; =&gt; (</span><br><span class="line">                &quot;localhost&quot; =&gt; (</span><br><span class="line">                        &quot;socket&quot; =&gt; &quot;/tmp/php-fastcgi.socket&quot;,</span><br><span class="line">                        &quot;bin-path&quot; =&gt; &quot;/usr/bin/php-fcgi&quot;</span><br><span class="line">                )</span><br><span class="line">        )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>找到【#server.port = 81】去掉#，将81更改为你想要的端口号</p>
 </li>
@@ -97,7 +99,7 @@
 <ol>
 <li>查找;short_open_tag = off改为short_open_tag = on</li>
 <li>查找doc_root = “/www”改为doc_root = “/web”（改为你自己网站存放的路径和Lighttpd的保持一样）</li>
-<li>分别找到以下内容:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">extension=curl.so</span><br><span class="line">extension=gd.so</span><br><span class="line">extension=iconv.so</span><br><span class="line">extension=json.so</span><br><span class="line">extension=mbstring.so</span><br><span class="line">extension=mcrypt.so</span><br><span class="line">extension=mysql.so</span><br><span class="line">extension=pdo.so</span><br><span class="line">extension=pdo-mysql.so</span><br><span class="line">extension=session.so</span><br><span class="line">extension=sockets.so</span><br><span class="line">extension=tokenizer.so</span><br><span class="line">extension=xml.so</span><br></pre></td></tr></table></figure>
+<li>分别找到以下内容:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">extension=ctype.so</span><br><span class="line">extension=curl.so</span><br><span class="line">extension=gd.so</span><br><span class="line">extension=iconv.so</span><br><span class="line">extension=json.so</span><br><span class="line">extension=mbstring.so</span><br><span class="line">extension=mcrypt.so</span><br><span class="line">extension=mysql.so</span><br><span class="line">extension=pdo.so</span><br><span class="line">extension=pdo-mysql.so</span><br><span class="line">extension=session.so</span><br><span class="line">extension=sockets.so</span><br><span class="line">extension=tokenizer.so</span><br><span class="line">extension=xml.so</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>分别将前面的“;”去掉</p>
@@ -108,15 +110,22 @@
 <p><strong>四、配置mysql</strong></p>
 <ol>
 <li><p>输入如下命令创建数据库文件夹：</p>
-<figure class="highlight plain"><figcaption><span>/mnt/data</span><a href="/mnt/data/mysql">/mnt/data/tmp</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">2. 输入如下命令创建默认的数据库：</span><br><span class="line">```/usr/bin/mysql_install_db --force</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /mnt/data /mnt/data/mysql /mnt/data/tmp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输入如下命令创建默认的数据库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/mysql_install_db --force</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>输入如下命令启动mysql：</p>
-<figure class="highlight plain"><figcaption><span>start</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">4. 输入如下命令创建mysql的密码</span><br><span class="line">```/usr/bin/mysqladmin -u root password 123456</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/mysqld start</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输入如下命令创建mysql的密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/mysqladmin -u root password 123456</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>ok到此配置完毕</p>
 <ol start="5">
-<li>输入如下命令启动Lighttpd：<br><code>/etc/init.d/lighttpd start</code></li>
+<li>输入如下命令启动Lighttpd：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/lighttpd start</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <p>转载自 <a href="http://www.right.com.cn/forum/thread-121342-1-1.html" target="_blank" rel="noopener">http://www.right.com.cn/forum/thread-121342-1-1.html</a>，有删改</p>
 
