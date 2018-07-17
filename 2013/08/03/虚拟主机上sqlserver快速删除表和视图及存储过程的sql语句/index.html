@@ -10,8 +10,7 @@
   
 
   
-  <meta name="description" content="删除表
-1234567891011use 数据库名称declare @sql varchar(8000)while (select count(*) from sysobjects where type=&amp;apos;U&amp;apos;)&amp;gt;0beginSELECT @sql=&amp;apos;drop t">
+  <meta name="description" content="删除表`use 数据库名称declare @sql varchar(8000)while (select count(*) from sysobjects where type=’U’)&amp;gt;0beginSELECT @sql=’drop table ‘ + nameFROM sysobjects">
   
 
   
@@ -84,12 +83,10 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>删除表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">use 数据库名称</span><br><span class="line">declare @sql varchar(8000)</span><br><span class="line">while (select count(*) from sysobjects where type=&apos;U&apos;)&gt;0</span><br><span class="line">begin</span><br><span class="line">SELECT @sql=&apos;drop table &apos; + name</span><br><span class="line">FROM sysobjects</span><br><span class="line">WHERE (type = &apos;U&apos;)</span><br><span class="line">ORDER BY &apos;drop table &apos; + name</span><br><span class="line">exec(@sql) </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>删除视图</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">declare   @sql   varchar(8000)</span><br><span class="line">set   @sql=&apos;&apos;</span><br><span class="line">select   @sql=@sql+ &apos;, &apos;+name   from   sysobjects</span><br><span class="line">where   type= &apos;V &apos;   and   name   not   in( &apos;syssegments &apos;,   &apos;sysconstraints &apos;)</span><br><span class="line">set   @sql= &apos;drop   view   &apos;+stuff(@sql,   1,   1,   &apos; &apos;)</span><br><span class="line">exec(@sql)</span><br></pre></td></tr></table></figure>
-<p>删除存储过程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">use 数据库名称</span><br><span class="line">declare @tname varchar(8000)</span><br><span class="line">set @tname=&apos;&apos;</span><br><span class="line">select @tname=@tname + Name + &apos;,&apos; from sysobjects where xtype=&apos;P&apos;</span><br><span class="line">select @tname=&apos;drop Procedure &apos; + left(@tname,len(@tname)-1)</span><br><span class="line">exec(@tname)</span><br></pre></td></tr></table></figure>
+        <p>删除表<br>`<br>use 数据库名称<br>declare @sql varchar(8000)<br>while (select count(*) from sysobjects where type=’U’)&gt;0<br>begin<br>SELECT @sql=’drop table ‘ + name<br>FROM sysobjects<br>WHERE (type = ‘U’)<br>ORDER BY ‘drop table ‘ + name<br>exec(@sql)<br>end</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">删除视图</span><br><span class="line">`</span><br><span class="line">declare   @sql   varchar(8000)</span><br><span class="line">set   @sql=&apos;&apos;</span><br><span class="line">select   @sql=@sql+ &apos;, &apos;+name   from   sysobjects</span><br><span class="line">where   type= &apos;V &apos;   and   name   not   in( &apos;syssegments &apos;,   &apos;sysconstraints &apos;)</span><br><span class="line">set   @sql= &apos;drop   view   &apos;+stuff(@sql,   1,   1,   &apos; &apos;)</span><br><span class="line">exec(@sql)</span><br></pre></td></tr></table></figure>
+<p>删除存储过程<br>`<br>use 数据库名称<br>declare @tname varchar(8000)<br>set @tname=’’<br>select @tname=@tname + Name + ‘,’ from sysobjects where xtype=’P’<br>select @tname=’drop Procedure ‘ + left(@tname,len(@tname)-1)<br>exec(@tname)</p>
+<p><code>`</code></p>
 <p>转载自：<a href="http://www.ovzxen.com/post-38.html" target="_blank" rel="noopener">http://www.ovzxen.com/post-38.html</a></p>
 
       

@@ -10,8 +10,7 @@
   
 
   
-  <meta name="description" content="众所周知，php 自带的 strlen 与 substr 函数没法处理中文字符，于是，我们会用 mb_ 系列函数替代。但是，没有 mbstring 库怎么办？这就需要我们自己写一个来替代了，废话不多说，先上代码
-12345678910111213141516171819202122232425262">
+  <meta name="description" content="众所周知，php 自带的 strlen 与 substr 函数没法处理中文字符，于是，我们会用 mb_ 系列函数替代。但是，没有 mbstring 库怎么办？这就需要我们自己写一个来替代了，废话不多说，先上代码`if ( !function_exists(‘mb_strlen’) ) {    fu">
   
 
   
@@ -84,8 +83,42 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>众所周知，php 自带的 strlen 与 substr 函数没法处理中文字符，于是，我们会用 mb_ 系列函数替代。但是，没有 mbstring 库怎么办？这就需要我们自己写一个来替代了，废话不多说，先上代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">if ( !function_exists(&apos;mb_strlen&apos;) ) &#123;</span><br><span class="line">	function mb_strlen ($text, $encode) &#123;</span><br><span class="line">		if ($encode==&apos;UTF-8&apos;) &#123;</span><br><span class="line">			return preg_match_all(&apos;%(?:</span><br><span class="line">					  [\x09\x0A\x0D\x20-\x7E]           # ASCII</span><br><span class="line">					| [\xC2-\xDF][\x80-\xBF]            # non-overlong 2-byte</span><br><span class="line">					|  \xE0[\xA0-\xBF][\x80-\xBF]       # excluding overlongs</span><br><span class="line">					| [\xE1-\xEC\xEE\xEF][\x80-\xBF]&#123;2&#125; # straight 3-byte</span><br><span class="line">					|  \xED[\x80-\x9F][\x80-\xBF]       # excluding surrogates</span><br><span class="line">					|  \xF0[\x90-\xBF][\x80-\xBF]&#123;2&#125;    # planes 1-3</span><br><span class="line">					| [\xF1-\xF3][\x80-\xBF]&#123;3&#125;         # planes 4-15</span><br><span class="line">					|  \xF4[\x80-\x8F][\x80-\xBF]&#123;2&#125;    # plane 16</span><br><span class="line">					)%xs&apos;,$text,$out);</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			return strlen($text);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* from Internet, author unknown */</span><br><span class="line">if (!function_exists(&apos;mb_substr&apos;)) &#123;</span><br><span class="line">    function mb_substr($str, $start, $len = &apos;&apos;, $encoding=&quot;UTF-8&quot;)&#123;</span><br><span class="line">        $limit = strlen($str);</span><br><span class="line"> </span><br><span class="line">        for ($s = 0; $start &gt; 0;--$start) &#123;// found the real start</span><br><span class="line">            if ($s &gt;= $limit)</span><br><span class="line">                break;</span><br><span class="line"> </span><br><span class="line">            if ($str[$s] &lt;= &quot;\x7F&quot;)</span><br><span class="line">                ++$s;</span><br><span class="line">            else &#123;</span><br><span class="line">                ++$s; // skip length</span><br><span class="line"> </span><br><span class="line">                while ($str[$s] &gt;= &quot;\x80&quot; &amp;&amp; $str[$s] &lt;= &quot;\xBF&quot;)</span><br><span class="line">                    ++$s;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        if ($len == &apos;&apos;)</span><br><span class="line">            return substr($str, $s);</span><br><span class="line">        else</span><br><span class="line">            for ($e = $s; $len &gt; 0; --$len) &#123;//found the real end</span><br><span class="line">                if ($e &gt;= $limit)</span><br><span class="line">                    break;</span><br><span class="line"> </span><br><span class="line">                if ($str[$e] &lt;= &quot;\x7F&quot;)</span><br><span class="line">                    ++$e;</span><br><span class="line">                else &#123;</span><br><span class="line">                    ++$e;//skip length</span><br><span class="line"> </span><br><span class="line">                    while ($str[$e] &gt;= &quot;\x80&quot; &amp;&amp; $str[$e] &lt;= &quot;\xBF&quot; &amp;&amp; $e &lt; $limit)</span><br><span class="line">                        ++$e;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">        return substr($str, $s, $e - $s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>众所周知，php 自带的 strlen 与 substr 函数没法处理中文字符，于是，我们会用 mb_ 系列函数替代。但是，没有 mbstring 库怎么办？这就需要我们自己写一个来替代了，废话不多说，先上代码<br>`if ( !function_exists(‘mb_strlen’) ) {<br>    function mb_strlen ($text, $encode) {<br>        if ($encode==’UTF-8’) {<br>            return preg_match_all(‘%(?:<br>                      [\x09\x0A\x0D\x20-\x7E]           # ASCII<br>                    | [\xC2-\xDF][\x80-\xBF]            # non-overlong 2-byte<br>                    |  \xE0[\xA0-\xBF][\x80-\xBF]       # excluding overlongs<br>                    | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2} # straight 3-byte<br>                    |  \xED[\x80-\x9F][\x80-\xBF]       # excluding surrogates<br>                    |  \xF0[\x90-\xBF][\x80-\xBF]{2}    # planes 1-3<br>                    | [\xF1-\xF3][\x80-\xBF]{3}         # planes 4-15<br>                    |  \xF4[\x80-\x8F][\x80-\xBF]{2}    # plane 16<br>                    )%xs’,$text,$out);<br>        }else{<br>            return strlen($text);<br>        }<br>    }<br>}</p>
+<p>/<em> from Internet, author unknown </em>/<br>if (!function_exists(‘mb_substr’)) {<br>    function mb_substr($str, $start, $len = ‘’, $encoding=”UTF-8”){<br>        $limit = strlen($str);</p>
+<pre><code>    for ($s = 0; $start &gt; 0;--$start) {// found the real start
+        if ($s &gt;= $limit)
+            break;
+
+        if ($str[$s] &lt;= &quot;\x7F&quot;)
+            ++$s;
+        else {
+            ++$s; // skip length
+
+            while ($str[$s] &gt;= &quot;\x80&quot; &amp;&amp; $str[$s] &lt;= &quot;\xBF&quot;)
+                ++$s;
+        }
+    }
+
+    if ($len == &apos;&apos;)
+        return substr($str, $s);
+    else
+        for ($e = $s; $len &gt; 0; --$len) {//found the real end
+            if ($e &gt;= $limit)
+                break;
+
+            if ($str[$e] &lt;= &quot;\x7F&quot;)
+                ++$e;
+            else {
+                ++$e;//skip length
+
+                while ($str[$e] &gt;= &quot;\x80&quot; &amp;&amp; $str[$e] &lt;= &quot;\xBF&quot; &amp;&amp; $e &lt; $limit)
+                    ++$e;
+            }
+        }
+
+    return substr($str, $s, $e - $s);
+}
+</code></pre><p>}<br><code>`</code></p>
 <p>以上代码摘自 wp-utf8-excerpt 插件，效果可以见本站首页，所有文章摘要都是该插件负责截取的。</p>
 
       

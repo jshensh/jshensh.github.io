@@ -97,53 +97,48 @@
 </li>
 <li><p>接下来就是修改代码了，先下载 jQuery 库，复制至你论坛的 static/js 目录下备用<br>下载 jQuery 库：<a href="http://futa.ooo/wp-content/uploads/201307/jquery-1.8.3.min_.js">jquery-1.8.3.min</a></p>
 </li>
-<li><p>使用代码编辑器打开 source/class/class_member.php ，找到这一句</p>
+<li><p>使用代码编辑器打开 source/class/class_member.php ，找到这一句<br>`foreach($_G[‘cache’][‘fields_register’] as $field) {</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foreach($_G[&apos;cache&apos;][&apos;fields_register&apos;] as $field) &#123;</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>然后将</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$field_key = $field[&apos;fieldid&apos;];</span><br><span class="line">$field_val = $_GET[&apos;&apos;.$field_key];</span><br></pre></td></tr></table></figure>
-<p>移至</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">if(defined(&apos;IN_MOBILE&apos;)) &#123;</span><br><span class="line">	break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>之前，为了之后手机版注册时做准备</p>
-<ol start="5">
-<li>在</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$field_key = $field[&apos;fieldid&apos;];</span><br><span class="line">$field_val = $_GET[&apos;&apos;.$field_key];</span><br></pre></td></tr></table></figure>
-<p>之后插入这样一段代码，请按照注释根据自己的情况进行修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/*</span><br><span class="line">检测用户提交的真实姓名是否存在并且是否已经注册</span><br><span class="line">*/</span><br><span class="line">//check realname start</span><br><span class="line">if ($field_key==&apos;realname&apos;) &#123; //请将 realname 修改为该栏目在前端注册时表单中使用的 name</span><br><span class="line">	$get_realname=(get_magic_quotes_gpc())?$_POST[&apos;realname&apos;]:addslashes($_POST[&apos;realname&apos;]); //同上</span><br><span class="line">	if (empty($get_realname)) &#123; //如果你修改了上面的变量名称，请一并修改这里的</span><br><span class="line">		showmessage(&apos;请输入您的真实姓名&apos;); //调用 dz 自带的函数进行弹窗提示</span><br><span class="line">	&#125;</span><br><span class="line">	$realname_query_1=mysql_query(&apos;SELECT `realname` FROM `pre_common_member_realname` where `realname`=\&apos;&apos;.$get_realname.&apos;\&apos;&apos;); //查询用户提交的真实姓名是否存在于自己允许注册的表中，这个表需要自己创建</span><br><span class="line">	if (mysql_num_rows($realname_query_1)==0) &#123; //如果返回行数为 0</span><br><span class="line">		showmessage(&apos;您输入的真实姓名有错误，请重新输入&apos;); //修改提示语</span><br><span class="line">	&#125;</span><br><span class="line">	$realname_query_2=mysql_query(&apos;SELECT `realname` FROM `pre_common_member_profile` where `realname`=\&apos;&apos;.$get_realname.&apos;\&apos;&apos;); //查询用户提交的真实姓名是否已经被注册</span><br><span class="line">	if (mysql_num_rows($realname_query_2)!==0) &#123; //如果返回的行数不等于 0</span><br><span class="line">		showmessage(&apos;请您不要重复注册&apos;); //修改提示语</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">//check realname end</span><br></pre></td></tr></table></figure>
-<ol start="6">
-<li>修改手机版模板，使用代码编辑器打开文件 template/default/mobile/member/register.htm ，在适当的区域加上</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**真实姓名***</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">4. 然后将</span><br><span class="line">`</span><br><span class="line">$field_key = $field[&apos;fieldid&apos;];</span><br><span class="line">$field_val = $_GET[&apos;&apos;.$field_key];</span><br></pre></td></tr></table></figure>
+<p>移至<br>`<br>if(defined(‘IN_MOBILE’)) {<br>    break;<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">之前，为了之后手机版注册时做准备</span><br><span class="line"></span><br><span class="line">5. 在</span><br><span class="line">`</span><br><span class="line">$field_key = $field[&apos;fieldid&apos;];</span><br><span class="line">$field_val = $_GET[&apos;&apos;.$field_key];</span><br></pre></td></tr></table></figure>
+<p>之后插入这样一段代码，请按照注释根据自己的情况进行修改<br><code>/*
+检测用户提交的真实姓名是否存在并且是否已经注册
+*/
+//check realname start
+if ($field_key==&#39;realname&#39;) { //请将 realname 修改为该栏目在前端注册时表单中使用的 name
+    $get_realname=(get_magic_quotes_gpc())?$_POST[&#39;realname&#39;]:addslashes($_POST[&#39;realname&#39;]); //同上
+    if (empty($get_realname)) { //如果你修改了上面的变量名称，请一并修改这里的
+        showmessage(&#39;请输入您的真实姓名&#39;); //调用 dz 自带的函数进行弹窗提示
+    }
+    $realname_query_1=mysql_query(&#39;SELECT</code>realname<code>FROM</code>pre_common_member_realname<code>where</code>realname<code>=\&#39;&#39;.$get_realname.&#39;\&#39;&#39;); //查询用户提交的真实姓名是否存在于自己允许注册的表中，这个表需要自己创建
+    if (mysql_num_rows($realname_query_1)==0) { //如果返回行数为 0
+        showmessage(&#39;您输入的真实姓名有错误，请重新输入&#39;); //修改提示语
+    }
+    $realname_query_2=mysql_query(&#39;SELECT</code>realname<code>FROM</code>pre_common_member_profile<code>where</code>realname`=\’’.$get_realname.’\’’); //查询用户提交的真实姓名是否已经被注册<br>    if (mysql_num_rows($realname_query_2)!==0) { //如果返回的行数不等于 0<br>        showmessage(‘请您不要重复注册’); //修改提示语<br>    }<br>}<br>//check realname end</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">6. 修改手机版模板，使用代码编辑器打开文件 template/default/mobile/member/register.htm ，在适当的区域加上</span><br><span class="line"></span><br><span class="line">```txt</span><br></pre></td></tr></table></figure>
 <p>注意请根据自己实际情况进行修改</p>
 <ol start="7">
-<li>修改电脑版模板，使用代码编辑器打开文件 template/default/member/register.htm，在</li>
+<li>修改电脑版模板，使用代码编辑器打开文件 template/default/member/register.htm，在<br>`</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>前加上以下代码，注意请根据自己实际情况进行修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">前加上以下代码，注意请根据自己实际情况进行修改</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
 <ol start="8">
-<li>找到</li>
+<li>找到<br>`</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>与</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>它们以及它们中间那段代码正是循环输出自定义栏目的代码。<br>修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;td class=&quot;tipcol&quot; &gt;</span><br></pre></td></tr></table></figure>
-<p>为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;td id=&quot;td_$field[&apos;fieldid&apos;]&quot; class=&quot;tipcol&quot; &gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">与</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<p>它们以及它们中间那段代码正是循环输出自定义栏目的代码。<br>修改<br>`</p>
+<td class="tipcol">
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">为</span><br><span class="line">`</span><br><span class="line"></span><br><span class="line">&lt;td id=&quot;td_$field[&apos;fieldid&apos;]&quot; class=&quot;tipcol&quot; &gt;</span><br></pre></td></tr></table></figure>
 <p>以供之后 jQuery 使用。</p>
 <ol start="9">
-<li>新建文件 source/function/function_check_realname.php ，并使用代码编辑器打开<br>输入以下代码，和前面的 class_member.php 差不多，注意根据自己实际情况修改</li>
+<li>新建文件 source/function/function_check_realname.php ，并使用代码编辑器打开<br>输入以下代码，和前面的 class_member.php 差不多，注意根据自己实际情况修改<br>`<br><a href="http://95bbs.233.imjs.work" target="_blank" rel="noopener">http://95bbs.233.imjs.work</a></li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">http://95bbs.233.imjs.work</span><br><span class="line"></span><br><span class="line">P.S. 因为 jQuery 和 dz 自带的 js 效果有冲突，所以需要加上一句</span><br></pre></td></tr></table></figure>
-<p>var jq = jQuery.noConflict();</p>
+<p>P.S. 因为 jQuery 和 dz 自带的 js 效果有冲突，所以需要加上一句<br>`var jq = jQuery.noConflict();</p>
 <p><code>`</code></p>
 <p>并将所有的 $ 替换为 jq</p>
-
+</td>
       
     </div>
 

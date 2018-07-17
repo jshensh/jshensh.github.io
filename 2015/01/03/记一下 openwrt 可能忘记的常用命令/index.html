@@ -10,10 +10,7 @@
   
 
   
-  <meta name="description" content="将 /dev/sda1 分区挂载为 swap 交换区：
-12mkswap /dev/sda1swapon /dev/sda1
-挂载 vfat：
-1234opkg install kmod-fs-vfat // fat，fat32opkg install kmod-nls-utf8 kmod-nls-">
+  <meta name="description" content="将 /dev/sda1 分区挂载为 swap 交换区：`mkswap /dev/sda1swapon /dev/sda11234567挂载 vfat：`opkg install kmod-fs-vfat // fat，fat32opkg install kmod-nls-utf8 kmod-nls-">
   
 
   
@@ -86,18 +83,9 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>将 /dev/sda1 分区挂载为 swap 交换区：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkswap /dev/sda1</span><br><span class="line">swapon /dev/sda1</span><br></pre></td></tr></table></figure>
-<p>挂载 vfat：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">opkg install kmod-fs-vfat // fat，fat32</span><br><span class="line">opkg install kmod-nls-utf8 kmod-nls-cp437 kmod-nls-iso8859-1 // 文件系统的语言支持</span><br><span class="line">mkdir sda1</span><br><span class="line">mount -t vfat /dev/sda1 sda1</span><br></pre></td></tr></table></figure>
-<p>挂载 ntfs：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">opkg install kmod-fuse ntfs-3g</span><br><span class="line">mkdir sda1</span><br><span class="line">ntfs-3g /dev/sda1 sda1</span><br></pre></td></tr></table></figure>
-<p>格式化分区：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opkg install e2fsprogs</span><br><span class="line">mkfs.ext4 /dev/sda1</span><br></pre></td></tr></table></figure>
-<p>支持 extroot：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opkg install block-mount</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
-<p>复制flash根分区文件到外部存储</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir /mnt/sda1</span><br><span class="line">mount /dev/sda1 /mnt/sda1</span><br><span class="line">mkdir -p /tmp/cproot</span><br><span class="line">mount --bind / /tmp/cproot/</span><br><span class="line">tar -C /tmp/cproot/ -cvf - . | tar -C /mnt/sda1 -xf -</span><br><span class="line">umount /dev/sda1</span><br></pre></td></tr></table></figure>
+        <p>将 /dev/sda1 分区挂载为 swap 交换区：<br>`mkswap /dev/sda1<br>swapon /dev/sda1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">挂载 vfat：</span><br><span class="line">`opkg install kmod-fs-vfat // fat，fat32</span><br><span class="line">opkg install kmod-nls-utf8 kmod-nls-cp437 kmod-nls-iso8859-1 // 文件系统的语言支持</span><br><span class="line">mkdir sda1</span><br><span class="line">mount -t vfat /dev/sda1 sda1</span><br></pre></td></tr></table></figure></p>
+<p>挂载 ntfs：<br>`opkg install kmod-fuse ntfs-3g<br>mkdir sda1<br>ntfs-3g /dev/sda1 sda1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">格式化分区：</span><br><span class="line">`opkg install e2fsprogs</span><br><span class="line">mkfs.ext4 /dev/sda1</span><br></pre></td></tr></table></figure></p>
+<p>支持 extroot：<br>`opkg install block-mount<br>reboot<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">复制flash根分区文件到外部存储</span><br><span class="line">`mkdir /mnt/sda1</span><br><span class="line">mount /dev/sda1 /mnt/sda1</span><br><span class="line">mkdir -p /tmp/cproot</span><br><span class="line">mount --bind / /tmp/cproot/</span><br><span class="line">tar -C /tmp/cproot/ -cvf - . | tar -C /mnt/sda1 -xf -</span><br><span class="line">umount /dev/sda1</span><br></pre></td></tr></table></figure></p>
 
       
     </div>

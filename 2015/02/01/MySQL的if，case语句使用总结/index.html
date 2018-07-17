@@ -11,9 +11,7 @@
 
   
   <meta name="description" content="Mysql的if既可以作为表达式用，也可在存储过程中作为流程控制语句使用，如下是做为表达式使用：
-IF表达式
-1IF(expr1,expr2,expr3)
-如果 expr1 是TRUE (expr1 &amp;lt;&amp;gt; 0 and expr1 &amp;lt;&amp;gt; NULL)，则 IF()的返回值为exp">
+IF表达式`IF(expr1,expr2,expr3)123如果 expr1 是TRUE (expr1 &amp;lt;&amp;gt; 0 and expr1 &amp;lt;&amp;gt; NULL)，则 IF()的返回值为ex">
   
 
   
@@ -87,22 +85,31 @@ IF表达式
     <div class="entry">
       
         <p>Mysql的if既可以作为表达式用，也可在存储过程中作为流程控制语句使用，如下是做为表达式使用：</p>
-<p><strong>IF表达式</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IF(expr1,expr2,expr3)</span><br></pre></td></tr></table></figure>
-<p>如果 expr1 是TRUE (expr1 &lt;&gt; 0 and expr1 &lt;&gt; NULL)，则 IF()的返回值为expr2; 否则返回值则为 expr3。IF() 的返回值为数字值或字符串值，具体情况视其所在语境而定。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select *,if(sva=1,&quot;男&quot;,&quot;女&quot;) as ssva from taname where sva != &quot;&quot;</span><br></pre></td></tr></table></figure>
-<p><strong>作为表达式的if也可以用CASE when来实现：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select CASE sva WHEN 1 THEN &apos;男&apos; ELSE &apos;女&apos; END as ssva from taname where sva != &apos;&apos;</span><br></pre></td></tr></table></figure>
-<p>在第一个方案的返回结果中， value=compare-value。而第二个方案的返回结果是第一种情况的真实结果。如果没有匹配的结果值，则返回结果为ELSE后的结果，如果没有ELSE 部分，则返回值为 NULL。<br>例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT CASE 1 WHEN 1 THEN &apos;one&apos;</span><br><span class="line">  WHEN 2 THEN &apos;two&apos; </span><br><span class="line">   ELSE &apos;more&apos; END</span><br><span class="line">as testCol</span><br></pre></td></tr></table></figure>
+<p><strong>IF表达式</strong><br>`IF(expr1,expr2,expr3)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">如果 expr1 是TRUE (expr1 &lt;&gt; 0 and expr1 &lt;&gt; NULL)，则 IF()的返回值为expr2; 否则返回值则为 expr3。IF() 的返回值为数字值或字符串值，具体情况视其所在语境而定。</span><br><span class="line">`select *,if(sva=1,&quot;男&quot;,&quot;女&quot;) as ssva from taname where sva != &quot;&quot;</span><br></pre></td></tr></table></figure></p>
+<p><strong>作为表达式的if也可以用CASE when来实现：</strong><br>`select CASE sva WHEN 1 THEN ‘男’ ELSE ‘女’ END as ssva from taname where sva != ‘’<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在第一个方案的返回结果中， value=compare-value。而第二个方案的返回结果是第一种情况的真实结果。如果没有匹配的结果值，则返回结果为ELSE后的结果，如果没有ELSE 部分，则返回值为 NULL。</span><br><span class="line">例如：</span><br><span class="line">`SELECT CASE 1 WHEN 1 THEN &apos;one&apos;</span><br><span class="line">  WHEN 2 THEN &apos;two&apos; </span><br><span class="line">   ELSE &apos;more&apos; END</span><br><span class="line">as testCol</span><br></pre></td></tr></table></figure></p>
 <p>将输出one</p>
-<p><strong>IFNULL(expr1,expr2)</strong><br>假如expr1 不为 NULL，则 IFNULL() 的返回值为 expr1; 否则其返回值为 expr2。IFNULL()的返回值是数字或是字符串，具体情况取决于其所使用的语境。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT IFNULL(1,0);</span><br><span class="line">        -&gt; 1</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT IFNULL(NULL,10);</span><br><span class="line">        -&gt; 10</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT IFNULL(1/0,10);</span><br><span class="line">        -&gt; 10</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT IFNULL(1/0,&apos;yes&apos;);</span><br><span class="line">        -&gt; &apos;yes&apos;</span><br></pre></td></tr></table></figure>
-<p>IFNULL(expr1,expr2) 的默认结果值为两个表达式中更加“通用”的一个，顺序为STRING、 REAL或 INTEGER。</p>
-<p><strong>IF ELSE 做为流程控制语句使用</strong><br>if实现条件判断，满足不同条件执行不同的操作，这个我们只要学编程的都知道if的作用了，下面我们来看看mysql 存储过程中的if是如何使用的吧。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">IF search_condition THEN </span><br><span class="line">    statement_list  </span><br><span class="line">[ELSEIF search_condition THEN]  </span><br><span class="line">    statement_list ...  </span><br><span class="line">[ELSE </span><br><span class="line">    statement_list]  </span><br><span class="line">END IF</span><br></pre></td></tr></table></figure>
-<p>与PHP中的IF语句类似，当IF中条件search_condition成立时，执行THEN后的statement_list语句，否则判断ELSEIF中的条件，成立则执行其后的statement_list语句，否则继续判断其他分支。当所有分支的条件均不成立时，执行ELSE分支。search_condition是一个条件表达式，可以由“=、&lt;、&lt;=、&gt;、&gt;=、!=”等条件运算符组成，并且可以使用AND、OR、NOT对多个表达式进行组合。<br>例如，建立一个存储过程，该存储过程通过学生学号（student_no）和课程编号（course_no）查询其成绩（grade），返回成绩和成绩的等级，成绩大于90分的为A级，小于90分大于等于80分的为B级，小于80分大于等于70分的为C级，依次到E级。那么，创建存储过程的代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">create procedure dbname.proc_getGrade  </span><br><span class="line">(stu_no varchar(20),cour_no varchar(10))  </span><br><span class="line">BEGIN </span><br><span class="line">declare stu_grade float;  </span><br><span class="line">select grade into stu_grade from grade where student_no=stu_no and course_no=cour_no;  </span><br><span class="line">if stu_grade&gt;=90 then </span><br><span class="line">    select stu_grade,&apos;A&apos;;  </span><br><span class="line">elseif stu_grade&lt;90 and stu_grade&gt;=80 then </span><br><span class="line">    select stu_grade,&apos;B&apos;;  </span><br><span class="line">elseif stu_grade&lt;80 and stu_grade&gt;=70 then </span><br><span class="line">    select stu_grade,&apos;C&apos;;  </span><br><span class="line">elseif stu_grade70 and stu_grade&gt;=60 then </span><br><span class="line">    select stu_grade,&apos;D&apos;;  </span><br><span class="line">else </span><br><span class="line">    select stu_grade,&apos;E&apos;;  </span><br><span class="line">end if;  </span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+<p><strong>IFNULL(expr1,expr2)</strong><br>假如expr1 不为 NULL，则 IFNULL() 的返回值为 expr1; 否则其返回值为 expr2。IFNULL()的返回值是数字或是字符串，具体情况取决于其所使用的语境。<br>`mysql&gt; SELECT IFNULL(1,0);<br>        -&gt; 1</p>
+<p>mysql&gt; SELECT IFNULL(NULL,10);<br>        -&gt; 10</p>
+<p>mysql&gt; SELECT IFNULL(1/0,10);<br>        -&gt; 10</p>
+<p>mysql&gt; SELECT IFNULL(1/0,’yes’);<br>        -&gt; ‘yes’<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">IFNULL(expr1,expr2) 的默认结果值为两个表达式中更加“通用”的一个，顺序为STRING、 REAL或 INTEGER。</span><br><span class="line"></span><br><span class="line">**IF ELSE 做为流程控制语句使用**</span><br><span class="line">if实现条件判断，满足不同条件执行不同的操作，这个我们只要学编程的都知道if的作用了，下面我们来看看mysql 存储过程中的if是如何使用的吧。</span><br><span class="line">`IF search_condition THEN </span><br><span class="line">    statement_list  </span><br><span class="line">[ELSEIF search_condition THEN]  </span><br><span class="line">    statement_list ...  </span><br><span class="line">[ELSE </span><br><span class="line">    statement_list]  </span><br><span class="line">END IF</span><br></pre></td></tr></table></figure></p>
+<p>与PHP中的IF语句类似，当IF中条件search_condition成立时，执行THEN后的statement_list语句，否则判断ELSEIF中的条件，成立则执行其后的statement_list语句，否则继续判断其他分支。当所有分支的条件均不成立时，执行ELSE分支。search_condition是一个条件表达式，可以由“=、&lt;、&lt;=、&gt;、&gt;=、!=”等条件运算符组成，并且可以使用AND、OR、NOT对多个表达式进行组合。<br>例如，建立一个存储过程，该存储过程通过学生学号（student_no）和课程编号（course_no）查询其成绩（grade），返回成绩和成绩的等级，成绩大于90分的为A级，小于90分大于等于80分的为B级，小于80分大于等于70分的为C级，依次到E级。那么，创建存储过程的代码如下：<br><code>create procedure dbname.proc_getGrade  
+(stu_no varchar(20),cour_no varchar(10))  
+BEGIN 
+declare stu_grade float;  
+select grade into stu_grade from grade where student_no=stu_no and course_no=cour_no;  
+if stu_grade&gt;=90 then 
+    select stu_grade,&#39;A&#39;;  
+elseif stu_grade&lt;90 and stu_grade&gt;=80 then 
+    select stu_grade,&#39;B&#39;;  
+elseif stu_grade&lt;80 and stu_grade&gt;=70 then 
+    select stu_grade,&#39;C&#39;;  
+elseif stu_grade70 and stu_grade&gt;=60 then 
+    select stu_grade,&#39;D&#39;;  
+else 
+    select stu_grade,&#39;E&#39;;  
+end if;  
+END 
+``</code></p>
 <p>注意：IF作为一条语句，在END IF后需要加上分号“;”以表示语句结束，其他语句如CASE、LOOP等也是相同的。</p>
 <p>转载自 <a href="http://outofmemory.cn/code-snippet/1149/MySQL-if-case-statement-usage-summary" target="_blank" rel="noopener">http://outofmemory.cn/code-snippet/1149/MySQL-if-case-statement-usage-summary</a></p>
 

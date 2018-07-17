@@ -83,12 +83,10 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>博主最近有个站域名快要过期了，但又没钱续费，只能用下 BAE 提供的免费域名。学过 seo 的童鞋都应该知道，换域名得做域名跳转，同时发出 301 状态码通知搜索引擎你的网站更换域名了。因为是 WordPress，所以加跳转代码很简单，直接在 /index.php 第一个 &lt;?php 后面加上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">if ($_SERVER[&apos;HTTP_HOST&apos;]!==&apos;bwlzyzdsb.duapp.com&apos;) &#123; //bwlzyzdsb.duapp.com 是博主网站域名，实际应用时请修改为自己的域名</span><br><span class="line">header(&apos;Location: http://bwlzyzdsb.duapp.com/&apos;,true,301); //同上</span><br><span class="line">exit();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可当时偏偏就忘记加上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">exit();</span><br></pre></td></tr></table></figure>
-<p>了，用站长工具查看状态码一直是 HTTP/1.1 302 Found ，无奈换了个方法，先 header 301 状态码，再 header Location，问题依旧。检查了下代码，加上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">exit();</span><br></pre></td></tr></table></figure>
+        <p>博主最近有个站域名快要过期了，但又没钱续费，只能用下 BAE 提供的免费域名。学过 seo 的童鞋都应该知道，换域名得做域名跳转，同时发出 301 状态码通知搜索引擎你的网站更换域名了。因为是 WordPress，所以加跳转代码很简单，直接在 /index.php 第一个 &lt;?php 后面加上<br>`<br>if ($_SERVER[‘HTTP_HOST’]!==’bwlzyzdsb.duapp.com’) { //bwlzyzdsb.duapp.com 是博主网站域名，实际应用时请修改为自己的域名<br>header(‘Location: <a href="http://bwlzyzdsb.duapp.com/&#39;,true,301)" target="_blank" rel="noopener">http://bwlzyzdsb.duapp.com/&#39;,true,301)</a>; //同上<br>exit();<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">可当时偏偏就忘记加上</span><br><span class="line">`</span><br><span class="line">exit();</span><br></pre></td></tr></table></figure>
+<p>了，用站长工具查看状态码一直是 HTTP/1.1 302 Found ，无奈换了个方法，先 header 301 状态码，再 header Location，问题依旧。检查了下代码，加上<br>`<br>exit();</p>
+<p><code>`</code></p>
 <p>问题解决。</p>
 
       

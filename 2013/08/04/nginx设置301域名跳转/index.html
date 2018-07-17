@@ -10,8 +10,7 @@
   
 
   
-  <meta name="description" content="如a.com访问后直接301定向到www.a.coma.com后加的地址和路径都会直接定向到www.a.com后的地址和路径如a.com/list/show.php?id=11 设置后定向到www.a.com/list/show.php?id=11具体设置规则如下：
-123456789server	">
+  <meta name="description" content="如a.com访问后直接301定向到www.a.coma.com后加的地址和路径都会直接定向到www.a.com后的地址和路径如a.com/list/show.php?id=11 设置后定向到www.a.com/list/show.php?id=11具体设置规则如下：`server    {     ">
   
 
   
@@ -84,8 +83,8 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>如a.com访问后直接301定向到<a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a><br>a.com后加的地址和路径都会直接定向到<a href="http://www.a.com后的地址和路径" target="_blank" rel="noopener">www.a.com后的地址和路径</a><br>如a.com/list/show.php?id=11 设置后定向到<a href="http://www.a.com/list/show.php?id=11" target="_blank" rel="noopener">www.a.com/list/show.php?id=11</a><br>具体设置规则如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">server</span><br><span class="line">	&#123;</span><br><span class="line">		listen       80;</span><br><span class="line">		server_name www.a.com a.com;</span><br><span class="line">                if ($host != &apos;www.a.com&apos; ) &#123;  </span><br><span class="line">                return  301 http://www.a.com$request_uri;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>如a.com访问后直接301定向到<a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a><br>a.com后加的地址和路径都会直接定向到<a href="http://www.a.com后的地址和路径" target="_blank" rel="noopener">www.a.com后的地址和路径</a><br>如a.com/list/show.php?id=11 设置后定向到<a href="http://www.a.com/list/show.php?id=11" target="_blank" rel="noopener">www.a.com/list/show.php?id=11</a><br>具体设置规则如下：<br>`<br>server<br>    {<br>        listen       80;<br>        server_name <a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a> a.com;<br>                if ($host != ‘<a href="http://www.a.com&#39;" target="_blank" rel="noopener">www.a.com&#39;</a> ) {<br>                return  301 <a href="http://www.a.com$request_uri" target="_blank" rel="noopener">http://www.a.com$request_uri</a>;<br>    }<br>}</p>
+<p><code>`</code></p>
 <p>转载自：<a href="http://www.ovzxen.com/post-28.html" target="_blank" rel="noopener">http://www.ovzxen.com/post-28.html</a></p>
 
       

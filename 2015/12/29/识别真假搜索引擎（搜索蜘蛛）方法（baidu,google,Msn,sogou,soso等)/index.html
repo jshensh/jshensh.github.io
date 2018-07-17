@@ -150,8 +150,22 @@
 <td width="77">√<br></td>
 
 <p><td width="442">host ip  得到域名：msn.com主域名<br></td><br></p></tr><br><br></table><br>以上是我整理一些常用搜索引擎的user-agent特征码，以及IP反向解析情况。保证准确识别搜索引擎，我们通过IP反解析是最为准确方法。好在google,baidu,bing都有做反向解析。基本上占用了80%搜索市场了。下面，我是我检测方法。<p></p>
-<p><strong>PHP反解析IP方法</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function check_spider($ip,$ua) &#123;</span><br><span class="line">    static $spider_list=array(</span><br><span class="line">        &apos;google&apos;=&gt;array(&apos;Googlebot&apos;,&apos;googlebot.com&apos;),</span><br><span class="line">        &apos;baidu&apos;=&gt;array(&apos;Baiduspider&apos;,&apos;.baidu.&apos;),</span><br><span class="line">        &apos;yahoo&apos;=&gt;array(&apos;Yahoo!&apos;,&apos;inktomisearch.com&apos;),</span><br><span class="line">        &apos;msn&apos;=&gt;array(&apos;MSNBot&apos;,&apos;live.com&apos;),</span><br><span class="line">        &apos;bing&apos;=&gt;array(&apos;bingbot&apos;,&apos;msn.com&apos;)</span><br><span class="line">    );</span><br><span class="line">	</span><br><span class="line">    if(!preg_match(&apos;/^(\d&#123;1,3&#125;\.)&#123;3&#125;\d&#123;1,3&#125;$/&apos;,$ip)) return false;</span><br><span class="line">    if(empty($ua)) return false;</span><br><span class="line"> </span><br><span class="line">    foreach ($spider_list as $k=&gt;$v) &#123;</span><br><span class="line">        if(stripos($ua,$v[0])!==false) &#123;</span><br><span class="line">            $domain = gethostbyaddr($ip);</span><br><span class="line"></span><br><span class="line">            if($domain &amp;&amp; stripos($domain,$v[1])!==false) &#123;</span><br><span class="line">                return $k;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>PHP反解析IP方法</strong><br>`    function check_spider($ip,$ua) {<br>        static $spider_list=array(<br>            ‘google’=&gt;array(‘Googlebot’,’googlebot.com’),<br>            ‘baidu’=&gt;array(‘Baiduspider’,’.baidu.’),<br>            ‘yahoo’=&gt;array(‘Yahoo!’,’inktomisearch.com’),<br>            ‘msn’=&gt;array(‘MSNBot’,’live.com’),<br>            ‘bing’=&gt;array(‘bingbot’,’msn.com’)<br>        );</p>
+<pre><code>    if(!preg_match(&apos;/^(\d{1,3}\.){3}\d{1,3}$/&apos;,$ip)) return false;
+    if(empty($ua)) return false;
+
+    foreach ($spider_list as $k=&gt;$v) {
+        if(stripos($ua,$v[0])!==false) {
+            $domain = gethostbyaddr($ip);
+
+            if($domain &amp;&amp; stripos($domain,$v[1])!==false) {
+                return $k;
+            }
+        }
+    }
+    return false;
+}
+</code></pre><p><code>`</code></p>
 <p>目前只加入几个搜索引擎检测，这些是可以做反解析查询的。不能做反解析查询的，最好做速度限制，用户会使用它们来伪造搜索引擎来抓取你的资源。欢迎大家交流，先写到这里了。</p>
 <p>转载自 <a href="http://blog.chacuo.net/147.html" target="_blank" rel="noopener">http://blog.chacuo.net/147.html</a></p>
 

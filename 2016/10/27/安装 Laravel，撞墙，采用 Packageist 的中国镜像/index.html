@@ -109,15 +109,9 @@ http://pkg.phpcomposer.com/ – Packagist / Composer 中国全量镜像内（绕
 <li>不安装啥，直接用 Composer 创建新项目：composer create-project –prefer-dist laravel/laravel blog</li>
 </ol>
 <p>看起来第一种方案比较好，然而：<br>！说明！由于墙的存在，全局安装 Laravel Installer 的方案可能不会成功。</p>
-<p><strong>全局安装 Laravel Installer</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer global require &quot;laravel/installer&quot;</span><br></pre></td></tr></table></figure>
-<p><strong>执行命令</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">laravel new blog</span><br></pre></td></tr></table></figure>
+<p><strong>全局安装 Laravel Installer</strong><br>`composer global require “laravel/installer”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">**执行命令**</span><br><span class="line">`laravel new blog</span><br></pre></td></tr></table></figure></p>
 <p>悲剧了，出现错误：<br>cURL error 7: Failed to connect to cabinet.laravel.com port 80: Timed out……<br>直接用 Composer 创建 Laravel 项目</p>
-<p>参照网上的方案，先执行加速 composer 的执行（用国内的镜像，好人呐！）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer config -g repo.packagist composer https://packagist.phpcomposer.com</span><br></pre></td></tr></table></figure>
-<p>然后执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer global require &quot;laravel/installer&quot;</span><br></pre></td></tr></table></figure>
+<p>参照网上的方案，先执行加速 composer 的执行（用国内的镜像，好人呐！）：<br>`composer config -g repo.packagist composer <a href="https://packagist.phpcomposer.com" target="_blank" rel="noopener">https://packagist.phpcomposer.com</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">然后执行</span><br><span class="line">`composer global require &quot;laravel/installer&quot;</span><br></pre></td></tr></table></figure></p>
 <p>创建项目</p>
 <p>转载自 <a href="http://blog.sina.com.cn/s/blog_6262a50e0102ws9z.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_6262a50e0102ws9z.html</a>，有删改</p>
 
