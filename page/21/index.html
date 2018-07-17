@@ -59,71 +59,6 @@
 
   
     
-    <h3 class="article-title"><a href="/2013/08/16/11个UI设计秘诀/"><span>11个UI设计秘诀</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/08/16/11个UI设计秘诀/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-08-15T20:02:09.000Z">
-          2013-08-16
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <ol>
-<li>尽量使用单栏设计，从上到下一气呵成地展示自己的内容，引导用户阅读页面内容，并采取进一步的行动，而多栏容易导致阅读者分心。</li>
-<li>给用户小礼品，不要上来就卖东西。送礼也是一种有效的说服策略，友好的姿态对销售更有好处。</li>
-<li>合并类似的功能，避免内容过于分散。设计页面时，往往在无意中做了很多功能类似的按钮和元素，太多的UI碎片造成用户学习成本较高，应当尽量合并功能类似的内容。</li>
-<li>社会认同（social proof）是迅速提升转换率的好办法，与其自吹自擂，不如请使用者见证或提供真实的对比数据。</li>
-<li>要强调的部分要反复出现，比如想让用户点击的下载链接或者购买按钮，别只出现一次，建议放在单栏页面的顶端与底部，或在多个页面呈现。</li>
-<li>可点击、已点击、纯文本等三类内容的样式应该是彼此明显不同的，用不同颜色、深度和对比度加以区分，帮助人们了解你的界面导航的基本语言：我在哪里，我能去哪里。应用得当会让人们更容易学习和使用这些线索来浏览网站。</li>
-<li>用推荐，而非提供两个类似的选项。心理学研究表明，当有多个可选项时，用户的选择能力将会下降，因此，强调某款产品的特性可能是个好办法。</li>
-<li>多用善意提醒，如果用户更改了某一选项，用一行文字提醒他们可以“复原”就好，无需大费周章设计“再次确认”弹窗，后者太突兀。</li>
-<li>明确目标客户，可以聚集更多有类似特征的用户，其缺点可能会失去一些潜在客户。但话说回来，信任建立于透明度之上。</li>
-<li>直接比犹豫不决更好。尽量多用肯定语气，少用“也许”、“有兴趣吗？”等词句。</li>
-<li>尝试多用对比内容，比如用对比色和明暗深浅突出显示不同的元素，让某个内容看起来更明显，与其他内容分隔开来。</li>
-</ol>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
     <h3 class="article-title"><a href="/2013/08/15/麦当劳理论/"><span>麦当劳理论</span></a></h3>
     
   
@@ -267,11 +202,7 @@
     <div class="entry">
       
         <p>JS中没有类似PHP那样简便的函数可以直接将时间戳与日期类型格式相互转换。于是只好自己写一个函数，使用时方便调用。</p>
-<p>[code lang=”javascript”]<br>function datetime_to_unix(datetime){<br>    var tmp_datetime = datetime.replace(/:/g,’-‘);<br>    tmp_datetime = tmp_datetime.replace(/ /g,’-‘);<br>    var arr = tmp_datetime.split(“-“);<br>    var now = new Date(Date.UTC(arr[0],arr[1]-1,arr[2],arr[3]-8,arr[4],arr[5]));<br>    return parseInt(now.getTime()/1000);<br>}</p>
-<p>function unix_to_datetime(unix) {<br>    var now = new Date(parseInt(unix) * 1000);<br>    return now.toLocaleString().replace(/年|月/g, “-“).replace(/日/g, “ “);<br>}</p>
-<p>var datetime = ‘2012-11-16 10:36:50’;<br>var unix = datetime_to_unix(datetime);<br>document.write(datetime+’ 转换后的时间戳为: ‘+unix+’<br>‘);</p>
-<p>var unix = 1353033300;<br>var datetime = unix_to_datetime(unix);<br>document.write(unix+’ 转换后的日期为: ‘+datetime);</p>
-<p><code>`</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">datetime_to_unix</span>(<span class="params">datetime</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> tmp_datetime = datetime.replace(<span class="regexp">/:/g</span>,<span class="string">'-'</span>);</span><br><span class="line">    tmp_datetime = tmp_datetime.replace(<span class="regexp">/ /g</span>,<span class="string">'-'</span>);</span><br><span class="line">    <span class="keyword">var</span> arr = tmp_datetime.split(<span class="string">"-"</span>);</span><br><span class="line">    <span class="keyword">var</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="built_in">Date</span>.UTC(arr[<span class="number">0</span>],arr[<span class="number">1</span>]<span class="number">-1</span>,arr[<span class="number">2</span>],arr[<span class="number">3</span>]<span class="number">-8</span>,arr[<span class="number">4</span>],arr[<span class="number">5</span>]));</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">parseInt</span>(now.getTime()/<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unix_to_datetime</span>(<span class="params">unix</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="built_in">parseInt</span>(unix) * <span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">return</span> now.toLocaleString().replace(<span class="regexp">/年|月/g</span>, <span class="string">"-"</span>).replace(<span class="regexp">/日/g</span>, <span class="string">" "</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> datetime = <span class="string">'2012-11-16 10:36:50'</span>;</span><br><span class="line"><span class="keyword">var</span> unix = datetime_to_unix(datetime);</span><br><span class="line"><span class="built_in">document</span>.write(datetime+<span class="string">' 转换后的时间戳为: '</span>+unix+<span class="string">'</span></span><br><span class="line"><span class="string">'</span>);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> unix = <span class="number">1353033300</span>;</span><br><span class="line"><span class="keyword">var</span> datetime = unix_to_datetime(unix);</span><br><span class="line"><span class="built_in">document</span>.write(unix+<span class="string">' 转换后的日期为: '</span>+datetime);</span><br></pre></td></tr></table></figure>
 <p>转载自：<a href="http://www.qttc.net/201211246.html" target="_blank" rel="noopener">http://www.qttc.net/201211246.html</a></p>
 
       
@@ -325,7 +256,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt; </span><br><span class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt; </span><br><span class="line">&lt;head&gt; </span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gbk&quot; /&gt; </span><br><span class="line">&lt;title&gt;Jquery实现倒计时效果&lt;/title&gt; </span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"> </span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt; </span><br><span class="line"> var SysSecond; </span><br><span class="line"> var InterValObj; </span><br><span class="line">  </span><br><span class="line"> $(document).ready(function() &#123; </span><br><span class="line">  SysSecond = parseInt($(&quot;#remainSeconds&quot;).html()); //这里获取倒计时的起始时间 </span><br><span class="line">  InterValObj = window.setInterval(SetRemainTime, 1000); //间隔函数，1秒执行 </span><br><span class="line"> &#125;); </span><br><span class="line"> </span><br><span class="line"> //将时间减去1秒，计算天、时、分、秒 </span><br><span class="line"> function SetRemainTime() &#123; </span><br><span class="line">  if (SysSecond &gt; 0) &#123; </span><br><span class="line">   SysSecond = SysSecond - 1; </span><br><span class="line">   var second = Math.floor(SysSecond % 60);             // 计算秒     </span><br><span class="line">   var minite = Math.floor((SysSecond / 60) % 60);      //计算分 </span><br><span class="line">   var hour = Math.floor((SysSecond / 3600) % 24);      //计算小时 </span><br><span class="line">   var day = Math.floor((SysSecond / 3600) / 24);        //计算天 </span><br><span class="line"> </span><br><span class="line">   $(&quot;#remainTime&quot;).html(day + &quot;天&quot; + hour + &quot;小时&quot; + minite + &quot;分&quot; + second + &quot;秒&quot;); </span><br><span class="line">  &#125; else &#123;//剩余时间小于或等于0的时候，就停止间隔函数 </span><br><span class="line">   window.clearInterval(InterValObj); </span><br><span class="line">   //这里可以添加倒计时时间为0后需要执行的事件 </span><br><span class="line">  &#125; </span><br><span class="line"> &#125; </span><br><span class="line">&lt;/script&gt; </span><br><span class="line"> </span><br><span class="line">&lt;/head&gt; </span><br><span class="line"> </span><br><span class="line">&lt;body&gt; </span><br><span class="line">     </span><br><span class="line">&lt;div id=&quot;remainSeconds&quot; style=&quot;display:none&quot;&gt;360000&lt;/div&gt; </span><br><span class="line">&lt;div id=&quot;remainTime&quot; style=&quot;font-size:20px;font-weight:800;color:#FF9900&quot;&gt;&lt;/div&gt; </span><br><span class="line"> </span><br><span class="line">&lt;/body&gt; </span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+        <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1999/xhtml"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=gbk"</span> /&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>Jquery实现倒计时效果<span class="tag">&lt;/<span class="name">title</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"> </span></span><br><span class="line"><span class="javascript"> <span class="keyword">var</span> SysSecond; </span></span><br><span class="line"><span class="javascript"> <span class="keyword">var</span> InterValObj; </span></span><br><span class="line"><span class="undefined">  </span></span><br><span class="line"><span class="javascript"> $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span></span><br><span class="line"><span class="javascript">  SysSecond = <span class="built_in">parseInt</span>($(<span class="string">"#remainSeconds"</span>).html()); <span class="comment">//这里获取倒计时的起始时间 </span></span></span><br><span class="line"><span class="javascript">  InterValObj = <span class="built_in">window</span>.setInterval(SetRemainTime, <span class="number">1000</span>); <span class="comment">//间隔函数，1秒执行 </span></span></span><br><span class="line"><span class="undefined"> &#125;); </span></span><br><span class="line"><span class="undefined"> </span></span><br><span class="line"><span class="javascript"> <span class="comment">//将时间减去1秒，计算天、时、分、秒 </span></span></span><br><span class="line"><span class="javascript"> <span class="function"><span class="keyword">function</span> <span class="title">SetRemainTime</span>(<span class="params"></span>) </span>&#123; </span></span><br><span class="line"><span class="javascript">  <span class="keyword">if</span> (SysSecond &gt; <span class="number">0</span>) &#123; </span></span><br><span class="line"><span class="undefined">   SysSecond = SysSecond - 1; </span></span><br><span class="line"><span class="javascript">   <span class="keyword">var</span> second = <span class="built_in">Math</span>.floor(SysSecond % <span class="number">60</span>);             <span class="comment">// 计算秒     </span></span></span><br><span class="line"><span class="javascript">   <span class="keyword">var</span> minite = <span class="built_in">Math</span>.floor((SysSecond / <span class="number">60</span>) % <span class="number">60</span>);      <span class="comment">//计算分 </span></span></span><br><span class="line"><span class="javascript">   <span class="keyword">var</span> hour = <span class="built_in">Math</span>.floor((SysSecond / <span class="number">3600</span>) % <span class="number">24</span>);      <span class="comment">//计算小时 </span></span></span><br><span class="line"><span class="javascript">   <span class="keyword">var</span> day = <span class="built_in">Math</span>.floor((SysSecond / <span class="number">3600</span>) / <span class="number">24</span>);        <span class="comment">//计算天 </span></span></span><br><span class="line"><span class="undefined"> </span></span><br><span class="line"><span class="javascript">   $(<span class="string">"#remainTime"</span>).html(day + <span class="string">"天"</span> + hour + <span class="string">"小时"</span> + minite + <span class="string">"分"</span> + second + <span class="string">"秒"</span>); </span></span><br><span class="line"><span class="javascript">  &#125; <span class="keyword">else</span> &#123;<span class="comment">//剩余时间小于或等于0的时候，就停止间隔函数 </span></span></span><br><span class="line"><span class="javascript">   <span class="built_in">window</span>.clearInterval(InterValObj); </span></span><br><span class="line"><span class="javascript">   <span class="comment">//这里可以添加倒计时时间为0后需要执行的事件 </span></span></span><br><span class="line"><span class="undefined">  &#125; </span></span><br><span class="line"><span class="undefined"> &#125; </span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span> </span><br><span class="line">     </span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"remainSeconds"</span> <span class="attr">style</span>=<span class="string">"display:none"</span>&gt;</span>360000<span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"remainTime"</span> <span class="attr">style</span>=<span class="string">"font-size:20px;font-weight:800;color:#FF9900"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -507,12 +438,12 @@
     <div class="entry">
       
         <p>WordPress具有统计功能的插件着实不少，大部分功能都很强大，包括记录访客登录时间、次数、IP、访问页、点击率等等，有的号称比Google analytics还强大。可是如果只需要简单的功能，显示站点的文章数、评论数、浏览数、链接数等几项数据，在前台展示给访客看的话，WordPress自带的函数大体上能实现上述功能。</p>
-<p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;widget&quot;&gt;		</span><br><span class="line">    &lt;h3&gt;站点统计&lt;/h3&gt;</span><br><span class="line">    &lt;ul&gt;	</span><br><span class="line">	&lt;li&gt;文章总数：&lt;?php $count_posts = wp_count_posts(); echo $published_posts = $count_posts-&gt;publish;?&gt;&lt;/li&gt;</span><br><span class="line">	&lt;li&gt;评论总数：&lt;?php echo $wpdb-&gt;get_var(&quot;SELECT COUNT(*) FROM $wpdb-&gt;comments&quot;);?&gt;&lt;/li&gt;</span><br><span class="line">	&lt;li&gt;链接总数：&lt;?php $link = $wpdb-&gt;get_var(&quot;SELECT COUNT(*) FROM $wpdb-&gt;links WHERE link_visible = &apos;Y&apos;&quot;); echo $link; ?&gt;&lt;/li&gt;</span><br><span class="line">	&lt;li&gt;标签总数：&lt;?php echo $count_tags = wp_count_terms(&apos;post_tag&apos;); ?&gt;&lt;/li&gt;</span><br><span class="line">	&lt;li&gt;浏览总数：&lt;?php if(function_exists(&apos;the_views&apos;)) &#123; get_totalviews();&#125;?&gt;&lt;/li&gt;	</span><br><span class="line">    &lt;/ul&gt;		</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"widget"</span>&gt;</span>		</span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>站点统计<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span>	</span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span>&gt;</span>文章总数：<span class="php"><span class="meta">&lt;?php</span> $count_posts = wp_count_posts(); <span class="keyword">echo</span> $published_posts = $count_posts-&gt;publish;<span class="meta">?&gt;</span></span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span>&gt;</span>评论总数：<span class="php"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> $wpdb-&gt;get_var(<span class="string">"SELECT COUNT(*) FROM $wpdb-&gt;comments"</span>);<span class="meta">?&gt;</span></span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span>&gt;</span>链接总数：<span class="php"><span class="meta">&lt;?php</span> $link = $wpdb-&gt;get_var(<span class="string">"SELECT COUNT(*) FROM $wpdb-&gt;links WHERE link_visible = 'Y'"</span>); <span class="keyword">echo</span> $link; <span class="meta">?&gt;</span></span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span>&gt;</span>标签总数：<span class="php"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> $count_tags = wp_count_terms(<span class="string">'post_tag'</span>); <span class="meta">?&gt;</span></span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span>&gt;</span>浏览总数：<span class="php"><span class="meta">&lt;?php</span> <span class="keyword">if</span>(function_exists(<span class="string">'the_views'</span>)) &#123; get_totalviews();&#125;<span class="meta">?&gt;</span></span><span class="tag">&lt;/<span class="name">li</span>&gt;</span>	</span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span>		</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>这里的“浏览总数”使用的是WP-PostViews Plus的统计所有浏览量的函数get_totalviews()（个人觉得这个函数可以当作网站计数器来使用），故而需要安装此插件，其他的函数皆为WordPress自带的函数。</p>
-<p>其他的WordPress相关函数还有：<br>草稿总数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php $count_posts = wp_count_posts(); echo $draft_posts = $count_posts-&gt;draft; ?&gt;</span><br></pre></td></tr></table></figure></p>
-<p>运行时间：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php echo floor((time()-strtotime(&quot;2012-12-12&quot;))/86400); ?&gt;</span><br></pre></td></tr></table></figure></p>
-<p>页面总数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php $count_pages = wp_count_posts(&apos;page&apos;); echo $page_posts = $count_pages-&gt;publish; ?&gt;</span><br></pre></td></tr></table></figure></p>
-<p>分类总数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php echo $count_categories = wp_count_terms(&apos;category&apos;); ?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>其他的WordPress相关函数还有：<br>草稿总数：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> $count_posts = wp_count_posts(); <span class="keyword">echo</span> $draft_posts = $count_posts-&gt;draft; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>运行时间：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> floor((time()-strtotime(<span class="string">"2012-12-12"</span>))/<span class="number">86400</span>); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>页面总数：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> $count_pages = wp_count_posts(<span class="string">'page'</span>); <span class="keyword">echo</span> $page_posts = $count_pages-&gt;publish; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>分类总数：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> $count_categories = wp_count_terms(<span class="string">'category'</span>); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>转载自：<a href="http://www.jingfeng.info/archives/279.html" target="_blank" rel="noopener">http://www.jingfeng.info/archives/279.html</a></p>
 
       
@@ -529,78 +460,6 @@
     <span class="post-categories">
       <i class="icon-categories"></i>
         <a href="/categories/建站相关/">建站相关</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/08/08/jQuery select操作控制方法小结/"><span>jQuery select操作控制方法小结</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/08/08/jQuery select操作控制方法小结/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-08-07T19:53:06.000Z">
-          2013-08-08
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>很多朋友对jquery select的操作很有兴趣，但网上的东西太多，所以脚本之家特别将Jquery Select操作方法整理下，方便大家查找。<br>需要注意的是，这里的代码好多是针对jquery 1.32以前的版本（以后的版本已经不支持@）,所以替换为空测试下即可。<br>jQuery获取Select选择的Text和Value:<br>语法解释： </p>
-<ol>
-<li>$(“#select_id”).change(function(){//code…}); //为Select添加事件，当选择其中一项时触发 </li>
-<li>var checkText=$(“#select_id”).find(“option:selected”).text(); //获取Select选择的Text </li>
-<li>var checkValue=$(“#select_id”).val(); //获取Select选择的Value </li>
-<li>var checkIndex=$(“#select_id “).get(0).selectedIndex; //获取Select选择的索引值 </li>
-<li>var maxIndex=$(“#select_id option:last”).attr(“index”); //获取Select最大的索引值<br>jQuery设置Select选择的Text和Value:<br>语法解释： </li>
-<li>$(“#select_id “).get(0).selectedIndex=1; //设置Select索引值为1的项选中 </li>
-<li>$(“#select_id “).val(4); //设置Select的Value值为4的项选中 </li>
-<li>$(“#select_id option[text language=”jQuery”][/text]”).attr(“selected”, true); //设置Select的Text值为jQuery的项选中<br>jQuery添加/删除Select的Option项：<br>语法解释： </li>
-<li>$(“#select_id”).append(“Text”); //为Select追加一个Option(下拉项) </li>
-<li>$(“#select_id”).prepend(“请选择”); //为Select插入一个Option(第一个位置) </li>
-<li>$(“#select_id option:last”).remove(); //删除Select中索引值最大Option(最后一个) </li>
-<li>$(“#select_id option[index=’0’]”).remove(); //删除Select中索引值为0的Option(第一个) </li>
-<li>$(“#select_id option[value=’3’]”).remove(); //删除Select中Value=’3’的Option </li>
-<li>$(“#select_id option[text language=”4”][/text]”).remove(); //删除Select中Text=’4’的Option<br>//遍历option和添加、移除option<br>function changeShipMethod(shipping){<br>var len = $(“select[@name=ISHIPTYPE] option”).length<br>if(shipping.value != “CA”){<br>$(“select[@name=ISHIPTYPE] option”).each(function(){<br>if($(this).val() == 111){<br>$(this).remove();<br>}<br>});<br>}else{<br>$(“UPS Ground”).appendTo($(“select[@name=ISHIPTYPE]”));<br>}<br>}<br>//取得下拉选单的选取值<br>$(#testSelect option:selected’).text();<br>或$(“#testSelect”).find(‘option:selected’).text();<br>或$(“#testSelect”).val();<br>//////////////////////////////////////////////////////////////////<br>记性不好的可以收藏下：<br>1,下拉框:<br>var cc1 = $(“.formc select[@name=’country’] option[@selected]”).text(); //得到下拉菜单的选中项的文本(注意中间有空格)<br>var cc2 = $(‘.formc select[@name=”country”]’).val(); //得到下拉菜单的选中项的值<br>var cc3 = $(‘.formc select[@name=”country”]’).attr(“id”); //得到下拉菜单的选中项的ID属性值<br>$(“#select”).empty();//清空下拉框//$(“#select”).html(‘’);<br>$(“1111”).appendTo(“#select”)//添加下拉框的option<br>稍微解释一下:<br>1.select[@name=’country’] option[@selected] 表示具有name 属性，<br>并且该属性值为’country’ 的select元素 里面的具有selected 属性的option 元素；<br>可以看出有@开头的就表示后面跟的是属性。<br>2,单选框:<br>$(“input[@type=radio][@checked]”).val(); //得到单选框的选中项的值(注意中间没有空格)<br>$(“input[@type=radio][@value=2]”).attr(“checked”,’checked’); //设置单选框value=2的为选中状态.(注意中间没有空格)<br>3,复选框:<br>$(“input[@type=checkbox][@checked]”).val(); //得到复选框的选中的第一项的值<br>$(“input[@type=checkbox][@checked]”).each(function(){ //由于复选框一般选中的是多个,所以可以循环输出<br>alert($(this).val());<br>});<br>$(“#chk1”).attr(“checked”,’’);//不打勾<br>$(“#chk2”).attr(“checked”,true);//打勾<br>if($(“#chk1”).attr(‘checked’)==undefined){} //判断是否已经打勾<br>当然jquery的选择器是强大的. 还有很多方法. </li>
-</ol>
-<p>aaass </p>
-<p>11<br>22<br>33<br>44<br>55<br>66 </p>
-<p>jquery radio取值，checkbox取值，select取值，radio选中，checkbox选中，select选中，及其相关获取一组radio被选中项的值<br>var item = $(‘input[@name=items][@checked]’).val();<br>获取select被选中项的文本<br>var item = $(“select[@name=items] option[@selected]”).text();<br>select下拉框的第二个元素为当前选中值<br>$(‘#select_id’)[0].selectedIndex = 1;<br>radio单选组的第二个元素为当前选中值<br>$(‘input[@name=items]’).get(1).checked = true;<br>获取值：<br>文本框，文本区域：$(“#txt”).attr(“value”)；<br>多选框checkbox：$(“#checkbox_id”).attr(“value”)；<br>单选组radio： $(“input[@type=radio][@checked]”).val();<br>下拉框select： $(‘#sel’).val();<br>控制表单元素：<br>文本框，文本区域：$(“#txt”).attr(“value”,’’);//清空内容<br>$(“#txt”).attr(“value”,’11’);//填充内容<br>多选框checkbox： $(“#chk1”).attr(“checked”,’’);//不打勾<br>$(“#chk2”).attr(“checked”,true);//打勾<br>if($(“#chk1”).attr(‘checked’)==undefined) //判断是否已经打勾<br>单选组radio： $(“input[@type=radio]”).attr(“checked”,’2’);//设置value=2的项目为当前选中项<br>下拉框select： $(“#sel”).attr(“value”,’-sel3’);//设置value=-sel3的项目为当前选中项<br>$(“&lt;optionvalue=’1’&gt;1111&lt;optionvalue=’2’&gt; 2222”).appendTo(“#sel”)//添加下拉框的option<br>$(“#sel”).empty()；//清空下拉框<br>获取一组radio被选中项的值<br>var item = $(‘input[@name=items][@checked]’).val();<br>获取select被选中项的文本<br>var item = $(“select[@name=items] option[@selected]”).text();<br>select下拉框的第二个元素为当前选中值<br>$(‘#select_id’)[0].selectedIndex = 1;<br>radio单选组的第二个元素为当前选中值<br>$(‘input[@name=items]’).get(1).checked = true;<br>获取值：<br>文本框，文本区域：$(“#txt”).attr(“value”)；<br>多选框checkbox：$(“#checkbox_id”).attr(“value”)；<br>单选组radio： $(“input[@type=radio][@checked]”).val();<br>下拉框select： $(‘#sel’).val();<br>控制表单元素：<br>文本框，文本区域：$(“#txt”).attr(“value”,’’);//清空内容<br>$(“#txt”).attr(“value”,’11’);//填充内容<br>多选框checkbox： $(“#chk1”).attr(“checked”,’’);//不打勾<br>$(“#chk2”).attr(“checked”,true);//打勾<br>if($(“#chk1”).attr(‘checked’)==undefined) //判断是否已经打勾<br>单选组radio： $(“input[@type=radio]”).attr(“checked”,’2’);//设置value=2的项目为当前选中项<br>下拉框select： $(“#sel”).attr(“value”,’-sel3’);//设置value=-sel3的项目为当前选中项<br>$(“11112222”).appendTo(“#sel”)//添加下拉框的option<br>$(“#sel”).empty()；//清空下拉框</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
     </span>
     
 
@@ -639,13 +498,13 @@
     <div class="entry">
       
         <p>相信现在用 VPS 的个人真的不少，对于许多人来说 LNMP 和 AMH 算是最好不过的环境了<br><a href="/uploads/201307/20130728180444699.png"><img src="/uploads/201307/20130728180444699.png" alt="20130728180444699"></a><br>关于 Tengine 的话介绍就不必多说，这个是阿里（某宝）的一项开源 Web 服务器项目。针对大访问量的网站和性能都有比较好的优化，当然、这是基于 Nginx 的！</p>
-<p>一、安装/编译，这个方法适合军哥的 LNMP 和 AMH，不多说、给你一坨代码执行即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://tengine.taobao.org/download/tengine-1.4.6.tar.gz &amp;&amp; tar zxvf tengine-1.4.6.tar.gz &amp;&amp; cd tengine-1.4.6/ &amp;&amp; ./configure &amp;&amp; make &amp;&amp; mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.old &amp;&amp; cp -r objs/nginx /usr/local/nginx/sbin/nginx &amp;&amp; vi /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure></p>
+<p>一、安装/编译，这个方法适合军哥的 LNMP 和 AMH，不多说、给你一坨代码执行即可：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://tengine.taobao.org/download/tengine-1.4.6.tar.gz &amp;&amp; tar zxvf tengine-1.4.6.tar.gz &amp;&amp; cd tengine-1.4.6/ &amp;&amp; ./configure &amp;&amp; make &amp;&amp; mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.old &amp;&amp; cp -r objs/nginx /usr/local/nginx/sbin/nginx &amp;&amp; vi /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure></p>
 <p>二、删除配置，上面后面会有专门讲解，你在这段代码过后就会进入编辑器、输入“ i ”，找出如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location /status &#123;</span><br><span class="line">	stub_status on;</span><br><span class="line">	access_log   off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>三、查看状态，找到上面代码之后果断删除，找不到就看看 Nginx 是否正常：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -t</span><br></pre></td></tr></table></figure></p>
+<p>三、查看状态，找到上面代码之后果断删除，找不到就看看 Nginx 是否正常：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -t</span><br></pre></td></tr></table></figure></p>
 <p>如果有“ Successful ”结尾那就是没问题，最后收尾就好了！</p>
-<p>收尾工作：停止 Nginx 并重启然后查看目前版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -USR2 `cat /usr/local/nginx/logs/nginx.pid` &amp;&amp; kill -QUIT `cat /usr/local/nginx/logs/nginx.pid.oldbin` &amp;&amp; /etc/init.d/nginx restart &amp;&amp; /usr/local/nginx/sbin/nginx -v</span><br></pre></td></tr></table></figure></p>
+<p>收尾工作：停止 Nginx 并重启然后查看目前版本：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -USR2 `cat /usr/local/nginx/logs/nginx.pid` &amp;&amp; kill -QUIT `cat /usr/local/nginx/logs/nginx.pid.oldbin` &amp;&amp; /etc/init.d/nginx restart &amp;&amp; /usr/local/nginx/sbin/nginx -v</span><br></pre></td></tr></table></figure></p>
 <p>如果你看到了 Tengine/1.4.6 的话那就是成功升级了！<br><a href="/uploads/201307/20130728180559502.jpg"><img src="/uploads/201307/20130728180559502.jpg" alt="20130728180559502"></a><br>如果没问题、就可以开始正常使用了！</p>
-<p>上面的代码详细讲解：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://tengine.taobao.org/download/tengine-1.4.6.tar.gz #获取压缩包</span><br><span class="line">tar zxvf tengine-1.4.6.tar.gz                                   #解压</span><br><span class="line">cd tengine-1.4.6/                                               #进入目录</span><br><span class="line">./configure                                                     #执行安装脚本</span><br><span class="line">make                                                            #编译</span><br><span class="line">mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.old  #备份配置</span><br><span class="line">cp -r objs/nginx /usr/local/nginx/sbin/nginx                    #复制配置粘贴</span><br><span class="line">vi /usr/local/nginx/conf/nginx.conf                             #配置 Nginx</span><br><span class="line">/usr/local/nginx/sbin/nginx -t                                  #查看状态</span><br><span class="line">kill -USR2 `cat /usr/local/nginx/logs/nginx.pid`                #杀进程</span><br><span class="line">kill -QUIT `cat /usr/local/nginx/logs/nginx.pid.oldbin`         #杀进程</span><br><span class="line">/etc/init.d/nginx restart                                       #重启Nginx</span><br><span class="line">/usr/local/nginx/sbin/nginx -v                                  #查看Nginx版本</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码详细讲解：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://tengine.taobao.org/download/tengine-1.4.6.tar.gz #获取压缩包</span><br><span class="line">tar zxvf tengine-1.4.6.tar.gz                                   #解压</span><br><span class="line">cd tengine-1.4.6/                                               #进入目录</span><br><span class="line">./configure                                                     #执行安装脚本</span><br><span class="line">make                                                            #编译</span><br><span class="line">mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.old  #备份配置</span><br><span class="line">cp -r objs/nginx /usr/local/nginx/sbin/nginx                    #复制配置粘贴</span><br><span class="line">vi /usr/local/nginx/conf/nginx.conf                             #配置 Nginx</span><br><span class="line">/usr/local/nginx/sbin/nginx -t                                  #查看状态</span><br><span class="line">kill -USR2 `cat /usr/local/nginx/logs/nginx.pid`                #杀进程</span><br><span class="line">kill -QUIT `cat /usr/local/nginx/logs/nginx.pid.oldbin`         #杀进程</span><br><span class="line">/etc/init.d/nginx restart                                       #重启Nginx</span><br><span class="line">/usr/local/nginx/sbin/nginx -v                                  #查看Nginx版本</span><br></pre></td></tr></table></figure></p>
 <p>我就不上那么多图了，看起来命令很多、事实上一下就执行完了！</p>
 <p>转载自：<a href="http://www.zntec.cn/archives/nginx-change-tengine.html" target="_blank" rel="noopener">http://www.zntec.cn/archives/nginx-change-tengine.html</a></p>
 
@@ -716,6 +575,138 @@
     <span class="post-categories">
       <i class="icon-categories"></i>
         <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/08/06/Linux常用命令大全/"><span>Linux常用命令大全</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/08/06/Linux常用命令大全/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-08-05T19:47:00.000Z">
+          2013-08-06
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>系统信息<br>arch 显示机器的处理器架构(1)<br>uname -m 显示机器的处理器架构(2)<br>uname -r 显示正在使用的内核版本<br>dmidecode -q 显示硬件系统部件 - (SMBIOS / DMI)<br>hdparm -i /dev/hda 罗列一个磁盘的架构特性<br>hdparm -tT /dev/sda 在磁盘上执行测试性读取操作<br>cat /proc/cpuinfo 显示CPU info的信息<br>cat /proc/interrupts 显示中断<br>cat /proc/meminfo 校验内存使用<br>cat /proc/swaps 显示哪些swap被使用<br>cat /proc/version 显示内核的版本<br>cat /proc/net/dev 显示网络适配器及统计<br>cat /proc/mounts 显示已加载的文件系统<br>lspci -tv 罗列 PCI 设备<br>lsusb -tv 显示 USB 设备<br>date 显示系统日期<br>cal 2007 显示2007年的日历表<br>date 041217002007.00 设置日期和时间 - 月日时分年.秒<br>clock -w 将时间修改保存到 BIOS</p>
+<p>关机 (系统的关机、重启以及登出 )<br>shutdown -h now 关闭系统(1)<br>init 0 关闭系统(2)<br>telinit 0 关闭系统(3)<br>shutdown -h hours:minutes &amp; 按预定时间关闭系统<br>shutdown -c 取消按预定时间关闭系统<br>shutdown -r now 重启(1)<br>reboot 重启(2)<br>logout 注销</p>
+<p>文件和目录<br>cd /home 进入 ‘/ home’ 目录’<br>cd .. 返回上一级目录<br>cd ../.. 返回上两级目录<br>cd 进入个人的主目录<br>cd ~user1 进入个人的主目录<br>cd - 返回上次所在的目录<br>pwd 显示工作路径<br>ls 查看目录中的文件<br>ls -F 查看目录中的文件<br>ls -l 显示文件和目录的详细资料<br>ls -a 显示隐藏文件<br>ls <em>[0-9]</em> 显示包含数字的文件名和目录名<br>tree 显示文件和目录由根目录开始的树形结构(1)<br>lstree 显示文件和目录由根目录开始的树形结构(2)<br>mkdir dir1 创建一个叫做 ‘dir1’ 的目录’<br>mkdir dir1 dir2 同时创建两个目录<br>mkdir -p /tmp/dir1/dir2 创建一个目录树<br>rm -f file1 删除一个叫做 ‘file1’ 的文件’<br>rmdir dir1 删除一个叫做 ‘dir1’ 的目录’<br>rm -rf dir1 删除一个叫做 ‘dir1’ 的目录并同时删除其内容<br>rm -rf dir1 dir2 同时删除两个目录及它们的内容<br>mv dir1 new_dir 重命名/移动 一个目录<br>cp file1 file2 复制一个文件<br>cp dir/<em> . 复制一个目录下的所有文件到当前工作目录<br>cp -a /tmp/dir1 . 复制一个目录到当前工作目录<br>cp -a dir1 dir2 复制一个目录<br>ln -s file1 lnk1 创建一个指向文件或目录的软链接<br>ln file1 lnk1 创建一个指向文件或目录的物理链接<br>touch -t 0712250000 file1 修改一个文件或目录的时间戳 - (YYMMDDhhmm)<br>file file1 outputs the mime type of the file as text<br>iconv -l 列出已知的编码<br>iconv -f fromEncoding -t toEncoding inputFile &gt; outputFile creates a new from the given input file by assuming it is encoded in fromEncoding and converting it to toEncoding.<br>find . -maxdepth 1 -name </em>.jpg -print -exec convert “{}” -resize 80x60 “thumbs/{}” \; batch resize files in the current directory and send them to a thumbnails directory (requires convert from Imagemagick)</p>
+<p>文件搜索<br>find / -name file1 从 ‘/‘ 开始进入根文件系统搜索文件和目录<br>find / -user user1 搜索属于用户 ‘user1’ 的文件和目录<br>find /home/user1 -name *.bin 在目录 ‘/ home/user1’ 中搜索带有’.bin’ 结尾的文件<br>find /usr/bin -type f -atime +100 搜索在过去100天内未被使用过的执行文件<br>find /usr/bin -type f -mtime -10 搜索在10天内被创建或者修改过的文件<br>find / -name *.rpm -exec chmod 755 ‘{}’ \; 搜索以 ‘.rpm’ 结尾的文件并定义其权限<br>find / -xdev -name *.rpm 搜索以 ‘.rpm’ 结尾的文件，忽略光驱、捷盘等可移动设备<br>locate *.ps 寻找以 ‘.ps’ 结尾的文件 - 先运行 ‘updatedb’ 命令<br>whereis halt 显示一个二进制文件、源码或man的位置<br>which halt 显示一个二进制文件或可执行文件的完整路径</p>
+<p>挂载一个文件系统<br>mount /dev/hda2 /mnt/hda2 挂载一个叫做hda2的盘 - 确定目录 ‘/ mnt/hda2’ 已经存在<br>umount /dev/hda2 卸载一个叫做hda2的盘 - 先从挂载点 ‘/ mnt/hda2’ 退出<br>fuser -km /mnt/hda2 当设备繁忙时强制卸载<br>umount -n /mnt/hda2 运行卸载操作而不写入 /etc/mtab 文件- 当文件为只读或当磁盘写满时非常有用<br>mount /dev/fd0 /mnt/floppy 挂载一个软盘<br>mount /dev/cdrom /mnt/cdrom 挂载一个cdrom或dvdrom<br>mount /dev/hdc /mnt/cdrecorder 挂载一个cdrw或dvdrom<br>mount /dev/hdb /mnt/cdrecorder 挂载一个cdrw或dvdrom<br>mount -o loop file.iso /mnt/cdrom 挂载一个文件或ISO镜像文件<br>mount -t vfat /dev/hda5 /mnt/hda5 挂载一个Windows FAT32文件系统<br>mount /dev/sda1 /mnt/usbdisk 挂载一个usb 捷盘或闪存设备<br>mount -t smbfs -o username=user,password=pass //WinClient/share /mnt/share 挂载一个windows网络共享</p>
+<p>磁盘空间<br>df -h 显示已经挂载的分区列表<br>ls -lSr |more 以尺寸大小排列文件和目录<br>du -sh dir1 估算目录 ‘dir1’ 已经使用的磁盘空间’<br>du -sk * | sort -rn 以容量大小为依据依次显示文件和目录的大小<br>rpm -q -a –qf ‘%10{SIZE}t%{NAME}n’ | sort -k1,1n 以大小为依据依次显示已安装的rpm包所使用的空间 (fedora, redhat类系统)<br>dpkg-query -W -f=’${Installed-Size;10}t${Package}n’ | sort -k1,1n 以大小为依据显示已安装的deb包所使用的空间 (ubuntu, debian类系统)</p>
+<p>用户和群组<br>groupadd group_name 创建一个新用户组<br>groupdel group_name 删除一个用户组<br>groupmod -n new_group_name old_group_name 重命名一个用户组<br>useradd -c “Name Surname “ -g admin -d /home/user1 -s /bin/bash user1 创建一个属于 “admin” 用户组的用户<br>useradd user1 创建一个新用户<br>userdel -r user1 删除一个用户 ( ‘-r’ 排除主目录)<br>usermod -c “User FTP” -g system -d /ftp/user1 -s /bin/nologin user1 修改用户属性<br>passwd 修改口令<br>passwd user1 修改一个用户的口令 (只允许root执行)<br>chage -E 2005-12-31 user1 设置用户口令的失效期限<br>pwck 检查 ‘/etc/passwd’ 的文件格式和语法修正以及存在的用户<br>grpck 检查 ‘/etc/passwd’ 的文件格式和语法修正以及存在的群组<br>newgrp group_name 登陆进一个新的群组以改变新创建文件的预设群组</p>
+<p>文件的权限 - 使用 “+” 设置权限，使用 “-“ 用于取消<br>ls -lh 显示权限<br>ls /tmp | pr -T5 -W$COLUMNS 将终端划分成5栏显示<br>chmod ugo+rwx directory1 设置目录的所有人(u)、群组(g)以及其他人(o)以读（r ）、写(w)和执行(x)的权限<br>chmod go-rwx directory1 删除群组(g)与其他人(o)对目录的读写执行权限<br>chown user1 file1 改变一个文件的所有人属性<br>chown -R user1 directory1 改变一个目录的所有人属性并同时改变改目录下所有文件的属性<br>chgrp group1 file1 改变文件的群组<br>chown user1:group1 file1 改变一个文件的所有人和群组属性<br>find / -perm -u+s 罗列一个系统中所有使用了SUID控制的文件<br>chmod u+s /bin/file1 设置一个二进制文件的 SUID 位 - 运行该文件的用户也被赋予和所有者同样的权限<br>chmod u-s /bin/file1 禁用一个二进制文件的 SUID位<br>chmod g+s /home/public 设置一个目录的SGID 位 - 类似SUID ，不过这是针对目录的<br>chmod g-s /home/public 禁用一个目录的 SGID 位<br>chmod o+t /home/public 设置一个文件的 STIKY 位 - 只允许合法所有人删除文件<br>chmod o-t /home/public 禁用一个目录的 STIKY 位</p>
+<p>文件的特殊属性 - 使用 “+” 设置权限，使用 “-“ 用于取消<br>chattr +a file1 只允许以追加方式读写文件<br>chattr +c file1 允许这个文件能被内核自动压缩/解压<br>chattr +d file1 在进行文件系统备份时，dump程序将忽略这个文件<br>chattr +i file1 设置成不可变的文件，不能被删除、修改、重命名或者链接<br>chattr +s file1 允许一个文件被安全地删除<br>chattr +S file1 一旦应用程序对这个文件执行了写操作，使系统立刻把修改的结果写到磁盘<br>chattr +u file1 若文件被删除，系统会允许你在以后恢复这个被删除的文件<br>lsattr 显示特殊的属性</p>
+<p>打包和压缩文件<br>bunzip2 file1.bz2 解压一个叫做 ‘file1.bz2’的文件<br>bzip2 file1 压缩一个叫做 ‘file1’ 的文件<br>gunzip file1.gz 解压一个叫做 ‘file1.gz’的文件<br>gzip file1 压缩一个叫做 ‘file1’的文件<br>gzip -9 file1 最大程度压缩<br>rar a file1.rar test_file 创建一个叫做 ‘file1.rar’ 的包<br>rar a file1.rar file1 file2 dir1 同时压缩 ‘file1’, ‘file2’ 以及目录 ‘dir1’<br>rar x file1.rar 解压rar包<br>unrar x file1.rar 解压rar包<br>tar -cvf archive.tar file1 创建一个非压缩的 tarball<br>tar -cvf archive.tar file1 file2 dir1 创建一个包含了 ‘file1’, ‘file2’ 以及 ‘dir1’的档案文件<br>tar -tf archive.tar 显示一个包中的内容<br>tar -xvf archive.tar 释放一个包<br>tar -xvf archive.tar -C /tmp 将压缩包释放到 /tmp目录下<br>tar -cvfj archive.tar.bz2 dir1 创建一个bzip2格式的压缩包<br>tar -xvfj archive.tar.bz2 解压一个bzip2格式的压缩包<br>tar -cvfz archive.tar.gz dir1 创建一个gzip格式的压缩包<br>tar -xvfz archive.tar.gz 解压一个gzip格式的压缩包<br>zip file1.zip file1 创建一个zip格式的压缩包<br>zip -r file1.zip file1 file2 dir1 将几个文件和目录同时压缩成一个zip格式的压缩包<br>unzip file1.zip 解压一个zip格式压缩包</p>
+<p>RPM 包 - （Fedora, Redhat及类似系统）<br>rpm -ivh package.rpm 安装一个rpm包<br>rpm -ivh –nodeeps package.rpm 安装一个rpm包而忽略依赖关系警告<br>rpm -U package.rpm 更新一个rpm包但不改变其配置文件<br>rpm -F package.rpm 更新一个确定已经安装的rpm包<br>rpm -e package_name.rpm 删除一个rpm包<br>rpm -qa 显示系统中所有已经安装的rpm包<br>rpm -qa | grep httpd 显示所有名称中包含 “httpd” 字样的rpm包<br>rpm -qi package_name 获取一个已安装包的特殊信息<br>rpm -qg “System Environment/Daemons” 显示一个组件的rpm包<br>rpm -ql package_name 显示一个已经安装的rpm包提供的文件列表<br>rpm -qc package_name 显示一个已经安装的rpm包提供的配置文件列表<br>rpm -q package_name –whatrequires 显示与一个rpm包存在依赖关系的列表<br>rpm -q package_name –whatprovides 显示一个rpm包所占的体积<br>rpm -q package_name –scripts 显示在安装/删除期间所执行的脚本l<br>rpm -q package_name –changelog 显示一个rpm包的修改历史<br>rpm -qf /etc/httpd/conf/httpd.conf 确认所给的文件由哪个rpm包所提供<br>rpm -qp package.rpm -l 显示由一个尚未安装的rpm包提供的文件列表<br>rpm –import /media/cdrom/RPM-GPG-KEY 导入公钥数字证书<br>rpm –checksig package.rpm 确认一个rpm包的完整性<br>rpm -qa gpg-pubkey 确认已安装的所有rpm包的完整性<br>rpm -V package_name 检查文件尺寸、 许可、类型、所有者、群组、MD5检查以及最后修改时间<br>rpm -Va 检查系统中所有已安装的rpm包- 小心使用<br>rpm -Vp package.rpm 确认一个rpm包还未安装<br>rpm2cpio package.rpm | cpio –extract –make-directories <em>bin</em> 从一个rpm包运行可执行文件<br>rpm -ivh /usr/src/redhat/RPMS/<code>arch</code>/package.rpm 从一个rpm源码安装一个构建好的包<br>rpmbuild –rebuild package_name.src.rpm 从一个rpm源码构建一个 rpm 包</p>
+<p>YUM 软件包升级器 - （Fedora, RedHat及类似系统）<br>yum install package_name 下载并安装一个rpm包<br>yum localinstall package_name.rpm 将安装一个rpm包，使用你自己的软件仓库为你解决所有依赖关系<br>yum update package_name.rpm 更新当前系统中所有安装的rpm包<br>yum update package_name 更新一个rpm包<br>yum remove package_name 删除一个rpm包<br>yum list 列出当前系统中安装的所有包<br>yum search package_name 在rpm仓库中搜寻软件包<br>yum clean packages 清理rpm缓存删除下载的包<br>yum clean headers 删除所有头文件<br>yum clean all 删除所有缓存的包和头文件</p>
+<p>DEB 包 (Debian, Ubuntu 以及类似系统)<br>dpkg -i package.deb 安装/更新一个 deb 包<br>dpkg -r package_name 从系统删除一个 deb 包<br>dpkg -l 显示系统中所有已经安装的 deb 包<br>dpkg -l | grep httpd 显示所有名称中包含 “httpd” 字样的deb包<br>dpkg -s package_name 获得已经安装在系统中一个特殊包的信息<br>dpkg -L package_name 显示系统中已经安装的一个deb包所提供的文件列表<br>dpkg –contents package.deb 显示尚未安装的一个包所提供的文件列表<br>dpkg -S /bin/ping 确认所给的文件由哪个deb包提供<br>APT 软件工具 (Debian, Ubuntu 以及类似系统)<br>apt-get install package_name 安装/更新一个 deb 包<br>apt-cdrom install package_name 从光盘安装/更新一个 deb 包<br>apt-get update 升级列表中的软件包<br>apt-get upgrade 升级所有已安装的软件<br>apt-get remove package_name 从系统删除一个deb包<br>apt-get check 确认依赖的软件仓库正确<br>apt-get clean 从下载的软件包中清理缓存<br>apt-cache search searched-package 返回包含所要搜索字符串的软件包名称</p>
+<p>查看文件内容<br>cat file1 从第一个字节开始正向查看文件的内容<br>tac file1 从最后一行开始反向查看一个文件的内容<br>more file1 查看一个长文件的内容<br>less file1 类似于 ‘more’ 命令，但是它允许在文件中和正向操作一样的反向操作<br>head -2 file1 查看一个文件的前两行<br>tail -2 file1 查看一个文件的最后两行<br>tail -f /var/log/messages 实时查看被添加到一个文件中的内容</p>
+<p>文本处理<br>cat file1 file2 … | command &lt;&gt; file1_in.txt_or_file1_out.txt general syntax for text manipulation using PIPE, STDIN and STDOUT<br>cat file1 | command( sed, grep, awk, grep, etc…) &gt; result.txt 合并一个文件的详细说明文本，并将简介写入一个新文件中<br>cat file1 | command( sed, grep, awk, grep, etc…) &gt;&gt; result.txt 合并一个文件的详细说明文本，并将简介写入一个已有的文件中<br>grep Aug /var/log/messages 在文件 ‘/var/log/messages’中查找关键词”Aug”<br>grep ^Aug /var/log/messages 在文件 ‘/var/log/messages’中查找以”Aug”开始的词汇<br>grep [0-9] /var/log/messages 选择 ‘/var/log/messages’ 文件中所有包含数字的行<br>grep Aug -R /var/log/<em> 在目录 ‘/var/log’ 及随后的目录中搜索字符串”Aug”<br>sed ‘s/stringa1/stringa2/g’ example.txt 将example.txt文件中的 “string1” 替换成 “string2”<br>sed ‘/^$/d’ example.txt 从example.txt文件中删除所有空白行<br>sed ‘/ </em>#/d; /^$/d’ example.txt 从example.txt文件中删除所有注释和空白行<br>echo ‘esempio’ | tr ‘[:lower:]’ ‘[:upper:]’ 合并上下单元格内容<br>sed -e ‘1d’ result.txt 从文件example.txt 中排除第一行<br>sed -n ‘/stringa1/p’ 查看只包含词汇 “string1”的行<br>sed -e ‘s/ <em>$//‘ example.txt 删除每一行最后的空白字符<br>sed -e ‘s/stringa1//g’ example.txt 从文档中只删除词汇 “string1” 并保留剩余全部<br>sed -n ‘1,5p;5q’ example.txt 查看从第一行到第5行内容<br>sed -n ‘5p;5q’ example.txt 查看第5行<br>sed -e ‘s/00</em>/0/g’ example.txt 用单个零替换多个零<br>cat -n file1 标示文件的行数<br>cat example.txt | awk ‘NR%2==1’ 删除example.txt文件中的所有偶数行<br>echo a b c | awk ‘{print $1}’ 查看一行第一栏<br>echo a b c | awk ‘{print $1,$3}’ 查看一行的第一和第三栏<br>paste file1 file2 合并两个文件或两栏的内容<br>paste -d ‘+’ file1 file2 合并两个文件或两栏的内容，中间用”+”区分<br>sort file1 file2 排序两个文件的内容<br>sort file1 file2 | uniq 取出两个文件的并集(重复的行只保留一份)<br>sort file1 file2 | uniq -u 删除交集，留下其他的行<br>sort file1 file2 | uniq -d 取出两个文件的交集(只留下同时存在于两个文件中的文件)<br>comm -1 file1 file2 比较两个文件的内容只删除 ‘file1’ 所包含的内容<br>comm -2 file1 file2 比较两个文件的内容只删除 ‘file2’ 所包含的内容<br>comm -3 file1 file2 比较两个文件的内容只删除两个文件共有的部分</p>
+<p>字符设置和文件格式转换<br>dos2unix filedos.txt fileunix.txt 将一个文本文件的格式从MSDOS转换成UNIX<br>unix2dos fileunix.txt filedos.txt 将一个文本文件的格式从UNIX转换成MSDOS<br>recode ..HTML &lt; page.txt &gt; page.html 将一个文本文件转换成html<br>recode -l | more 显示所有允许的转换格式</p>
+<p>文件系统分析<br>badblocks -v /dev/hda1 检查磁盘hda1上的坏磁块<br>fsck /dev/hda1 修复/检查hda1磁盘上linux文件系统的完整性<br>fsck.ext2 /dev/hda1 修复/检查hda1磁盘上ext2文件系统的完整性<br>e2fsck /dev/hda1 修复/检查hda1磁盘上ext2文件系统的完整性<br>e2fsck -j /dev/hda1 修复/检查hda1磁盘上ext3文件系统的完整性<br>fsck.ext3 /dev/hda1 修复/检查hda1磁盘上ext3文件系统的完整性<br>fsck.vfat /dev/hda1 修复/检查hda1磁盘上fat文件系统的完整性<br>fsck.msdos /dev/hda1 修复/检查hda1磁盘上dos文件系统的完整性<br>dosfsck /dev/hda1 修复/检查hda1磁盘上dos文件系统的完整性</p>
+<p>初始化一个文件系统<br>mkfs /dev/hda1 在hda1分区创建一个文件系统<br>mke2fs /dev/hda1 在hda1分区创建一个linux ext2的文件系统<br>mke2fs -j /dev/hda1 在hda1分区创建一个linux ext3(日志型)的文件系统<br>mkfs -t vfat 32 -F /dev/hda1 创建一个 FAT32 文件系统<br>fdformat -n /dev/fd0 格式化一个软盘<br>mkswap /dev/hda3 创建一个swap文件系统</p>
+<p>SWAP文件系统<br>mkswap /dev/hda3 创建一个swap文件系统<br>swapon /dev/hda3 启用一个新的swap文件系统<br>swapon /dev/hda2 /dev/hdb3 启用两个swap分区</p>
+<p>备份<br>dump -0aj -f /tmp/home0.bak /home 制作一个 ‘/home’ 目录的完整备份<br>dump -1aj -f /tmp/home0.bak /home 制作一个 ‘/home’ 目录的交互式备份<br>restore -if /tmp/home0.bak 还原一个交互式备份<br>rsync -rogpav –delete /home /tmp 同步两边的目录<br>rsync -rogpav -e ssh –delete /home ip_address:/tmp 通过SSH通道rsync<br>rsync -az -e ssh –delete ip_addr:/home/public /home/local 通过ssh和压缩将一个远程目录同步到本地目录<br>rsync -az -e ssh –delete /home/local ip_addr:/home/public 通过ssh和压缩将本地目录同步到远程目录<br>dd bs=1M if=/dev/hda | gzip | ssh user@ip_addr ‘dd of=hda.gz’ 通过ssh在远程主机上执行一次备份本地磁盘的操作<br>dd if=/dev/sda of=/tmp/file1 备份磁盘内容到一个文件<br>tar -Puf backup.tar /home/user 执行一次对 ‘/home/user’ 目录的交互式备份操作<br>( cd /tmp/local/ &amp;&amp; tar c . ) | ssh -C user@ip_addr ‘cd /home/share/ &amp;&amp; tar x -p’ 通过ssh在远程目录中复制一个目录内容<br>( tar c /home ) | ssh -C user@ip_addr ‘cd /home/backup-home &amp;&amp; tar x -p’ 通过ssh在远程目录中复制一个本地目录<br>tar cf - . | (cd /tmp/backup ; tar xf - ) 本地将一个目录复制到另一个地方，保留原有权限及链接<br>find /home/user1 -name ‘<em>.txt’ | xargs cp -av –target-directory=/home/backup/ –parents 从一个目录查找并复制所有以 ‘.txt’ 结尾的文件到另一个目录<br>find /var/log -name ‘</em>.log’ | tar cv –files-from=- | bzip2 &gt; log.tar.bz2 查找所有以 ‘.log’ 结尾的文件并做成一个bzip包<br>dd if=/dev/hda of=/dev/fd0 bs=512 count=1 做一个将 MBR (Master Boot Record)内容复制到软盘的动作<br>dd if=/dev/fd0 of=/dev/hda bs=512 count=1 从已经保存到软盘的备份中恢复MBR内容</p>
+<p>光盘<br>cdrecord -v gracetime=2 dev=/dev/cdrom -eject blank=fast -force 清空一个可复写的光盘内容<br>mkisofs /dev/cdrom &gt; cd.iso 在磁盘上创建一个光盘的iso镜像文件<br>mkisofs /dev/cdrom | gzip &gt; cd_iso.gz 在磁盘上创建一个压缩了的光盘iso镜像文件<br>mkisofs -J -allow-leading-dots -R -V “Label CD” -iso-level 4 -o ./cd.iso data_cd 创建一个目录的iso镜像文件<br>cdrecord -v dev=/dev/cdrom cd.iso 刻录一个ISO镜像文件<br>gzip -dc cd_iso.gz | cdrecord dev=/dev/cdrom - 刻录一个压缩了的ISO镜像文件<br>mount -o loop cd.iso /mnt/iso 挂载一个ISO镜像文件<br>cd-paranoia -B 从一个CD光盘转录音轨到 wav 文件中<br>cd-paranoia – “-3” 从一个CD光盘转录音轨到 wav 文件中（参数-3）<br>cdrecord –scanbus 扫描总线以识别scsi通道<br>dd if=/dev/hdc | md5sum 校验一个设备的md5sum编码，例如一张 CD</p>
+<p>网络 - （以太网和WIFI无线）<br>ifconfig eth0 显示一个以太网卡的配置<br>ifup eth0 启用一个 ‘eth0’ 网络设备<br>ifdown eth0 禁用一个 ‘eth0’ 网络设备<br>ifconfig eth0 192.168.1.1 netmask 255.255.255.0 控制IP地址<br>ifconfig eth0 promisc 设置 ‘eth0’ 成混杂模式以嗅探数据包 (sniffing)<br>dhclient eth0 以dhcp模式启用 ‘eth0’<br>route -n show routing table<br>route add -net 0/0 gw IP_Gateway configura default gateway<br>route add -net 192.168.0.0 netmask 255.255.0.0 gw 192.168.1.1 configure static route to reach network ‘192.168.0.0/16’<br>route del 0/0 gw IP_gateway remove static route<br>echo “1” &gt; /proc/sys/net/ipv4/ip_forward activate ip routing<br>hostname show hostname of system<br>host <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> lookup hostname to resolve name to ip address and viceversa(1)<br>nslookup <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> lookup hostname to resolve name to ip address and viceversa(2)<br>ip link show show link status of all interfaces<br>mii-tool eth0 show link status of ‘eth0’<br>ethtool eth0 show statistics of network card ‘eth0’<br>netstat -tup show all active network connections and their PID<br>netstat -tupl show all network services listening on the system and their PID<br>tcpdump tcp port 80 show all HTTP traffic<br>iwlist scan show wireless networks<br>iwconfig eth1 show configuration of a wireless network card<br>hostname show hostname<br>host <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> lookup hostname to resolve name to ip address and viceversa<br>nslookup <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> lookup hostname to resolve name to ip address and viceversa<br>whois <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> lookup on Whois database</p>
+<p>Microsoft Windows networks (SAMBA)<br>nbtscan ip_addr netbios name resolution<br>nmblookup -A ip_addr netbios name resolution<br>smbclient -L ip_addr/hostname show remote shares of a windows host<br>smbget -Rr smb://ip_addr/share like wget can download files from a host windows via smb<br>mount -t smbfs -o username=user,password=pass //WinClient/share /mnt/share mount a windows network share</p>
+<p>转载自：<a href="http://www.ovzxen.com/post-20.html" target="_blank" rel="noopener">http://www.ovzxen.com/post-20.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/08/05/nginx反向代理/"><span>nginx反向代理</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/08/05/nginx反向代理/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-08-04T20:28:14.000Z">
+          2013-08-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>1、安装Nginx<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc g++ vim libncurses5-dev make libxml2-dev</span><br><span class="line">yum -y install subversion</span><br><span class="line">yum -y install libpcre3 libpcre3-dev libcurl4-openssl-dev</span><br><span class="line">yum -y install pcre* zlib* openssl*</span><br><span class="line">wget -c  http://nginx.org/download/nginx-1.0.5.tar.gz</span><br><span class="line">tar -zxf nginx-1.0.5.tar.gz</span><br><span class="line">wget -c http://wiki.nginx.org/images/5/51/Nginx-accesskey-2.0.3.tar.gz</span><br><span class="line">tar -zxf Nginx-accesskey-2.0.3.tar.gz</span><br><span class="line">svn checkout http://substitutions4nginx.googlecode.com/svn/trunk/ substitutions4nginx-read-only</span><br><span class="line">curdir=$(pwd)</span><br><span class="line">cd nginx-1.0.5</span><br><span class="line">./configure --user=nobody --group=nobody  --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --pid-path=/var/run/nginx.pid  --conf-path=/etc/nginx/nginx.conf   --with-http_stub_status_module --with-http_ssl_module --with-http_gzip_static_module --with-ipv6 --with-pcre --with-http_sub_module --add-module=$curdir/substitutions4nginx-read-only --add-module=$curdir/nginx-accesskey-2.0.3</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
+<p>2、配置nginx.conf<br>编辑/etc/nginx/nginx.conf<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name t.playvps.com;  #绑定的域名</span><br><span class="line">    access_log off;	 #off 关闭日志</span><br><span class="line">    location / &#123;</span><br><span class="line">        subs_filter 'www.baidu.com' 't.playvps.com' gi;  #substitutions4nginx替换 (使用方法参照官方)</span><br><span class="line">        proxy_set_header   X-Real-IP  $remote_addr;</span><br><span class="line">        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header   Referer http://www.baidu.com;	#强制定义Referer，程序验证判断会用到</span><br><span class="line">        proxy_set_header   Host www.baidu.com;  #定义主机头，如果目标站点绑定的域名个server_name项的吻合则使用$host</span><br><span class="line">        proxy_pass http://www.baidu.com;	 #指定目标，建议使用IP或者nginx自定义池</span><br><span class="line">        proxy_set_header Accept-Encoding "";	 #清除编码</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3，重启Nginx<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pkill nginx #关闭进程</span><br><span class="line">nginx #启动Nginx</span><br></pre></td></tr></table></figure></p>
+<p>转载自：<a href="http://www.ovzxen.com/post-22.html" target="_blank" rel="noopener">http://www.ovzxen.com/post-22.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
     </span>
     
 

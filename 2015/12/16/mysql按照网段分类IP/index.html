@@ -10,11 +10,11 @@
   
 
   
-  <meta name="description" content="数据库里面取出来是IP地址，需要用sql来给IP段地址分类1SELECT INET_NTOA(CONVERT(INET_ATON(&amp;apos;192.168.35.11&amp;apos;),SIGNED)&amp;amp;0xFFFFFF00) AS tt
+  <meta name="description" content="数据库里面取出来是IP地址，需要用sql来给IP段地址分类1SELECT INET_NTOA(CONVERT(INET_ATON(&#39;192.168.35.11&#39;),SIGNED)&amp;amp;0xFFFFFF00) AS tt
 
 命令解释:
 
-inet_aton(‘192.168.3">
+inet_aton(‘192.168.35.11’)这个函数">
   
 
   
@@ -87,7 +87,7 @@ inet_aton(‘192.168.3">
   <div class="article-content">
     <div class="entry">
       
-        <p>数据库里面取出来是IP地址，需要用sql来给IP段地址分类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT INET_NTOA(CONVERT(INET_ATON(&apos;192.168.35.11&apos;),SIGNED)&amp;0xFFFFFF00) AS tt</span><br></pre></td></tr></table></figure></p>
+        <p>数据库里面取出来是IP地址，需要用sql来给IP段地址分类<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">INET_NTOA</span>(<span class="keyword">CONVERT</span>(<span class="keyword">INET_ATON</span>(<span class="string">'192.168.35.11'</span>),SIGNED)&amp;<span class="number">0xFFFFFF00</span>) <span class="keyword">AS</span> tt</span><br></pre></td></tr></table></figure></p>
 <p><a href="/uploads/2015/12/QQ图片20151216223458.png"><img src="/uploads/2015/12/QQ图片20151216223458.png" alt="QQ图片20151216223458"></a></p>
 <p>命令解释:</p>
 <ol>

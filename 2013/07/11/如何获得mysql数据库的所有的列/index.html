@@ -10,8 +10,8 @@
   
 
   
-  <meta name="description" content="1SELECT  COLUMN_NAME FROM  `information_schema`.`COLUMNS` where  `TABLE_NAME`=&amp;apos;appStats&amp;apos; order by COLUMN_NAME
-所有字段获取：1SELECT COLUMN_NAME FRO">
+  <meta name="description" content="1SELECT  COLUMN_NAME FROM  `information_schema`.`COLUMNS` where  `TABLE_NAME`=&#39;appStats&#39; order by COLUMN_NAME
+所有字段获取：1SELECT COLUMN_NAME FROM &#39;informa">
   
 
   
@@ -84,10 +84,10 @@
   <div class="article-content">
     <div class="entry">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT  COLUMN_NAME FROM  `information_schema`.`COLUMNS` where  `TABLE_NAME`=&apos;appStats&apos; order by COLUMN_NAME</span><br></pre></td></tr></table></figure>
-<p>所有字段获取：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT COLUMN_NAME FROM &apos;information_schema&apos;.&apos;COLUMNS&apos; where &apos;TABLE_SCHEMA&apos;=&apos;数据库名称&apos; and &apos;TABLE_NAME&apos;=&apos;你的表名&apos; order by COLUMN_NAME;</span><br></pre></td></tr></table></figure></p>
-<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from `information_schema`.`columns` where `table_name`=&apos;表名&apos;;</span><br></pre></td></tr></table></figure></p>
-<p>笨方法：<br>单个获取<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$re_name_1=mysql_field_name($result,1);</span><br><span class="line">$re_name_2=mysql_field_name($result,2);</span><br></pre></td></tr></table></figure></p>
+        <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span>  COLUMN_NAME <span class="keyword">FROM</span>  <span class="string">`information_schema`</span>.<span class="string">`COLUMNS`</span> <span class="keyword">where</span>  <span class="string">`TABLE_NAME`</span>=<span class="string">'appStats'</span> <span class="keyword">order</span> <span class="keyword">by</span> COLUMN_NAME</span><br></pre></td></tr></table></figure>
+<p>所有字段获取：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> COLUMN_NAME <span class="keyword">FROM</span> <span class="string">'information_schema'</span>.<span class="string">'COLUMNS'</span> <span class="keyword">where</span> <span class="string">'TABLE_SCHEMA'</span>=<span class="string">'数据库名称'</span> <span class="keyword">and</span> <span class="string">'TABLE_NAME'</span>=<span class="string">'你的表名'</span> <span class="keyword">order</span> <span class="keyword">by</span> COLUMN_NAME;</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`information_schema`</span>.<span class="string">`columns`</span> <span class="keyword">where</span> <span class="string">`table_name`</span>=<span class="string">'表名'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>笨方法：<br>单个获取<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$re_name_1=mysql_field_name($result,<span class="number">1</span>);</span><br><span class="line">$re_name_2=mysql_field_name($result,<span class="number">2</span>);</span><br></pre></td></tr></table></figure></p>
 
       
     </div>

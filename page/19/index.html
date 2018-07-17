@@ -59,60 +59,6 @@
 
   
     
-    <h3 class="article-title"><a href="/2013/10/06/使用ul、li布局，制作一级导航栏/"><span>使用ul、li布局，制作一级导航栏</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/10/06/使用ul、li布局，制作一级导航栏/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-10-05T19:39:18.000Z">
-          2013-10-06
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;menu&quot;&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;首页&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;新闻&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;财经&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;汽车&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;手机&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;体育&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;游戏&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;论坛&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<p>这样就会列出导航菜单来，但是是纵向的，下面我们来调节一下样式：①去掉li前面的圆点②设置成横向③字体样式和间距④去除超链接下划线<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type=&quot;text/css&quot;&gt;</span><br><span class="line">    #menu ul li</span><br><span class="line">    &#123;</span><br><span class="line">        list-style: none;</span><br><span class="line">        float: left;</span><br><span class="line">        width: 85px;</span><br><span class="line">        font-family: 微软雅黑;</span><br><span class="line">        font-size: x-large;</span><br><span class="line">    &#125;</span><br><span class="line">    #menu ul li a</span><br><span class="line">    &#123;</span><br><span class="line">        text-decoration: none;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
     <h3 class="article-title"><a href="/2013/10/05/jQuery获取浏览器中的分辨率/"><span>jQuery获取浏览器中的分辨率</span></a></h3>
     
   
@@ -133,8 +79,8 @@
   <div class="article-content">
     <div class="entry">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">$(document).ready(function()         </span><br><span class="line">&#123;</span><br><span class="line">alert($(window).height()); //浏览器当前窗口可视区域高度</span><br><span class="line">alert($(document).height()); //浏览器当前窗口文档的高度</span><br><span class="line">alert($(document.body).height());//浏览器当前窗口文档body的高度</span><br><span class="line">alert($(document.body).outerHeight(true));//浏览器当前窗口文档body的总高度 包括border padding margin</span><br><span class="line">alert($(window).width()); //浏览器当前窗口可视区域宽度</span><br><span class="line">alert($(document).width());//浏览器当前窗口文档对象宽度</span><br><span class="line">alert($(document.body).width());//浏览器当前窗口文档body的高度</span><br><span class="line">alert($(document.body).outerWidth(true));//浏览器当前窗口文档body的总宽度 包括border padding margin</span><br><span class="line">alert(screen.height);//显示器分辨率，只能用JavaScript代码获取</span><br><span class="line">alert(screen.width);</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>网页可见区域宽： document.body.clientWidth<br>网页可见区域高： document.body.clientHeight<br>网页可见区域宽： document.body.offsetWidth (包括边线的宽)<br>网页可见区域高： document.body.offsetHeight (包括边线的高)<br>网页正文全文宽： document.body.scrollWidth<br>网页正文全文高： document.body.scrollHeight<br>网页被卷去的高： document.body.scrollTop<br>网页被卷去的左： document.body.scrollLeft<br>网页正文部分上： window.screenTop<br>网页正文部分左： window.screenLeft<br>屏幕分辨率的高： window.screen.height<br>屏幕分辨率的宽： window.screen.width<br>屏幕可用工作区高度： window.screen.availHeight<br>屏幕可用工作区宽度： window.screen.availWidth</p>
+        <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)         </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">alert($(<span class="built_in">window</span>).height()); <span class="comment">//浏览器当前窗口可视区域高度</span></span><br><span class="line">alert($(<span class="built_in">document</span>).height()); <span class="comment">//浏览器当前窗口文档的高度</span></span><br><span class="line">alert($(<span class="built_in">document</span>.body).height());<span class="comment">//浏览器当前窗口文档body的高度</span></span><br><span class="line">alert($(<span class="built_in">document</span>.body).outerHeight(<span class="literal">true</span>));<span class="comment">//浏览器当前窗口文档body的总高度 包括border padding margin</span></span><br><span class="line">alert($(<span class="built_in">window</span>).width()); <span class="comment">//浏览器当前窗口可视区域宽度</span></span><br><span class="line">alert($(<span class="built_in">document</span>).width());<span class="comment">//浏览器当前窗口文档对象宽度</span></span><br><span class="line">alert($(<span class="built_in">document</span>.body).width());<span class="comment">//浏览器当前窗口文档body的高度</span></span><br><span class="line">alert($(<span class="built_in">document</span>.body).outerWidth(<span class="literal">true</span>));<span class="comment">//浏览器当前窗口文档body的总宽度 包括border padding margin</span></span><br><span class="line">alert(screen.height);<span class="comment">//显示器分辨率，只能用JavaScript代码获取</span></span><br><span class="line">alert(screen.width);</span><br><span class="line">&#125;)</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>网页可见区域宽： <code>document.body.clientWidth</code><br>网页可见区域高： <code>document.body.clientHeight</code><br>网页可见区域宽： <code>document.body.offsetWidth</code> (包括边线的宽)<br>网页可见区域高： <code>document.body.offsetHeight</code> (包括边线的高)<br>网页正文全文宽： <code>document.body.scrollWidth</code><br>网页正文全文高： <code>document.body.scrollHeight</code><br>网页被卷去的高： <code>document.body.scrollTop</code><br>网页被卷去的左： <code>document.body.scrollLeft</code><br>网页正文部分上： <code>window.screenTop</code><br>网页正文部分左： <code>window.screenLeft</code><br>屏幕分辨率的高： <code>window.screen.height</code><br>屏幕分辨率的宽： <code>window.screen.width</code><br>屏幕可用工作区高度： <code>window.screen.availHeight</code><br>屏幕可用工作区宽度： <code>window.screen.availWidth</code></p>
 
       
     </div>
@@ -187,7 +133,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>经过反复试验，发现hr其实是个框。所以，我们把它当做一个框来处理就可以了。<br>可是又经过反复试验以后，发现设置background-color的方法在IE下无效，所以只能选择设置border，这是在FF、IE、Chrome下通用的方法。<br>以下给出代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hr&#123;</span><br><span class="line">	border:none;</span><br><span class="line">	border-top:1px solid red;</span><br><span class="line">	height:0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <p>经过反复试验，发现hr其实是个框。所以，我们把它当做一个框来处理就可以了。<br>可是又经过反复试验以后，发现设置background-color的方法在IE下无效，所以只能选择设置border，这是在FF、IE、Chrome下通用的方法。<br>以下给出代码：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">hr</span>&#123;</span><br><span class="line">	<span class="attribute">border</span>:none;</span><br><span class="line">	<span class="attribute">border-top</span>:<span class="number">1px</span> solid red;</span><br><span class="line">	<span class="attribute">height</span>:<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -240,7 +186,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>当中文文字很长的时候（中间没有空格也没有换行符号），不管是IE还是firefox，到达边界都会自动换行。<br>但是有的情况，我们并不希望这样。比如：当在几个li并排排列，不想让每行的最后的一个li的文字自动换行，那就可以用本属性了。<br>使用这个css属性之后，文本只有在遇到空格或者是换行符的时候才能 换行<br>比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type=&quot;text/css&quot;&gt;   </span><br><span class="line">div&#123;width:300px;border:1px solid red;margin:10px;overflow:hidden;&#125;   </span><br><span class="line">    .nowrap&#123;white-space: nowrap;&#125;   </span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;div class=&quot;nowrap&quot;&gt;   </span><br><span class="line">这是一段很长的文字中间没有空格也没有换行它不会自动换行直到被截取掉&lt;br /&gt;胡锦涛抵达日本开始访问日本方面最高规格迎接 更多&lt;br /&gt;   </span><br><span class="line">&lt;/div&gt;   </span><br><span class="line">&lt;div&gt;这是一段很长的文字中间没有空格也没有换行但它会自动换行&lt;br /&gt;胡锦涛抵达日本开始访问日本方面最高规格迎接 更多&lt;br /&gt;&lt;/div&gt;   </span><br><span class="line">&lt;p&gt;上面两个div里超宽的文字，第一个里面的被禁止换行，然后超宽的被截取了；第二个不做设置，于是自动换行了&lt;/p&gt;   </span><br><span class="line">&lt;a href=&quot;?&quot;&gt;Web标准化 &lt;a href=&quot;http://www.div-css.com&quot;&gt;www.div-css.com&lt;/a&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
+        <p>当中文文字很长的时候（中间没有空格也没有换行符号），不管是IE还是firefox，到达边界都会自动换行。<br>但是有的情况，我们并不希望这样。比如：当在几个li并排排列，不想让每行的最后的一个li的文字自动换行，那就可以用本属性了。<br>使用这个css属性之后，文本只有在遇到空格或者是换行符的时候才能 换行<br>比如：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined">   </span></span><br><span class="line"><span class="css"><span class="selector-tag">div</span>&#123;<span class="attribute">width</span>:<span class="number">300px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="attribute">margin</span>:<span class="number">10px</span>;<span class="attribute">overflow</span>:hidden;&#125;   </span></span><br><span class="line"><span class="css">    <span class="selector-class">.nowrap</span>&#123;<span class="attribute">white-space</span>: nowrap;&#125;   </span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"nowrap"</span>&gt;</span>   </span><br><span class="line">这是一段很长的文字中间没有空格也没有换行它不会自动换行直到被截取掉<span class="tag">&lt;<span class="name">br</span> /&gt;</span>胡锦涛抵达日本开始访问日本方面最高规格迎接 更多<span class="tag">&lt;<span class="name">br</span> /&gt;</span>   </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>这是一段很长的文字中间没有空格也没有换行但它会自动换行<span class="tag">&lt;<span class="name">br</span> /&gt;</span>胡锦涛抵达日本开始访问日本方面最高规格迎接 更多<span class="tag">&lt;<span class="name">br</span> /&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>上面两个div里超宽的文字，第一个里面的被禁止换行，然后超宽的被截取了；第二个不做设置，于是自动换行了<span class="tag">&lt;/<span class="name">p</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"?"</span>&gt;</span>Web标准化 <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.div-css.com"</span>&gt;</span>www.div-css.com<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -293,8 +239,8 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>做web开发的时候会遇到需要监听浏览器窗口大小改变事件，而进行相关操作。这里向大家介绍一下 JQuery 浏览器窗口改变事件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(window).resize();</span><br></pre></td></tr></table></figure></p>
-<p>这里需要注意 这个事件不要写在页面加载完成事件（ $(function(){…} ）内部，而需要写在他外面。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=”text/javascript”&gt;</span><br><span class="line">$(window).resize(function() &#123;</span><br><span class="line">var width = $(this).width();</span><br><span class="line">var height = $(this).height();</span><br><span class="line">alert(&apos;width&apos;+width+&apos;-height&apos;+height);</span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+        <p>做web开发的时候会遇到需要监听浏览器窗口大小改变事件，而进行相关操作。这里向大家介绍一下 JQuery 浏览器窗口改变事件。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">window</span>).resize();</span><br></pre></td></tr></table></figure></p>
+<p>这里需要注意 这个事件不要写在页面加载完成事件（ $(function(){…} ）内部，而需要写在他外面。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">”text/javascript”</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">$(<span class="built_in">window</span>).resize(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> width = $(<span class="keyword">this</span>).width();</span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> height = $(<span class="keyword">this</span>).height();</span></span><br><span class="line"><span class="javascript">alert(<span class="string">'width'</span>+width+<span class="string">'-height'</span>+height);</span></span><br><span class="line"><span class="undefined">&#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -521,9 +467,8 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>最近帮童鞋写 vb，作业，你们懂的。。。<br>遇到一个奇葩的问题。。。<br>我用正则表达式来验证输入的数字，表达式为 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^-?\d+(\.\d+)*$</span><br></pre></td></tr></table></figure></p>
-<p>，结果 –9 无法通过验证，见图。<br><a href="/uploads/201309//QQ截图20130920223216.png"><img src="/uploads/201309//QQ截图20130920223216.png" alt="QQ截图20130920223216"></a><br><a href="/uploads/201309//QQ截图20130920223309.png"><img src="/uploads/201309//QQ截图20130920223309.png" alt="QQ截图20130920223309"></a><br>按调试以后<br><a href="/uploads/201309//QQ截图20130920223319.png"><img src="/uploads/201309//QQ截图20130920223319.png" alt="QQ截图20130920223319"></a><br>问题是，问题是在 PHP 里没问题啊！！！<br><a href="/uploads/201309//QQ截图20130920223247.png"><img src="/uploads/201309//QQ截图20130920223247.png" alt="QQ截图20130920223247"></a><br><a href="/uploads/201309//QQ截图20130920223255.png"><img src="/uploads/201309//QQ截图20130920223255.png" alt="QQ截图20130920223255"></a><br>求教各位亲。。哪里出问题了</p>
-<p>附 vb 源码和 php 源码<br><a href="/uploads/201309//20130920.zip">vb 源码下载</a><br>PHP：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">var_dump(preg_match(&quot;/^-?\d+(\.\d+)*$/&quot;,&apos;--9&apos;));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+        <p>最近帮童鞋写 vb，作业，你们懂的。。。<br>遇到一个奇葩的问题。。。<br>我用正则表达式来验证输入的数字，表达式为 <code>^-?\d+(\.\d+)*$</code><br>，结果 –9 无法通过验证，见图。<br><a href="/uploads/201309//QQ截图20130920223216.png"><img src="/uploads/201309//QQ截图20130920223216.png" alt="QQ截图20130920223216"></a><br><a href="/uploads/201309//QQ截图20130920223309.png"><img src="/uploads/201309//QQ截图20130920223309.png" alt="QQ截图20130920223309"></a><br>按调试以后<br><a href="/uploads/201309//QQ截图20130920223319.png"><img src="/uploads/201309//QQ截图20130920223319.png" alt="QQ截图20130920223319"></a><br>问题是，问题是在 PHP 里没问题啊！！！<br><a href="/uploads/201309//QQ截图20130920223247.png"><img src="/uploads/201309//QQ截图20130920223247.png" alt="QQ截图20130920223247"></a><br><a href="/uploads/201309//QQ截图20130920223255.png"><img src="/uploads/201309//QQ截图20130920223255.png" alt="QQ截图20130920223255"></a><br>求教各位亲。。哪里出问题了</p>
+<p>附 vb 源码和 php 源码<br><a href="/uploads/201309//20130920.zip">vb 源码下载</a><br>PHP：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">var_dump(preg_match(<span class="string">"/^-?\d+(\.\d+)*$/"</span>,<span class="string">'--9'</span>));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -605,6 +550,85 @@
     <span class="post-categories">
       <i class="icon-categories"></i>
         <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/09/07/十进制小数转二进制小数方法/"><span>十进制小数转二进制小数方法</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/09/07/十进制小数转二进制小数方法/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-09-07T04:38:19.000Z">
+          2013-09-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>十进制小数→→→→→二进制小数 方法：“乘2取整”</p>
+<p>对十进制小数乘2得到的整数部分和小数部分,整数部分既是相应的二进制数码,再用2乘小数部分(之前乘后得到新的小数部分),又得到整数和小数部分.<br>如此不断重复,直到小数部分为0或达到精度要求为止.第一次所得到为最高位,最后一次得到为最低位<br>如:0.25的二进制<br>0.25<em>2=0.5 取整是0<br>0.5</em>2=1.0    取整是1<br>即0.25的二进制为 0.01 ( 第一次所得到为最高位,最后一次得到为最低位)</p>
+<p>0.8125的二进制</p>
+<p>0.8125*2=1.625   取整是1</p>
+<p>0.625*2=1.25     取整是1</p>
+<p>0.25*2=0.5       取整是0</p>
+<p>0.5*2=1.0        取整是1</p>
+<p>即0.8125的二进制是0.1101（第一次所得到为最高位,最后一次得到为最低位）</p>
+<p>十进制小数→→→→→八进制小数 方法：“乘8取整” </p>
+<p>0.71875）10 =（0.56）8</p>
+<p>0.71875*8=5.75 取整5</p>
+<p>0.75*8=6.0      取整6<br>即0.56</p>
+<p>十进制小数→→→→→十六进制小数方法：“乘16取整”例如： </p>
+<p>(0.142578125)10=(0.248)16</p>
+<p>0.142578125*16=2.28125 取整2</p>
+<p>0.28125*16=4.5          取整4</p>
+<p>0.5*16=8.0              取整8</p>
+<p>即0.248</p>
+<p>非十进制数之间的转换 </p>
+<p>（1）二进制数与八进制数之间的转换 </p>
+<p>转换方法是：以小数点为界，分别向左右每三位二进制数合成一位八进制数，或每一位八进制数展成三位二进制数，不足三位者补0。例如： </p>
+<p>（423。45）8=（100 010 011.100 101）2 </p>
+<p>（1001001.1101）2=（001 001 001.110 100）2=（111.64）8 </p>
+<p>（2）二进制与十六进制转换 </p>
+<p>转换方法：以小数点为界，分别向左右每四位二进制合成一位十六进制数，或每一位十六进制数展成四位二进制数，不足四位者补0。例如： </p>
+<p>（ABCD.EF）16=（1010 1011 1100 1101.1110 1111）2 </p>
+<p>（101101101001011.01101）2=（0101 1011 0100 1011.0110 1000）2=（5B4B.68）16</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/计算机技术/">计算机技术</a>
     </span>
     
 

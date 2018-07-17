@@ -87,7 +87,7 @@ MYSQL 替换语句 UPDATEUPDATE 是 MYSQL 的替换语句，英文直">
         <p>博客建立初期，因为使用了免费域名，所以文章中上传的图片地址都用了这个域名，导致现在含有这些图片的文章在显示中受到了影响，域名现在已经不再属于我，所以使用 MYSQL 去批量替换掉那些带有旧域名的图片地址被摆上了日程。</p>
 <p>MYSQL 替换语句 UPDATE<br>UPDATE 是 MYSQL 的替换语句，英文直译是更新。</p>
 <p>UPDATE 语句使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE 表名 SET 字段 = REPLACE(字段,&apos;待替换内容&apos;,&apos;替换值&apos;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> 表名 <span class="keyword">SET</span> 字段 = <span class="keyword">REPLACE</span>(字段,<span class="string">'待替换内容'</span>,<span class="string">'替换值'</span>);</span><br></pre></td></tr></table></figure>
 <p>表明和字段名都不需要引号，只是在待替换内容和替换值上是需要引号的，因为他们是字符串类型的，这里要注意下。</p>
 <p>操作步骤：</p>
 <ol>
@@ -100,7 +100,7 @@ MYSQL 替换语句 UPDATEUPDATE 是 MYSQL 的替换语句，英文直">
 <li><p>文章内容的位置<br>WordPress 中的文章被放置在 post 表中的 post_content 字段中。</p>
 </li>
 <li><p>点选 SQL，在语句执行框中输入你刚才学到的 UPDATE 语句，<br>当然这要配合你自己的数据表名、数据库名、替换规则等，<br>我的很简单，像如下那样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE wp_posts SET post_content = REPLACE( post_content, &apos;xn--1jv01l0h.tk&apos;, &apos;233.imjs.work&apos; );</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> wp_posts <span class="keyword">SET</span> post_content = <span class="keyword">REPLACE</span>( post_content, <span class="string">'xn--1jv01l0h.tk'</span>, <span class="string">'233.imjs.work'</span> );</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>执行结束后会有替换数量和时间的提示。<br>点击执行，就大功告成了。</p>

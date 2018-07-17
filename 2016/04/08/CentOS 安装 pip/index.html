@@ -85,14 +85,14 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>之前有的朋友问我，CentOS版本怎么安装python的pip，我之前给出的Ubuntu下apt-get的方法<br>ubuntu 需要先安装下pip吧，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python-pip</span><br></pre></td></tr></table></figure></p>
-<p>安装requests<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br></pre></td></tr></table></figure></p>
+        <p>之前有的朋友问我，CentOS版本怎么安装python的pip，我之前给出的Ubuntu下apt-get的方法<br>ubuntu 需要先安装下pip吧，<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python-pip</span><br></pre></td></tr></table></figure></p>
+<p>安装requests<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br></pre></td></tr></table></figure></p>
 <p>但是有的朋友由于是centos的，直接 yum install pip 或者 yum install python-pip 都是不行的。<br>其实不能yum那就直接下载编译安装呗。。。</p>
-<p>方法如下：<br>截至写本文的时候，pip最新为 8.1.1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/pypa/pip/archive/8.1.1.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>方法如下：<br>截至写本文的时候，pip最新为 8.1.1<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/pypa/pip/archive/8.1.1.tar.gz</span><br></pre></td></tr></table></figure></p>
 <p>注意：wget获取https的时候要加上：–no-check-certificate</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar zvxf 8.1.1.tar.gz    #解压文件</span><br><span class="line">cd pip-8.1.1/</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar zvxf 8.1.1.tar.gz    #解压文件</span><br><span class="line">cd pip-8.1.1/</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
 <p>OK，这样就安装好pip了，</p>
-<p>下面来安装 requests吧。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br></pre></td></tr></table></figure></p>
+<p>下面来安装 requests吧。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br></pre></td></tr></table></figure></p>
 <p>转载自 <a href="http://www.linuxde.net/2014/05/15576.html" target="_blank" rel="noopener">http://www.linuxde.net/2014/05/15576.html</a> 有删改</p>
 
       

@@ -83,13 +83,13 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>1、复制表结构及数据到新表<br>CREATE TABLE 新表SELECT * FROM 旧表<br>这种方法会将oldtable中所有的内容都拷贝过来，当然我们可以用delete from newtable;来删除。<br>不过这种方法的一个最不好的地方就是新表中没有了旧表的primary key、Extra（auto_increment）等属性。需要自己用”alter”添加，而且容易搞错。</p>
-<p>2、只复制表结构到新表<br>CREATE TABLE 新表SELECT * FROM 旧表WHERE 1=2<br>或CREATE TABLE 新表LIKE 旧表</p>
-<p>3、复制旧表的数据到新表(假设两个表结构一样)<br>INSERT INTO 新表SELECT * FROM 旧表</p>
-<p>4、复制旧表的数据到新表(假设两个表结构不一样)<br>INSERT INTO 新表(字段1,字段2,…….) SELECT 字段1,字段2,…… FROM 旧表</p>
-<p>5、可以将表1结构复制到表2<br>SELECT * INTO 表2 FROM 表1 WHERE 1=2</p>
-<p>6、可以将表1内容全部复制到表2<br>SELECT * INTO 表2 FROM 表1</p>
-<p>7、 show create table 旧表;<br>这样会将旧表的创建命令列出。我们只需要将该命令拷贝出来，更改table的名字，就可以建立一个完全一样的表</p>
+        <p>1、复制表结构及数据到新表<br><code>CREATE TABLE 新表SELECT * FROM 旧表</code><br>这种方法会将oldtable中所有的内容都拷贝过来，当然我们可以用delete from newtable;来删除。<br>不过这种方法的一个最不好的地方就是新表中没有了旧表的primary key、Extra（auto_increment）等属性。需要自己用”alter”添加，而且容易搞错。</p>
+<p>2、只复制表结构到新表<br><code>CREATE TABLE 新表SELECT * FROM 旧表WHERE 1=2</code><br>或 <code>CREATE TABLE 新表LIKE 旧表</code></p>
+<p>3、复制旧表的数据到新表(假设两个表结构一样)<br><code>INSERT INTO 新表SELECT * FROM 旧表</code></p>
+<p>4、复制旧表的数据到新表(假设两个表结构不一样)<br><code>INSERT INTO 新表(字段1,字段2,.......) SELECT 字段1,字段2,...... FROM 旧表</code></p>
+<p>5、可以将表1结构复制到表2<br><code>SELECT * INTO 表2 FROM 表1 WHERE 1=2</code></p>
+<p>6、可以将表1内容全部复制到表2<br><code>SELECT * INTO 表2 FROM 表1</code></p>
+<p>7、 <code>show create table</code> 旧表;<br>这样会将旧表的创建命令列出。我们只需要将该命令拷贝出来，更改table的名字，就可以建立一个完全一样的表</p>
 <p>8、mysqldump<br>用mysqldump将表dump出来，改名字后再导回去或者直接在命令行中运行</p>
 <p>转载自 <a href="http://www.2cto.com/database/201202/120259.html" target="_blank" rel="noopener">http://www.2cto.com/database/201202/120259.html</a></p>
 

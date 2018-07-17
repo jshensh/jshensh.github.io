@@ -10,8 +10,8 @@
   
 
   
-  <meta name="description" content="有时候我们读取数据库输出的时候可能会需要按照中文用户名的方式进行排序，传统的 MySQL 查询：1$sql=&amp;quot;SELECT * FROM `users`&amp;quot;;//传统查询方式
-按照中文用户名进行排序的 MySQL 查询：1$sql=&amp;quot;SELECT * FROM `user">
+  <meta name="description" content="有时候我们读取数据库输出的时候可能会需要按照中文用户名的方式进行排序，传统的 MySQL 查询：1$sql=&#34;SELECT * FROM `users`&#34;;//传统查询方式
+按照中文用户名进行排序的 MySQL 查询：1$sql=&#34;SELECT * FROM `users` ORDER BY CON">
   
 
   
@@ -84,8 +84,8 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>有时候我们读取数据库输出的时候可能会需要按照中文用户名的方式进行排序，传统的 MySQL 查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM `users`&quot;;//传统查询方式</span><br></pre></td></tr></table></figure></p>
-<p>按照中文用户名进行排序的 MySQL 查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=&quot;SELECT * FROM `users` ORDER BY CONVERT(`name` USING gbk)&quot;;//按照中文用</span><br></pre></td></tr></table></figure></p>
+        <p>有时候我们读取数据库输出的时候可能会需要按照中文用户名的方式进行排序，传统的 MySQL 查询：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=<span class="string">"SELECT * FROM `users`"</span>;<span class="comment">//传统查询方式</span></span><br></pre></td></tr></table></figure></p>
+<p>按照中文用户名进行排序的 MySQL 查询：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=<span class="string">"SELECT * FROM `users` ORDER BY CONVERT(`name` USING gbk)"</span>;<span class="comment">//按照中文用</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>

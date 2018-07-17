@@ -87,70 +87,74 @@
         <p>最近工作中遇到个问题，就是有一些资源，不希望别人很派发的抓取，这样会占用我们带宽还有资源。因此，我们对页面访问做了频率限制。这样一来，又怕搜索蜘蛛给限制了。 因此，我们有个需求，就是除了常见搜索蜘蛛，其它都要做频率限制。 工作就变成了，首先我们怎么样正确表示搜索蜘蛛。</p>
 <p><strong>怎么样识别搜索蜘蛛</strong><br>搜索引擎基本上由最先google,和国内的baidu统一了。刚开始比较混乱，后期有很多规则协议，可以遵循。基本上一些新兴的搜索引擎在访问站点时候，都会延用google制定的一些规则。它们一般都会有特定的user-agent，但是，如果我们只通过user-agent去识别搜索蜘蛛的话，那样第三方抓取程序，都会去伪造个user-agent。变成搜索蜘蛛的，如：Googlebot/2.1 (+<a href="http://www.googlebot.com/bot.html" target="_blank" rel="noopener">http://www.googlebot.com/bot.html) </a>%C2%A0)是，google蜘蛛的值。</p>
 <p>现在一般搜索引擎都提供一个DNS 反向IP查询功能，只需要把访问来的IP 通过反向查询域名，看是不是搜索引擎域名。这样伪造的爬虫工具，就会被很容易识别了。 具体识别真假蜘蛛只需要：<em>1，判断user-agent是否满足蜘蛛格式 2，然后进一步确定IP 反解析域名是否属于该搜索引擎域名.</em></p>
-<table border="0" align="center" width="732" cellpadding="4" cellspacing="1" class="table">
-
-<tr><br><br><td width="102"><strong>搜索引擎</strong><br></td><br><br><td width="104"><strong>user-agent(包含)</strong><br></td><br><br><td width="77"><strong>是否PTR</strong><br></td><br><br><td width="442"><strong>备注</strong><br></td><br></tr>
-
-<p><tbody></tbody></p>
+<table>
+<thead>
 <tr>
-
-<td width="102">google<br></td>
-
-<td width="104">Googlebot<br></td>
-
-<td width="77">√<br></td>
-
-<td width="442">host ip  得到域名：googlebot.com主域名<br></td><br></tr><br><tr><br><br><td width="102">baidu<br></td>
-
-<td width="104">Baiduspider<br></td>
-
-<td width="77">√<br></td>
-
-<td width="442">host ip  得到域名：<em>.baidu.com 或 </em>.baidu.jp<br></td><br></tr><br><tr><br><br><td width="102">yahoo<br></td>
-
-<td width="104">Yahoo!<br></td>
-
-<td width="77">√<br></td>
-
-<td width="442">host ip  得到域名：inktomisearch.com主域名<br></td><br></tr><br><tr><br><br><td width="102">Sogou<br></td>
-
-<td width="104">Sogou<br></td>
-
-<td width="77">×<br></td>
-
-<td width="442"><em>Sogou web spider/3.0(+<a href="http://www.sogou.com/docs/help/webmasters.htm#07″" target="_blank" rel="noopener">http://www.sogou.com/docs/help/webmasters.htm#07″) </a> )
-</em>Sogou Push Spider/3.0(+<a href="http://www.sogou.com/docs/help/webmasters.htm#07″" target="_blank" rel="noopener">http://www.sogou.com/docs/help/webmasters.htm#07″) </a> )<br></td><br></tr><br><tr><br><br><td width="102">网易<br></td>
-
-<td width="104">YodaoBot<br></td>
-
-<td width="77">×<br></td>
-
-<td width="442">*Mozilla/5.0 (compatible; YodaoBot/1.0; <a href="http://www.yodao.com/help/webmaster/spider/%E2%80%9D;" target="_blank" rel="noopener">http://www.yodao.com/help/webmaster/spider/”;</a> )<br></td><br></tr><br><tr><br><br><td width="102">MSN<br></td>
-
-<td width="104">MSNBot<br></td>
-
-<td width="77">√<br></td>
-
-<td width="442">host ip  得到域名：live.com主域名<br></td><br></tr><br><tr><br><br><td width="102">360<br></td>
-
-<td width="104">360Spider<br></td>
-
-<td width="77">×<br></td>
-
-<td width="442">Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.8.0.11)  Firefox/1.5.0.11; 360Spider<br></td><br></tr><br><tr><br><br><td width="102">soso<br></td>
-
-<td width="104">Sosospider<br></td>
-
-<td width="77">×<br></td>
-
-<td width="442">Sosospider+(+<a href="http://help.soso.com/webspider.htm" target="_blank" rel="noopener">http://help.soso.com/webspider.htm</a>)<br></td><br></tr><br><tr><br><br><td width="102">bing<br></td>
-
-<td width="104">bingbot<br></td>
-
-<td width="77">√<br></td>
-
-<p><td width="442">host ip  得到域名：msn.com主域名<br></td><br></p></tr><br><br></table><br>以上是我整理一些常用搜索引擎的user-agent特征码，以及IP反向解析情况。保证准确识别搜索引擎，我们通过IP反解析是最为准确方法。好在google,baidu,bing都有做反向解析。基本上占用了80%搜索市场了。下面，我是我检测方法。<p></p>
-<p><strong>PHP反解析IP方法</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function check_spider($ip,$ua) &#123;</span><br><span class="line">    static $spider_list=array(</span><br><span class="line">        &apos;google&apos;=&gt;array(&apos;Googlebot&apos;,&apos;googlebot.com&apos;),</span><br><span class="line">        &apos;baidu&apos;=&gt;array(&apos;Baiduspider&apos;,&apos;.baidu.&apos;),</span><br><span class="line">        &apos;yahoo&apos;=&gt;array(&apos;Yahoo!&apos;,&apos;inktomisearch.com&apos;),</span><br><span class="line">        &apos;msn&apos;=&gt;array(&apos;MSNBot&apos;,&apos;live.com&apos;),</span><br><span class="line">        &apos;bing&apos;=&gt;array(&apos;bingbot&apos;,&apos;msn.com&apos;)</span><br><span class="line">    );</span><br><span class="line">	</span><br><span class="line">    if(!preg_match(&apos;/^(\d&#123;1,3&#125;\.)&#123;3&#125;\d&#123;1,3&#125;$/&apos;,$ip)) return false;</span><br><span class="line">    if(empty($ua)) return false;</span><br><span class="line"> </span><br><span class="line">    foreach ($spider_list as $k=&gt;$v) &#123;</span><br><span class="line">        if(stripos($ua,$v[0])!==false) &#123;</span><br><span class="line">            $domain = gethostbyaddr($ip);</span><br><span class="line"></span><br><span class="line">            if($domain &amp;&amp; stripos($domain,$v[1])!==false) &#123;</span><br><span class="line">                return $k;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<th style="text-align:center">搜索引擎</th>
+<th style="text-align:center">user-agent(包含)</th>
+<th style="text-align:center">是否PTR</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">google</td>
+<td style="text-align:center">Googlebot</td>
+<td style="text-align:center">√</td>
+<td>host ip  得到域名：googlebot.com主域名</td>
+</tr>
+<tr>
+<td style="text-align:center">baidu</td>
+<td style="text-align:center">Baiduspider</td>
+<td style="text-align:center">√</td>
+<td>host ip  得到域名：<em>.baidu.com 或 </em>.baidu.jp</td>
+</tr>
+<tr>
+<td style="text-align:center">yahoo</td>
+<td style="text-align:center">Yahoo!</td>
+<td style="text-align:center">√</td>
+<td>host ip  得到域名：inktomisearch.com主域名</td>
+</tr>
+<tr>
+<td style="text-align:center">Sogou</td>
+<td style="text-align:center">Sogou</td>
+<td style="text-align:center">×</td>
+<td><em>Sogou web spider/3.0(+<a href="http://www.sogou.com/docs/help/webmasters.htm#07″" target="_blank" rel="noopener">http://www.sogou.com/docs/help/webmasters.htm#07″</a>)<br></em>Sogou Push Spider/3.0(+<a href="http://www.sogou.com/docs/help/webmasters.htm#07″" target="_blank" rel="noopener">http://www.sogou.com/docs/help/webmasters.htm#07″</a>)</td>
+</tr>
+<tr>
+<td style="text-align:center">网易</td>
+<td style="text-align:center">YodaoBot</td>
+<td style="text-align:center">×</td>
+<td>*Mozilla/5.0 (compatible; YodaoBot/1.0; <a href="http://www.yodao.com/help/webmaster/spider/”" target="_blank" rel="noopener">http://www.yodao.com/help/webmaster/spider/”</a>; )</td>
+</tr>
+<tr>
+<td style="text-align:center">MSN</td>
+<td style="text-align:center">MSNBot</td>
+<td style="text-align:center">√</td>
+<td>host ip  得到域名：live.com主域名</td>
+</tr>
+<tr>
+<td style="text-align:center">360</td>
+<td style="text-align:center">360Spider</td>
+<td style="text-align:center">×</td>
+<td>Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.8.0.11)  Firefox/1.5.0.11; 360Spider</td>
+</tr>
+<tr>
+<td style="text-align:center">soso</td>
+<td style="text-align:center">Sosospider</td>
+<td style="text-align:center">×</td>
+<td>Sosospider+(+<a href="http://help.soso.com/webspider.htm" target="_blank" rel="noopener">http://help.soso.com/webspider.htm</a>)</td>
+</tr>
+<tr>
+<td style="text-align:center">bing</td>
+<td style="text-align:center">bingbot</td>
+<td style="text-align:center">√</td>
+<td>host ip  得到域名：msn.com主域名</td>
+</tr>
+</tbody>
+</table>
+<p>以上是我整理一些常用搜索引擎的user-agent特征码，以及IP反向解析情况。保证准确识别搜索引擎，我们通过IP反解析是最为准确方法。好在google,baidu,bing都有做反向解析。基本上占用了80%搜索市场了。下面，我是我检测方法。</p>
+<p><strong>PHP反解析IP方法</strong><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_spider</span><span class="params">($ip,$ua)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> $spider_list=<span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'google'</span>=&gt;<span class="keyword">array</span>(<span class="string">'Googlebot'</span>,<span class="string">'googlebot.com'</span>),</span><br><span class="line">        <span class="string">'baidu'</span>=&gt;<span class="keyword">array</span>(<span class="string">'Baiduspider'</span>,<span class="string">'.baidu.'</span>),</span><br><span class="line">        <span class="string">'yahoo'</span>=&gt;<span class="keyword">array</span>(<span class="string">'Yahoo!'</span>,<span class="string">'inktomisearch.com'</span>),</span><br><span class="line">        <span class="string">'msn'</span>=&gt;<span class="keyword">array</span>(<span class="string">'MSNBot'</span>,<span class="string">'live.com'</span>),</span><br><span class="line">        <span class="string">'bing'</span>=&gt;<span class="keyword">array</span>(<span class="string">'bingbot'</span>,<span class="string">'msn.com'</span>)</span><br><span class="line">    );</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">if</span>(!preg_match(<span class="string">'/^(\d&#123;1,3&#125;\.)&#123;3&#125;\d&#123;1,3&#125;$/'</span>,$ip)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">empty</span>($ua)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">foreach</span> ($spider_list <span class="keyword">as</span> $k=&gt;$v) &#123;</span><br><span class="line">        <span class="keyword">if</span>(stripos($ua,$v[<span class="number">0</span>])!==<span class="keyword">false</span>) &#123;</span><br><span class="line">            $domain = gethostbyaddr($ip);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>($domain &amp;&amp; stripos($domain,$v[<span class="number">1</span>])!==<span class="keyword">false</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> $k;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>目前只加入几个搜索引擎检测，这些是可以做反解析查询的。不能做反解析查询的，最好做速度限制，用户会使用它们来伪造搜索引擎来抓取你的资源。欢迎大家交流，先写到这里了。</p>
 <p>转载自 <a href="http://blog.chacuo.net/147.html" target="_blank" rel="noopener">http://blog.chacuo.net/147.html</a></p>
 

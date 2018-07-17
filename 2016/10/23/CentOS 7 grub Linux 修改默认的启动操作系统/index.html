@@ -11,8 +11,8 @@
 
   
   <meta name="description" content="可以用下面的方法修改grub默认的启动OS。
-查看当前的启动内核[root@localhost ~]# grub2-editenvlistsaved_entry=CentOS Linux(3.10.0-123.20.1.el7.x86_64) 7 (Core)
-查找要默认启动的操作系统名字[root">
+查看当前的启动内核12[root@localhost ~]# grub2-editenvlistsaved_entry=CentOS Linux(3.10.0-123.20.1.el7.x86_64) 7 (Core)
+查找要默认启动的操作系统名字123">
   
 
   
@@ -86,10 +86,10 @@
     <div class="entry">
       
         <p>可以用下面的方法修改grub默认的启动OS。</p>
-<p><strong>查看当前的启动内核</strong><br>[root@localhost ~]# grub2-editenvlist<br>saved_entry=CentOS Linux(3.10.0-123.20.1.el7.x86_64) 7 (Core)</p>
-<p><strong>查找要默认启动的操作系统名字</strong><br>[root@localhost ~]# cat /etc/grub2.cfg | grep 3.4.44<br>menuentry ‘CentOS Linux (3.4.44) 7(Core)’ –class centos –class gnu-linux –class gnu –class os–unrestricted $menuentry_id_option’gnulinux-3.10.0-123.el7.x86_64-advanced-e3146a2a-a237-4081-ba08-dbf258de434a’{<br>        linux16 /vmlinuz-3.4.44 root=/dev/mapper/centos-rootro rd.lvm.lv=centos/swap vconsole.font=latarcyrheb-sun16 rd.lvm.lv=centos/rootcrashkernel=auto  vconsole.keymap=us rhgbquiet LANG=en_US.UTF-8<br>        initrd16 /initramfs-3.4.44.img</p>
-<p><strong>设置新的默认启动操作系统选项</strong><br>[root@localhost ~]# grub2-set-default  “CentOSLinux (3.4.44) 7 (Core)”</p>
-<p><strong>查看是否生效</strong><br>[root@localhost ~]# grub2-editenv list<br>saved_entry=CentOS Linux (3.4.44) 7 (Core)</p>
+<p><strong>查看当前的启动内核</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grub2-editenvlist</span><br><span class="line">saved_entry=CentOS Linux(3.10.0-123.20.1.el7.x86_64) 7 (Core)</span><br></pre></td></tr></table></figure></p>
+<p><strong>查找要默认启动的操作系统名字</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/grub2.cfg | grep 3.4.44</span><br><span class="line">menuentry &apos;CentOS Linux (3.4.44) 7(Core)&apos; --class centos --class gnu-linux --class gnu --class os--unrestricted $menuentry_id_option&apos;gnulinux-3.10.0-123.el7.x86_64-advanced-e3146a2a-a237-4081-ba08-dbf258de434a&apos;&#123;</span><br><span class="line">        linux16 /vmlinuz-3.4.44 root=/dev/mapper/centos-rootro rd.lvm.lv=centos/swap vconsole.font=latarcyrheb-sun16 rd.lvm.lv=centos/rootcrashkernel=auto  vconsole.keymap=us rhgbquiet LANG=en_US.UTF-8</span><br><span class="line">        initrd16 /initramfs-3.4.44.img</span><br></pre></td></tr></table></figure></p>
+<p><strong>设置新的默认启动操作系统选项</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grub2-set-default  &quot;CentOSLinux (3.4.44) 7 (Core)&quot;</span><br></pre></td></tr></table></figure></p>
+<p><strong>查看是否生效</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grub2-editenv list</span><br><span class="line">saved_entry=CentOS Linux (3.4.44) 7 (Core)</span><br></pre></td></tr></table></figure></p>
 <p>转载自 <a href="http://blog.csdn.net/wjw7869/article/details/47302107" target="_blank" rel="noopener">http://blog.csdn.net/wjw7869/article/details/47302107</a></p>
 
       

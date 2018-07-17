@@ -10,9 +10,7 @@
   
 
   
-  <meta name="description" content="效果如图伪造的文件：1.php 12
-查看效果的脚本2.php 12
- 原文链接：http://www.2cto.com/kf/201201/115774.html">
+  <meta name="description" content="效果如图伪造的文件：1.php123456789&amp;lt;?php$ch = curl_init();curl_setopt($ch, CURLOPT_URL, &amp;quot;http://localhost/2.php&amp;quot;);curl_setopt($ch, CURLOPT_HTTPHEADE">
   
 
   
@@ -85,8 +83,8 @@
   <div class="article-content">
     <div class="entry">
       
-        <p><a href="/uploads/2013/05/20120101065534935.jpg"><img src="/uploads/2013/05/20120101065534935-300x93.jpg" alt="20120101065534935"></a><br>效果如图<br>伪造的文件：1.php<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
-<p>查看效果的脚本2.php<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+        <p><a href="/uploads/2013/05/20120101065534935.jpg"><img src="/uploads/2013/05/20120101065534935-300x93.jpg" alt="20120101065534935"></a><br>效果如图<br>伪造的文件：1.php<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$ch = curl_init();</span><br><span class="line">curl_setopt($ch, CURLOPT_URL, &quot;http://localhost/2.php&quot;);</span><br><span class="line">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&apos;X-FORWARDED-FOR:8.8.8.8&apos;, &apos;CLIENT-IP:8.8.8.8&apos;));  //构造IP</span><br><span class="line">curl_setopt($ch, CURLOPT_REFERER, &quot;http://www.xssxss.com/ &quot;);   //构造来路</span><br><span class="line">curl_setopt($ch, CURLOPT_HEADER, 1);</span><br><span class="line">$out = curl_exec($ch);</span><br><span class="line">curl_close($ch);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>查看效果的脚本2.php<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function getClientIp() &#123;</span><br><span class="line">    if (!empty($_SERVER[&quot;HTTP_CLIENT_IP&quot;]))</span><br><span class="line">        $ip = $_SERVER[&quot;HTTP_CLIENT_IP&quot;];</span><br><span class="line">    else if (!empty($_SERVER[&quot;HTTP_X_FORWARDED_FOR&quot;]))</span><br><span class="line">        $ip = $_SERVER[&quot;HTTP_X_FORWARDED_FOR&quot;];</span><br><span class="line">    else if (!empty($_SERVER[&quot;REMOTE_ADDR&quot;]))</span><br><span class="line">        $ip = $_SERVER[&quot;REMOTE_ADDR&quot;];</span><br><span class="line">    else</span><br><span class="line">        $ip = &quot;err&quot;;</span><br><span class="line">    return $ip;</span><br><span class="line">&#125;</span><br><span class="line">echo &quot;IP: &quot; . getClientIp() . &quot;&quot;;</span><br><span class="line">echo &quot;referer: &quot; . $_SERVER[&quot;HTTP_REFERER&quot;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
 <p> 原文链接：<a href="http://www.2cto.com/kf/201201/115774.html" target="_blank" rel="noopener">http://www.2cto.com/kf/201201/115774.html</a></p>
 
       

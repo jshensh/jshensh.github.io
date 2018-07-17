@@ -10,7 +10,7 @@
   
 
   
-  <meta name="description" content="12">
+  <meta name="description" content="123456789101112131415161718&amp;lt;?php    $post_data = array(                &#39;cclist=5AAAA&#39;,                &#39;date=0&#39;,                &#39;irname=&#39;,          ">
   
 
   
@@ -83,7 +83,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    $post_data = <span class="keyword">array</span>(</span><br><span class="line">                <span class="string">'cclist=5AAAA'</span>,</span><br><span class="line">                <span class="string">'date=0'</span>,</span><br><span class="line">                <span class="string">'irname='</span>,</span><br><span class="line">                <span class="string">'fullpath='</span>,</span><br><span class="line">            );</span><br><span class="line">    $post_data = implode(<span class="string">'&amp;'</span>,$post_data);</span><br><span class="line">    $url=<span class="string">'http://localhost/test.php'</span>;</span><br><span class="line">    $ch = curl_init();</span><br><span class="line">    curl_setopt($ch, CURLOPT_POST, <span class="number">1</span>);</span><br><span class="line">    curl_setopt($ch, CURLOPT_URL,$url);</span><br><span class="line">    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);</span><br><span class="line">    curl_setopt($ch, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">    curl_setopt($ch, CURLOPT_HEADER, <span class="number">0</span>);</span><br><span class="line">    $result=curl_exec($ch);</span><br><span class="line">    <span class="keyword">echo</span> $result;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
       
     </div>

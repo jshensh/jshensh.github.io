@@ -14,10 +14,7 @@
 
 在线的（blog、wiki、google doc、google site、…）
 
-
-离线的（wiki、LaTeX、sphinx、docbook、doxygen…）
-
-…然后觉得 git + sphinx 应该是个不错的选择，恩，生成网页">
+离线的（wiki、LaTeX、sphinx、docbook、doxygen…）…然后觉得 git + sphinx 应该是个不错的选择，恩，生成网页、qt">
   
 
   
@@ -92,149 +89,97 @@
       
         <p>一直纠结：用什么工具来记录学习中的点滴，用什么写软件的文档 </p>
 <ul>
-<li>在线的（blog、wiki、google doc、google site、…）</li>
+<li><p>在线的（blog、wiki、google doc、google site、…）</p>
+</li>
+<li><p>离线的（wiki、LaTeX、sphinx、docbook、doxygen…）<br>…<br>然后觉得 git + sphinx 应该是个不错的选择，恩，生成网页、qthelp、chm文件等都还不错，可是，当想生成包含中文的pdf时，又回到了让人倍感头痛的 LaTeX中文问题上面来了…<br>windows下似乎没什么好说的，本文稍偏重ubuntu，总体来说latex中文比前几年好用太多了。本文最初目标，学习最基本的sphinx+latex的中文处理。 </p>
+<h2 id="名词"><a href="#名词" class="headerlink" title="名词"></a>名词</h2></li>
 </ul>
-<ul>
-<li>离线的（wiki、LaTeX、sphinx、docbook、doxygen…）</li>
-</ul>
-<p>…<br>然后觉得 git + sphinx 应该是个不错的选择，恩，生成网页、qthelp、chm文件等都还不错，可是，当想生成包含中文的pdf时，又回到了让人倍感头痛的 LaTeX中文问题上面来了…<br>windows下似乎没什么好说的，本文稍偏重ubuntu，总体来说latex中文比前几年好用太多了。本文最初目标，学习最基本的sphinx+latex的中文处理。 </p>
-<h2 id="名词"><a href="#名词" class="headerlink" title="名词"></a>名词</h2><p>相关(类似)的名词太多了，想分清真不容易 </p>
- <table><br>  <tbody><br>   <tr><br><br><td colspan="1" rowspan="6">  引擎<br></td><br><br><td>  (Knuth)TeX<br></td><br><br><td>  真正的(原始的)TeX<br></td><br>   </tr><br>   <tr><br><br><td>   ε-TeX<br></td><br><br><td>  相对于原始的TeX它提供了一种扩展模式<br></td><br>   </tr><br>   <tr><br><br><td>   pdfTeX<br></td><br><br><td>  它从tex文件不通过dvi文件直接生成pdf文件（开发者已经转向LuaTeX）<br></td><br>   </tr><br>   <tr><br><br><td>   <strong>XeTeX</strong><br></td><br><br><td>  相对于原始的TeX，主要增加了Unicode和 OpenType 的支持<br></td><br>   </tr><br>   <tr><br><br><td>   LuaTeX<br></td><br><br><td>  它使用Lua作为扩展语言，对于LaTeX支持尚不完善？<br></td><br>   </tr><br>   <tr><br><br><td>   …<br></td><br><br><td><br></td><br>   </tr><br>   <tr><br><br><td colspan="1" rowspan="5">   宏集<br></td><br><br><td>  plain TeX<br></td><br><br><td>  最古老的TeX宏集，提供了一些最基本的命令<br></td><br>   </tr><br>   <tr><br><br><td>   AMSTeX<br></td><br><br><td>  是美国数学会提供的一个TeX宏集，它添加了许多数学符号和数学字体<br></td><br>   </tr><br>   <tr><br><br><td>   <strong>LaTeX</strong><br></td><br><br><td>  相对于PlainTeX，它使得科技文档的排版更加直观和方便<br></td><br>   </tr><br>   <tr><br><br><td>   ConTeXt<br></td><br><br><td>  和LaTeX 相比，它更加灵活和自由<br></td><br>   </tr><br>   <tr><br><br><td>   …<br></td><br><br><td><br></td><br>   </tr><br>   <tr><br><br><td colspan="1" rowspan="6">   发行版<br></td><br><br><td>  <strong>TeX Live</strong><br></td><br><br><td>  国际TeX用户组织TUG开发,支持不同的操作系统<br></td><br>   </tr><br>   <tr><br><br><td>   MiKTeX<br></td><br><br><td>  Windows 下广泛使用的一个TeX发行版<br></td><br>   </tr><br>   <tr><br><br><td>   ConTeXt Minimals<br></td><br><br><td>  它包含了最新版本的 ConTeXt<br></td><br>   </tr><br>   <tr><br><br><td>   teTeX<br></td><br><br><td>  一个Unix下的TeX发行版，现在已经停止更新且并入TeXLive<br></td><br>   </tr><br>   <tr><br><br><td>   fpTeX<br></td><br><br><td>  一个Windows的TeX发行版，已不再更新<br></td><br>   </tr><br>   <tr><br><br><td>   …<br></td><br><br><td><br></td><br>   </tr><br>  </tbody><br> </table> 
-
-
-
-
-
+<p>相关(类似)的名词太多了，想分清真不容易<br>| 引擎   | (Knuth)TeX       | 真正的(原始的)TeX                                               |<br>|        | ε-TeX            | 相对于原始的TeX它提供了一种扩展模式                             |<br>|        | pdfTeX           | 它从tex文件不通过dvi文件直接生成pdf文件（开发者已经转向LuaTeX） |<br>|        | XeTeX            | 相对于原始的TeX，主要增加了Unicode和 OpenType 的支持            |<br>|        | LuaTeX           | 它使用Lua作为扩展语言，对于LaTeX支持尚不完善？                  |<br>|        | …                |                                                                 |<br>| 宏集   | plain TeX        | 最古老的TeX宏集，提供了一些最基本的命令                         |<br>|        | AMSTeX           | 是美国数学会提供的一个TeX宏集，它添加了许多数学符号和数学字体   |<br>|        | LaTeX            | 相对于PlainTeX，它使得科技文档的排版更加直观和方便              |<br>|        | ConTeXt          | 和LaTeX 相比，它更加灵活和自由                                  |<br>|        | …                |                                                                 |<br>| 发行版 | TeX Live         | 国际TeX用户组织TUG开发,支持不同的操作系统                       |<br>|        | MiKTeX           | Windows 下广泛使用的一个TeX发行版                               |<br>|        | ConTeXt Minimals | 它包含了最新版本的 ConTeXt                                      |<br>|        | teTeX            | 一个Unix下的TeX发行版，现在已经停止更新且并入TeXLive            |<br>|        | fpTeX            | 一个Windows的TeX发行版，已不再更新                              |<br>|        | …                |                                                                 |</p>
 <p>真够乱的，还好，我们只关注一部分： </p>
 <h3 id="LaTeX"><a href="#LaTeX" class="headerlink" title="LaTeX"></a>LaTeX</h3><p>原始的TeX已经有了一组宏集，也就是Knuth所写的著名的Plain TeX(原始的TeX和Plain Tex都是《The TeXbook 》一书中介绍的内容)。<br>但是这些命令仍然很底层，不够方便、直观，于是Leslie Lamport写了另一组宏，称为LaTeX，主要是它版本配置和文中内容适度分开处理。<br>LaTeX 2ε是自1993年以来LaTeX的一个稳定版本，是目前大部分LaTeX书籍的主体内容。 </p>
 <h3 id="ctex"><a href="#ctex" class="headerlink" title="ctex"></a>ctex</h3><p>ctex宏包提供了一个统一的中文LaTeX文档框架,底层支持CCT、CJK和xeCJK三种中文LaTeX系统。 </p>
 <ul>
-<li>CCT 非常不推荐了</li>
+<li><p>CCT 非常不推荐了</p>
+</li>
+<li><p>CJK 这个？应该在windows下工作还很不错</p>
+</li>
+<li><p>xeCJK 比较推荐<br>ctex宏包提供了编写中文LaTeX文档常用的一些宏定义和命令。<br>主要文件包括ctexart.cls、ctexrep.cls、ctexbook.cls 和 ctex.sty、ctexcap.sty。 </p>
+<h3 id="生成pdf流程"><a href="#生成pdf流程" class="headerlink" title="生成pdf流程"></a>生成pdf流程</h3></li>
+<li>原始的方式<br>| <em>.tex | ==&gt;   | </em>.dvi | ==&gt;   | <em>.ps | ==&gt;    | </em>.pdf |<br>|       | latex |       | divps |      | ps2pdf |       |</li>
+<li><p>dvipdfm(x),少一个 <em>.ps 步骤<br>| </em>.tex | ==&gt;   | <em>.dvi | ==&gt;     | </em>.pdf |<br>|       | latex |       | dvipdfm |       |</p>
+</li>
+<li><p>pdflatex或xelatex，直接生成 pdf<br>| <em>.tex | ==&gt;      | </em>.pdf |<br>|       | pdflatex |       |</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="TeX-Live"><a href="#TeX-Live" class="headerlink" title="TeX Live"></a>TeX Live</h3></li>
 </ul>
+<p>种种迹象表明，ubuntu软件仓库中的TeX Live非常非常不好用。于是，只能从官方下载ISO镜像，或者直接网络安装了。 </p>
 <ul>
-<li>CJK 这个？应该在windows下工作还很不错</li>
+<li><p>下载 texlive2011-20110705.iso</p>
+</li>
+<li><p>挂载</p>
+</li>
 </ul>
-<ul>
-<li>xeCJK 比较推荐</li>
-</ul>
-<p>ctex宏包提供了编写中文LaTeX文档常用的一些宏定义和命令。<br>主要文件包括ctexart.cls、ctexrep.cls、ctexbook.cls 和 ctex.sty、ctexcap.sty。 </p>
-<h3 id="生成pdf流程"><a href="#生成pdf流程" class="headerlink" title="生成pdf流程"></a>生成pdf流程</h3><ul>
-<li>原始的方式</li>
-</ul>
- <table><br>  <tbody><br>   <tr><br><br><td>  <em>.tex<br></em></td><br><br><td>  ==&gt;<br></td><br><br><td>  .dvi<br></td><br><br><td>  ==&gt;<br></td><br><br><td>  <em>.ps<br></em></td><br><br><td>  ==&gt;<br></td><br><br><td>  .pdf<br></td><br>   </tr><br>   <tr><br><br><td><br></td><br><br><td>  latex<br></td><br><br><td><br></td><br><br><td>  divps<br></td><br><br><td><br></td><br><br><td>  ps2pdf<br></td><br><br><td><br></td><br>   </tr><br>  </tbody><br> </table> 
-
-
-
-
-
-
-
-
-
-<ul>
-<li>dvipdfm(x),少一个 *.ps 步骤</li>
-</ul>
- <table><br>  <tbody><br>   <tr><br><br><td>  <em>.tex<br></em></td><br><br><td>  ==&gt;<br></td><br><br><td>  .dvi<br></td><br><br><td>  ==&gt;<br></td><br><br><td>  *.pdf<br></td><br>   </tr><br>   <tr><br><br><td><br></td><br><br><td>  latex<br></td><br><br><td><br></td><br><br><td>  dvipdfm<br></td><br><br><td><br></td><br>   </tr><br>  </tbody><br> </table> 
-
-
-
-
-
-
-
-
-
-<ul>
-<li>pdflatex或xelatex，直接生成 pdf</li>
-</ul>
- <table><br>  <tbody><br>   <tr><br><br><td>  <em>.tex<br></em></td><br><br><td>  ==&gt;<br></td><br><br><td>  .pdf<br></td><br>   </tr><br>   <tr><br><br><td><br></td><br><br><td>  pdflatex<br></td><br><br><td><br></td><br>   </tr><br>  </tbody><br> </table> 
-
-
-
-
-
-
-
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="TeX-Live"><a href="#TeX-Live" class="headerlink" title="TeX Live"></a>TeX Live</h3><p>种种迹象表明，ubuntu软件仓库中的TeX Live非常非常不好用。于是，只能从官方下载ISO镜像，或者直接网络安装了。 </p>
-<ul>
-<li>下载 texlive2011-20110705.iso</li>
-</ul>
-<ul>
-<li>挂载</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /mnt/texlive</span><br><span class="line">sudo mount -o loop texlive2011-20110705.iso /mnt/texlive</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /mnt/texlive</span><br><span class="line">sudo mount -o loop texlive2011-20110705.iso /mnt/texlive</span><br></pre></td></tr></table></figure>
 <ul>
 <li>安装</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /mnt/texlive</span><br><span class="line">sudo ./install-tl</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /mnt/texlive</span><br><span class="line">sudo ./install-tl</span><br></pre></td></tr></table></figure>
 <h3 id="TeXworks"><a href="#TeXworks" class="headerlink" title="TeXworks"></a>TeXworks</h3><p>很不错的一个Tex(LaTeX、ConTeXt等)文档的创作环境，一个基于Unicode的可感知TeX的编辑器，集成了PDF浏览功能，干净、简洁的操作界面。<br>恩，更主要的是Qt4编写的开源软件，跨Windows、Linux、Mac OS环境。 </p>
 <h3 id="中文配置"><a href="#中文配置" class="headerlink" title="中文配置"></a>中文配置</h3><ul>
-<li>主要涉及几个宏包，这些宏包进化太快了，远没有latex稳定，可能了解它们最好的办法就是看其自带的手册了。</li>
+<li><p>主要涉及几个宏包，这些宏包进化太快了，远没有latex稳定，可能了解它们最好的办法就是看其自带的手册了。<br>当前的推荐配置(?) </p>
+</li>
+<li><p>使用XeLaTeX引擎处理中文</p>
+</li>
+<li><p>使用xeCJK宏包解决中西文字体选择、标点符号位置、CJK兼容等问题</p>
+</li>
+<li><p>使用ctex宏包和文档类解决中文版式习惯的问题<br>不使用这两个宏包（需要设置所用字体，命令fc-list :lang=zh-cn用来查看系统字体） </p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">\<span class="name">documentclass</span><span class="string">[11pt,a4paper]</span><span class="string">&#123;article&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">&#123;fontspec&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setmainfont</span><span class="string">&#123;WenQuanYi Micro Hei&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">begin</span><span class="string">&#123;document&#125;</span></span></span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line"><span class="tag">\<span class="name">end</span><span class="string">&#123;document&#125;</span></span></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>当前的推荐配置(?) </p>
-<ul>
-<li>使用XeLaTeX引擎处理中文</li>
-</ul>
-<ul>
-<li>使用xeCJK宏包解决中西文字体选择、标点符号位置、CJK兼容等问题</li>
-</ul>
-<ul>
-<li>使用ctex宏包和文档类解决中文版式习惯的问题</li>
-</ul>
-<p>不使用这两个宏包（需要设置所用字体，命令fc-list :lang=zh-cn用来查看系统字体）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\documentclass[11pt,a4paper]&#123;article&#125;</span><br><span class="line">\usepackage&#123;fontspec&#125;</span><br><span class="line">\setmainfont&#123;WenQuanYi Micro Hei&#125;</span><br><span class="line">\begin&#123;document&#125;</span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line">\end&#123;document&#125;</span><br></pre></td></tr></table></figure></p>
-<p>直接使用xeCJK宏包。(属于底层的方案)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\documentclass&#123;article&#125;</span><br><span class="line">\usepackage&#123;xeCJK&#125;</span><br><span class="line">\setCJKmainfont&#123;WenQuanYi Micro Hei&#125;</span><br><span class="line">\begin&#123;document&#125;</span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line">\end&#123;document&#125;</span><br></pre></td></tr></table></figure></p>
-<p>使用ctex宏包。高层的方案。(默认的字体是为windows准备的，在linux下，可以直接设置字体，但更建议采用后面的方法，修改ctex的字体文件)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">\documentclass&#123;ctexart&#125;</span><br><span class="line">\setCJKmainfont&#123;WenQuanYi Micro Hei&#125;</span><br><span class="line">\begin&#123;document&#125;</span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line">\end&#123;document&#125;</span><br></pre></td></tr></table></figure></p>
-<p>解决字体问题后，看起来还是很简单的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">\documentclass&#123;ctexart&#125;</span><br><span class="line">\begin&#123;document&#125;</span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line">\end&#123;document&#125;</span><br></pre></td></tr></table></figure></p>
+<p>直接使用xeCJK宏包。(属于底层的方案)<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">\<span class="name">documentclass</span><span class="string">&#123;article&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">&#123;xeCJK&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKmainfont</span><span class="string">&#123;WenQuanYi Micro Hei&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">begin</span><span class="string">&#123;document&#125;</span></span></span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line"><span class="tag">\<span class="name">end</span><span class="string">&#123;document&#125;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>使用ctex宏包。高层的方案。(默认的字体是为windows准备的，在linux下，可以直接设置字体，但更建议采用后面的方法，修改ctex的字体文件)<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">\<span class="name">documentclass</span><span class="string">&#123;ctexart&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKmainfont</span><span class="string">&#123;WenQuanYi Micro Hei&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">begin</span><span class="string">&#123;document&#125;</span></span></span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line"><span class="tag">\<span class="name">end</span><span class="string">&#123;document&#125;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>解决字体问题后，看起来还是很简单的：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">\<span class="name">documentclass</span><span class="string">&#123;ctexart&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">begin</span><span class="string">&#123;document&#125;</span></span></span><br><span class="line">TeX Live 2011，XeLaTeX，Texworks，你们好！！</span><br><span class="line"><span class="tag">\<span class="name">end</span><span class="string">&#123;document&#125;</span></span></span><br></pre></td></tr></table></figure></p>
 <h3 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h3><ul>
-<li>如果不想用linux下的字体，还可以把 Windows 下的一些字体直接拷贝到~/.fonts目录中 </li>
+<li><p>如果不想用linux下的字体，还可以把 Windows 下的一些字体直接拷贝到~/.fonts目录中 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp sim* ~/.fonts</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于xeCJK宏包，使用命令设置字体，比如：</p>
+</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp sim* ~/.fonts</span><br></pre></td></tr></table></figure>
-<ul>
-<li>对于xeCJK宏包，使用命令设置字体，比如：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">\setCJKmainfont[BoldFont=Droid Sans Fallback, ItalicFont=AR PL UKai CN]&#123;AR PL UMing CN&#125;</span><br><span class="line">\setCJKmonofont[Scale=0.9]&#123;AR PL UKai CN&#125;</span><br><span class="line">\setCJKfamilyfont&#123;song&#125;[BoldFont=Droid Sans Fallback]&#123;AR PL UMing CN&#125;</span><br><span class="line">\setCJKfamilyfont&#123;sf&#125;[BoldFont=Droid Sans Fallback]&#123;Droid Sans Fallback&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">\<span class="name">setCJKmainfont</span><span class="string">[BoldFont=Droid Sans Fallback, ItalicFont=AR PL UKai CN]</span><span class="string">&#123;AR PL UMing CN&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKmonofont</span><span class="string">[Scale=0.9]</span><span class="string">&#123;AR PL UKai CN&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKfamilyfont</span><span class="string">&#123;song&#125;</span><span class="string">[BoldFont=Droid Sans Fallback]</span><span class="string">&#123;AR PL UMing CN&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKfamilyfont</span><span class="string">&#123;sf&#125;</span><span class="string">[BoldFont=Droid Sans Fallback]</span><span class="string">&#123;Droid Sans Fallback&#125;</span></span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>使用ctex宏包时，直接修改下面这个文件：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/texlive/2011/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-winfonts.def</span><br></pre></td></tr></table></figure>
-<p>其内容大致如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">% ctex-xecjk-winfonts.def: Windows 的 xeCJK 字体设置，默认为六种中易字体</span><br><span class="line">% vim:ft=tex</span><br><span class="line"></span><br><span class="line">\setCJKmainfont[BoldFont=&#123;SimHei&#125;,ItalicFont=&#123;[SIMKAI.TTF]&#125;]&#123;SimSun&#125;</span><br><span class="line">\setCJKsansfont&#123;SimHei&#125;</span><br><span class="line">\setCJKmonofont&#123;[SIMFANG.TTF]&#125;</span><br><span class="line"></span><br><span class="line">\setCJKfamilyfont&#123;zhsong&#125;&#123;SimSun&#125;</span><br><span class="line">\setCJKfamilyfont&#123;zhhei&#125;&#123;SimHei&#125;</span><br><span class="line">\setCJKfamilyfont&#123;zhkai&#125;&#123;[SIMKAI.TTF]&#125;</span><br><span class="line">\setCJKfamilyfont&#123;zhfs&#125;&#123;[SIMFANG.TTF]&#125;</span><br><span class="line"></span><br><span class="line">\newcommand*&#123;\songti&#125;&#123;\CJKfamily&#123;zhsong&#125;&#125; % 宋体</span><br><span class="line">\newcommand*&#123;\heiti&#125;&#123;\CJKfamily&#123;zhhei&#125;&#125;   % 黑体</span><br><span class="line">\newcommand*&#123;\kaishu&#125;&#123;\CJKfamily&#123;zhkai&#125;&#125;  % 楷书</span><br><span class="line">\newcommand*&#123;\fangsong&#125;&#123;\CJKfamily&#123;zhfs&#125;&#125; % 仿宋</span><br><span class="line"></span><br><span class="line">\endinput</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/texlive/2011/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-winfonts.def</span><br></pre></td></tr></table></figure>
+<p>其内容大致如下：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% ctex-xecjk-winfonts.def: Windows 的 xeCJK 字体设置，默认为六种中易字体</span></span><br><span class="line"><span class="comment">% vim:ft=tex</span></span><br><span class="line"><span class="tag">\<span class="name">setCJKmainfont</span><span class="string">[BoldFont=&#123;SimHei&#125;,ItalicFont=&#123;[SIMKAI.TTF]</span></span>&#125;]&#123;SimSun&#125;</span><br><span class="line"><span class="tag">\<span class="name">setCJKsansfont</span><span class="string">&#123;SimHei&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKmonofont</span><span class="string">&#123;[SIMFANG.TTF]&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKfamilyfont</span><span class="string">&#123;zhsong&#125;</span><span class="string">&#123;SimSun&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKfamilyfont</span><span class="string">&#123;zhhei&#125;</span><span class="string">&#123;SimHei&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKfamilyfont</span><span class="string">&#123;zhkai&#125;</span><span class="string">&#123;[SIMKAI.TTF]&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKfamilyfont</span><span class="string">&#123;zhfs&#125;</span><span class="string">&#123;[SIMFANG.TTF]&#125;</span></span></span><br><span class="line"><span class="tag">\<span class="name">newcommand*</span><span class="string">&#123;\songti&#125;</span><span class="string">&#123;\CJKfamily&#123;zhsong&#125;</span></span>&#125; <span class="comment">% 宋体</span></span><br><span class="line"><span class="tag">\<span class="name">newcommand*</span><span class="string">&#123;\heiti&#125;</span><span class="string">&#123;\CJKfamily&#123;zhhei&#125;</span></span>&#125;   <span class="comment">% 黑体</span></span><br><span class="line"><span class="tag">\<span class="name">newcommand*</span><span class="string">&#123;\kaishu&#125;</span><span class="string">&#123;\CJKfamily&#123;zhkai&#125;</span></span>&#125;  <span class="comment">% 楷书</span></span><br><span class="line"><span class="tag">\<span class="name">newcommand*</span><span class="string">&#123;\fangsong&#125;</span><span class="string">&#123;\CJKfamily&#123;zhfs&#125;</span></span>&#125; <span class="comment">% 仿宋</span></span><br><span class="line"><span class="tag">\<span class="name">endinput</span></span></span><br></pre></td></tr></table></figure></p>
 <p>将其中的 [SIMKAI.TTF] 和 [SIMFANG.TTF] 用 KaiTi 和 FangSong 替代。(好奇怪，Windows下怎么会这个奇怪的名字，字体直接拷过来，就不需要这么奇怪的名字) </p>
 <h3 id="sphinx"><a href="#sphinx" class="headerlink" title="sphinx"></a>sphinx</h3><p>有了前面一堆东西，终于可以回到Pyhton sphinx了<br>当我们运行 sphinx-build -b latex src target时，它生成 </p>
 <ul>
-<li>Makefile</li>
-</ul>
-<ul>
-<li>XXX.tex</li>
-</ul>
-<ul>
-<li>…</li>
-</ul>
-<p>等文件<br>但是， </p>
-<ul>
-<li>生成的 .tex 中：使用的documentclass是report或article，我们需要的是ctexrep或ctexart</li>
-</ul>
-<ul>
-<li>生成的 Makefile 中：使用的latex和pdflatex，我们需要的是 xelatex</li>
-</ul>
-<p>这样以来，需要简单修改一下的sphinx的latex生成器了，找到目标(这个位置不定，在python中import sphinx，然后查看sphinx.比较容易定位)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/pymodules/python2.7/sphinx/writers/latex.py</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>搜索article和report，改为ctexart和ctexrep<br>Makefile 是通过哪个文件生成的呢？好隐蔽 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/sphinx/texinputs/Makefile</span><br></pre></td></tr></table></figure>
+<li><p>Makefile</p>
+</li>
+<li><p>XXX.tex</p>
+</li>
+<li><p>…<br>等文件<br>但是， </p>
+</li>
+<li><p>生成的 .tex 中：使用的documentclass是report或article，我们需要的是ctexrep或ctexart</p>
+</li>
+<li><p>生成的 Makefile 中：使用的latex和pdflatex，我们需要的是 xelatex<br>这样以来，需要简单修改一下的sphinx的latex生成器了，找到目标(这个位置不定，在python中import sphinx，然后查看sphinx.比较容易定位) </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/pymodules/python2.7/sphinx/writers/latex.py</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>搜索article和report，改为ctexart和ctexrep<br>Makefile 是通过哪个文件生成的呢？好隐蔽 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/sphinx/texinputs/Makefile</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>恩，一个静态文件，直接按照自己需要改就行了。不过我们直接将里面所有的pdflatex直接改成xelatex就够了 </p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="http://wiki.ctex.org/index.php/%E9%A6%96%E9%A1%B5" target="_blank" rel="noopener">http://wiki.ctex.org/index.php/%E9%A6%96%E9%A1%B5</a></li>
+<li><p><a href="http://wiki.ctex.org/index.php/%E9%A6%96%E9%A1%B5" target="_blank" rel="noopener">http://wiki.ctex.org/index.php/%E9%A6%96%E9%A1%B5</a></p>
+</li>
+<li><p><a href="http://www.newsmth.net/bbscon.php?bid=460&amp;id=282515&amp;ftype=11" target="_blank" rel="noopener">http://www.newsmth.net/bbscon.php?bid=460&amp;id=282515&amp;ftype=11</a></p>
+</li>
+<li><p><a href="http://tug.ctan.org/tex-archive/language/chinese/ctex/doc/ctex.pdf" target="_blank" rel="noopener">http://tug.ctan.org/tex-archive/language/chinese/ctex/doc/ctex.pdf</a></p>
+</li>
+<li><p><a href="http://code.google.com/p/texworks/" target="_blank" rel="noopener">http://code.google.com/p/texworks/</a><br>转载自：<a href="http://blog.csdn.net/dbzhang800/article/details/6820659" target="_blank" rel="noopener">http://blog.csdn.net/dbzhang800/article/details/6820659</a></p>
+</li>
 </ul>
-<ul>
-<li><a href="http://www.newsmth.net/bbscon.php?bid=460&amp;id=282515&amp;ftype=11" target="_blank" rel="noopener">http://www.newsmth.net/bbscon.php?bid=460&amp;id=282515&amp;ftype=11</a></li>
-</ul>
-<ul>
-<li><a href="http://tug.ctan.org/tex-archive/language/chinese/ctex/doc/ctex.pdf" target="_blank" rel="noopener">http://tug.ctan.org/tex-archive/language/chinese/ctex/doc/ctex.pdf</a></li>
-</ul>
-<ul>
-<li><a href="http://code.google.com/p/texworks/" target="_blank" rel="noopener">http://code.google.com/p/texworks/</a></li>
-</ul>
-<p>转载自：<a href="http://blog.csdn.net/dbzhang800/article/details/6820659" target="_blank" rel="noopener">http://blog.csdn.net/dbzhang800/article/details/6820659</a></p>
 
       
     </div>
