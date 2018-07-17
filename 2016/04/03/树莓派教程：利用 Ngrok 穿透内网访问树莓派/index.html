@@ -97,7 +97,7 @@
 <p>编译 Ngrok 客户端：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GOOS=linux GOARCH=arm make release-client</span><br></pre></td></tr></table></figure>
 <p>将服务端和客户端分别拷贝到 VPS 和树莓派的可执行路径下。</p>
-<p><strong>设置域名解析</strong><br>把域名 example.com 解析到 VPS 上，假如只需要一个二级域名 abc，可直接设置将其 A 记录解析到 VPS 的 IP 上，如果需要很多二级域名，可以直接把 * 解析到 IP 上。<br><a href="http://futa.ooo/wp-content/uploads/2016/04/7hvs9nrxl84n4uoe.png"><img src="http://futa.ooo/wp-content/uploads/2016/04/7hvs9nrxl84n4uoe.png" alt="7hvs9nrxl84n4uoe"></a></p>
+<p><strong>设置域名解析</strong><br>把域名 example.com 解析到 VPS 上，假如只需要一个二级域名 abc，可直接设置将其 A 记录解析到 VPS 的 IP 上，如果需要很多二级域名，可以直接把 * 解析到 IP 上。<br><a href="http://futa.ooo/uploads/2016/04/7hvs9nrxl84n4uoe.png"><img src="http://futa.ooo/uploads/2016/04/7hvs9nrxl84n4uoe.png" alt="7hvs9nrxl84n4uoe"></a></p>
 <p><strong>服务端启动</strong><br>从命令行启动：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/ngrokd -tlsKey=server.key -tlsCrt=server.crt -domain=example.com -httpAddr=:8080 -httpsAddr=:8081</span><br></pre></td></tr></table></figure>
 <p>设置为开机自动启动：</p>
