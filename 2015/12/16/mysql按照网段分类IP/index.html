@@ -88,7 +88,7 @@ inet_aton(‘192.168.3">
     <div class="entry">
       
         <p>数据库里面取出来是IP地址，需要用sql来给IP段地址分类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT INET_NTOA(CONVERT(INET_ATON(&apos;192.168.35.11&apos;),SIGNED)&amp;0xFFFFFF00) AS tt</span><br></pre></td></tr></table></figure></p>
-<p><a href="http://futa.ooo/uploads/2015/12/QQ图片20151216223458.png"><img src="http://futa.ooo/uploads/2015/12/QQ图片20151216223458.png" alt="QQ图片20151216223458"></a></p>
+<p><a href="/uploads/2015/12/QQ图片20151216223458.png"><img src="/uploads/2015/12/QQ图片20151216223458.png" alt="QQ图片20151216223458"></a></p>
 <p>命令解释:</p>
 <ol>
 <li>inet_aton(‘192.168.35.11’)这个函数是将IP地址转化为一个序列. </li>
