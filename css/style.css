@@ -804,7 +804,6 @@ article .tags-cloud .post-tags a:not(:last-of-type):after {
 article .categories-cloud {
   width: 100%;
   margin: 8rem 0;
-  text-align: center;
   line-height: 2rem;
 }
 article .categories-cloud > spannot(last-child) {
@@ -816,6 +815,9 @@ article .categories-cloud > span {
 article .categories-cloud > span > span {
   line-height: 1;
   vertical-align: middle;
+}
+article .categories-cloud > p {
+  margin: 1rem;
 }
 article .archive-categories,
 article .archive-categories > spannot(last-child) {
