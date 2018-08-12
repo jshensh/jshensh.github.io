@@ -63,6 +63,92 @@
 
   
     
+    <h3 class="article-title"><a href="/2016/10/27/安装 Laravel，撞墙，采用 Packageist 的中国镜像/"><span>安装 Laravel，撞墙，采用 Packageist 的中国镜像</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/10/27/安装 Laravel，撞墙，采用 Packageist 的中国镜像/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-10-26T19:11:00.000Z">
+          2016-10-27
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>参考：</p>
+<ul>
+<li><a href="https://laravel.com/docs/5.2" target="_blank" rel="noopener">https://laravel.com/docs/5.2</a> – 英文手册</li>
+</ul>
+<ul>
+<li><a href="http://laravel-china.org/docs/5.1" target="_blank" rel="noopener">http://laravel-china.org/docs/5.1</a> – 中文手册</li>
+</ul>
+<ul>
+<li><a href="http://pkg.phpcomposer.com/" target="_blank" rel="noopener">http://pkg.phpcomposer.com/</a> – Packagist / Composer 中国全量镜像内（绕过垃圾的墙）</li>
+</ul>
+<p><strong>安装 Laravel，创建 blog 项目</strong><br>安装方法有两种：</p>
+<ol>
+<li>全局安装 Laravel Installer，然后用下面的指令创建新项目： laravel new blog</li>
+</ol>
+<ol start="2">
+<li>不安装啥，直接用 Composer 创建新项目：composer create-project –prefer-dist laravel/laravel blog</li>
+</ol>
+<p>看起来第一种方案比较好，然而：<br>！说明！由于墙的存在，全局安装 Laravel Installer 的方案可能不会成功。</p>
+<p><strong>全局安装 Laravel Installer</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer global require "laravel/installer"</span><br></pre></td></tr></table></figure></p>
+<p><strong>执行命令</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">laravel new blog</span><br></pre></td></tr></table></figure></p>
+<p>悲剧了，出现错误：<br>cURL error 7: Failed to connect to cabinet.laravel.com port 80: Timed out……<br>直接用 Composer 创建 Laravel 项目</p>
+<p>参照网上的方案，先执行加速 composer 的执行（用国内的镜像，好人呐！）：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer config -g repo.packagist composer https://packagist.phpcomposer.com</span><br></pre></td></tr></table></figure></p>
+<p>然后执行<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer global require "laravel/installer"</span><br></pre></td></tr></table></figure></p>
+<p>创建项目</p>
+<p>转载自 <a href="http://blog.sina.com.cn/s/blog_6262a50e0102ws9z.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_6262a50e0102ws9z.html</a>，有删改</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/10/27/安装 Laravel，撞墙，采用 Packageist 的中国镜像/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2016/10/23/CentOS 7 grub Linux 修改默认的启动操作系统/"><span>CentOS 7 grub Linux 修改默认的启动操作系统</span></a></h3>
     
   
@@ -721,75 +807,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2016/06/27/记录一下钱升钱的面试题和第一小题答案/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/06/16/css3 calc()：css简单的数学运算-加减乘除/"><span>css3 calc()：css简单的数学运算-加减乘除</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/06/16/css3 calc()：css简单的数学运算-加减乘除/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-06-15T21:08:25.000Z">
-          2016-06-16
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>多好的东西啊，不用js，一个css就解决了。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line"><span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#ddd</span>;</span><br><span class="line"><span class="attribute">width</span>:<span class="built_in">calc</span>(100% - 100px);</span><br><span class="line"><span class="attribute">background</span>:<span class="number">#9AC8EB</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3栏等宽布局。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line"><span class="attribute">margin-left</span>:<span class="number">20px</span>;</span><br><span class="line"><span class="attribute">width</span>:<span class="built_in">calc</span>(100%/3 - 20px);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span><span class="selector-pseudo">:nth-child(3n)</span>&#123;</span><br><span class="line"><span class="attribute">margin-left</span>:<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>实例：</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>css3 calc()：css简单的数学运算-加减乘除--刘和虎的博客<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"http://www.liuhehu.com/themes/sohodesign/js/jquery-1.7.1.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"js/iehtml5.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="css"><span class="selector-class">.box</span>&#123;</span></span><br><span class="line"><span class="css"><span class="selector-tag">border</span><span class="selector-pseudo">:1px</span> <span class="selector-tag">solid</span> <span class="selector-id">#ddd</span>;</span></span><br><span class="line"><span class="css"><span class="selector-tag">margin</span><span class="selector-pseudo">:0</span> <span class="selector-tag">auto</span>;</span></span><br><span class="line"><span class="css"><span class="selector-tag">width</span><span class="selector-pseudo">:calc(100</span>% <span class="selector-tag">-</span> 100<span class="selector-tag">px</span>);</span></span><br><span class="line"><span class="css"><span class="selector-tag">width</span><span class="selector-pseudo">:-moz-calc(100</span>% <span class="selector-tag">-</span> 100<span class="selector-tag">px</span>);</span></span><br><span class="line"><span class="css"><span class="selector-tag">width</span><span class="selector-pseudo">:-webkit-calc(100</span>% <span class="selector-tag">-</span> 100<span class="selector-tag">px</span>);</span></span><br><span class="line"><span class="css"><span class="selector-tag">background</span>:<span class="selector-id">#9AC8EB</span>;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span>width:calc(100% - 100px)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">/*</span></span><br><span class="line"><span class="undefined">作者：刘和虎</span></span><br><span class="line"><span class="undefined">*/</span></span><br><span class="line"><span class="javascript">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="undefined">&#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>运算规则</strong><br>calc()使用通用的数学运算规则，但是也提供更智能的功能：</p>
-<p>使用“+”“-”“*”“/”四则运算；<br>可以使用百分比、px、em、rem等单位；<br>可以混合使用各种单位进行计算。</p>
-<p><strong>浏览器支持</strong><br>firefox 4.0+已经开支支持calc()功能，不过要使用-moz-calc()私有属性，chrome从19 dev版，也开始支持私有的-webkit-calc()写法，IE9这次则牛逼了一次，原生支持标准的不带前缀的写法了。Opera貌似还不支持～～</p>
-<p><strong>注意：</strong><br>在<a href="http://www.qianduan.net/calc-at-at-at-page-intelligent-layout.html看到的，他的原文中width:calc(100%-100px)是没有空格的，经测试无效，就像其评论中：calc()里面的表达式好像要注意格式。" target="_blank" rel="noopener">http://www.qianduan.net/calc-at-at-at-page-intelligent-layout.html看到的，他的原文中width:calc(100%-100px)是没有空格的，经测试无效，就像其评论中：calc()里面的表达式好像要注意格式。</a></p>
-<p>转载自 <a href="http://www.liuhehu.com/?p=320" target="_blank" rel="noopener">http://www.liuhehu.com/?p=320</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/06/16/css3 calc()：css简单的数学运算-加减乘除/#comment">评论</a>
         </span>
       </span>
     </div>

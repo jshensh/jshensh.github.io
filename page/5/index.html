@@ -63,6 +63,140 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/12/29/识别真假搜索引擎（搜索蜘蛛）方法（baidu,google,Msn,sogou,soso等)/"><span>识别真假搜索引擎（搜索蜘蛛）方法（baidu,google,Msn,sogou,soso等)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/12/29/识别真假搜索引擎（搜索蜘蛛）方法（baidu,google,Msn,sogou,soso等)/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-12-28T17:12:50.000Z">
+          2015-12-29
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近工作中遇到个问题，就是有一些资源，不希望别人很派发的抓取，这样会占用我们带宽还有资源。因此，我们对页面访问做了频率限制。这样一来，又怕搜索蜘蛛给限制了。 因此，我们有个需求，就是除了常见搜索蜘蛛，其它都要做频率限制。 工作就变成了，首先我们怎么样正确表示搜索蜘蛛。</p>
+<p><strong>怎么样识别搜索蜘蛛</strong><br>搜索引擎基本上由最先google,和国内的baidu统一了。刚开始比较混乱，后期有很多规则协议，可以遵循。基本上一些新兴的搜索引擎在访问站点时候，都会延用google制定的一些规则。它们一般都会有特定的user-agent，但是，如果我们只通过user-agent去识别搜索蜘蛛的话，那样第三方抓取程序，都会去伪造个user-agent。变成搜索蜘蛛的，如：Googlebot/2.1 (+<a href="http://www.googlebot.com/bot.html" target="_blank" rel="noopener">http://www.googlebot.com/bot.html) </a>%C2%A0)是，google蜘蛛的值。</p>
+<p>现在一般搜索引擎都提供一个DNS 反向IP查询功能，只需要把访问来的IP 通过反向查询域名，看是不是搜索引擎域名。这样伪造的爬虫工具，就会被很容易识别了。 具体识别真假蜘蛛只需要：<em>1，判断user-agent是否满足蜘蛛格式 2，然后进一步确定IP 反解析域名是否属于该搜索引擎域名.</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">搜索引擎</th>
+<th style="text-align:center">user-agent(包含)</th>
+<th style="text-align:center">是否PTR</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">google</td>
+<td style="text-align:center">Googlebot</td>
+<td style="text-align:center">√</td>
+<td>host ip  得到域名：googlebot.com主域名</td>
+</tr>
+<tr>
+<td style="text-align:center">baidu</td>
+<td style="text-align:center">Baiduspider</td>
+<td style="text-align:center">√</td>
+<td>host ip  得到域名：<em>.baidu.com 或 </em>.baidu.jp</td>
+</tr>
+<tr>
+<td style="text-align:center">yahoo</td>
+<td style="text-align:center">Yahoo!</td>
+<td style="text-align:center">√</td>
+<td>host ip  得到域名：inktomisearch.com主域名</td>
+</tr>
+<tr>
+<td style="text-align:center">Sogou</td>
+<td style="text-align:center">Sogou</td>
+<td style="text-align:center">×</td>
+<td><em>Sogou web spider/3.0(+<a href="http://www.sogou.com/docs/help/webmasters.htm#07″" target="_blank" rel="noopener">http://www.sogou.com/docs/help/webmasters.htm#07″</a>)<br></em>Sogou Push Spider/3.0(+<a href="http://www.sogou.com/docs/help/webmasters.htm#07″" target="_blank" rel="noopener">http://www.sogou.com/docs/help/webmasters.htm#07″</a>)</td>
+</tr>
+<tr>
+<td style="text-align:center">网易</td>
+<td style="text-align:center">YodaoBot</td>
+<td style="text-align:center">×</td>
+<td>*Mozilla/5.0 (compatible; YodaoBot/1.0; <a href="http://www.yodao.com/help/webmaster/spider/”" target="_blank" rel="noopener">http://www.yodao.com/help/webmaster/spider/”</a>; )</td>
+</tr>
+<tr>
+<td style="text-align:center">MSN</td>
+<td style="text-align:center">MSNBot</td>
+<td style="text-align:center">√</td>
+<td>host ip  得到域名：live.com主域名</td>
+</tr>
+<tr>
+<td style="text-align:center">360</td>
+<td style="text-align:center">360Spider</td>
+<td style="text-align:center">×</td>
+<td>Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.8.0.11)  Firefox/1.5.0.11; 360Spider</td>
+</tr>
+<tr>
+<td style="text-align:center">soso</td>
+<td style="text-align:center">Sosospider</td>
+<td style="text-align:center">×</td>
+<td>Sosospider+(+<a href="http://help.soso.com/webspider.htm" target="_blank" rel="noopener">http://help.soso.com/webspider.htm</a>)</td>
+</tr>
+<tr>
+<td style="text-align:center">bing</td>
+<td style="text-align:center">bingbot</td>
+<td style="text-align:center">√</td>
+<td>host ip  得到域名：msn.com主域名</td>
+</tr>
+</tbody>
+</table>
+<p>以上是我整理一些常用搜索引擎的user-agent特征码，以及IP反向解析情况。保证准确识别搜索引擎，我们通过IP反解析是最为准确方法。好在google,baidu,bing都有做反向解析。基本上占用了80%搜索市场了。下面，我是我检测方法。</p>
+<p><strong>PHP反解析IP方法</strong><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_spider</span><span class="params">($ip,$ua)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> $spider_list=<span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'google'</span>=&gt;<span class="keyword">array</span>(<span class="string">'Googlebot'</span>,<span class="string">'googlebot.com'</span>),</span><br><span class="line">        <span class="string">'baidu'</span>=&gt;<span class="keyword">array</span>(<span class="string">'Baiduspider'</span>,<span class="string">'.baidu.'</span>),</span><br><span class="line">        <span class="string">'yahoo'</span>=&gt;<span class="keyword">array</span>(<span class="string">'Yahoo!'</span>,<span class="string">'inktomisearch.com'</span>),</span><br><span class="line">        <span class="string">'msn'</span>=&gt;<span class="keyword">array</span>(<span class="string">'MSNBot'</span>,<span class="string">'live.com'</span>),</span><br><span class="line">        <span class="string">'bing'</span>=&gt;<span class="keyword">array</span>(<span class="string">'bingbot'</span>,<span class="string">'msn.com'</span>)</span><br><span class="line">    );</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">if</span>(!preg_match(<span class="string">'/^(\d&#123;1,3&#125;\.)&#123;3&#125;\d&#123;1,3&#125;$/'</span>,$ip)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">empty</span>($ua)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">foreach</span> ($spider_list <span class="keyword">as</span> $k=&gt;$v) &#123;</span><br><span class="line">        <span class="keyword">if</span>(stripos($ua,$v[<span class="number">0</span>])!==<span class="keyword">false</span>) &#123;</span><br><span class="line">            $domain = gethostbyaddr($ip);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>($domain &amp;&amp; stripos($domain,$v[<span class="number">1</span>])!==<span class="keyword">false</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> $k;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>目前只加入几个搜索引擎检测，这些是可以做反解析查询的。不能做反解析查询的，最好做速度限制，用户会使用它们来伪造搜索引擎来抓取你的资源。欢迎大家交流，先写到这里了。</p>
+<p>转载自 <a href="http://blog.chacuo.net/147.html" target="_blank" rel="noopener">http://blog.chacuo.net/147.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/12/29/识别真假搜索引擎（搜索蜘蛛）方法（baidu,google,Msn,sogou,soso等)/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/12/20/将 func uc_authcode 翻译成了 node 版，留备用/"><span>将 func uc_authcode 翻译成了 node 版，留备用</span></a></h3>
     
   
@@ -794,72 +928,6 @@ def parse_attack(self, result):
         <i class="icon-comments"></i>
         <span>
           <a href="/2015/11/04/WordPress 插件开发实例 – 详细注释的 Widget 开发例子/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/11/02/Js数组里删除指定的元素（不是指定的位置）/"><span>Js数组里删除指定的元素（不是指定的位置）</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/11/02/Js数组里删除指定的元素（不是指定的位置）/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-11-02T05:34:04.000Z">
-          2015-11-02
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>之前一直是做后端的，从来也没有写过js，但是却一直想学学，也只是基于兴趣而已！现在到了这个公司，确实大量的写js。但也一直都是没有系统的去看过js！都是搞什么查什么！<br>最近要解决一个问题，但是用到了js的数组，知道了元素要去删除这个数组中的这个指定的元素。网上找到了一些解决办法，在这里做个笔记记下来：<br>首先可以给js的数组对象定义一个函数，用于查找指定的元素在数组中的位置，即索引，代码为：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.indexOf = <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;              </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.length; i++) &#123;  </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>[i] == val) <span class="keyword">return</span> i;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>然后使用通过得到这个元素的索引，使用js数组自己固有的函数去删除这个元素：<br>代码为：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.remove = <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;  </span><br><span class="line">    <span class="keyword">var</span> index = <span class="keyword">this</span>.indexOf(val);  </span><br><span class="line">    <span class="keyword">if</span> (index &gt; <span class="number">-1</span>) &#123;  </span><br><span class="line">        <span class="keyword">this</span>.splice(index, <span class="number">1</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>这样就构造了这样一个函数，比如我有有一个数组：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> emp = [<span class="string">'abs'</span>,<span class="string">'dsf'</span>,<span class="string">'sdf'</span>,<span class="string">'fd'</span>];</span><br></pre></td></tr></table></figure></p>
-<p>假如我们要删除其中的fd,就可以使用:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emp.remove(<span class="string">'fd'</span>);</span><br></pre></td></tr></table></figure></p>
-<p>转载自 <a href="http://my.oschina.net/zh119893/blog/265964" target="_blank" rel="noopener">http://my.oschina.net/zh119893/blog/265964</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/11/02/Js数组里删除指定的元素（不是指定的位置）/#comment">评论</a>
         </span>
       </span>
     </div>

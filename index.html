@@ -63,6 +63,93 @@
 
   
     
+    <h3 class="article-title"><a href="/2018/08/12/斐讯 N1 折腾记：降级及刷入官改/"><span>斐讯 N1 折腾记：降级及刷入官改</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2018/08/12/斐讯 N1 折腾记：降级及刷入官改/" rel="bookmark">
+        <time class="entry-date published" datetime="2018-08-12T06:16:54.000Z">
+          2018-08-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>　　上个月，斐讯 K2T 首发那天，小山一不小心抢了两台 K2T，这就尴尬了。退了吧，好不容易抢到的，不退吧，我只能激活一台。所以，两台 K2T 我自己用了一台，另一台我准备卖出去。然而一个月过去了，眼看K码就要到期了，还是没有人要。咋办呢，只能再注册个账号来激活这台 K2T，但是首次激活的机会不能浪费啊，所以我又买了 N1 + H1 。<br>　　本来我根本不打算买 N1，因为我觉得这货没啥用，也没怎么关注过它。但是买来之后才发现，这货居然还能刷固件，刷完固件之后就是个电视盒子了，而且还能运行完整的 Linux。<br>　　这就非常耐斯了，我的折腾之心按耐不住了，所以就开始一步步的折腾。<br>　　这篇教程就先教大家给 斐讯 N1 降级以及刷入官改固件（电视盒子），这也是以后折腾的基础。</p>
+<h2 id="降级"><a href="#降级" class="headerlink" title="降级"></a>降级</h2><p>　　如果你的 N1 系统版本是 2.19，那么可以直接跳过降级过程，如果是其他版本，请按照下面的方法降级关键分区。<br>　　降级准备：你需要有一根双公头的 USB 数据线，淘宝几块钱包邮，附上小山购买的链接（绝对不是广告）：<a href="https://detail.tmall.com/item.htm?id=13036924933" target="_blank" rel="noopener">https://detail.tmall.com/item.htm?id=13036924933</a><br>　　有些机智的小伙伴可能会说，我主板有 Type-C 接口，我拿手机的 Type-C 数据线，Type-C 这头插主板，A 头插 N1 行不行。<br>　　这个方法是可以的，小山最开始也是这么做的。但是，只能用来降级，刷官改是不行的，这个问题在刷官改步骤会解释。</p>
+<ol>
+<li>开启 ADB 调试</li>
+</ol>
+<p>　　非常简单，只需要用鼠标点击斐讯 N1 官方固件的那个版本号 4 次，出现 【ADB调试开启】的字样即可。</p>
+<ol start="2">
+<li>重启至 fastboot 模式</li>
+</ol>
+<p>　　如果经常给手机刷机的小伙伴，对这个模式肯定不陌生，也就是我们平常所说的线刷模式。<br>　　这一步需要用到 ADB 调试工具，下载地址：<a href="https://dl.google.com/android/repository/platform-tools-latest-windows.zip" target="_blank" rel="noopener">https://dl.google.com/android/repository/platform-tools-latest-windows.zip</a><br>　　下载完成后解压，然后打开解压后的文件夹。按住 Shift，鼠标右键点击空白处，点击 [在此处打开 Powershell 窗口] 或 [在此处打开 命令提示符 窗口]。<br>　　输入<code>.\adb.exe connect %IP%</code><br>　　将 %IP% 替换为 N1 的 IP，也就是官方固件页面显示的那个 IP。<br>　　示例：<code>.\adb.exe connect 192.168.1.222</code><br>　　如果返回类似<code>connected to 192.168.1.222</code>这样的提示，表示连接成功。<br>　　连接成功后输入<code>.\adb.exe shell reboot fastboot</code>，重启至 fastboot 模式。</p>
+<ol start="3">
+<li>刷入降级关键分区<br>　　将你的 N1 用双公头 USB 数据线与电脑连接，务必连接至靠近 HDMI 接口的那个 USB 接口，连接后查看设备管理器是否识别出新的硬件，如果新硬件驱动异常，右键新硬件点击 [更新驱动程序]。<br>　　驱动正常后，输入<code>.\fastboot.exe devices</code>查看 fastboot 工具是否已识别设备。<br>　　如果返回类似<code>XXXXXXXXXXXX fastboot</code>这样的提示，表示成功识别。<br>　　注：XXXXX 为序列号<br>　　然后就可以刷入降级分区了，分区文件下载地址：<a href="/sources/2018/08/N1_V2.19_imgs.zip">N1_V2.19_imgs.zip</a><br>　　将压缩包内的分区文件解压至 ADB 工具包文件夹<br>　　依次输入命令刷入各个分区</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.\fastboot.exe flash boot boot.img</span><br><span class="line">.\fastboot.exe flash bootloader bootloader.img</span><br><span class="line">.\fastboot.exe flash recovery recovery.img</span><br></pre></td></tr></table></figure>
+<p>　　如果没有返回任何错误信息，表示降级成功。<br>　　输入<code>.\fastboot.exe reboot</code>重启设备<br>　　至此，降级步骤就完成了，可以放心的刷官改固件了。<br>　　可能有些小伙伴会说，系统版本哪里显示的不是 2.19 啊。这个降级并不是降级系统，而是降级引导等关键分区，所以系统版本哪里不会变的。</p>
+<h2 id="刷入官改"><a href="#刷入官改" class="headerlink" title="刷入官改"></a>刷入官改</h2><p>　　这一步比较危险和麻烦，也正是因为这一步困扰了小山好久。<br>　　上面我说了，小山试过用 Type-C 数据线刷官改，但是没成功，为什么呢？<br>　　问题不是出在 Type-C 上面，而是出在那个垃圾烧录工具的驱动上面（<del>国产芯片的烧录工具，你们懂的</del>）。<br>　　那个烧录工具的驱动程序虽然可以兼容 Windows 10，但是缺兼容不了最新 CPU 平台。<br>　　小山用的是 Ryzen 平台，B350 主板，但是小山各种方法都试过了，插上去它就是识别不了。后来小山把以前的旧电脑拿出来，同一个系统环境，旧电脑插上去就识别了。所以我认为是那个驱动不支持最新的CPU平台，当然，我这里只测试了 Ryzen，酷睿系列没测试，但是我估计，酷睿 7 8 系也都不支持，如果有用酷睿新平台的小伙伴成功了记得在下面留言告诉我。<br>　　所以说，这一步，如果你用的是 Ryzen 平台，那么还是去找一台比较旧的电脑吧。<br>　　注：小山并没有看不起国产芯片，以上言论只针对晶晨USB烧录工具。<br>　　首先下载USB烧录工具，下载地址：<a href="/sources/2018/08/USB_Burning_Tool_v2.1.6.zip">USB_Burning_Tool_v2.1.6.zip</a><br>　　安装的时候记得创建桌面快捷方式，安装最后的驱动安装一定不要跳过。<br>　　另外小山找到了一个 Linux 版本的烧录工具，但没来得及测试，有兴趣的小伙伴可以试一试：<a href="http://forum.khadas.com/t/burning-tools-for-linux-pc/1832" target="_blank" rel="noopener">http://forum.khadas.com/t/burning-tools-for-linux-pc/1832</a><br>　　安装完成后还有个小工作要做</p>
+<blockquote>
+<p>　　打开设备管理器<br>　　随便点击一个硬件<br>　　点击 [操作] 菜单 → [添加过时硬件] → 下一步 → 选择 [安装我手动从列表选择的硬件] → 下一步 → 选择 [libusb-win32 Usb Devices] → 下一步 →  选择 [WorldCup Device] → 下一步 →  下一步 → 完成<br><a href="/sources/2018/08/Burning_Tool_Driver.png"><img src="/sources/2018/08/Burning_Tool_Driver.png" alt="Burning Tool 驱动"></a><br>　　小工作做完之后，那个USB烧录工具才可以正常工作。</p>
+</blockquote>
+<p>　　官改固件我推荐刷 webpad 的官改固件，集成度高，也很好用，自带 Google 服务、Root、Xposed 框架、离线下载等常用软件。下载地址：<a href="http://www.right.com.cn/forum/thread-322736-1-1.html" target="_blank" rel="noopener">http://www.right.com.cn/forum/thread-322736-1-1.html</a><br>　　如果只是想当一个电视盒子用的，也可以刷 YYFROM 的语音版固件，下载地址：<a href="http://www.yyfrom.com/cms/yyfrom/product/2018-4-9/156.html" target="_blank" rel="noopener">http://www.yyfrom.com/cms/yyfrom/product/2018-4-9/156.html</a><br>　　下载你喜欢的官改固件，解压压缩包，得到 img 文件。<br>　　打开 USB_Burning_Tool → 点击 [文件] 菜单 → 导入烧录包 → 选择官改固件的 img 文件 → 等待校验完成<br>　　<strong>校验完成后，一定要去除勾选右边烧录配置的 [擦除flash] 和 [擦除bootloader]，否则会报错。</strong></p>
+<p><a href="/sources/2018/08/Burning_Tool_01.png"><img src="/sources/2018/08/Burning_Tool_01.png" alt="Burning Tool"></a></p>
+<p>　　然后点击烧录工具的 【开始】，这时候，工具就进入了待命状态。<br>　　首先将 N1 彻底断电，然后用双公头 USB 数据线连接电脑，然后接通电源。<br>　　如果不出意外，工具应该会识别出 N1 并且开始烧录。<br>　　如果没有识别出 N1，而 N1 直接进入了系统。使用 ADB 连接 N1（方法见上），输入<code>.\adb.exe shell reboot update</code>重启至刷机模式，应该就可以正常识别了。<br>　　小山懒得再搬出旧电脑了，这里的截图借用别人的。</p>
+<p><a href="/sources/2018/08/Burning_Tool_02.png"><img src="/sources/2018/08/Burning_Tool_02.png" alt="Burning Tool"></a></p>
+<p>　　等待上方那个紫色的进度条变绿，提示烧录成功，这时候不要着急拔掉 N1，先点击烧录工具的 【停止】，再关闭烧录工具，然后拔掉 N1，断电，通电开机。<br>　　首次启动大约需要 3-4 分钟，请耐心等待。<br>　　系统启动后，会提示遥控器配对，因为用了 T1 的一些东西，直接跳过即可。<br>　　然后联网，安装一些直播、点播视频应用，就可以完完整整的当一个电视盒子来用了。<br>　　操控方面，可以使用天天链里的遥控器，也可以自己买个蓝牙遥控器，这个看个人喜好。<br>　　如果你刷了 webpad 的固件，在浏览器输入 IP:8081，既可管理离线下载、samba等软件。具体用法我就不多说了。</p>
+<h2 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h2><p>　　斐讯 N1 现在二手平台仅卖 70 元，但 N1 的配置是跟那些两三百的电视盒子不相上下的，可谓是非常的有性价比。<br>　　如果你想入手一个电视盒子，或者是想买一个类似树莓派的玩具（不搞硬件开发）。那么可以考虑下 N1，做电视盒子绰绰有余，运行 Linux 后，就是一个没有硬件扩展性的树莓派，当然，我相信大多数人买树莓派是搞软件开发的。<br>　　这是我目前觉得斐讯最有性价比的产品之一<br>　　再次感谢 <a href="http://www.right.com.cn/forum/?4478" target="_blank" rel="noopener">webpad</a> 为 N1 可玩性做出的贡献<br>　　下篇教程教大家如何在 N1 上运行完整的 Linux 发行版</p>
+<p>　　转载自 <a href="https://www.mivm.cn/phicomm-n1-unofficial/" target="_blank" rel="noopener">https://www.mivm.cn/phicomm-n1-unofficial/</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/斐讯/">斐讯</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2018/08/12/斐讯 N1 折腾记：降级及刷入官改/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2018/07/12/流水账记录下 Centos 7 配置 frp 服务端与客户端的全过程/"><span>流水账记录下 Centos 7 配置 frp 服务端与客户端的全过程</span></a></h3>
     
   
@@ -784,92 +871,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2016/12/23/jQuery(selector).html() 过滤 script tag 的解决方法/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/10/27/安装 Laravel，撞墙，采用 Packageist 的中国镜像/"><span>安装 Laravel，撞墙，采用 Packageist 的中国镜像</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/10/27/安装 Laravel，撞墙，采用 Packageist 的中国镜像/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-10-26T19:11:00.000Z">
-          2016-10-27
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>参考：</p>
-<ul>
-<li><a href="https://laravel.com/docs/5.2" target="_blank" rel="noopener">https://laravel.com/docs/5.2</a> – 英文手册</li>
-</ul>
-<ul>
-<li><a href="http://laravel-china.org/docs/5.1" target="_blank" rel="noopener">http://laravel-china.org/docs/5.1</a> – 中文手册</li>
-</ul>
-<ul>
-<li><a href="http://pkg.phpcomposer.com/" target="_blank" rel="noopener">http://pkg.phpcomposer.com/</a> – Packagist / Composer 中国全量镜像内（绕过垃圾的墙）</li>
-</ul>
-<p><strong>安装 Laravel，创建 blog 项目</strong><br>安装方法有两种：</p>
-<ol>
-<li>全局安装 Laravel Installer，然后用下面的指令创建新项目： laravel new blog</li>
-</ol>
-<ol start="2">
-<li>不安装啥，直接用 Composer 创建新项目：composer create-project –prefer-dist laravel/laravel blog</li>
-</ol>
-<p>看起来第一种方案比较好，然而：<br>！说明！由于墙的存在，全局安装 Laravel Installer 的方案可能不会成功。</p>
-<p><strong>全局安装 Laravel Installer</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer global require "laravel/installer"</span><br></pre></td></tr></table></figure></p>
-<p><strong>执行命令</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">laravel new blog</span><br></pre></td></tr></table></figure></p>
-<p>悲剧了，出现错误：<br>cURL error 7: Failed to connect to cabinet.laravel.com port 80: Timed out……<br>直接用 Composer 创建 Laravel 项目</p>
-<p>参照网上的方案，先执行加速 composer 的执行（用国内的镜像，好人呐！）：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer config -g repo.packagist composer https://packagist.phpcomposer.com</span><br></pre></td></tr></table></figure></p>
-<p>然后执行<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer global require "laravel/installer"</span><br></pre></td></tr></table></figure></p>
-<p>创建项目</p>
-<p>转载自 <a href="http://blog.sina.com.cn/s/blog_6262a50e0102ws9z.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_6262a50e0102ws9z.html</a>，有删改</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/10/27/安装 Laravel，撞墙，采用 Packageist 的中国镜像/#comment">评论</a>
         </span>
       </span>
     </div>

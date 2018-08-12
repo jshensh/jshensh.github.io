@@ -63,6 +63,93 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/01/17/使用Raspberry Pi作为无线路由器/"><span>使用Raspberry Pi作为无线路由器</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/17/使用Raspberry Pi作为无线路由器/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-16T20:14:47.000Z">
+          2015-01-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>鉴于之前的教程过于麻烦。。自己也从头试了一下，发现有点问题，于是本人决定全部推倒重写一遍（注：本文采用的无线网卡为 TP-LINK WN823N，RTL8192CU 芯片）</p>
+<p>另外，文章中用了 vi 编辑器，树莓派自带 vim-tiny，有点反人类，apt-get install vim 解决问题</p>
+<p>参考了以下两篇文章（如果只按照其中的一篇来都不会成功，所以整理了一下）：</p>
+<ul>
+<li><a href="http://wangye.org/blog/archives/845/" target="_blank" rel="noopener">http://wangye.org/blog/archives/845/</a></li>
+</ul>
+<ul>
+<li><a href="http://shumeipai.nxez.com/2014/04/01/raspberry-pi-wireless-router.html" target="_blank" rel="noopener">http://shumeipai.nxez.com/2014/04/01/raspberry-pi-wireless-router.html</a></li>
+</ul>
+<p><strong>一、安装dhcp服务和ap热点服务</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install isc-dhcp-server hostapd</span><br></pre></td></tr></table></figure></p>
+<p><strong>二、配置无线网络</strong><br><strong>本文搭建的无线网络使用了 192.168.51 网段，如有需要，请自行修改，后文同</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/network/interfaces</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">auto lo</span><br><span class="line"></span><br><span class="line">iface lo inet loopback</span><br><span class="line">iface eth0 inet dhcp</span><br><span class="line"></span><br><span class="line">allow-hotplug wlan0</span><br><span class="line">iface wlan0 inet static</span><br><span class="line">    address 192.168.51.1</span><br><span class="line">    netmask 255.255.255.0</span><br><span class="line"></span><br><span class="line">iface default inet dhcp</span><br></pre></td></tr></table></figure>
+<p><strong>三、修改 DHCP Server 设置</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/dhcp/dhcpd.conf</span><br></pre></td></tr></table></figure></p>
+<p>在最后添加，注意是在最后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">subnet 192.168.51.0 netmask 255.255.255.0 &#123;</span><br><span class="line">    range 192.168.51.100 192.168.51.254;</span><br><span class="line">    option subnet-mask 255.255.255.0;</span><br><span class="line">    option broadcast-address 192.168.51.255;</span><br><span class="line">    option routers 192.168.51.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>四、打开内核的网卡转发能力</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysctl.conf</span><br></pre></td></tr></table></figure></p>
+<p>将 net.ipv4.ip_forward=1 的注释去掉</p>
+<p><strong>五、重新编译 hostapd 使其支持 RTL8192CU 芯片的无线网卡</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://futa.ooo/uploads/2015/01/RTL8188-hostapd-master.zip</span><br><span class="line">unzip RTL8188-hostapd-master.zip</span><br><span class="line">cd RTL8188-hostapd-master/hostapd</span><br><span class="line">make;make install</span><br></pre></td></tr></table></figure></p>
+<p><strong>六、修改 iptables 的 nat 规则并保存</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT</span><br><span class="line">iptables-save &gt; /etc/iptables.ipv4.nat</span><br></pre></td></tr></table></figure></p>
+<p>开机自动加载 iptables 规则：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.local</span><br></pre></td></tr></table></figure></p>
+<p>在 exit 0; 前面添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-restore&lt;/etc/iptables.ipv4.nat</span><br></pre></td></tr></table></figure></p>
+<p><strong>七、修改无线网络的设置</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/hostapd/hostapd.conf</span><br></pre></td></tr></table></figure></p>
+<p>只需要改两行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># Basic configuration</span><br><span class="line"></span><br><span class="line">interface=wlan0</span><br><span class="line">ssid=sxbxjhwm_raspberry # SSID，修改</span><br><span class="line">channel=1</span><br><span class="line">#bridge=br0</span><br><span class="line"></span><br><span class="line"># WPA and WPA2 configuration</span><br><span class="line"></span><br><span class="line">macaddr_acl=0</span><br><span class="line">auth_algs=1</span><br><span class="line">ignore_broadcast_ssid=0</span><br><span class="line">wpa=3</span><br><span class="line">wpa_passphrase=87654321 # 密码，修改</span><br><span class="line">wpa_key_mgmt=WPA-PSK</span><br><span class="line">wpa_pairwise=TKIP</span><br><span class="line">rsn_pairwise=CCMP</span><br><span class="line"></span><br><span class="line"># Hardware configuration</span><br><span class="line"></span><br><span class="line">driver=rtl871xdrv</span><br><span class="line">ieee80211n=1</span><br><span class="line">hw_mode=g</span><br><span class="line">device_name=RTL8192CU</span><br><span class="line">manufacturer=Realtek</span><br></pre></td></tr></table></figure></p>
+<p><strong>P.S. 如果 DHCP 获取不到 IP，需要添加自启动：</strong><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.local</span><br></pre></td></tr></table></figure></p>
+<p>在 exit 0 之前添加以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ifdown wlan0</span><br><span class="line">ifup wlan0</span><br><span class="line">ifconfig wlan0 192.168.51.1 netmask 255.255.255.0</span><br><span class="line">service isc-dhcp-server restart</span><br><span class="line">service hostapd restart</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>实验成功，效果图：<br><a href="/uploads/2015/01/QQ截图20150116205540.jpg"><img src="/uploads/2015/01/QQ截图20150116205540-300x154.jpg" alt="QQ截图20150116205540"></a><br><a href="/uploads/2015/01/QQ图片20150116205445-e1421413729569.jpg"><img src="/uploads/2015/01/QQ图片20150116205445-e1421413729569-169x300.jpg" alt="QQ图片20150116205445"></a><br><a href="/uploads/2015/01/QQ图片20150116205452.png"><img src="/uploads/2015/01/QQ图片20150116205452-169x300.png" alt="QQ图片20150116205452"></a><br><a href="/uploads/2015/01/QQ图片20150116205458.png"><img src="/uploads/2015/01/QQ图片20150116205458-169x300.png" alt="QQ图片20150116205458"></a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/树莓派/">树莓派</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/01/17/使用Raspberry Pi作为无线路由器/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/01/16/Linux umount 报 device is busy 的处理方法/"><span>Linux umount 报 device is busy 的处理方法</span></a></h3>
     
   
@@ -740,63 +827,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2014/11/28/linux下SSH传输文件/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2014/10/31/纯靠点小聪明搞定学校 WiFi 该死的 web 登陆/"><span>纯靠点小聪明搞定学校 WiFi 该死的 web 登陆</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2014/10/31/纯靠点小聪明搞定学校 WiFi 该死的 web 登陆/" rel="bookmark">
-        <time class="entry-date published" datetime="2014-10-31T08:38:23.000Z">
-          2014-10-31
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>去年学校还是用的 WPA2 PSK 加密的说，但因为我破了密码以后好心把密码传了出去就。。。唉自作自受。。。于是，学校今年升级了设备，改用 web 验证方法验证用户:<br><a href="/uploads/2014/11/Screenshot_2014-10-27-17-19-56.png"><img src="/uploads/2014/11/Screenshot_2014-10-27-17-19-56-576x1024.png" alt="Screenshot_2014-10-27-17-19-56"></a><br>真是丧心病狂。当然，学校也发现了学生使用学校网络的需求，遂给学生也提供了个 WiFi，但是！<br><a href="/uploads/2014/11/Screenshot_2014-09-25-20-57-28.png"><img src="/uploads/2014/11/Screenshot_2014-09-25-20-57-28-1024x576.png" alt="Screenshot_2014-09-25-20-57-28"></a><br><a href="/uploads/2014/11/Screenshot_2014-09-25-20-58-18.png"><img src="/uploads/2014/11/Screenshot_2014-09-25-20-58-18-1024x576.png" alt="Screenshot_2014-09-25-20-58-18"></a><br>哎呦我勒个去，然后试 ssh，无效，没招了，想用 remote rdp，尼玛也屏蔽。学校你这是作死的节奏啊。然后，从开学开始的一个月里，我试图直接获取管理权限，但是，试了各种弱口令后，无果。于是放弃获取管理权限，放低要求，只要能用就行。<br>既然技术不够，那看来只能走点歪门邪道试试咯。前几周，闲得无聊发现某任课老师上网本反应极慢，就向其提出重装系统的建议，老师答应了。之后我发现，老师的办公室里有有线网络，但是需要老师自己设定 IP 地址及网关等各种信息。没错，老师给我了:<br><a href="/uploads/2014/11/Screenshot_2014-11-01-00-44-28.png"><img src="/uploads/2014/11/Screenshot_2014-11-01-00-44-28-576x1024.png" alt="Screenshot_2014-11-01-00-44-28"></a><br>顺手记录了 mac 地址备用。用手机连上学校 WiFi 以后，发现被 DHCP 分配的 IP 地址与办公室有线网络并不在同一网段中，顿觉希望渺茫，手动指定了 IP 地址以后，无效。也懒得改手机的 mac 地址，没继续试下去。<br>换个思路，向老师索取了学校 WiFi 的账号及初始密码。想着总有老师是不用学校 WiFi 的吧，随手改了账号的后三位数字一试，居然真的登上了:<br><a href="/uploads/2014/11/Screenshot_2014-10-27-17-18-57.png"><img src="/uploads/2014/11/Screenshot_2014-10-27-17-18-57-576x1024.png" alt="Screenshot_2014-10-27-17-18-57"></a><br>真是机智的小淘气。</p>
-<p>还没完，表示俺是住宿生，寝室门口有一台学校的路由器，但是，并没有开无线:<br><a href="/uploads/2014/11/20141026_150554.jpg"><img src="/uploads/2014/11/20141026_150554-1024x576.jpg" alt="20141026_150554"></a><br>百度了一下，发现这种路由器需要连接 console 口来管理，但尼玛我没有设备能连接有线网络啊:<br><a href="/uploads/2014/11/20141026_151359.jpg"><img src="/uploads/2014/11/20141026_151359-1024x576.jpg" alt="20141026_151359"></a><br>而且我不知道这台路由的 IP 地址，怎么办好呢。。。各位要不猜一下我干了什么<img src="/uploads/2014/11/869530255AD4DE7DE8AB2F80CF218AB8A7598D8B5.jpg" alt="869530255AD4DE7DE8AB2F80CF218AB8A7598D8B5"></p>
-<p>顺便提一下，学校网速还是不错的:<br><a href="/uploads/2014/11/Screenshot_2014-10-24-11-09-22.png"><img src="/uploads/2014/11/Screenshot_2014-10-24-11-09-22-576x1024.png" alt="Screenshot_2014-10-24-11-09-22"></a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2014/10/31/纯靠点小聪明搞定学校 WiFi 该死的 web 登陆/#comment">评论</a>
         </span>
       </span>
     </div>

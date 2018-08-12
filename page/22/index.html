@@ -63,6 +63,71 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/08/05/nginx反向代理/"><span>nginx反向代理</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/08/05/nginx反向代理/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-08-04T20:28:14.000Z">
+          2013-08-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>1、安装Nginx<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc g++ vim libncurses5-dev make libxml2-dev</span><br><span class="line">yum -y install subversion</span><br><span class="line">yum -y install libpcre3 libpcre3-dev libcurl4-openssl-dev</span><br><span class="line">yum -y install pcre* zlib* openssl*</span><br><span class="line">wget -c  http://nginx.org/download/nginx-1.0.5.tar.gz</span><br><span class="line">tar -zxf nginx-1.0.5.tar.gz</span><br><span class="line">wget -c http://wiki.nginx.org/images/5/51/Nginx-accesskey-2.0.3.tar.gz</span><br><span class="line">tar -zxf Nginx-accesskey-2.0.3.tar.gz</span><br><span class="line">svn checkout http://substitutions4nginx.googlecode.com/svn/trunk/ substitutions4nginx-read-only</span><br><span class="line">curdir=$(pwd)</span><br><span class="line">cd nginx-1.0.5</span><br><span class="line">./configure --user=nobody --group=nobody  --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --pid-path=/var/run/nginx.pid  --conf-path=/etc/nginx/nginx.conf   --with-http_stub_status_module --with-http_ssl_module --with-http_gzip_static_module --with-ipv6 --with-pcre --with-http_sub_module --add-module=$curdir/substitutions4nginx-read-only --add-module=$curdir/nginx-accesskey-2.0.3</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
+<p>2、配置nginx.conf<br>编辑/etc/nginx/nginx.conf<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name t.playvps.com;  #绑定的域名</span><br><span class="line">    access_log off;	 #off 关闭日志</span><br><span class="line">    location / &#123;</span><br><span class="line">        subs_filter 'www.baidu.com' 't.playvps.com' gi;  #substitutions4nginx替换 (使用方法参照官方)</span><br><span class="line">        proxy_set_header   X-Real-IP  $remote_addr;</span><br><span class="line">        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header   Referer http://www.baidu.com;	#强制定义Referer，程序验证判断会用到</span><br><span class="line">        proxy_set_header   Host www.baidu.com;  #定义主机头，如果目标站点绑定的域名个server_name项的吻合则使用$host</span><br><span class="line">        proxy_pass http://www.baidu.com;	 #指定目标，建议使用IP或者nginx自定义池</span><br><span class="line">        proxy_set_header Accept-Encoding "";	 #清除编码</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3，重启Nginx<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pkill nginx #关闭进程</span><br><span class="line">nginx #启动Nginx</span><br></pre></td></tr></table></figure></p>
+<p>转载自：<a href="http://www.ovzxen.com/post-22.html" target="_blank" rel="noopener">http://www.ovzxen.com/post-22.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/08/05/nginx反向代理/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/08/04/nginx设置301域名跳转/"><span>nginx设置301域名跳转</span></a></h3>
     
   
@@ -658,68 +723,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2013/07/26/申请Host1Free免费VPS主机和免费PHP空间DA面板100GB流量/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/07/25/看到一个比较有用的增强 curl 的 function/"><span>看到一个比较有用的增强 curl 的 function</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/07/25/看到一个比较有用的增强 curl 的 function/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-07-24T20:47:43.000Z">
-          2013-07-25
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>在 csdn 看到的。。拿来修改了一下。。应该不需要注释了吧，不懂的话就评论吧<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">xcurl</span><span class="params">($url,$ref=null,$cookies=null,$post=array<span class="params">()</span>,$ua=<span class="string">"Mozilla/5.0 (X11; Linux x86_64; rv:2.2a1pre) Gecko/20110324 Firefox/4.2a1pre"</span>,$print=false)</span> </span>&#123;</span><br><span class="line">	$ch = curl_init();</span><br><span class="line">	curl_setopt($ch, CURLOPT_AUTOREFERER, <span class="keyword">true</span>);</span><br><span class="line">	<span class="keyword">if</span>(!<span class="keyword">empty</span>($ref)) &#123;</span><br><span class="line">		curl_setopt($ch, CURLOPT_REFERER, $ref);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (!<span class="keyword">empty</span>($cookies)) &#123;</span><br><span class="line">		curl_setopt($ch, CURLOPT_COOKIE,$cookies);</span><br><span class="line">	&#125;</span><br><span class="line">	curl_setopt($ch, CURLOPT_URL, $url);</span><br><span class="line">	curl_setopt($ch, CURLOPT_HEADER, <span class="number">0</span>);</span><br><span class="line">	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, <span class="number">1</span>);</span><br><span class="line">	curl_setopt($ch, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">	<span class="keyword">if</span>(!<span class="keyword">empty</span>($ua)) &#123;</span><br><span class="line">		curl_setopt($ch, CURLOPT_USERAGENT, $ua);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(count($post) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">		curl_setopt($ch, CURLOPT_POST, <span class="number">1</span>);</span><br><span class="line">		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);	</span><br><span class="line">	&#125;</span><br><span class="line">	$output = curl_exec($ch);</span><br><span class="line">	curl_close($ch);</span><br><span class="line">	<span class="keyword">if</span>($print) &#123;</span><br><span class="line">		<span class="keyword">print</span>($output);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> $output;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/07/25/看到一个比较有用的增强 curl 的 function/#comment">评论</a>
         </span>
       </span>
     </div>
