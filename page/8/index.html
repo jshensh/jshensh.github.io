@@ -63,6 +63,96 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/06/02/Ubuntu 14.04 安装 QQ 7.2/"><span>Ubuntu 14.04 安装 QQ 7.2</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/06/02/Ubuntu 14.04 安装 QQ 7.2/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-06-02T05:24:27.000Z">
+          2015-06-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>　　首先，添加 ppa，并安装 wine1.7。要是 apt-get update 的时候报错请参考前一篇文章《<a href="http://futa.ooo/2218.html">Ubuntu 使用 shadowsocks 科学上网</a>》。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:ubuntu-wine/ppa</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install wine1.7</span><br></pre></td></tr></table></figure></p>
+<p>　　wine 1.7 安装完成后，安装一些依赖：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winetricks riched20 gdiplus msxml4 vcrun2005 msctf mfc42 fakechinese corefonts sound=alsa</span><br></pre></td></tr></table></figure></p>
+<p>　　之后，将 win 下字体文件夹（C:\Windows\Fonts）内的所有字体复制至 ~/.wine/drive_c/windows/Fonts。<br>　　打开 <a href="http://im.qq.com" target="_blank" rel="noopener">http://im.qq.com</a> 下载最新版 QQ，双击安装即可。<br>　　安装完成后，需要自行建立快捷方式：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi ~/桌面/QQ.desktop</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Name=腾讯QQ</span><br><span class="line">Exec=wine &quot;C:\\Program Files (x86)\\Tencent\\QQ\\bin\\QQ.exe&quot;</span><br><span class="line">Type=Application</span><br><span class="line">StartupNotify=true</span><br></pre></td></tr></table></figure>
+<p>　　给快捷方式加上可执行权限：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x ~/桌面/QQ.desktop</span><br></pre></td></tr></table></figure></p>
+<p>　　效果如图<br><a href="/uploads/2015/06/Screenshots_2015_06_02_21_09_01.png"><img src="/uploads/2015/06/Screenshots_2015_06_02_21_09_01-300x169.png" alt="Screenshots_2015_06_02_21_09_01"></a></p>
+<p>　　小 bug 还是有点的，比如图中有些字依旧是方块，不过是字体问题，找到对应字体 copy 下就行。还有，切记！千！万！不！能！最！小！化！消！息！列！表！因为没有状态栏。。。要是不小心最小化或者不见了，可以用以下命令解决问题：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">killall QQ.exe</span><br><span class="line">wine "C:\\Program Files (x86)\\Tencent\\QQ\\bin\\QQ.exe"</span><br></pre></td></tr></table></figure></p>
+<p>　　你没看错。。就是重启 QQ</p>
+<p>　　最后，提供几个比较好的补丁，希望各位喜欢：</p>
+<ul>
+<li><a href="http://www.laibude.com/blog/22.html" target="_blank" rel="noopener">QQ7.3小清新补丁</a></li>
+</ul>
+<ul>
+<li><a href="http://www.zdfans.com/589.html" target="_blank" rel="noopener">腾讯QQ7.x 去整体安全校验补丁v3.0</a></li>
+</ul>
+<ul>
+<li><a href="http://www.zdfans.com/583.html" target="_blank" rel="noopener">腾讯QQ7.2 正式版SVIP超级会员补丁</a></li>
+</ul>
+<p>　　感谢 <a href="https://www.maou.me" target="_blank" rel="noopener">(╯‵□′)╯︵┻━┻</a> 提供技术支持。</p>
+<p>　　参考：</p>
+<ul>
+<li><a href="https://www.maou.me/20.html" target="_blank" rel="noopener">Linux 通过 Wine 来安装最新 QQ 的方法</a></li>
+</ul>
+<ul>
+<li><a href="http://blog.aizhet.com/Windows/12172.html" target="_blank" rel="noopener">彻底消除wine中文乱码、QQ等</a></li>
+</ul>
+<ul>
+<li><a href="http://forum.ubuntu.org.cn/viewtopic.php?f=121&amp;t=455783" target="_blank" rel="noopener">Ubuntu12.04+Wine1.7.12近完美使用QQ5.0</a></li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Linux-Desktop/">Linux Desktop</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/06/02/Ubuntu 14.04 安装 QQ 7.2/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/05/31/Ubuntu 使用 shadowsocks 科学上网/"><span>Ubuntu 使用 shadowsocks 科学上网</span></a></h3>
     
   
@@ -681,76 +771,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2015/03/01/检查素数的正则表达式分享/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/02/22/Linux下用fdisk和resize2fs动态修改分区大小/"><span>Linux下用fdisk和resize2fs动态修改分区大小</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/02/22/Linux下用fdisk和resize2fs动态修改分区大小/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-02-21T20:55:55.000Z">
-          2015-02-22
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>我的Archlinux发现root(/)分区不够用了，于是想把/home分区的空间腾出一些来，<br>原理：用resize2fs调整/home文件系统的大小，用fdisk调整分区的大小。<br>试验结果：由于开始不小心把/home(/dev/sda4)分区删掉了，所以没试验成功，于是用以下步骤扩大了root分区：</p>
-<ol>
-<li>fdisk把root（/dev/sda3）分区删除，注意删除前记录开始柱面号，具体命令：<br>fdisk /dev/sda ，p命令显示的Start列）</li>
-<li>用同样的开始柱面号，建立（fdisk /），命令 n</li>
-<li>再使用resize2fs重新修改分区的大小，命令：resize2fs /dev/sda3。</li>
-<li>重启系统，出现挂载/home分区失败，按照提示：mount -o remount,rw /，同时删除/etc/fstab下的含有/home那一行。</li>
-<li>再重启系统。<br>成功了！(以后可以试一下用lvm动态调整分区)</li>
-</ol>
-<p>转载自 <a href="http://blog.chinaunix.net/uid-8747186-id-3189880.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-8747186-id-3189880.html</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/杂七杂八/">杂七杂八</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/02/22/Linux下用fdisk和resize2fs动态修改分区大小/#comment">评论</a>
         </span>
       </span>
     </div>

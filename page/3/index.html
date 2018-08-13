@@ -63,6 +63,72 @@
 
   
     
+    <h3 class="article-title"><a href="/2016/06/27/记录一下钱升钱的面试题和第一小题答案/"><span>记录一下钱升钱的面试题和第一小题答案</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/06/27/记录一下钱升钱的面试题和第一小题答案/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-06-26T17:08:45.000Z">
+          2016-06-27
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><a href="/uploads/2016/06/IMG20160626101617.jpg"><img src="/uploads/2016/06/IMG20160626101617.jpg" alt="IMG20160626101617"></a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`metro`</span> (</span><br><span class="line">  <span class="string">`line`</span> <span class="built_in">INT</span>(<span class="number">11</span>) <span class="keyword">UNSIGNED</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`stop`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`sequence`</span> <span class="built_in">INT</span>(<span class="number">11</span>) <span class="keyword">UNSIGNED</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`idx_line`</span> (<span class="string">`line`</span>),</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`idx_station`</span> (<span class="string">`stop`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">INNODB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> metro(line,<span class="string">`stop`</span>,<span class="keyword">sequence</span>)</span><br><span class="line"><span class="keyword">VALUES</span> (<span class="number">2</span>,<span class="string">'徐泾东'</span>,<span class="number">1</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'虹桥2号航站楼'</span>,<span class="number">2</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'淞虹路'</span>,<span class="number">3</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'北新泾'</span>,<span class="number">4</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'威宁路'</span>,<span class="number">5</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'娄山关路'</span>,<span class="number">6</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'中山公园'</span>,<span class="number">7</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'江苏路'</span>,<span class="number">8</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'静安寺'</span>,<span class="number">9</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'南京西路'</span>,<span class="number">10</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'人民广场'</span>,<span class="number">11</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'南京东路'</span>,<span class="number">12</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'陆家嘴'</span>,<span class="number">13</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'东昌路'</span>,<span class="number">14</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'世纪大道'</span>,<span class="number">15</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'上海科技馆'</span>,<span class="number">16</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'世纪公园'</span>,<span class="number">17</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'龙阳路'</span>,<span class="number">18</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'张江高科'</span>,<span class="number">19</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'金科路'</span>,<span class="number">20</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'杨高中路'</span>,<span class="number">1</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'世纪大道'</span>,<span class="number">2</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'商城路'</span>,<span class="number">3</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'小南门'</span>,<span class="number">4</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'陆家滨路'</span>,<span class="number">5</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'马当路'</span>,<span class="number">6</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'打浦路'</span>,<span class="number">7</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'嘉善路'</span>,<span class="number">8</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'肇嘉浜路'</span>,<span class="number">9</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'徐家汇'</span>,<span class="number">10</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'宜山路'</span>,<span class="number">11</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'桂林路'</span>,<span class="number">12</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'漕河泾开发区'</span>,<span class="number">13</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'合川路'</span>,<span class="number">14</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'星中路'</span>,<span class="number">16</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'七宝'</span>,<span class="number">17</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'中春路'</span>,<span class="number">18</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'九亭'</span>,<span class="number">19</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'泗泾'</span>,<span class="number">20</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'佘山'</span>,<span class="number">21</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'洞泾'</span>,<span class="number">22</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'松江大学城'</span>,<span class="number">23</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'松江新城'</span>,<span class="number">24</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'松江体育中心'</span>,<span class="number">25</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'醉白池'</span>,<span class="number">26</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'松江南站'</span>,<span class="number">27</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 是否存在一次换成的路线 */</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">count</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">FROM</span> metro <span class="keyword">AS</span> t,metro <span class="keyword">AS</span> t1 </span><br><span class="line">    <span class="keyword">WHERE</span> t.<span class="string">`stop`</span>=t1.<span class="string">`stop`</span> <span class="comment">/* 一次换乘 */</span></span><br><span class="line">        <span class="keyword">AND</span> t.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'淞虹路'</span>) <span class="comment">/* 出发点 */</span></span><br><span class="line">        <span class="keyword">AND</span> t1.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'漕河泾开发区'</span>) <span class="comment">/* 终点 */</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 明细换乘路线 -- 可能还需要改进 */</span></span><br><span class="line"><span class="keyword">SELECT</span> t2.* </span><br><span class="line"><span class="keyword">FROM</span> metro <span class="keyword">AS</span> t2, </span><br><span class="line">    (<span class="keyword">SELECT</span> t.line,t.sequence</span><br><span class="line">    <span class="keyword">FROM</span> metro <span class="keyword">AS</span> t,metro <span class="keyword">AS</span> t1 </span><br><span class="line">    <span class="keyword">WHERE</span> t.<span class="string">`stop`</span>=t1.<span class="string">`stop`</span> </span><br><span class="line">        <span class="keyword">AND</span> t.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'淞虹路'</span>)</span><br><span class="line">        <span class="keyword">AND</span> t1.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'漕河泾开发区'</span>)) <span class="keyword">AS</span> tt</span><br><span class="line">    <span class="keyword">WHERE</span> t2.line=tt.line </span><br><span class="line">        <span class="keyword">AND</span> t2.sequence&lt;=tt.sequence </span><br><span class="line">        <span class="keyword">AND</span> t2.sequence&gt;=(<span class="keyword">SELECT</span> <span class="keyword">sequence</span> <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'淞虹路'</span>)</span><br><span class="line"><span class="keyword">UNION</span>   </span><br><span class="line"><span class="keyword">SELECT</span> t2.* </span><br><span class="line"><span class="keyword">FROM</span> metro <span class="keyword">AS</span> t2, </span><br><span class="line">    (<span class="keyword">SELECT</span> t1.line,t1.sequence</span><br><span class="line">    <span class="keyword">FROM</span> metro <span class="keyword">AS</span> t,metro <span class="keyword">AS</span> t1 </span><br><span class="line">    <span class="keyword">WHERE</span> t.<span class="string">`stop`</span>=t1.<span class="string">`stop`</span> </span><br><span class="line">        <span class="keyword">AND</span> t.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'淞虹路'</span>)</span><br><span class="line">        <span class="keyword">AND</span> t1.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'漕河泾开发区'</span>)) <span class="keyword">AS</span> tt</span><br><span class="line">    <span class="keyword">WHERE</span> t2.line=tt.line </span><br><span class="line">        <span class="keyword">AND</span> t2.sequence&gt;=tt.sequence</span><br><span class="line">        <span class="keyword">AND</span> t2.sequence&lt;=(<span class="keyword">SELECT</span> <span class="keyword">sequence</span> <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'漕河泾开发区'</span>);</span><br></pre></td></tr></table></figure>
+<p><del>另求各位大神看看后面的题目，谢谢</del><br>全部答案已放出 <a href="https://github.com/jshensh/phpcon2016-qsq" target="_blank" rel="noopener">https://github.com/jshensh/phpcon2016-qsq</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/06/27/记录一下钱升钱的面试题和第一小题答案/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2016/06/16/css3 calc()：css简单的数学运算-加减乘除/"><span>css3 calc()：css简单的数学运算-加减乘除</span></a></h3>
     
   
@@ -715,73 +781,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2016/04/02/nginx与ngrok共存（nginx反代ngrok）/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/03/23/PHP_PDO 调用mysql 带返回参数的存储过程/"><span>PHP_PDO 调用mysql 带返回参数的存储过程</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/03/23/PHP_PDO 调用mysql 带返回参数的存储过程/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-03-23T07:46:05.000Z">
-          2016-03-23
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> pro_test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> pro_test(<span class="keyword">in</span> val <span class="built_in">VARCHAR</span>(<span class="number">50</span>) ,<span class="keyword">out</span> rtn <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">declare</span> err <span class="built_in">INT</span> <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line"><span class="comment">-- 如果出现异常，会自动处理并rollback</span></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">exit</span> <span class="keyword">handler</span> <span class="keyword">for</span>  sqlexception <span class="keyword">ROLLBACK</span> ;</span><br></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 启动事务</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> test_user <span class="keyword">values</span>(<span class="literal">NULL</span>,<span class="number">1</span>,<span class="string">'啊是大三的'</span>);</span><br><span class="line"><span class="comment">-- set err = @@IDENTITY; -- =	获取上一次插入的自增ID;</span></span><br><span class="line"><span class="keyword">set</span> err =<span class="keyword">last_insert_id</span>(); <span class="comment">-- 获取上一次插入的自增ID</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> test_user <span class="keyword">VALUES</span>(<span class="literal">NULL</span>,val,err);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 运行没有异常，提交事务</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="comment">-- 设置返回值为1</span></span><br><span class="line"><span class="keyword">set</span> rtn=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$name = <span class="string">'成都市'</span>;</span><br><span class="line">$stmt = $db-&gt;prepare(<span class="string">"CALL pro_test(?,@sp_result);"</span>);</span><br><span class="line">$stmt-&gt;bindParam(<span class="number">1</span>, $name);</span><br><span class="line">$stmt-&gt;execute ();</span><br><span class="line">$outputArray = $db-&gt;query(<span class="string">"select @sp_result"</span>)-&gt;fetch(PDO::FETCH_ASSOC);</span><br></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_r($outputArray[<span class="string">"@sp_result"</span>]);</span><br></pre></td></tr></table></figure>
-<p>转载自：<a href="http://blog.csdn.net/auspi12341/article/details/17167069" target="_blank" rel="noopener">http://blog.csdn.net/auspi12341/article/details/17167069</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/03/23/PHP_PDO 调用mysql 带返回参数的存储过程/#comment">评论</a>
         </span>
       </span>
     </div>

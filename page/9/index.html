@@ -63,6 +63,76 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/02/22/Linux下用fdisk和resize2fs动态修改分区大小/"><span>Linux下用fdisk和resize2fs动态修改分区大小</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/02/22/Linux下用fdisk和resize2fs动态修改分区大小/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-02-21T20:55:55.000Z">
+          2015-02-22
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>我的Archlinux发现root(/)分区不够用了，于是想把/home分区的空间腾出一些来，<br>原理：用resize2fs调整/home文件系统的大小，用fdisk调整分区的大小。<br>试验结果：由于开始不小心把/home(/dev/sda4)分区删掉了，所以没试验成功，于是用以下步骤扩大了root分区：</p>
+<ol>
+<li>fdisk把root（/dev/sda3）分区删除，注意删除前记录开始柱面号，具体命令：<br>fdisk /dev/sda ，p命令显示的Start列）</li>
+<li>用同样的开始柱面号，建立（fdisk /），命令 n</li>
+<li>再使用resize2fs重新修改分区的大小，命令：resize2fs /dev/sda3。</li>
+<li>重启系统，出现挂载/home分区失败，按照提示：mount -o remount,rw /，同时删除/etc/fstab下的含有/home那一行。</li>
+<li>再重启系统。<br>成功了！(以后可以试一下用lvm动态调整分区)</li>
+</ol>
+<p>转载自 <a href="http://blog.chinaunix.net/uid-8747186-id-3189880.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-8747186-id-3189880.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/02/22/Linux下用fdisk和resize2fs动态修改分区大小/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/02/21/树莓派（raspberrypi）安装aircrack-ng,reaver及wifi破解教程/"><span>树莓派（raspberrypi）安装aircrack-ng,reaver及wifi破解教程</span></a></h3>
     
   
@@ -659,69 +729,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2015/01/28/mysql中You can't specify target table for update in FROM clause错误/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/01/21/使用 php 连接 websocket 服务器/"><span>使用 php 连接 websocket 服务器</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/01/21/使用 php 连接 websocket 服务器/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-01-21T00:03:00.000Z">
-          2015-01-21
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>　　最近在写一个问卷调查（也可以投票用）系统，因为有一个大屏幕需要实时显示结果，于是用了 websocket。考虑到投票用户用的浏览器可能不支持 websocket，于是就只写了一个普通的表单，向 websocket 传消息的任务就交给了 php。百度了下，找到了个现成的客户端（<a href="http://download.csdn.net/download/byjlwaa/5389173" target="_blank" rel="noopener">PHP Websocket 客户端 - 下载频道 - CSDN.NET</a>），但是下载下来以后试了下发现无法正常使用，于是调整了它的 header，server 端则打印出通讯的 log，结果发现，连接是可以正常建立的，发送数据却失败。查了下资料（<a href="http://www.cnblogs.com/yjf512/archive/2013/03/11/2953483.html" target="_blank" rel="noopener">关于websocket - 轩脉刃 - 博客园</a>），发现源码中的 senddata 的 function 是错误的，它没有对数据进行处理就直接发送了。发现问题后，我根据通讯协议对源码做了如下修改：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">sendData</span><span class="params">($data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// send actual data:</span></span><br><span class="line">	fwrite(<span class="keyword">$this</span>-&gt;_Socket, <span class="keyword">$this</span>-&gt;encode($data)) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'Error:'</span> . $errno . <span class="string">':'</span> . $errstr);</span><br><span class="line">	$wsData = fread(<span class="keyword">$this</span>-&gt;_Socket, <span class="number">2000</span>);</span><br><span class="line">	$retData = trim($wsData,chr(<span class="number">0</span>).chr(<span class="number">255</span>));        </span><br><span class="line">	<span class="keyword">return</span> $retData;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">encode</span><span class="params">( $data )</span> </span>&#123;</span><br><span class="line">       $data = is_array( $data ) || is_object( $data ) ? json_encode( $data ) : (string) $data;</span><br><span class="line">       $len = strlen( $data );</span><br><span class="line">       $mask=<span class="keyword">array</span>();</span><br><span class="line">       <span class="keyword">for</span> ($j=<span class="number">0</span>;$j&lt;<span class="number">4</span>;$j++) &#123;</span><br><span class="line">           $mask[]=mt_rand(<span class="number">1</span>,<span class="number">255</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       $head[<span class="number">0</span>] = <span class="number">129</span>;</span><br><span class="line">       <span class="keyword">if</span> ( $len &lt;= <span class="number">125</span> ) &#123;</span><br><span class="line">           $head[<span class="number">1</span>] = $len;</span><br><span class="line">       &#125; <span class="keyword">elseif</span> ( $len &lt;= <span class="number">65535</span> ) &#123;</span><br><span class="line">           $split = str_split( sprintf(<span class="string">'%016b'</span>, $len ), <span class="number">8</span> );</span><br><span class="line">           $head[<span class="number">1</span>] = <span class="number">126</span>;</span><br><span class="line">           $head[<span class="number">2</span>] = bindec( $split[<span class="number">0</span>] );</span><br><span class="line">           $head[<span class="number">3</span>] = bindec( $split[<span class="number">1</span>] );</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           $split = str_split( sprintf(<span class="string">'%064b'</span>, $len ), <span class="number">8</span> );</span><br><span class="line">           $head[<span class="number">1</span>] = <span class="number">127</span>;</span><br><span class="line">           <span class="keyword">for</span> ( $i = <span class="number">0</span>; $i &lt; <span class="number">8</span>; $i++ ) &#123;</span><br><span class="line">               $head[$i+<span class="number">2</span>] = bindec( $split[$i] );</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> ( $head[<span class="number">2</span>] &gt; <span class="number">127</span> ) &#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       $head[<span class="number">1</span>]+=<span class="number">128</span>;</span><br><span class="line">       $head=array_merge($head,$mask);</span><br><span class="line">       <span class="keyword">foreach</span>( $head <span class="keyword">as</span> $k =&gt; $v ) &#123;</span><br><span class="line">           $head[$k] = chr( $v );</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       $mask_data=<span class="string">''</span>;</span><br><span class="line">       <span class="keyword">for</span> ($j=<span class="number">0</span>;$j&lt;$len;$j++) &#123;</span><br><span class="line">           $mask_data.=chr(ord($data[$j]) ^ $mask[$j % <span class="number">4</span>]);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> implode(<span class="string">''</span>, $head ) . $mask_data;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">_connect</span><span class="params">($host, $port)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	$key1 = <span class="keyword">$this</span>-&gt;_generateRandomString(<span class="number">32</span>);</span><br><span class="line">	$key2 = <span class="keyword">$this</span>-&gt;_generateRandomString(<span class="number">32</span>);</span><br><span class="line">	$key3 = <span class="keyword">$this</span>-&gt;_generateRandomString(<span class="number">8</span>, <span class="keyword">false</span>, <span class="keyword">true</span>);		</span><br><span class="line"></span><br><span class="line">               $header = <span class="string">"GET ws://"</span>.$host.<span class="string">":"</span>.$port.<span class="string">"/ HTTP/1.1\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"Host: "</span>.$host.<span class="string">":"</span>.$port.<span class="string">"\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"Connection: Upgrade\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"Pragma: no-cache\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"Cache-Control: no-cache\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"Upgrade: websocket\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"Sec-WebSocket-Version: 13\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"Accept-Encoding: gzip, deflate, sdch\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"Accept-Language: zh-CN,zh;q=0.8\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"Sec-WebSocket-Key: "</span> . $key1 . <span class="string">"\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits\r\n"</span>;</span><br><span class="line">               $header.= <span class="string">"\r\n"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">$this</span>-&gt;_Socket = fsockopen($host, $port, $errno, $errstr, <span class="number">2</span>); </span><br><span class="line">	fwrite(<span class="keyword">$this</span>-&gt;_Socket, $header) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'Error: '</span> . $errno . <span class="string">':'</span> . $errstr); </span><br><span class="line">	$response = fread(<span class="keyword">$this</span>-&gt;_Socket, <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@todo</span>: check response here. Currently not implemented cause "2 key handshake" is already deprecated.</span></span><br><span class="line"><span class="comment">	 * See: http://en.wikipedia.org/wiki/WebSocket#WebSocket_Protocol_Handshake</span></span><br><span class="line"><span class="comment">	 */</span>		</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>　　替换源码中的 sendData 与 _connect 并添加 encode function 即可，因为修改之前的源码是别人发布的，所以下载见文章开头的 csdn 链接。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/01/21/使用 php 连接 websocket 服务器/#comment">评论</a>
         </span>
       </span>
     </div>

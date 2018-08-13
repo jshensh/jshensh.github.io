@@ -63,6 +63,68 @@
 
   
     
+    <h3 class="article-title"><a href="/2016/12/23/jQuery(selector).html() 过滤 script tag 的解决方法/"><span>jQuery(selector).html() 过滤 script tag 的解决方法</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/12/23/jQuery(selector).html() 过滤 script tag 的解决方法/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-12-23T09:59:20.000Z">
+          2016-12-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>　　之前用 pjax 做个项目，使用了 .html() 方法将获取到的数据插入 container。但是却发现其会自动过滤 script tag，现找到解决方法 (<a href="http://stackoverflow.com/questions/4079179/jquery-html-strips-out-script-tags" target="_blank" rel="noopener">jquery html() strips out script tags</a>)，在此记录一下<br>　　以下是我应用到项目里的部分代码，对 stackoverflow 的答案多进行了一次判断<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).on(<span class="string">"pjax:end"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> responseDom = $(data.responseText);</span><br><span class="line">    <span class="keyword">if</span> (!$(event.target).filter(<span class="string">"script"</span>).length) &#123;</span><br><span class="line">        responseDom.filter(<span class="string">'script'</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.src) &#123;</span><br><span class="line">                <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>), i, attrName, attrValue, attrs = <span class="keyword">this</span>.attributes;</span><br><span class="line">                <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; attrs.length; i++) &#123;</span><br><span class="line">                    attrName = attrs[i].name;</span><br><span class="line">                    attrValue = attrs[i].value;</span><br><span class="line">                    script[attrName] = attrValue;</span><br><span class="line">                &#125;</span><br><span class="line">                event.target.appendChild(script);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $.globalEval(<span class="keyword">this</span>.text || <span class="keyword">this</span>.textContent || <span class="keyword">this</span>.innerHTML || <span class="string">''</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/12/23/jQuery(selector).html() 过滤 script tag 的解决方法/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2016/10/27/安装 Laravel，撞墙，采用 Packageist 的中国镜像/"><span>安装 Laravel，撞墙，采用 Packageist 的中国镜像</span></a></h3>
     
   
@@ -741,72 +803,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2016/07/21/警惕五个思维陷阱/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/06/27/记录一下钱升钱的面试题和第一小题答案/"><span>记录一下钱升钱的面试题和第一小题答案</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/06/27/记录一下钱升钱的面试题和第一小题答案/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-06-26T17:08:45.000Z">
-          2016-06-27
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p><a href="/uploads/2016/06/IMG20160626101617.jpg"><img src="/uploads/2016/06/IMG20160626101617.jpg" alt="IMG20160626101617"></a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`metro`</span> (</span><br><span class="line">  <span class="string">`line`</span> <span class="built_in">INT</span>(<span class="number">11</span>) <span class="keyword">UNSIGNED</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`stop`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`sequence`</span> <span class="built_in">INT</span>(<span class="number">11</span>) <span class="keyword">UNSIGNED</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`idx_line`</span> (<span class="string">`line`</span>),</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`idx_station`</span> (<span class="string">`stop`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">INNODB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> metro(line,<span class="string">`stop`</span>,<span class="keyword">sequence</span>)</span><br><span class="line"><span class="keyword">VALUES</span> (<span class="number">2</span>,<span class="string">'徐泾东'</span>,<span class="number">1</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'虹桥2号航站楼'</span>,<span class="number">2</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'淞虹路'</span>,<span class="number">3</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'北新泾'</span>,<span class="number">4</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'威宁路'</span>,<span class="number">5</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'娄山关路'</span>,<span class="number">6</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'中山公园'</span>,<span class="number">7</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'江苏路'</span>,<span class="number">8</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'静安寺'</span>,<span class="number">9</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'南京西路'</span>,<span class="number">10</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'人民广场'</span>,<span class="number">11</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'南京东路'</span>,<span class="number">12</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'陆家嘴'</span>,<span class="number">13</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'东昌路'</span>,<span class="number">14</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'世纪大道'</span>,<span class="number">15</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'上海科技馆'</span>,<span class="number">16</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'世纪公园'</span>,<span class="number">17</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'龙阳路'</span>,<span class="number">18</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'张江高科'</span>,<span class="number">19</span>)</span><br><span class="line">, (<span class="number">2</span>,<span class="string">'金科路'</span>,<span class="number">20</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'杨高中路'</span>,<span class="number">1</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'世纪大道'</span>,<span class="number">2</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'商城路'</span>,<span class="number">3</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'小南门'</span>,<span class="number">4</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'陆家滨路'</span>,<span class="number">5</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'马当路'</span>,<span class="number">6</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'打浦路'</span>,<span class="number">7</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'嘉善路'</span>,<span class="number">8</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'肇嘉浜路'</span>,<span class="number">9</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'徐家汇'</span>,<span class="number">10</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'宜山路'</span>,<span class="number">11</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'桂林路'</span>,<span class="number">12</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'漕河泾开发区'</span>,<span class="number">13</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'合川路'</span>,<span class="number">14</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'星中路'</span>,<span class="number">16</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'七宝'</span>,<span class="number">17</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'中春路'</span>,<span class="number">18</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'九亭'</span>,<span class="number">19</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'泗泾'</span>,<span class="number">20</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'佘山'</span>,<span class="number">21</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'洞泾'</span>,<span class="number">22</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'松江大学城'</span>,<span class="number">23</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'松江新城'</span>,<span class="number">24</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'松江体育中心'</span>,<span class="number">25</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'醉白池'</span>,<span class="number">26</span>)</span><br><span class="line">, (<span class="number">9</span>,<span class="string">'松江南站'</span>,<span class="number">27</span>);</span><br></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 是否存在一次换成的路线 */</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">count</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">FROM</span> metro <span class="keyword">AS</span> t,metro <span class="keyword">AS</span> t1 </span><br><span class="line">    <span class="keyword">WHERE</span> t.<span class="string">`stop`</span>=t1.<span class="string">`stop`</span> <span class="comment">/* 一次换乘 */</span></span><br><span class="line">        <span class="keyword">AND</span> t.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'淞虹路'</span>) <span class="comment">/* 出发点 */</span></span><br><span class="line">        <span class="keyword">AND</span> t1.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'漕河泾开发区'</span>) <span class="comment">/* 终点 */</span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 明细换乘路线 -- 可能还需要改进 */</span></span><br><span class="line"><span class="keyword">SELECT</span> t2.* </span><br><span class="line"><span class="keyword">FROM</span> metro <span class="keyword">AS</span> t2, </span><br><span class="line">    (<span class="keyword">SELECT</span> t.line,t.sequence</span><br><span class="line">    <span class="keyword">FROM</span> metro <span class="keyword">AS</span> t,metro <span class="keyword">AS</span> t1 </span><br><span class="line">    <span class="keyword">WHERE</span> t.<span class="string">`stop`</span>=t1.<span class="string">`stop`</span> </span><br><span class="line">        <span class="keyword">AND</span> t.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'淞虹路'</span>)</span><br><span class="line">        <span class="keyword">AND</span> t1.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'漕河泾开发区'</span>)) <span class="keyword">AS</span> tt</span><br><span class="line">    <span class="keyword">WHERE</span> t2.line=tt.line </span><br><span class="line">        <span class="keyword">AND</span> t2.sequence&lt;=tt.sequence </span><br><span class="line">        <span class="keyword">AND</span> t2.sequence&gt;=(<span class="keyword">SELECT</span> <span class="keyword">sequence</span> <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'淞虹路'</span>)</span><br><span class="line"><span class="keyword">UNION</span>   </span><br><span class="line"><span class="keyword">SELECT</span> t2.* </span><br><span class="line"><span class="keyword">FROM</span> metro <span class="keyword">AS</span> t2, </span><br><span class="line">    (<span class="keyword">SELECT</span> t1.line,t1.sequence</span><br><span class="line">    <span class="keyword">FROM</span> metro <span class="keyword">AS</span> t,metro <span class="keyword">AS</span> t1 </span><br><span class="line">    <span class="keyword">WHERE</span> t.<span class="string">`stop`</span>=t1.<span class="string">`stop`</span> </span><br><span class="line">        <span class="keyword">AND</span> t.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'淞虹路'</span>)</span><br><span class="line">        <span class="keyword">AND</span> t1.line=(<span class="keyword">SELECT</span> line <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'漕河泾开发区'</span>)) <span class="keyword">AS</span> tt</span><br><span class="line">    <span class="keyword">WHERE</span> t2.line=tt.line </span><br><span class="line">        <span class="keyword">AND</span> t2.sequence&gt;=tt.sequence</span><br><span class="line">        <span class="keyword">AND</span> t2.sequence&lt;=(<span class="keyword">SELECT</span> <span class="keyword">sequence</span> <span class="keyword">FROM</span> metro <span class="keyword">WHERE</span> <span class="string">`stop`</span>=<span class="string">'漕河泾开发区'</span>);</span><br></pre></td></tr></table></figure>
-<p><del>另求各位大神看看后面的题目，谢谢</del><br>全部答案已放出 <a href="https://github.com/jshensh/phpcon2016-qsq" target="_blank" rel="noopener">https://github.com/jshensh/phpcon2016-qsq</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/06/27/记录一下钱升钱的面试题和第一小题答案/#comment">评论</a>
         </span>
       </span>
     </div>
