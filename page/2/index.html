@@ -61,6 +61,155 @@
 
   
     
+    <h3 class="article-title"><a href="/2017/03/11/PHP 无极分类生成树状数组/"><span>PHP 无极分类生成树状数组</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/11/PHP 无极分类生成树状数组/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-11T06:35:49.000Z">
+          2017-03-11
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr=[</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">1</span>, <span class="string">'text'</span> =&gt; <span class="string">'Parent 1'</span>, <span class="string">'pid'</span> =&gt; <span class="number">0</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">2</span>, <span class="string">'text'</span> =&gt; <span class="string">'Parent 2'</span>, <span class="string">'pid'</span> =&gt; <span class="number">0</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">3</span>, <span class="string">'text'</span> =&gt; <span class="string">'Parent 3'</span>, <span class="string">'pid'</span> =&gt; <span class="number">0</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">4</span>, <span class="string">'text'</span> =&gt; <span class="string">'Child 1'</span>, <span class="string">'pid'</span> =&gt; <span class="number">1</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">5</span>, <span class="string">'text'</span> =&gt; <span class="string">'Parent 4'</span>, <span class="string">'pid'</span> =&gt; <span class="number">0</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">6</span>, <span class="string">'text'</span> =&gt; <span class="string">'Child 2'</span>, <span class="string">'pid'</span> =&gt; <span class="number">1</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">7</span>, <span class="string">'text'</span> =&gt; <span class="string">'Child 3'</span>, <span class="string">'pid'</span> =&gt; <span class="number">1</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">8</span>, <span class="string">'text'</span> =&gt; <span class="string">'Parent 5'</span>, <span class="string">'pid'</span> =&gt; <span class="number">0</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">9</span>, <span class="string">'text'</span> =&gt; <span class="string">'Child 1'</span>, <span class="string">'pid'</span> =&gt; <span class="number">2</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">10</span>, <span class="string">'text'</span> =&gt; <span class="string">'Child 4'</span>, <span class="string">'pid'</span> =&gt; <span class="number">1</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">11</span>, <span class="string">'text'</span> =&gt; <span class="string">'Child 1'</span>, <span class="string">'pid'</span> =&gt; <span class="number">5</span>],</span><br><span class="line">   [<span class="string">'id'</span> =&gt; <span class="number">12</span>, <span class="string">'text'</span> =&gt; <span class="string">'GrandChild 1'</span>, <span class="string">'pid'</span> =&gt; <span class="number">10</span>]</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">createTree</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> $table = [];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">tree</span><span class="params">($pid = <span class="number">0</span>)</span> </span>&#123;</span><br><span class="line">        $tree = <span class="keyword">array</span>();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">self</span>::$table <span class="keyword">as</span> $row) &#123;</span><br><span class="line">            <span class="keyword">if</span> ($row[<span class="string">'pid'</span>] === $pid) &#123;</span><br><span class="line">                $tmp = <span class="keyword">self</span>::tree($row[<span class="string">'id'</span>]);</span><br><span class="line">                <span class="keyword">if</span> ($tmp) &#123;</span><br><span class="line">                    $row[<span class="string">'children'</span>] = $tmp;</span><br><span class="line">                &#125;</span><br><span class="line">                $tree[] = $row;                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> $tree;        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span><span class="params">($table)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">self</span>::$table = $table;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>::tree();        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var_dump(createTree::get($arr));</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/03/11/PHP 无极分类生成树状数组/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/12/27/一个简单的 MySQL 队列问题/"><span>一个简单的 MySQL 队列问题</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/12/27/一个简单的 MySQL 队列问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-12-26T23:47:23.000Z">
+          2016-12-27
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近有个朋友要实现队列任务方面的工作，我们就 mysql(innodb) 的事务和锁的特性聊了一些有趣的话题。<br>其中，最终的解决方案来自大神 <a href="https://github.com/fengmk2" target="_blank" rel="noopener">https://github.com/fengmk2</a> 之前的一个队列实现。 我做了一个小改进，使得之前表级锁的表现可以恢复到行级锁水平。</p>
+<p>任务的大致描述是这样的：<br>有一个表，里面存了很多的用户id，大概100w条，表的结构简化如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> user_block_status &#123;</span><br><span class="line">  user_id <span class="built_in">bigint</span> // 用户的<span class="keyword">id</span></span><br><span class="line">  <span class="keyword">status</span> <span class="built_in">int</span> // 用户的状态。<span class="number">1</span> ok <span class="number">2</span> <span class="keyword">not</span> ok</span><br><span class="line">  updated_time <span class="keyword">timestamp</span> // 更新时间戳</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个表里面，每隔10秒就要去检查用户是否存在违规页面。如果存在的话，则需要把 status 置为 2，默认是 1。<br>有 100 个 worker 会并发地从表里面读取 user_id，所以我们要设计一个策略，使得这 100 个 worker 在并发时， 读到的是独立的 100 个条目。</p>
+<p><strong>方案1</strong><br>一开始的方案是这样的：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 这一句不一定会发请求，可能会优化成跟接下来的第一个 query 一起发出</span><br><span class="line">sql.begin_transaction</span><br><span class="line"></span><br><span class="line">// 第一次io发生。</span><br><span class="line">// 如果一个用户在 10s 内没有被更新，那么取出来</span><br><span class="line">// 这时候由于程序拿得到 user_id 的值，所以网络io是发生了的。否则拿不到 user_id 的值</span><br><span class="line">outdate_time = now() - 10s</span><br><span class="line">line = sql.query('<span class="keyword">select</span> user_id <span class="keyword">where</span> updated_time &lt; ? <span class="keyword">order</span> <span class="keyword">by</span> updated_time <span class="keyword">asc</span> <span class="keyword">limit</span> <span class="number">1</span><span class="string">', [outdate_time])</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 第二次 io 发生</span></span><br><span class="line"><span class="string">// 更新这一行的 updated_time，免得被其他worker重复读取</span></span><br><span class="line"><span class="string">user_id = line.user_id</span></span><br><span class="line"><span class="string">sql.query('</span><span class="keyword">update</span> user_block_status <span class="keyword">set</span> updated_time=<span class="keyword">now</span>() <span class="keyword">where</span> user_id = ?<span class="string">',</span></span><br><span class="line"><span class="string">  [user_id])</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 第三次 io 发生</span></span><br><span class="line"><span class="string">sql.commit</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// do something with user_id</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到，这个地方我们发起了 3 次 io 请求。当然，请求数不是很关键，因为请求数以及对应的时间是一个恒定量， 而随着 worker 的增加，这一块并不会带来额外的性能瓶颈。但由于我们使用了事务，所以当 worker 由 100 增加到 1000 的时候，数据库由于存在大量的事务操作，这些事务都需要掌握写锁，所以有潜在的写锁排队问题。<br>而且关键是，方案是不可行的，根本没有起到队列的效果。<br>为什么呢？我们假设网络io无限快，而数据库每条语句的执行时间是1s，那么我们这个事务的执行时间是 2s。 这时如果 3 个 worker 并发地在同一秒（00:00）执行，那么假设 worker1 读到的 user_id 是 10086， 由于读锁是共享的，worker2 和 worker3 读到的 user_id 也是 10086。这时他们三个都想要更新 10086 的值， 而 worker1 抢先加了写锁，所以 worker2 和 worker3 就需要等待 worker1 的事务执行完毕， 才能重新获得 10086 的写锁并进行写入。 所以当 worker2 执行的时候，是 00:02 的时候，当 worker3 执行的时候，是 00:04 的时刻。 而且由于他们都是在对 10086 进行更新，所以没有起到队列的效果。<br>这里的查询条件太特殊，导致所有并发的事务需要的都是同一条数据， 这时候 innodb 行级锁的特性也没有发挥出来。<br>这个方案不仅并发时的表现类似表级锁的特性，而且也没有达到队列的效果。</p>
+<p><strong>方案2</strong><br>将 update 语句在先，select 语句在后。<br>update 语句改成<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">outdate_time = now() - 10s</span><br><span class="line">result = sql.query('<span class="keyword">update</span> user_block_status <span class="keyword">set</span> updated_time=<span class="keyword">now</span>() <span class="keyword">where</span> updated_time &lt; ?   <span class="keyword">order</span> <span class="keyword">by</span> updated_time <span class="keyword">asc</span> <span class="keyword">limit</span> <span class="number">1</span><span class="string">',</span></span><br><span class="line"><span class="string">  [outdate_time])</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## each worker can get different result.user_id</span></span><br></pre></td></tr></table></figure></p>
+<p>这样在 update 的时候，3 个 worker 会排队，分别更新不同的 user_id 条目。然后返回来的 也是不同的 user_id。<br>可关键是，update 语句并不会将被 update 了的 id 返回给程序，所以我们后面的 select 语句拿不到对应的 user_id。 这个方案先否决。</p>
+<p><strong>方案3</strong><br>方案1的基础上，在 select 语句中，手工地干扰一下，使得不同的 worker 取到不同的条目<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">outdate_time = now() - 10s</span><br><span class="line">random_number = random_int(0, worker_count * 2)</span><br><span class="line">line = sql.query('<span class="keyword">select</span> user_id <span class="keyword">where</span> updated_time &lt; ?  <span class="keyword">order</span> <span class="keyword">by</span> updated_time <span class="keyword">asc</span> <span class="keyword">limit</span> <span class="number">1</span> <span class="keyword">offset</span> ?<span class="string">',</span></span><br><span class="line"><span class="string">  [outdate_time, random_number])</span></span><br></pre></td></tr></table></figure></p>
+<p>这时，我们的 worker 有很大的几率可以取出不同 user_id。但这里也还有个问题就是，很可能两个 worker 的 random_number 是同一个值。那么就发生了两次重复读取，不过对于我们的业务来说，重复读取只会造成资源的浪费， 而不会带来数据一致性的问题。只要尽量减少重复读的几率，那么这个方案就是可被接受的。<br>其中 worker_count * 2 是拍脑袋决定的数，如果数据库中始终有大量需要处理的数据，可以加大点。</p>
+<p><strong>方案4</strong><br>方案3还是挺不完美的，虽然能解决问题，但是从概念上来说，我们需要的是队列。 队列的意思就是：排队！排队！排队！<br>方案3只是从业务逻辑层面出发，做出了一些规避，模拟了我们需要的效果。<br>那么回到方案2，其实方案2是更接近队列的。因为不同的 worker 真正在等待另一个 worker 更新东西。 可方案2无奈的是，我们拿不到被更新的id。那么有没有办法拿到呢？<br>其实是有的，用 mysql 的 LAST_INSERT_ID() 函数。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LAST_INSERT_ID(): Value of the AUTOINCREMENT column for the last <span class="keyword">INSERT</span></span><br></pre></td></tr></table></figure></p>
+<p>关于这个函数可以看看 <a href="https://dev.mysql.com/doc/refman/5.7/en/information-functions.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/5.7/en/information-functions.html</a> 这里的详细介绍。<br>这个函数本来的含义是，拿到 AUTO_INCREMENT 那一列的最新值。也就是我们最新 insert 进表的那个 id。 但实际上，它也可以作为一个 sql 语句中的变量来使用，它可以被赋值，然后取出。 而且它的作用域是同一 connection 内，这样我们多个 worker 如果对 LAST_INSERT_ID 赋了不同的值， 也不会互相干扰，因为不同的 worker 使用不同的 connection。<br>这时，我们的查询在方案2的基础上就变成：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sql.begin_transaction</span><br><span class="line"></span><br><span class="line">outdate_time = now() - 10s</span><br><span class="line">sql.query('<span class="keyword">update</span> user_block_status <span class="keyword">set</span> updated_time=<span class="keyword">now</span>()，</span><br><span class="line"> <span class="keyword">id</span>=<span class="keyword">LAST_INSERT_ID</span>(<span class="keyword">id</span>) <span class="keyword">where</span> updated_time &lt; ?  <span class="keyword">order</span> <span class="keyword">by</span> updated_time <span class="keyword">asc</span> <span class="keyword">limit</span> <span class="number">1</span><span class="string">',</span></span><br><span class="line"><span class="string">  [outdate_time])</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">line = sql.query('</span><span class="keyword">select</span> user_id <span class="keyword">where</span> <span class="keyword">id</span> = <span class="keyword">LAST_INSERT_ID</span>()<span class="string">')</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## do sth with line.user_id</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">sql.commit</span></span><br></pre></td></tr></table></figure></p>
+<p>ok，已经能排队了，业务上已经可以满足了。<br>目前性能上说，网络io还是三个，而且，【行级锁】没有被利用的特定依然存在。 写锁依然要排队，为什么这么说？因为不管 worker 有多少个，当他们并发的时候，where 条件都始终把它们 指向同一行数据，所以还是要为了同一行数据排队。即使目前我们已经达成了【排队之后，互相更新不同条目】这个目的。<br>方案4就总的性价比来说，目前跟方案3相比，还不一定谁好谁坏。 方案4的性能在于多个worker抢一个锁，大家总是等；方案3是无脑乱取，造成资源浪费，降低worker的效率，浪费机器。<br>什么情况下方案3好？ 如果总是有一大堆数据没有被处理的话，那么把方案3的乱取范围开大点，就能更好避免浪费。 而当一大堆数据等待处理的时候，方案4却不停在排队，这就等于堵住了。<br>还有一种情况就是，方案4的写锁排队已经成为瓶颈。但其实这跟上面是一回事，当总是有一大堆 worker 来取 东西的话，说明就是有一大堆数据没有被处理。否则开那么多 worker 干嘛。<br>什么情况下方案4好？ 前提就是，写锁排队并不成为瓶颈。如果要处理的数据并不是那么多，那么使用方案4的话，可以降低我们需要的 worker 数量，节约机器。 而且 worker 数量评估可以更加理性。</p>
+<p><strong>方案5</strong><br>那么，我们把方案3的 offset 思想加进来吧。可惜啊可惜，update 语法只支持 limit，不支持 offset。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> [<span class="keyword">LOW_PRIORITY</span>] [<span class="keyword">IGNORE</span>] table_reference</span><br><span class="line">    <span class="keyword">SET</span> col_name1=&#123;expr1|<span class="keyword">DEFAULT</span>&#125; [, col_name2=&#123;expr2|<span class="keyword">DEFAULT</span>&#125;] ...</span><br><span class="line">    [<span class="keyword">WHERE</span> where_condition]</span><br><span class="line">    [<span class="keyword">ORDER</span> <span class="keyword">BY</span> ...]</span><br><span class="line">    [<span class="keyword">LIMIT</span> <span class="keyword">row_count</span>]</span><br></pre></td></tr></table></figure></p>
+<p>那就绕一绕。<br>不用 offset，而是通过更改 outdate_time 的值，让他们获得不同的行数据。<br>我们的程序是要求 10s 算作过期，那么 11s、20s、30s 肯定也算过期吧。那就这样写：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 在 10 到 30s 之间随机取值</span><br><span class="line">outdate_time = now() - (random(10, 30))s</span><br><span class="line">sql.query('<span class="keyword">update</span> user_block_status <span class="keyword">set</span> updated_time=<span class="keyword">now</span>()，</span><br><span class="line"> <span class="keyword">id</span>=<span class="keyword">LAST_INSERT_ID</span>(<span class="keyword">id</span>) <span class="keyword">where</span> updated_time &lt; ?  <span class="keyword">order</span> <span class="keyword">by</span> updated_time <span class="keyword">asc</span>  <span class="keyword">limit</span> <span class="number">1</span><span class="string">',</span></span><br><span class="line"><span class="string">  [outdate_time])</span></span><br><span class="line"><span class="string">where updated_time &lt; now() - 10s 与 where updated_time &lt; now() - 12s 与 where updated_time &lt; now() - 15s</span></span><br><span class="line"><span class="string">//（不要在 where 条件里面写计算，这只是示例） 还是有可能锁定同一条数据。但至少，这个方案既利用上了行级锁，也不会造成多个 worker 处理同一 user_id 的 资源浪费。</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>方案6</strong><br>锁的问题差不多就这么解决了。<br>我们再回头看看，发现还有个 io 问题可以再弄弄。现在还是 3 个 io 嘛。<br>其实到了现在这步，begin_transaction 可以去掉了。因为我们只有一个涉及写锁的操作在里面，这个操作本身作为单一语句， 就已经是原子性的了。<br>但由于我们利用了 LAST_INSERT_ID，所以我们要保证 update 语句和它之后的 select 语句在同一个 connection 中。<br>很多的 mysql 库实现都是用了连接池的，所以同一段代码中的两条 sql 有可能会利用两条 connection， 导致得到我们非预期的 user_id。<br>但就我们的业务来说，LAST_INSERT_ID 混了其实是没关系的。每个 worker 始终还是会得到一个 unique 的 user_id。 这就够了。那么我们也不必加一些多余的逻辑，保证这两条语句取到同一个 connection。<br>这时，io 操作从 3，降低到了 2。<br>那么，有没有可能降到 1 呢。<br>其实也可以啊…………因为基本所有 mysql 库都支持 multistatements 特性。<br>我们可以在一条 query 写两个语句，返回接口会是一个数组，分别表示这两个语句的值。<br>类似这样，sql.query(‘update …..; select ….;’)。这是支持的。而且这么一来， 同一 connection 的问题也解决了。避免为以后留坑。<br>重写方案<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">outdate_time = now() - (random(10, 30))s</span><br><span class="line">result = sql.query('<span class="keyword">update</span> user_block_status <span class="keyword">set</span> updated_time=<span class="keyword">now</span>()，</span><br><span class="line"> user_id=<span class="keyword">LAST_INSERT_ID</span>(user_id) <span class="keyword">where</span> updated_time &lt; ?  <span class="keyword">order</span> <span class="keyword">by</span> updated_time <span class="keyword">asc</span> <span class="keyword">limit</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">select</span> * <span class="keyword">from</span> user_block_status <span class="keyword">where</span> user_id = <span class="keyword">LAST_INSERT_ID</span>()<span class="string">',</span></span><br><span class="line"><span class="string">  [outdate_time])</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// do something with result[1].user_id</span></span><br></pre></td></tr></table></figure></p>
+<p>。。。。。。。。。。。。。<br>还是有坑的。。。。。。。。。。。。。。。<br>如果 where updated_time &lt; ? 一条都不命中，那么会发生什么结果？<br>首先，update 没有改变任何行。而 LAST_INSERT_ID 还是会返回一个合理的 id，有可能是真正的 LAST_INSERT_ID， 也可能是这条 connection 中上次手工设置的。<br>在这里可以多说一下 LAST_INSERT_ID 的特性。默认情况下，LAST_INSERT_ID() 不带参数会返回最新插入那条的 id。 带参数的情况下 LAST_INSERT_ID(id) 本身的返回值就是参数，然后在接下来的调用中，如果不发生任何 insert，那么 值会在 connection 中一直保持。如果发生了 insert，就会被更新。<br>如果不处理这个 update nothing 的异常情况，当队列全部被处理完的时候， 我们的 worker 会一直工作，不会停下来。所以我们要在取 LAST_INSERT_ID 的值时， 判断一下上一条 update 语句到底有没有发生作用。<br>这时候我们需要用到另一个跟 LAST_INSERT_ID 一起出现在文档中的函数，<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ROW_COUNT(): The number of rows updated</span><br></pre></td></tr></table></figure></p>
+<p>判断一下 ROW_COUNT，如果是 0 的话，就条件不符，这时候我们在程序里面拿到的值就是空。<br>最终方案<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">outdate_time = now() - (random(10, 30))s</span><br><span class="line">result = sql.query('<span class="keyword">update</span> user_block_status <span class="keyword">set</span> updated_time=<span class="keyword">now</span>()，</span><br><span class="line">  user_id=<span class="keyword">LAST_INSERT_ID</span>(user_id) <span class="keyword">where</span> updated_time &lt; ?  <span class="keyword">order</span> <span class="keyword">by</span> updated_time <span class="keyword">asc</span> <span class="keyword">limit</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">select</span> * <span class="keyword">from</span> user_block_status <span class="keyword">where</span> user_id = <span class="keyword">LAST_INSERT_ID</span>()</span><br><span class="line">    <span class="keyword">and</span> <span class="keyword">ROW_COUNT</span>() &lt;&gt; <span class="number">0</span><span class="string">',</span></span><br><span class="line"><span class="string">  [outdate_time])</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// do something with result[1].user_id</span></span><br></pre></td></tr></table></figure></p>
+<p>当然，mysql 用来解决这种队列问题可能不是一个好的方案。队列相关的知识，我还在努力学习中。<br>参考资料：</p>
+<ul>
+<li><a href="http://www.cnblogs.com/zhoujinyi/p/3437475.html" target="_blank" rel="noopener">http://www.cnblogs.com/zhoujinyi/p/3437475.html</a></li>
+</ul>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/information-functions.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/5.7/en/information-functions.html</a></li>
+</ul>
+<p>转载自 <a href="https://ruby-china.org/topics/27814" target="_blank" rel="noopener">https://ruby-china.org/topics/27814</a></p>
+<p>附：虽然用的是 ruby 语言，但其中最关键的还是 sql 语句。最近做个基于 laravel 的应用中使用到了队列的概念，因为对并发要求不高，所以直接用了 MariaDB，记下源码留作备用：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Http</span>\<span class="title">Controllers</span>\<span class="title">api</span>\<span class="title">v1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Http</span>\<span class="title">Controllers</span>\<span class="title">Controller</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Http</span>\<span class="title">Request</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Support</span>\<span class="title">Facades</span>\<span class="title">DB</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">server</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span><span class="params">(Request $request)</span> </span>&#123;</span><br><span class="line">        $inputFilters = [</span><br><span class="line">            <span class="string">"gid"</span> =&gt; [<span class="string">"filter"</span> =&gt; FILTER_VALIDATE_INT, <span class="string">"options"</span> =&gt; [<span class="string">'min_range'</span> =&gt; <span class="number">1</span>]],</span><br><span class="line">            <span class="string">"sid"</span> =&gt; [<span class="string">"filter"</span> =&gt; FILTER_VALIDATE_INT, <span class="string">"options"</span> =&gt; [<span class="string">'min_range'</span> =&gt; <span class="number">1</span>]]</span><br><span class="line">        ];</span><br><span class="line">        $inputData = $request-&gt;all();</span><br><span class="line">        $insertData = filter_var_array($inputData, $inputFilters);</span><br><span class="line">        <span class="keyword">foreach</span> ($insertData <span class="keyword">as</span> $value) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!$value) &#123;</span><br><span class="line">                <span class="keyword">return</span> response()-&gt;json([<span class="string">"errno"</span> =&gt; <span class="number">-1</span>], <span class="number">500</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        DB::table(<span class="string">'srv'</span>)</span><br><span class="line">            -&gt;where([</span><br><span class="line">                [<span class="string">'conf'</span>, <span class="string">'='</span>, $insertData[<span class="string">"gid"</span>]],</span><br><span class="line">                [<span class="string">'state'</span>, <span class="string">'='</span>, <span class="string">'0'</span>],</span><br><span class="line">                [<span class="string">'power'</span>, <span class="string">'='</span>, <span class="string">'0'</span>]</span><br><span class="line">            ])</span><br><span class="line">            -&gt;orderBy(<span class="string">'id'</span>, <span class="string">'desc'</span>)</span><br><span class="line">            -&gt;take(<span class="number">1</span>)</span><br><span class="line">            -&gt;update([</span><br><span class="line">                <span class="string">'state'</span> =&gt; <span class="number">1</span>,</span><br><span class="line">                <span class="string">'power'</span> =&gt; <span class="number">1</span>,</span><br><span class="line">                <span class="string">'sid'</span> =&gt; $insertData[<span class="string">"sid"</span>],</span><br><span class="line">                <span class="string">'id'</span> =&gt; DB::raw(<span class="string">'LAST_INSERT_ID(id)'</span>)</span><br><span class="line">            ]);</span><br><span class="line">        $data = DB::table(<span class="string">'srv'</span>)</span><br><span class="line">                    -&gt;where([</span><br><span class="line">                        [<span class="string">'id'</span>, <span class="string">'='</span>, DB::raw(<span class="string">'LAST_INSERT_ID()'</span>)],</span><br><span class="line">                        [DB::raw(<span class="string">'ROW_COUNT()'</span>), <span class="string">'&lt;&gt;'</span>, <span class="number">0</span>]</span><br><span class="line">                    ])</span><br><span class="line">                    -&gt;first();</span><br><span class="line">        <span class="keyword">if</span> (!$data) &#123;</span><br><span class="line">            <span class="keyword">return</span> response()-&gt;json([<span class="string">"errno"</span> =&gt; <span class="number">-2</span>], <span class="number">500</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> response()-&gt;json([<span class="string">"errno"</span> =&gt; <span class="number">0</span>, <span class="string">"data"</span> =&gt; $data]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/12/27/一个简单的 MySQL 队列问题/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2016/12/23/jQuery(selector).html() 过滤 script tag 的解决方法/"><span>jQuery(selector).html() 过滤 script tag 的解决方法</span></a></h3>
     
   
@@ -622,185 +771,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2016/07/24/百度 Fex 的 webUploader 上传文件携带其他参数/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/07/24/利用位运算进行权限管理/"><span>利用位运算进行权限管理</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/07/24/利用位运算进行权限管理/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-07-23T21:14:24.000Z">
-          2016-07-24
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p><strong>原理</strong><br>在Linux文件系统中，一个用户对文件或目录所拥有的权限分为三种：”可读”、”可写”和”可执行”，分别用 1 、2 和 4 来表示，它们之间可以任意组合：有“可读”、“可写”权限就用 3 来表示（1 + 2 = 3）；有”可读“、”可执行“权限就用5来表示（1 + 4 = 5），三种权限全部拥有就用 7 表示（1 + 2 + 4 = 7）。<br>实际上，这种运算是基于二进制的。<br>假设可执行、可写、可读三种权限分别对应三个状态位，如果用户具有某种权限，那么将对应的状态位标识为“1”，反之则标识为“0”。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">可执行</th>
-<th style="text-align:center">可写</th>
-<th style="text-align:center">可读</th>
-<th></th>
-<th style="text-align:center">二进制</th>
-<th></th>
-<th style="text-align:center">十进制</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td>=&gt;</td>
-<td style="text-align:center">0</td>
-<td>=&gt;</td>
-<td style="text-align:center">0</td>
-</tr>
-<tr>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">1</td>
-<td>=&gt;</td>
-<td style="text-align:center">1</td>
-<td>=&gt;</td>
-<td style="text-align:center">1</td>
-</tr>
-<tr>
-<td style="text-align:center">0</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">1</td>
-<td>=&gt;</td>
-<td style="text-align:center">11</td>
-<td>=&gt;</td>
-<td style="text-align:center">3</td>
-</tr>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">1</td>
-<td>=&gt;</td>
-<td style="text-align:center">111</td>
-<td>=&gt;</td>
-<td style="text-align:center">7</td>
-</tr>
-</tbody>
-</table>
-<p>如果只有“可读”权限，那么就对应二进制数：001，将这个二进制数转成十进制就得到1；如果同时具有“可读”、“可写”权限，二进制数则对应为： 011，转十进制得：3；同理，三种权限都有的，十进制就等于7。<br>过位运算符很容易就可以做到类似的权限控制：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//定义权限</span></span><br><span class="line">define(<span class="string">'READ'</span>, <span class="number">1</span>&lt;&lt; <span class="number">0</span>);    <span class="comment">// 把可读权限放在最右边</span></span><br><span class="line">define(<span class="string">'WRITE'</span>, <span class="number">1</span>&lt;&lt;<span class="number">1</span>);    <span class="comment">// 可读权限向左移一位</span></span><br><span class="line">define(<span class="string">'EXCUTE'</span>, <span class="number">1</span>&lt;&lt;<span class="number">2</span>);   <span class="comment">// 可执行权限向左移两位</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">//赋予权限</span></span><br><span class="line">$user_permission = READ | WRITE;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//验证权限</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'可读：'</span>, ($user_permission &amp; READ) ? <span class="string">'Yes'</span> : <span class="string">'No'</span>, <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'可写：'</span>, ($user_permission &amp; WRITE) ? <span class="string">'Yes'</span> : <span class="string">'No'</span>, <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'可执行：'</span>, ($user_permission &amp; EXCUTE) ? <span class="string">'Yes'</span> : <span class="string">'No'</span>, <span class="string">"\n"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>PHP语言本身的错误控制也是用位运算来做的，它甚至还利用了按位异或和按位非，使得错误控制更加精确。<br><strong><br>优点和缺陷</strong><br>位运算的运算对象是二进制的位，速度快，效率高，而且节省存储空间，位运算做权限控制又相当地灵活。但是，位运算也有很大的局限，因为在32位计算机上，位移不能超过32次，这就要求权限数量不超过32种。</p>
-<p>转自 <a href="http://xiaobin.net/200906/bitwise-permission/" target="_blank" rel="noopener">http://xiaobin.net/200906/bitwise-permission/</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/07/24/利用位运算进行权限管理/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/07/21/警惕五个思维陷阱/"><span>警惕五个思维陷阱</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/07/21/警惕五个思维陷阱/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-07-21T08:05:48.000Z">
-          2016-07-21
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>我经常能收到各种回复、提问、私信，有五种我不会回答，有这五种思维的人在现实生活中，我也会尽量远离，这是我爸活着的时候教我的。后来我一位广东朋友跟我说，这不是我爸一个人悟出来的，这是一种在他们那边流传很久的智慧，用广东话讲“费神教会你”。<br><img src="/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>给自己找借口</strong><br>我收到很多人抱怨自己特别有天赋，被家庭环境所耽误，有些人的确是，这我不否认。但是如果你继续在抱怨的泥潭里，谁也帮不了你。你必须行动起来，改变这一切，大多数时候，尤其是你成年以后，很少有人能干涉你的生活，除了你自己，只有你自己同意。<br>有位姑娘抱怨“我视野不够是被家庭条件所限，父母没有钱让我环游世界，开拓眼界，所以我发展一直不好。我该怎么办？”<br>我爸妈也没给我钱让我环游世界去，不光如此我和妹妹还都是大学家里就不再给钱了，我和妹妹的大学假期都是在打工中度过的。可我妹妹在大学就帮助瑞士老师做过设计展。<br>开拓视野，真的只有环游世界这一个办法吗？你不思考总结，你环游了世界又怎么样。有句话说的好“没感悟，行万里路也是邮差。”人生开拓视野读书、见人、行路、历事都可以，没钱环游世界，读书不就行了？没钱买书，大学图书馆又不收费，多读点书不就行了。为什么《认识商业》《沟通的艺术：看入人里，看出人外》《成功心理学：发现工作与生活的意义》在开头章节都通过总结、评测进行自我认知。我们必须了解自己，正视自己，学会承担责任，为自己的决定负责。你自己被家庭条件阻碍，视野不够，又有几个人的父母资助他们的孩子环游世界去了？你如果不正视自己之前的错误决策，继续为自己找借口，那就只能被困在原地。<br>大学没有利用好，那毕业后就好好努力呗！为自己找了借口，是舒服了，心理安慰了。潜意识，也会觉得反正不是我的错，那我就继续这样呗。这种思维方式何谈改变呀？！<br><img src="/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>偷换概念</strong><br>这种人更可怕，我们北京俗语说“干什么不吆喝什么”，“你说前门楼子，他说胯骨肘子”。<br>比如我们如果想吸粉成为大号，那就充分搜集信息，找到渠道、学习写作技巧。大家聊天也是围绕这个，可是善于偷换概念的人，他思维是跳跃的，他不围绕这个。<br>有个人问抱怨他文章浏览量低，我说你提高文章质量看的人就多了。他说你是红人，所以浏览量高。<br>他问你怎么能在短时间内让微信公众号粉丝多起来。我给了他几个平台，建议他写完文章都发发。他说“你怎么这么浮躁。”<br>有个姑娘单身，问我怎么能够建立亲密关系，我给她推荐《沟通的艺术：看入人里，看出人外》里关于亲密关系的章节。她说“跟男朋友耍心机，感情得不到好结果。”你跟你妈不讲沟通技巧，你妈都讨厌你，别说跟男朋友了。讲沟通技巧怎么就变成耍心机了？你跟他保持亲密关系，进行语言和非语言沟通就变成耍心机了？<br>不要觉得这是个例，大家可以看看我浏览量几十万的《如何通过爱好赚钱》那篇文章，有几十个回复都是“做自己喜欢的事赚不到钱”，你赚不到钱是能力不行，跟做自己喜欢的事有什么关系？我一直做自己喜欢的事、特立独行的猫一直做自己喜欢的事，我们没有比别人赚钱少呀？赚钱这个事，跟你的能力、思维逻辑有直接关系，跟你喜欢不喜欢你的工作，没什么关系。三百六十行，行行出状元。《理解未来的7个原则：如何看到不可见，做到不可能》用整本书讲如何赚钱，明确提出周期性和线性的决定性作用：周期性变化告诉我们许多种不同的确定性。人类已经找出300个显著的周期，可以在某种程度上精确的预测未来。莎士比亚说：世间事，也有涨潮时节，及时把握，终可功成名就。<br>这种偷换概念的思维方式、沟通方式，是最好的拒绝别人分享的方式。因为沟通太累，大多数人都会闭嘴，有这种思维的人因为沟通效率差、做事效率低、抓不住重点会被处处受限。<br><img src="/uploads/2016/07/p35778177.jpg" alt="p35778177"><br>看什么都是“鸡汤”<br>直接上个截图当例子，大家就明白了。<br><a href="/uploads/2016/07/p35779107.jpg"><img src="/uploads/2016/07/p35779107.jpg" alt="p35779107"></a><br>正常我们的逻辑，我会问怎么当上旅行体验师？这个工作前景如何？薪水如何？需要什么技能？工作内容是什么？<br>逻辑思维的关键是“学会提问”，以开放式的心态，学会提问，你学习知识的途径就是一个立体的 ，随时随地都在接受信息，都在吸收知识，这也被称为“淘金式”思维。<br>相反，截图里的这个例子，是封闭式思维的学习方式。想有孩子，以后会做家长的人千万要注意，教育孩子一定要确认孩子的思维方式，在上学前，教会孩子开放式的思维方式，让孩子学会主动摄取知识，这样孩子学习轻松成绩好。封闭式学习思维的孩子尽管很用功，很努力成绩也总是不尽如人意，尤其是在中学以后，他们在学习上会更痛苦。<br><img src="/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>行动前，先给自己设置障碍，然后放弃</strong><br>我经常会收到，问我如何写作的，我写过很多关于基础写作的文章，帮助他们。可是他们总会说“这太难了。”<br>还有人问我什么样的读书类文章会受欢迎，我说横向或者纵向阅读的主题书单，然后他说正常人根本就没有这种阅读量。然后我给他推荐《沟通圣经：听说读写全方位沟通技巧》第12章增进阅读速度，第13章提高阅读效率，然后他说“还得先学阅读，这工程太浩大了。”<br>有人说我不喜欢现在工作，怎么能找到喜欢的工作并且赚到钱。我的建议只需要评估自己、树立自己想要的目标、了解实现目标需要的技能、学习和提高自身能力、努力实现目标。他们通常会说“可是怎么开始呢？”<br>他们在行动前，就被自己抛出的问题吓到了，然后就没有然后了。他们会说自己拖延症、选择恐惧症。<br><img src="/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>通过片面信息、以点概面的否定</strong><br>逻辑分析的首要条件是什么？“充分占有信息”。盲目的通过片面信息否定，有时候很可笑。<br>比如有人看了我的便签说“字如其人，看这字就是个生活混乱的男人。”难道我两个孩子都是你生的？你给喂的奶？<br>我还收到过“第三行打了两个句号，作者是个浮躁的人。”<br>我鼓励大家无论男女都要经济独立，马上有人说“满身铜臭，就知道钱。”<br>我总是做工具书总结，有人说“你应该多读名著陶冶情操，就不会这么世俗了。”我上学的时候，一直担任班里的图书管理员，在初中、高中的假期协助图书馆老师完成了两个学校的图书馆电子化录入，就是把书读完，把主要内容录入到电脑里，方便检索。学校给学生选的书，大家可以想想算不算名著。我个人分析我世俗应该跟读不读名著没什么关系。<br>我分享理财攻略，马上有人说“这个人充满物欲。”你父母生病，住院办给你打电话跟你说“单间自费，1000元每天，您预定吗？”的时候，咱们可以再来聊这个话题。</p>
-<p>写了这么多，希望能帮到大家。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/07/21/警惕五个思维陷阱/#comment">评论</a>
         </span>
       </span>
     </div>

@@ -61,6 +61,137 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/07/28/使用 iptables 防火墙阻止 PhpDdos 对外发包造成攻击/"><span>使用 iptables 防火墙阻止 PhpDdos 对外发包造成攻击</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/07/28/使用 iptables 防火墙阻止 PhpDdos 对外发包造成攻击/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-07-27T20:01:00.000Z">
+          2013-07-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>对于许多主机商来说，PhpDDOS 既伤主机又伤他人。所以很多主机商目前都不允许高危的 Dedecms …</p>
+<p>即使这个方法不是用于主机商、很多人也是有 VPS 的可以尝试用一下这个方法，至少可以从根源上处理叼 PhpDDOS 对外发包。我们进入 SSH 开始吧！</p>
+<p>一、修改本机 DNS 以防无法联网<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo nameserver 8.8.8.8 &gt; /etc/resolv.conf &amp;&amp; /etc/init.d/network restart</span><br></pre></td></tr></table></figure></p>
+<p>二、允许需要 UDP 服务的端口<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I OUTPUT -p udp --dport 53 -d 8.8.8.8 -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<p>三、禁止本机对外发送 UDP 包<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -p udp -j DROP</span><br></pre></td></tr></table></figure></p>
+<p>就这样就完成了，其中的 8.8.8.8 就是你 DNS 的 IP 了。如果不知道的话可以直接按照本文来或者输入如下命令查看 IP 地址：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/resolv.conf |grep nameserver |awk 'NR==1&#123;print $2 &#125;'</span><br></pre></td></tr></table></figure></p>
+<p>转载自：<a href="http://www.zntec.cn/archives/iptables-fuck-phpddos.html" target="_blank" rel="noopener">http://www.zntec.cn/archives/iptables-fuck-phpddos.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/07/28/使用 iptables 防火墙阻止 PhpDdos 对外发包造成攻击/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/07/26/微软发布Win7 IE11开发者预览版 开始改进开发工具讨好开发者/"><span>微软发布Win7 IE11开发者预览版 开始改进开发工具讨好开发者</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/07/26/微软发布Win7 IE11开发者预览版 开始改进开发工具讨好开发者/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-07-26T09:03:14.000Z">
+          2013-07-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>摘要：今天微软对外发布了Win7 IE11开发者预览版，虽然Win7上的IE11没有Modern界面，但在性能上也造就了它更多优势。除了整体性能有所提高之外，IE11开发者预览版改进还包括更新的标准支持和改进的开发工具。<br><a href="/uploads/201307/51f1d34c031c0.jpg"><img src="/uploads/201307/51f1d34c031c0.jpg" alt="51f1d34c031c0"></a><br>北京时间<a href="http://news.cnet.com/8301-1001_3-57595410-92/microsoft-readies-ie-11-for-windows-7-too/" target="_blank" rel="noopener">7月26日消息</a>，一个对浏览器爱好者的好消息，微软IE11除了随Windows 8.1一起发布外，这个最新的浏览器还会登录Windows 7，目前Windows 7 IE11开发者预览版已正式发布。<br>微软IE市场总监Roger Capriotti称，和Windows 7版IE10一样，Windows 7版IE11也不会有Modern界面，虽然有所遗憾，但也造就了它在性能上的优势。他指出，微软IE11浏览器速度比Chrome或Firefox还要快，这主要得益于更好的CPU处理时间、更好的用法以及更佳的整体载入速度。<br>除了整体性能有所提高之外，Windows 7 IE11开发者预览版改进还包括更新的标准支持和改进的开发工具。<br>对于Windows 7 IE11而言，大部分的后端变化还是在Windows 8.1版本中，而根据微软的信息显示，这些变化包括更快的网站加载等几个方面第一。<br>比如，IE11是第一个实现W3C资源优先级标准的浏览器，这使得开发者可以告诉浏览器哪部分页面需要优先加载；同时它也是第一个使用GPU渲染文本的浏览器，这便于更为直接的加速页面加载；另外它也是第一个天生能够使用GPU实时进行JPG图像解码的浏览器，这样的做法不但可以减少电量消耗还可以让网站载入速度更快。<br>之前出于安全考虑，IE11一直没有支持WebGL，而现在WebGL新的标准解决了安全隐患，所以IE11还开始支持WebGL，同时它也开始支持起源于谷歌以安全和速度为主的SPDY协议，除此之外，ECMAScript 6脚本语言现在也开始被IE11支持。</p>
+<p>微软开始讨好开发者<br><a href="/uploads/201307/51f1d3822bc6e.jpg"><img src="/uploads/201307/51f1d3822bc6e.jpg" alt="51f1d3822bc6e"></a><br>Roger Capriotti在谈论中反复强调，微软已把之前停滞不前的浏览器开发工作当做一个非常重要的事情在做，他称，IE团队的最终目标就是让开发者未来能在标准兼容上花费的时间更少，而在开发上能够投入更多时间。<br>为了得到开发人员的拥护，微软IE开发团队全面改进了“F12”开发工具，加入了新的内存管理工具，该工具设计简洁，能够实时显示内存峰值和其他问题。<br>同时，IE11还提供了一个新的仿真工具，允许开发者开发网站时能够在不同屏幕大小的设备上进行模拟测试，另外IE11还提供了包括特定区域的调试定位工具。<br>不过令人遗憾的是，这个新用户界面的开发工具在目前开发者预览版中还不能使用，它只会在最终版本上出现并应用。对于改进的开发者工具，Roger Capriotti最后称，相比之前它使用了更多的图形向开发者展示网站的表现，同时就颜色编码问题区域等说明都使用了实时的图表。<br>最后：值得夸奖的是，微软IE现在确实很上进了，这种上进确实可贵，但是不是有点晚了？因为他们的主要竞争对手Chrome和Firefox，都已进入移动操作系统世界寻求新的发展和机遇，而IE呢，还打算守着自己的一亩三分田吗？（文/张勇 责编/魏兵）</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/资讯/">资讯</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/07/26/微软发布Win7 IE11开发者预览版 开始改进开发工具讨好开发者/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/07/26/申请Host1Free免费VPS主机和免费PHP空间DA面板100GB流量/"><span>申请Host1Free免费VPS主机和免费PHP空间DA面板100GB流量</span></a></h3>
     
   
@@ -605,183 +736,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2013/07/17/新免费顶级域名.ML .CF .GA域名开放注册及详细申请过程/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/07/16/做就有百分之五十的可能，不做就彻底没有/"><span>做就有百分之五十的可能，不做就彻底没有</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/07/16/做就有百分之五十的可能，不做就彻底没有/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-07-15T21:19:25.000Z">
-          2013-07-16
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>在我生活的大部分时间，除了在家和我爱人在一起。工作的时候，我跟领导和原来同桌待得时间比较长，我领导是深受《古惑仔》影响的那代人，影响到还真的去混过黑社会，他的口头禅是电影里的台词“做就有百分之五十的可能，不做就彻底没有”，当然对着我的口头禅就变成了“你不好好学习，黑社会面试都过不了。”很多时候，看着他，就会觉得很励志，这个年纪有了宝宝，虽然房贷没还完，但是也算有房子。虽然还在读但是也算有高级知识分子，在这个城市里，可能不算典型，但是也算是励志典范了。</p>
-<p>记得有一次，我们办公室愤青不知道受什么打击了，说咱们再怎么奋斗也赶不上富二代了，balabala。大家被他引导的群情激奋。领导只是低头问我，中午吃什么。午饭的时候，我就问他，他们说的是不是真的，咱们再怎么奋斗也赶不上富二代了。他从面碗里抬起头说，不要随便听人家的建议，他说的建议，他自己可能都没去试过，你想听建议得找那个已经把事做完了的，不能说一定找成功的，但是也得找做过的。如果实在分不清该听谁的，就自己试试。试过了才知道，不试就放弃了，在看到别人成功了的时候，你就只能说，当年我也想过就是没做。。。</p>
-<p>自从领导来之后，很多事情，我都会受他影响。比如还没谈恋爱的时候，我一开始总是把心思放在其他地方。他就跟我讨论这事，我就说，你看你也不是高帅富，还不是找了大嫂那么好的女人。他就跟我说，我是男人，你看她优秀还不是嫁给我，她的同学都单身好不好。你不着急，回头选的都是人家剩下的。。我说我不会谈恋爱呀，跟人家在一块不知道说什么。他说你不试怎么知道，天天在办公室里怎么可以找到男朋友。</p>
-<p>我找兼职的时候，去出版社应聘营销编辑前，因为没有经验很犹豫，纠结了很久，最后他说，成不成还不知道，你现在纠结什么，成就试试呗，不成就干脆没事了。后来听他的去试了，过了不久当我高高兴兴的在办公室写方案的时候，他就打趣我说，你看我说你适合这种工作吧。</p>
-<p>后来当有豆友问我意见的时候，我也会更多的建议他们都自己试试，其实很多事我也不懂，但是我总会想到这句做就有百分之五十的可能，不做就彻底没有。我们要做一件事，总会面临很多困难，有些需要花心思解决，有些你只能接受，而我们只能尽人事，听天命。如果连人事都没尽，直接放弃，等多年后回头再想，会不会很遗憾。 </p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/07/16/做就有百分之五十的可能，不做就彻底没有/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/07/14/关于 Discuz! x2.5 自定义栏目用于注册时的数据校验/"><span>关于 Discuz! x2.5 自定义栏目用于注册时的数据校验</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/07/14/关于 Discuz! x2.5 自定义栏目用于注册时的数据校验/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-07-13T20:51:39.000Z">
-          2013-07-14
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>以真实姓名为例，我只允许在名单里的童鞋注册，并且不允许重复注册，效果如图：<br><a href="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz3.png"><img src="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz3.png" alt="立即注册 - 曹杨二中附属学校 2013 届 初三(5)班 班级论坛 - Powered by Discuz!"></a><br><a href="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz2.png"><img src="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz2.png" alt="立即注册 - 曹杨二中附属学校 2013 届 初三(5)班 班级论坛 - Powered by Discuz!(2)"></a><br><a href="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz7.png"><img src="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz7.png" alt="立即注册 - 曹杨二中附属学校 2013 届 初三(5)班 班级论坛 - Powered by Discuz!(7)"></a><br><a href="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz5.png"><img src="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz5.png" alt="立即注册 - 曹杨二中附属学校 2013 届 初三(5)班 班级论坛 - Powered by Discuz!(5)"></a><br><a href="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz6.png"><img src="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz6.png" alt="立即注册 - 曹杨二中附属学校 2013 届 初三(5)班 班级论坛 - Powered by Discuz!(6)"></a><br><a href="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz1.png"><img src="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz1.png" alt="立即注册 - 曹杨二中附属学校 2013 届 初三(5)班 班级论坛 - Powered by Discuz!(1)"></a><br><a href="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz4.png"><img src="/uploads/201307/立即注册-曹杨二中附属学校-2013-届-初三5班-班级论坛-Powered-by-Discuz4.png" alt="立即注册 - 曹杨二中附属学校 2013 届 初三(5)班 班级论坛 - Powered by Discuz!(4)"></a></p>
-<p>弹窗效果是字段值不符合要求时点击提交后给出的提示，并且不允许提交</p>
-<p>前端验证数据使用的是 jQuery，中间遇到了一点小坎坷，但还是解决了。</p>
-<p>实现方法如下：</p>
-<ol>
-<li><p>先在 后台→用户→用户栏目 创建一个你要求的栏目，并勾选 是否启用 与 注册页显示。<br><a href="/uploads/201307/曹杨二中附属学校-2013-届-初三5班-班级论坛-管理中心-用户-用户栏目.png"><img src="/uploads/201307/曹杨二中附属学校-2013-届-初三5班-班级论坛-管理中心-用户-用户栏目.png" alt="曹杨二中附属学校 2013 届 初三(5)班 班级论坛 管理中心 - 用户 - 用户栏目"></a></p>
-</li>
-<li><p>接下来就是修改代码了，先下载 jQuery 库，复制至你论坛的 static/js 目录下备用<br>下载 jQuery 库：<a href="/uploads/201307/jquery-1.8.3.min_.js">jquery-1.8.3.min</a></p>
-</li>
-<li><p>使用代码编辑器打开 source/class/class_member.php ，找到这一句</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>($_G[<span class="string">'cache'</span>][<span class="string">'fields_register'</span>] <span class="keyword">as</span> $field) &#123;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>然后将</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$field_key = $field[<span class="string">'fieldid'</span>];</span><br><span class="line">$field_val = $_GET[<span class="string">''</span>.$field_key];</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>移至<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(defined(<span class="string">'IN_MOBILE'</span>)) &#123;</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>之前，为了之后手机版注册时做准备</p>
-<ol start="5">
-<li>在<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$field_key = $field[<span class="string">'fieldid'</span>];</span><br><span class="line">$field_val = $_GET[<span class="string">''</span>.$field_key];</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>之后插入这样一段代码，请按照注释根据自己的情况进行修改<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">检测用户提交的真实姓名是否存在并且是否已经注册</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//check realname start</span></span><br><span class="line"><span class="keyword">if</span> ($field_key==<span class="string">'realname'</span>) &#123; <span class="comment">//请将 realname 修改为该栏目在前端注册时表单中使用的 name</span></span><br><span class="line">	$get_realname=(get_magic_quotes_gpc())?$_POST[<span class="string">'realname'</span>]:addslashes($_POST[<span class="string">'realname'</span>]); <span class="comment">//同上</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">empty</span>($get_realname)) &#123; <span class="comment">//如果你修改了上面的变量名称，请一并修改这里的</span></span><br><span class="line">		showmessage(<span class="string">'请输入您的真实姓名'</span>); <span class="comment">//调用 dz 自带的函数进行弹窗提示</span></span><br><span class="line">	&#125;</span><br><span class="line">	$realname_query_1=mysql_query(<span class="string">'SELECT `realname` FROM `pre_common_member_realname` where `realname`=\''</span>.$get_realname.<span class="string">'\''</span>); <span class="comment">//查询用户提交的真实姓名是否存在于自己允许注册的表中，这个表需要自己创建</span></span><br><span class="line">	<span class="keyword">if</span> (mysql_num_rows($realname_query_1)==<span class="number">0</span>) &#123; <span class="comment">//如果返回行数为 0</span></span><br><span class="line">		showmessage(<span class="string">'您输入的真实姓名有错误，请重新输入'</span>); <span class="comment">//修改提示语</span></span><br><span class="line">	&#125;</span><br><span class="line">	$realname_query_2=mysql_query(<span class="string">'SELECT `realname` FROM `pre_common_member_profile` where `realname`=\''</span>.$get_realname.<span class="string">'\''</span>); <span class="comment">//查询用户提交的真实姓名是否已经被注册</span></span><br><span class="line">	<span class="keyword">if</span> (mysql_num_rows($realname_query_2)!==<span class="number">0</span>) &#123; <span class="comment">//如果返回的行数不等于 0</span></span><br><span class="line">		showmessage(<span class="string">'请您不要重复注册'</span>); <span class="comment">//修改提示语</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//check realname end</span></span><br></pre></td></tr></table></figure></p>
-<ol start="6">
-<li>修改手机版模板，使用代码编辑器打开文件 template/default/mobile/member/register.htm ，在适当的区域加上</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">label</span>&gt;</span><span class="tag">&lt;<span class="name">strong</span>&gt;</span>真实姓名*<span class="tag">&lt;/<span class="name">strong</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"realname"</span> <span class="attr">autocomplete</span>=<span class="string">"off"</span> <span class="attr">id</span>=<span class="string">"realname"</span> <span class="attr">class</span>=<span class="string">"txt"</span> /&gt;</span> <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>注意请根据自己实际情况进行修改</p>
-<ol start="7">
-<li>修改电脑版模板，使用代码编辑器打开文件 template/default/member/register.htm，在<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--&#123;eval updatesession();&#125;--&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>前加上以下代码，注意请根据自己实际情况进行修改<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"static/js/jquery-1.8.3.min.js"</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> jq = jQuery.noConflict();</span></span><br><span class="line"><span class="javascript">	jq(<span class="string">"#tip_realname"</span>).html(<span class="string">"请输入您的真实姓名"</span>);</span></span><br><span class="line"><span class="javascript">	jq(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">		jq(<span class="string">"#realname"</span>).focus( <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">			jq(<span class="string">"#tip_realname"</span>).css(<span class="string">"display"</span>,<span class="string">"block"</span>);</span></span><br><span class="line"><span class="javascript">			jq(<span class="string">"#chk_realname"</span>).html(<span class="string">""</span>);</span></span><br><span class="line"><span class="javascript">			jq(<span class="string">"#td_realname"</span>).removeClass(<span class="string">"p_right"</span>);</span></span><br><span class="line"><span class="javascript">			jq(<span class="string">"#realname"</span>).removeClass(<span class="string">"er"</span>);</span></span><br><span class="line"><span class="undefined">		&#125;);</span></span><br><span class="line"><span class="javascript">		jq(<span class="string">"#realname"</span>).blur( <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">			jq(<span class="string">"#tip_realname"</span>).css(<span class="string">"display"</span>,<span class="string">"none"</span>);</span></span><br><span class="line"><span class="javascript">			<span class="keyword">var</span> realn = jq(<span class="string">"#realname"</span>).val();</span></span><br><span class="line"><span class="javascript">			jq(<span class="string">"#td_realname"</span>).removeClass(<span class="string">"p_right"</span>);</span></span><br><span class="line"><span class="javascript">			<span class="keyword">if</span> (realn != <span class="string">""</span> &amp;&amp; realn != <span class="literal">null</span>) &#123;</span></span><br><span class="line"><span class="javascript">				jq.post(<span class="string">"source/function/function_check_realname.php"</span>, &#123; <span class="string">"realname"</span>: realn &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">rnresult</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">					<span class="keyword">if</span> (rnresult != <span class="string">""</span> &amp;&amp; rnresult != <span class="literal">null</span>) &#123;</span></span><br><span class="line"><span class="javascript">						jq(<span class="string">"#chk_realname"</span>).html(rnresult);</span></span><br><span class="line"><span class="javascript">						jq(<span class="string">"#realname"</span>).addClass(<span class="string">"er"</span>);</span></span><br><span class="line"><span class="javascript">					&#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">						jq(<span class="string">"#td_realname"</span>).addClass(<span class="string">"p_right"</span>);</span></span><br><span class="line"><span class="javascript">						jq(<span class="string">"#realname"</span>).removeClass(<span class="string">"er"</span>);</span></span><br><span class="line"><span class="undefined">					&#125;</span></span><br><span class="line"><span class="undefined">				&#125;);</span></span><br><span class="line"><span class="javascript">			&#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">				jq(<span class="string">"#chk_realname"</span>).html(<span class="string">"请输入您的真实姓名"</span>);</span></span><br><span class="line"><span class="javascript">				jq(<span class="string">"#realname"</span>).addClass(<span class="string">"er"</span>);</span></span><br><span class="line"><span class="undefined">			&#125;</span></span><br><span class="line"><span class="undefined">		&#125;);</span></span><br><span class="line"><span class="undefined">	&#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<ol start="8">
-<li>找到<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--&#123;loop $_G['cache']['fields_register'] $field&#125;--&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>与<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--&#123;/loop&#125;--&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>它们以及它们中间那段代码正是循环输出自定义栏目的代码。<br>修改<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"tipcol"</span> &gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>为<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">td</span> <span class="attr">id</span>=<span class="string">"td_$field['fieldid']"</span> <span class="attr">class</span>=<span class="string">"tipcol"</span> &gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>以供之后 jQuery 使用。</p>
-<ol start="9">
-<li><p>新建文件 source/function/function_check_realname.php ，并使用代码编辑器打开<br>输入以下代码，和前面的 class_member.php 差不多，注意根据自己实际情况修改</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="comment">/*替换为你自己的数据库名（可从管理中心查看到）*/</span></span><br><span class="line">	$dbname = <span class="string">'XQMOszFiQwWvbnsOHGwq'</span>;</span><br><span class="line">	 </span><br><span class="line">	<span class="comment">/*从环境变量里取出数据库连接需要的参数*/</span></span><br><span class="line">	$host = getenv(<span class="string">'HTTP_BAE_ENV_ADDR_SQL_IP'</span>);</span><br><span class="line">	$port = getenv(<span class="string">'HTTP_BAE_ENV_ADDR_SQL_PORT'</span>);</span><br><span class="line">	$user = getenv(<span class="string">'HTTP_BAE_ENV_AK'</span>);</span><br><span class="line">	$pwd = getenv(<span class="string">'HTTP_BAE_ENV_SK'</span>);</span><br><span class="line">	 </span><br><span class="line">	<span class="comment">/*接着调用mysql_connect()连接服务器*/</span></span><br><span class="line">	$link = @mysql_connect(<span class="string">"&#123;$host&#125;:&#123;$port&#125;"</span>,$user,$pwd,<span class="keyword">true</span>);</span><br><span class="line">	<span class="keyword">if</span>(!$link) &#123;</span><br><span class="line">		<span class="keyword">die</span>(<span class="string">"Connect Server Failed: "</span> . mysql_error());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/*连接成功后立即调用mysql_select_db()选中需要连接的数据库*/</span></span><br><span class="line">	<span class="keyword">if</span>(!mysql_select_db($dbname,$link)) &#123;</span><br><span class="line">		<span class="keyword">die</span>(<span class="string">"Select Database Failed: "</span> . mysql_error($link));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	检测用户提交的真实姓名是否存在并且是否已经注册</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="comment">//check realname start</span></span><br><span class="line">	$get_realname=(get_magic_quotes_gpc())?$_POST[<span class="string">'realname'</span>]:addslashes($_POST[<span class="string">'realname'</span>]);</span><br><span class="line">	$realname_query_1=mysql_query(<span class="string">'SELECT `realname` FROM `pre_common_member_realname` where `realname`=\''</span>.$get_realname.<span class="string">'\''</span>);</span><br><span class="line">	<span class="keyword">if</span> (mysql_num_rows($realname_query_1)==<span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">'您输入的真实姓名有错误，请重新输入'</span>;</span><br><span class="line">		<span class="keyword">exit</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	$realname_query_2=mysql_query(<span class="string">'SELECT `realname` FROM `pre_common_member_profile` where `realname`=\''</span>.$get_realname.<span class="string">'\''</span>);</span><br><span class="line">	<span class="keyword">if</span> (mysql_num_rows($realname_query_2)!==<span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">'请您不要重复注册'</span>;</span><br><span class="line">		<span class="keyword">exit</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//check realname end</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>现在，就大功告成啦。。。效果 <a href="http://95bbs.imjs.work" target="_blank" rel="noopener">http://95bbs.imjs.work</a></p>
-</li>
-</ol>
-<p>P.S. 因为 jQuery 和 dz 自带的 js 效果有冲突，所以需要加上一句<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> jq = jQuery.noConflict();</span><br></pre></td></tr></table></figure></p>
-<p>并将所有的 $ 替换为 jq</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/07/14/关于 Discuz! x2.5 自定义栏目用于注册时的数据校验/#comment">评论</a>
         </span>
       </span>
     </div>

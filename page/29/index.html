@@ -61,6 +61,159 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/04/28/简单解决网站中无法使用SMTP发送邮件的问题(转载)/"><span>简单解决网站中无法使用SMTP发送邮件的问题(转载)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/28/简单解决网站中无法使用SMTP发送邮件的问题(转载)/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-28T00:05:46.000Z">
+          2013-04-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>有许多的虚拟主机都禁止了 MAIL 函数，当然、也是因为防止垃圾邮件的诞生，但是也影响了一部分客户</p>
+<p><a href="/uploads/2013/04/wpid-20130427131924727.jpg"><img src="/uploads/2013/04/wpid-20130427131924727.jpg" alt="image"></a></p>
+<p>许多的用户就会选择使用 SMTP 来发送邮件，但是有些主机看着探针支持 SMTP 但是却无法发邮件是啥回事？今天我就来说说几种解决方式吧，如果遇见了错误但不懂如何解决的请看！（以Wordpress示范）</p>
+<p>一、修改发信端口</p>
+<p>这个是最低级的一个错误之一，就是端口错误。很多人喜欢乱写，但是常用的有 25、465、587 等。</p>
+<p>如果使用常用无 SSL 发信端口没有用的话，就用 SSL 的！例如 465 这样（许多邮箱的端口不同）的端口。</p>
+<p>二、替换发信函数</p>
+<p>正常情况下 SMTP 都是使用 fsockopen 函数来发信的，当然、如果禁用了我们还可以用其他的！</p>
+<ol>
+<li>替换为 pfsockopen 函数：</li>
+</ol>
+<p>在 “wp-includes” 下找到 “class-smtp.php” 并搜索 “fsockopen” 大约会得出以下结果：</p>
+<p><a href="/uploads/2013/04/wpid-20130427132725598.jpg"><img src="/uploads/2013/04/wpid-20130427132725598.jpg" alt="image"></a></p>
+<p>在前面加一个 “p” 就可以了，最好是小写。然后保存上传，如果无误的话、你的网站已经可以发信了。</p>
+<ol start="2">
+<li>使用 stream_socket_client 函数：</li>
+</ol>
+<p>同样是找到 “class-smtp.php” 并搜索 “fsockopen”，替换如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@fsockopen($host,</span><br></pre></td></tr></table></figure>
+<p>把上面的代码替换成：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@stream_socket_client($host.<span class="string">":"</span>.$port,</span><br></pre></td></tr></table></figure>
+<p>如果不是很懂的话，请看图：</p>
+<p><a href="/uploads/2013/04/wpid-2013042713330981.jpg"><img src="/uploads/2013/04/wpid-2013042713330981.jpg" alt="image"></a></p>
+<p>如果第一种方法不行，这种方法一般都是不行的了 …… 不要沮丧，有高手还自定义函数的、我就不介绍了</p>
+<p>三、使用一些神奇的插件</p>
+<p>这个可能性就非常的小啦，不过先前看到有一个人发布的一个插件、可以支持任意主机发信。具体的可能是本地收取了发信内容之后：传送到发信平台（私人或公有的发信服务器、类似百度 BCMS 这种），然后同意进行传送。</p>
+<p>我没有多余的服务器，我也就不搞这些事情了。有时间的话我会去做一个 BCMS 的插件如何呢？</p>
+<p>原文链接：<a href="http://www.zntec.cn/archives/smtp-error.html" target="_blank" rel="noopener">http://www.zntec.cn/archives/smtp-error.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/04/28/简单解决网站中无法使用SMTP发送邮件的问题(转载)/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/04/26/推荐个挺便宜的虚拟主机/"><span>推荐个挺便宜的虚拟主机</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/04/26/推荐个挺便宜的虚拟主机/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-04-26T05:52:41.000Z">
+          2013-04-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>博客型主机只需要 48 RMB/年，表示不是很贵。同时为了保证客户安全，这家 IDC 把服务器分成了 20 个 VPS，每个 VPS 装 10 个客户，如果 VPS 被攻击，不会导致服务器被攻击。</p>
+<p>具体配置：<br>512 MB 磁盘<br>10 个 数据库<br>15 GB 月流量<br>10 个 绑定域<br>25 个 子域名<br>全站 数据备份<br>Linux<br>免费指导<br>24小时全额退款<br>DirectAdmin 控制面板<br>洛杉矶Multacom机房</p>
+<p>链接：<a href="http://idc.geassgr.net/" target="_blank" rel="noopener">http://idc.geassgr.net/</a><br>测试站点：<a href="http://20264.com/" target="_blank" rel="noopener">http://20264.com/</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/04/26/推荐个挺便宜的虚拟主机/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/04/26/MYSQL 批量替换文章中的url地址/"><span>MYSQL 批量替换文章中的url地址</span></a></h3>
     
   

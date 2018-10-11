@@ -61,6 +61,185 @@
 
   
     
+    <h3 class="article-title"><a href="/2016/07/24/利用位运算进行权限管理/"><span>利用位运算进行权限管理</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/07/24/利用位运算进行权限管理/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-07-23T21:14:24.000Z">
+          2016-07-24
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>原理</strong><br>在Linux文件系统中，一个用户对文件或目录所拥有的权限分为三种：”可读”、”可写”和”可执行”，分别用 1 、2 和 4 来表示，它们之间可以任意组合：有“可读”、“可写”权限就用 3 来表示（1 + 2 = 3）；有”可读“、”可执行“权限就用5来表示（1 + 4 = 5），三种权限全部拥有就用 7 表示（1 + 2 + 4 = 7）。<br>实际上，这种运算是基于二进制的。<br>假设可执行、可写、可读三种权限分别对应三个状态位，如果用户具有某种权限，那么将对应的状态位标识为“1”，反之则标识为“0”。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">可执行</th>
+<th style="text-align:center">可写</th>
+<th style="text-align:center">可读</th>
+<th></th>
+<th style="text-align:center">二进制</th>
+<th></th>
+<th style="text-align:center">十进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td>=&gt;</td>
+<td style="text-align:center">0</td>
+<td>=&gt;</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td>=&gt;</td>
+<td style="text-align:center">1</td>
+<td>=&gt;</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td>=&gt;</td>
+<td style="text-align:center">11</td>
+<td>=&gt;</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td>=&gt;</td>
+<td style="text-align:center">111</td>
+<td>=&gt;</td>
+<td style="text-align:center">7</td>
+</tr>
+</tbody>
+</table>
+<p>如果只有“可读”权限，那么就对应二进制数：001，将这个二进制数转成十进制就得到1；如果同时具有“可读”、“可写”权限，二进制数则对应为： 011，转十进制得：3；同理，三种权限都有的，十进制就等于7。<br>过位运算符很容易就可以做到类似的权限控制：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//定义权限</span></span><br><span class="line">define(<span class="string">'READ'</span>, <span class="number">1</span>&lt;&lt; <span class="number">0</span>);    <span class="comment">// 把可读权限放在最右边</span></span><br><span class="line">define(<span class="string">'WRITE'</span>, <span class="number">1</span>&lt;&lt;<span class="number">1</span>);    <span class="comment">// 可读权限向左移一位</span></span><br><span class="line">define(<span class="string">'EXCUTE'</span>, <span class="number">1</span>&lt;&lt;<span class="number">2</span>);   <span class="comment">// 可执行权限向左移两位</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">//赋予权限</span></span><br><span class="line">$user_permission = READ | WRITE;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//验证权限</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'可读：'</span>, ($user_permission &amp; READ) ? <span class="string">'Yes'</span> : <span class="string">'No'</span>, <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'可写：'</span>, ($user_permission &amp; WRITE) ? <span class="string">'Yes'</span> : <span class="string">'No'</span>, <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'可执行：'</span>, ($user_permission &amp; EXCUTE) ? <span class="string">'Yes'</span> : <span class="string">'No'</span>, <span class="string">"\n"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>PHP语言本身的错误控制也是用位运算来做的，它甚至还利用了按位异或和按位非，使得错误控制更加精确。<br><strong><br>优点和缺陷</strong><br>位运算的运算对象是二进制的位，速度快，效率高，而且节省存储空间，位运算做权限控制又相当地灵活。但是，位运算也有很大的局限，因为在32位计算机上，位移不能超过32次，这就要求权限数量不超过32种。</p>
+<p>转自 <a href="http://xiaobin.net/200906/bitwise-permission/" target="_blank" rel="noopener">http://xiaobin.net/200906/bitwise-permission/</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/07/24/利用位运算进行权限管理/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/07/21/警惕五个思维陷阱/"><span>警惕五个思维陷阱</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/07/21/警惕五个思维陷阱/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-07-21T08:05:48.000Z">
+          2016-07-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>我经常能收到各种回复、提问、私信，有五种我不会回答，有这五种思维的人在现实生活中，我也会尽量远离，这是我爸活着的时候教我的。后来我一位广东朋友跟我说，这不是我爸一个人悟出来的，这是一种在他们那边流传很久的智慧，用广东话讲“费神教会你”。<br><img src="/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>给自己找借口</strong><br>我收到很多人抱怨自己特别有天赋，被家庭环境所耽误，有些人的确是，这我不否认。但是如果你继续在抱怨的泥潭里，谁也帮不了你。你必须行动起来，改变这一切，大多数时候，尤其是你成年以后，很少有人能干涉你的生活，除了你自己，只有你自己同意。<br>有位姑娘抱怨“我视野不够是被家庭条件所限，父母没有钱让我环游世界，开拓眼界，所以我发展一直不好。我该怎么办？”<br>我爸妈也没给我钱让我环游世界去，不光如此我和妹妹还都是大学家里就不再给钱了，我和妹妹的大学假期都是在打工中度过的。可我妹妹在大学就帮助瑞士老师做过设计展。<br>开拓视野，真的只有环游世界这一个办法吗？你不思考总结，你环游了世界又怎么样。有句话说的好“没感悟，行万里路也是邮差。”人生开拓视野读书、见人、行路、历事都可以，没钱环游世界，读书不就行了？没钱买书，大学图书馆又不收费，多读点书不就行了。为什么《认识商业》《沟通的艺术：看入人里，看出人外》《成功心理学：发现工作与生活的意义》在开头章节都通过总结、评测进行自我认知。我们必须了解自己，正视自己，学会承担责任，为自己的决定负责。你自己被家庭条件阻碍，视野不够，又有几个人的父母资助他们的孩子环游世界去了？你如果不正视自己之前的错误决策，继续为自己找借口，那就只能被困在原地。<br>大学没有利用好，那毕业后就好好努力呗！为自己找了借口，是舒服了，心理安慰了。潜意识，也会觉得反正不是我的错，那我就继续这样呗。这种思维方式何谈改变呀？！<br><img src="/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>偷换概念</strong><br>这种人更可怕，我们北京俗语说“干什么不吆喝什么”，“你说前门楼子，他说胯骨肘子”。<br>比如我们如果想吸粉成为大号，那就充分搜集信息，找到渠道、学习写作技巧。大家聊天也是围绕这个，可是善于偷换概念的人，他思维是跳跃的，他不围绕这个。<br>有个人问抱怨他文章浏览量低，我说你提高文章质量看的人就多了。他说你是红人，所以浏览量高。<br>他问你怎么能在短时间内让微信公众号粉丝多起来。我给了他几个平台，建议他写完文章都发发。他说“你怎么这么浮躁。”<br>有个姑娘单身，问我怎么能够建立亲密关系，我给她推荐《沟通的艺术：看入人里，看出人外》里关于亲密关系的章节。她说“跟男朋友耍心机，感情得不到好结果。”你跟你妈不讲沟通技巧，你妈都讨厌你，别说跟男朋友了。讲沟通技巧怎么就变成耍心机了？你跟他保持亲密关系，进行语言和非语言沟通就变成耍心机了？<br>不要觉得这是个例，大家可以看看我浏览量几十万的《如何通过爱好赚钱》那篇文章，有几十个回复都是“做自己喜欢的事赚不到钱”，你赚不到钱是能力不行，跟做自己喜欢的事有什么关系？我一直做自己喜欢的事、特立独行的猫一直做自己喜欢的事，我们没有比别人赚钱少呀？赚钱这个事，跟你的能力、思维逻辑有直接关系，跟你喜欢不喜欢你的工作，没什么关系。三百六十行，行行出状元。《理解未来的7个原则：如何看到不可见，做到不可能》用整本书讲如何赚钱，明确提出周期性和线性的决定性作用：周期性变化告诉我们许多种不同的确定性。人类已经找出300个显著的周期，可以在某种程度上精确的预测未来。莎士比亚说：世间事，也有涨潮时节，及时把握，终可功成名就。<br>这种偷换概念的思维方式、沟通方式，是最好的拒绝别人分享的方式。因为沟通太累，大多数人都会闭嘴，有这种思维的人因为沟通效率差、做事效率低、抓不住重点会被处处受限。<br><img src="/uploads/2016/07/p35778177.jpg" alt="p35778177"><br>看什么都是“鸡汤”<br>直接上个截图当例子，大家就明白了。<br><a href="/uploads/2016/07/p35779107.jpg"><img src="/uploads/2016/07/p35779107.jpg" alt="p35779107"></a><br>正常我们的逻辑，我会问怎么当上旅行体验师？这个工作前景如何？薪水如何？需要什么技能？工作内容是什么？<br>逻辑思维的关键是“学会提问”，以开放式的心态，学会提问，你学习知识的途径就是一个立体的 ，随时随地都在接受信息，都在吸收知识，这也被称为“淘金式”思维。<br>相反，截图里的这个例子，是封闭式思维的学习方式。想有孩子，以后会做家长的人千万要注意，教育孩子一定要确认孩子的思维方式，在上学前，教会孩子开放式的思维方式，让孩子学会主动摄取知识，这样孩子学习轻松成绩好。封闭式学习思维的孩子尽管很用功，很努力成绩也总是不尽如人意，尤其是在中学以后，他们在学习上会更痛苦。<br><img src="/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>行动前，先给自己设置障碍，然后放弃</strong><br>我经常会收到，问我如何写作的，我写过很多关于基础写作的文章，帮助他们。可是他们总会说“这太难了。”<br>还有人问我什么样的读书类文章会受欢迎，我说横向或者纵向阅读的主题书单，然后他说正常人根本就没有这种阅读量。然后我给他推荐《沟通圣经：听说读写全方位沟通技巧》第12章增进阅读速度，第13章提高阅读效率，然后他说“还得先学阅读，这工程太浩大了。”<br>有人说我不喜欢现在工作，怎么能找到喜欢的工作并且赚到钱。我的建议只需要评估自己、树立自己想要的目标、了解实现目标需要的技能、学习和提高自身能力、努力实现目标。他们通常会说“可是怎么开始呢？”<br>他们在行动前，就被自己抛出的问题吓到了，然后就没有然后了。他们会说自己拖延症、选择恐惧症。<br><img src="/uploads/2016/07/p35778177.jpg" alt="p35778177"><br><strong>通过片面信息、以点概面的否定</strong><br>逻辑分析的首要条件是什么？“充分占有信息”。盲目的通过片面信息否定，有时候很可笑。<br>比如有人看了我的便签说“字如其人，看这字就是个生活混乱的男人。”难道我两个孩子都是你生的？你给喂的奶？<br>我还收到过“第三行打了两个句号，作者是个浮躁的人。”<br>我鼓励大家无论男女都要经济独立，马上有人说“满身铜臭，就知道钱。”<br>我总是做工具书总结，有人说“你应该多读名著陶冶情操，就不会这么世俗了。”我上学的时候，一直担任班里的图书管理员，在初中、高中的假期协助图书馆老师完成了两个学校的图书馆电子化录入，就是把书读完，把主要内容录入到电脑里，方便检索。学校给学生选的书，大家可以想想算不算名著。我个人分析我世俗应该跟读不读名著没什么关系。<br>我分享理财攻略，马上有人说“这个人充满物欲。”你父母生病，住院办给你打电话跟你说“单间自费，1000元每天，您预定吗？”的时候，咱们可以再来聊这个话题。</p>
+<p>写了这么多，希望能帮到大家。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/07/21/警惕五个思维陷阱/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2016/06/27/记录一下钱升钱的面试题和第一小题答案/"><span>记录一下钱升钱的面试题和第一小题答案</span></a></h3>
     
   
@@ -648,137 +827,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2016/04/03/树莓派教程：利用 Ngrok 穿透内网访问树莓派/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/04/03/node.js 解析 POST 数据并返回 JSON 对象/"><span>node.js 解析 POST 数据并返回 JSON 对象</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/04/03/node.js 解析 POST 数据并返回 JSON 对象/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-04-02T19:47:19.000Z">
-          2016-04-03
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>网上许多教程都有部分遗漏，被坑惨的我查了官方教程（<a href="http://expressjs.com/en/4x/api.html#req.body" target="_blank" rel="noopener">http://expressjs.com/en/4x/api.html#req.body</a>），写篇文章做个笔记</p>
-<p>后端：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>).Server(app);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</span><br><span class="line"><span class="keyword">var</span> multer = <span class="built_in">require</span>(<span class="string">'multer'</span>);</span><br><span class="line"><span class="keyword">var</span> upload = multer();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/getJSON'</span>, upload.array(), <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    res.send(<span class="built_in">JSON</span>.stringify(req.body) || <span class="string">""</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>前端：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    type: <span class="string">'post'</span>,</span><br><span class="line">    url: <span class="string">'/getJSON'</span>,</span><br><span class="line">    dataType: <span class="string">'json'</span>,</span><br><span class="line">    timeout: <span class="number">5000</span>,</span><br><span class="line">    data: $(<span class="string">"#dataForm"</span>).serialize(),</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">re</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(re);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/04/03/node.js 解析 POST 数据并返回 JSON 对象/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/04/02/nginx与ngrok共存（nginx反代ngrok）/"><span>nginx与ngrok共存（nginx反代ngrok）</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/04/02/nginx与ngrok共存（nginx反代ngrok）/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-04-01T23:19:24.000Z">
-          2016-04-02
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>记得之前刚搭建起来ngrok时当时很兴奋觉得很舒服，但是很快产生了一个问题，ngrok占用80和443的话，那nginx该怎么办呢，虽然想过ngrok监听别的端口，但是一些程序却必须使用80和443，然后当时就想到了反代，但是泛域名反代而且端口不同，如何正确处理主机头成了问题，反代一个域名可以将主机头写成固定的，但是泛域名则是不确定主机头的，网上查了许久资料均未找到答案，后来不报希望的试了下，竟然成功了，今日想起来这件事情，便写博文记录下来。<br>下，竟然成功了，今日想起来这件事情，便写博文记录下来。</p>
-<p><strong>涉及到的配置文件<br>nginx的nginx.conf</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">user nginx;</span><br><span class="line">#上面用户可根据情况换成root（不推荐）</span><br><span class="line">worker_processes 1;</span><br><span class="line">error_log /var/log/nginx/error.log warn;</span><br><span class="line">pid /var/run/nginx.pid;</span><br><span class="line">events &#123;</span><br><span class="line">worker_connections 1024;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">include /etc/nginx/mime.types;</span><br><span class="line">default_type application/octet-stream;</span><br><span class="line">log_format main &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">&apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">&apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line">access_log /var/log/nginx/access.log main;</span><br><span class="line">sendfile on;</span><br><span class="line">keepalive_timeout 65;</span><br><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>ngrok反向代理文件（主要！）</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name *.0n0.win;</span><br><span class="line">    root html;</span><br><span class="line">    index index.html index.htm index.php;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:81;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        proxy_set_header Host $host:81;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;</span><br><span class="line">        proxy_max_temp_file_size 0;</span><br><span class="line">        proxy_connect_timeout 90;</span><br><span class="line">        proxy_send_timeout 90;</span><br><span class="line">        proxy_read_timeout 90;</span><br><span class="line">        proxy_buffer_size 4k;</span><br><span class="line">        proxy_buffers 4 32k;</span><br><span class="line">        proxy_busy_buffers_size 64k;</span><br><span class="line">        proxy_temp_file_write_size 64k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">    listen 443;</span><br><span class="line">    server_name *.0n0.win;</span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate /root/ngrok/rootCA.pem;</span><br><span class="line">    ssl_certificate_key /root/ngrok/rootCA.key;</span><br><span class="line">    root html;</span><br><span class="line">    index index.html index.htm index.php;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass https://127.0.0.1:444;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        proxy_set_header Host $host:444;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;</span><br><span class="line">        proxy_max_temp_file_size 0;</span><br><span class="line">        proxy_connect_timeout 90;</span><br><span class="line">        proxy_send_timeout 90;</span><br><span class="line">        proxy_read_timeout 90;</span><br><span class="line">        proxy_buffer_size 4k;</span><br><span class="line">        proxy_buffers 4 32k;</span><br><span class="line">        proxy_busy_buffers_size 64k;</span><br><span class="line">        proxy_temp_file_write_size 64k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>我的nginx包含的模块</strong><br>那两个模块可根据自己需要自行删除或添加<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-mail --with-mail_ssl_module --with-ipv6 --with-http_spdy_module --add-module=/root/mk/ngx_http_substitutions_filter_module --add-module=/root/mk/headers-more-nginx-module</span><br></pre></td></tr></table></figure></p>
-<p><strong>两个模块的git</strong><br>两个都是反代时替换内容用到的<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/mk &amp;&amp;cd /root/mk</span><br><span class="line">git clone https://github.com/openresty/headers-more-nginx-module.git</span><br><span class="line">git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git</span><br></pre></td></tr></table></figure></p>
-<p>转载自 <a href="https://blog.ni-co.moe/p/345.html" target="_blank" rel="noopener">https://blog.ni-co.moe/p/345.html</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/VPS-技术/">VPS 技术</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/04/02/nginx与ngrok共存（nginx反代ngrok）/#comment">评论</a>
         </span>
       </span>
     </div>

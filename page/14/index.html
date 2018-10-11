@@ -61,6 +61,138 @@
 
   
     
+    <h3 class="article-title"><a href="/2014/06/23/一个挺有意思的 html5 播放器/"><span>一个挺有意思的 html5 播放器</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/06/23/一个挺有意思的 html5 播放器/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-06-22T21:34:24.000Z">
+          2014-06-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在 <a href="http://www.ikk.me" target="_blank" rel="noopener">http://www.ikk.me</a> 上看到的，lrc 歌词功能是亮点，于是把关键代码提出来放在这里，日后慢慢研究。</p>
+<p>JavaScript：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Lyric support by kookxiang(http://ikk.me)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">load_kk_lrc</span>(<span class="params">playerid</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> kk_lrc = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">	kk_lrc.extra_top = <span class="number">1</span>;</span><br><span class="line">	kk_lrc.current = <span class="number">-1</span>;</span><br><span class="line">	kk_lrc.current_obj;</span><br><span class="line">	kk_lrc.offset = <span class="number">0</span>;</span><br><span class="line">	kk_lrc.current_start = <span class="number">-1</span>;</span><br><span class="line">	kk_lrc.next_update_time = <span class="number">-1</span>;</span><br><span class="line">	kk_lrc.showtime = <span class="number">-1</span>;</span><br><span class="line">	kk_lrc.lrc_offset = <span class="number">-1</span>;</span><br><span class="line">	kk_lrc.lrc_height = <span class="number">-1</span>;</span><br><span class="line">	kk_lrc.lrc = [];</span><br><span class="line">	kk_lrc.lrcobj = <span class="literal">null</span>;</span><br><span class="line">	kk_lrc.target = <span class="number">0</span>;</span><br><span class="line">	kk_lrc._target = <span class="number">0</span>;</span><br><span class="line">	kk_lrc.player_obj = <span class="built_in">document</span>.getElementById(<span class="string">'kk_lrc_'</span> + playerid);</span><br><span class="line">	kk_lrc.lrc_obj = <span class="built_in">document</span>.getElementById(<span class="string">'kk_lrc_'</span> + playerid + <span class="string">'_lrc'</span>);</span><br><span class="line"></span><br><span class="line">	kk_lrc.scroll_lrc = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">typeof</span> kk_lrc.lrc[kk_lrc.current+<span class="number">2</span>] != <span class="string">"undefined"</span>)&#123;</span><br><span class="line">			<span class="keyword">for</span>(id <span class="keyword">in</span> kk_lrc.lrcobj) kk_lrc.lrcobj[id].className = <span class="string">''</span>;</span><br><span class="line">			kk_lrc.lrcobj[kk_lrc.current+<span class="number">3</span>].className = <span class="string">'current'</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		kk_lrc.current_start = kk_lrc.lrc[kk_lrc.current];</span><br><span class="line">		kk_lrc.current++;</span><br><span class="line">		kk_lrc.current_obj = kk_lrc.lrcobj[kk_lrc.current+<span class="number">2</span>];</span><br><span class="line">		kk_lrc.next_update_time = kk_lrc.lrc[kk_lrc.current];</span><br><span class="line">		kk_lrc.showtime = kk_lrc.next_update_time - kk_lrc.current_start;</span><br><span class="line">		kk_lrc.lrc_offset = kk_lrc.current_obj.offsetTop;</span><br><span class="line">		kk_lrc.lrc_height = kk_lrc.current_obj.offsetHeight;</span><br><span class="line">	&#125;;</span><br><span class="line">	kk_lrc.check_lrc_update = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> curTime = kk_lrc.player_obj.currentTime;</span><br><span class="line">		<span class="keyword">if</span>(curTime &gt;= kk_lrc.next_update_time - <span class="number">0.2</span>)&#123;</span><br><span class="line">			kk_lrc.scroll_lrc();</span><br><span class="line">			kk_lrc.check_lrc_update();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">typeof</span> kk_lrc.lrc[kk_lrc.current<span class="number">-1</span>] != <span class="string">"undefined"</span>)&#123;</span><br><span class="line">			kk_lrc.extra_top = (kk_lrc.next_update_time - curTime) / kk_lrc.showtime;</span><br><span class="line">		&#125;</span><br><span class="line">		kk_lrc.target = <span class="built_in">Math</span>.round(kk_lrc.lrc_offset - (<span class="number">125</span> - kk_lrc.lrc_height) / <span class="number">2</span>);</span><br><span class="line">		<span class="keyword">if</span>(kk_lrc.target &lt; <span class="number">0</span>) kk_lrc.target = <span class="number">0</span>;</span><br><span class="line">	&#125;;</span><br><span class="line">	kk_lrc.init = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		kk_lrc.add_lrc(<span class="string">'999999'</span>, <span class="string">''</span>);</span><br><span class="line">		kk_lrc.add_lrc(<span class="string">'999999'</span>, <span class="string">''</span>);</span><br><span class="line">		kk_lrc.add_lrc(<span class="string">'999999'</span>, <span class="string">''</span>);</span><br><span class="line">		kk_lrc.current = <span class="number">-1</span>;</span><br><span class="line">		kk_lrc.lrcobj = kk_lrc.lrc_obj.getElementsByTagName(<span class="string">'li'</span>);</span><br><span class="line">		kk_lrc.current_obj = kk_lrc.lrcobj[<span class="number">0</span>];</span><br><span class="line">		kk_lrc.scroll_lrc();</span><br><span class="line">		kk_lrc.check_lrc_update();</span><br><span class="line">		kk_lrc.player_obj.addEventListener(<span class="string">"seeked"</span> ,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			kk_lrc.current = <span class="number">-1</span>;</span><br><span class="line">			kk_lrc.scroll_lrc();</span><br><span class="line">			kk_lrc.check_lrc_update();</span><br><span class="line">		&#125;);</span><br><span class="line">		kk_lrc.player_obj.addEventListener(<span class="string">"durationchange"</span> ,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			kk_lrc.current = <span class="number">-1</span>;</span><br><span class="line">			kk_lrc.scroll_lrc();</span><br><span class="line">			kk_lrc.check_lrc_update();</span><br><span class="line">		&#125;);</span><br><span class="line">		setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">				<span class="keyword">if</span>(kk_lrc.player_obj.paused) <span class="keyword">return</span>;</span><br><span class="line">				<span class="keyword">if</span>(kk_lrc.current_start &gt; kk_lrc.player_obj.currentTime)&#123;</span><br><span class="line">					kk_lrc.current = <span class="number">-1</span>;</span><br><span class="line">					kk_lrc.scroll_lrc();</span><br><span class="line">					kk_lrc.check_lrc_update();</span><br><span class="line">				&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">					kk_lrc.check_lrc_update();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;, <span class="number">100</span>);</span><br><span class="line">		setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">				<span class="keyword">if</span>(kk_lrc._target == kk_lrc.target) <span class="keyword">return</span>;</span><br><span class="line">				<span class="keyword">if</span>(<span class="built_in">Math</span>.abs(kk_lrc.lrc_obj.scrollTop - kk_lrc._target) &gt; kk_lrc.lrc_height)&#123;</span><br><span class="line">					kk_lrc._target = kk_lrc.lrc_obj.scrollTop;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span>(kk_lrc.player_obj.paused)&#123;</span><br><span class="line">					kk_lrc._target = kk_lrc.fixFloat(kk_lrc._target * <span class="number">0.8</span> + kk_lrc.target * <span class="number">0.2</span>);</span><br><span class="line">				&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">					kk_lrc._target = kk_lrc.fixFloat(kk_lrc._target * <span class="number">0.98</span> + kk_lrc.target * <span class="number">0.02</span>);</span><br><span class="line">				&#125;</span><br><span class="line">				kk_lrc.lrc_obj.scrollTop = kk_lrc._target;</span><br><span class="line">			&#125;, <span class="number">5</span>);</span><br><span class="line">	&#125;;</span><br><span class="line">	kk_lrc.add_lrc = <span class="function"><span class="keyword">function</span> (<span class="params">time, lrc</span>) </span>&#123;</span><br><span class="line">		kk_lrc.lrc.push(<span class="built_in">parseFloat</span>(time) + kk_lrc.offset);</span><br><span class="line">		<span class="keyword">var</span> lrc_line = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</span><br><span class="line">		lrc_line.innerHTML = lrc;</span><br><span class="line">		kk_lrc.lrc_obj.appendChild(lrc_line);</span><br><span class="line">	&#125;;</span><br><span class="line">	kk_lrc.get_lrc = <span class="function"><span class="keyword">function</span> (<span class="params">num</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">typeof</span> kk_lrc.lrc[num] != <span class="string">"undefined"</span>)&#123;</span><br><span class="line">			<span class="keyword">return</span> kk_lrc.lrc[num][<span class="number">1</span>];</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="string">''</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	kk_lrc.setoffset = <span class="function"><span class="keyword">function</span> (<span class="params">num</span>) </span>&#123;</span><br><span class="line">		kk_lrc.offset = num / <span class="number">1000</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	kk_lrc.fixFloat = <span class="function"><span class="keyword">function</span> (<span class="params">num</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Math</span>.ceil(num * <span class="number">10</span>) / <span class="number">10</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> kk_lrc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>CSS：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Lyric support by kookxiang(http://ikk.me)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="selector-class">.kk_player</span> &#123; <span class="attribute">width</span>: <span class="number">100%</span>; <span class="attribute">max-height</span>: <span class="number">40px</span>; &#125;</span><br><span class="line"><span class="selector-class">.kk_lrc</span> &#123; <span class="attribute">height</span>: <span class="number">125px</span>; <span class="attribute">overflow</span>: auto; <span class="attribute">padding</span>: <span class="number">0</span>; <span class="attribute">margin</span>: <span class="number">0</span>; &#125;</span><br><span class="line"><span class="selector-class">.kk_lrc</span> <span class="selector-tag">li</span> &#123; <span class="attribute">display</span>: block; <span class="attribute">text-align</span>: center; <span class="attribute">color</span>: gray; <span class="attribute">line-height</span>: <span class="number">20px</span>; <span class="attribute">margin</span>: <span class="number">2px</span> <span class="number">0</span> <span class="number">3px</span> <span class="number">0</span>; <span class="attribute">min-height</span>: <span class="number">20px</span>; &#125;</span><br><span class="line"><span class="selector-class">.kk_lrc</span> <span class="selector-class">.current</span> &#123; <span class="attribute">color</span>: black; <span class="attribute">font-weight</span>: bold; &#125;</span><br><span class="line"><span class="selector-class">.kk_lrc</span>, <span class="selector-class">.kk_lrc</span> * &#123; <span class="attribute">-webkit-transition-duration</span>: <span class="number">1s</span>; <span class="attribute">-moz-transition-duration</span>: <span class="number">1s</span>; <span class="attribute">transition-duration</span>: <span class="number">1s</span>; &#125;</span><br><span class="line"><span class="selector-class">.kk_lrc</span> <span class="selector-pseudo">::selection</span> &#123; <span class="attribute">background</span>: transparent; <span class="attribute">background</span>: <span class="built_in">rgba</span>(127, 127, 127, 0.1); &#125;</span><br><span class="line"><span class="selector-class">.kk_lrc_box</span> &#123; <span class="attribute">position</span>: relative; &#125;</span><br><span class="line"><span class="selector-class">.kk_lrc_box</span><span class="selector-pseudo">:before</span> &#123; <span class="attribute">content</span>: <span class="string">'.'</span>; <span class="attribute">overflow</span>: hidden; <span class="attribute">text-indent</span>: -<span class="number">9999px</span>; <span class="attribute">width</span>: <span class="number">100%</span>; <span class="attribute">height</span>: <span class="number">30px</span>; <span class="attribute">z-index</span>: <span class="number">1</span>; <span class="attribute">display</span>: block; <span class="attribute">position</span>: absolute; <span class="attribute">background</span>: <span class="built_in">url</span>(cover.png) repeat-x <span class="number">0</span> <span class="number">0</span>; <span class="attribute">top</span>: <span class="number">0</span>; <span class="attribute">pointer-events</span>: none; &#125;</span><br><span class="line"><span class="selector-class">.kk_lrc_box</span><span class="selector-pseudo">:after</span> &#123; <span class="attribute">content</span>: <span class="string">'.'</span>; <span class="attribute">overflow</span>: hidden; <span class="attribute">text-indent</span>: -<span class="number">9999px</span>; <span class="attribute">width</span>: <span class="number">100%</span>; <span class="attribute">height</span>: <span class="number">30px</span>; <span class="attribute">z-index</span>: <span class="number">1</span>; <span class="attribute">display</span>: block; <span class="attribute">position</span>: absolute; <span class="attribute">background</span>: <span class="built_in">url</span>(cover.png) repeat-x <span class="number">0</span> <span class="number">100%</span>; <span class="attribute">bottom</span>: <span class="number">0</span>; <span class="attribute">pointer-events</span>: none; &#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-pseudo">::-webkit-scrollbar</span> &#123; <span class="attribute">width</span>: <span class="number">8px</span>; &#125;</span><br><span class="line"><span class="selector-pseudo">::-webkit-scrollbar-track</span> &#123; <span class="attribute">-webkit-border-radius</span>: <span class="number">10px</span>; <span class="attribute">border-radius</span>: <span class="number">10px</span>; &#125;</span><br><span class="line"><span class="selector-pseudo">::-webkit-scrollbar-thumb</span> &#123; <span class="attribute">-webkit-border-radius</span>: <span class="number">10px</span>; <span class="attribute">border-radius</span>: <span class="number">10px</span>; <span class="attribute">background</span>: <span class="built_in">rgba</span>(96, 96, 96, 0.8); <span class="attribute">-webkit-box-shadow</span>: inset <span class="number">0</span> <span class="number">0</span> <span class="number">6px</span> <span class="built_in">rgba</span>(0, 0, 0, 0.5); &#125;</span><br><span class="line"><span class="selector-pseudo">::-webkit-scrollbar-thumb</span><span class="selector-pseudo">:window-inactive</span> &#123; <span class="attribute">background</span>: <span class="built_in">rgba</span>(96, 96, 96, 0.4); &#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">audio</span> <span class="attr">class</span>=<span class="string">"kk_player"</span> <span class="attr">controls</span>=<span class="string">"true"</span> <span class="attr">id</span>=<span class="string">"kk_lrc_bestFriend"</span> <span class="attr">src</span>=<span class="string">"http://www.ikk.me/usr/uploads/2014/06/1587625061.mp3"</span> <span class="attr">preload</span>=<span class="string">"metadata"</span>&gt;</span>您的浏览器不支持HTML5的 audio 标签，无法为您播放！<span class="tag">&lt;/<span class="name">audio</span>&gt;</span><span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"kk_lrc_box"</span>&gt;</span><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"kk_lrc_bestFriend_lrc"</span> <span class="attr">class</span>=<span class="string">"kk_lrc"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> bestFriend = load_kk_lrc(<span class="string">'bestFriend'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'0.00'</span>, <span class="string">'ありがとう  君がいてくれて本当よかったよ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'9.19'</span>, <span class="string">'どんな時だっていつも&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'13.54'</span>, <span class="string">'笑っていられる&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'17.43'</span>, <span class="string">'例えば、離れていても　何年経っても&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'25.79'</span>, <span class="string">'ずっと変わらないでしょ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'29.84'</span>, <span class="string">'私たちBest Friend&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'33.37'</span>, <span class="string">'好きだよ、大好きだよ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'46.24'</span>, <span class="string">'&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'51.19'</span>, <span class="string">'こんな遅い時間にゴメンね&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'55.14'</span>, <span class="string">'一人じゃせっぱつまってきたの&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'59.44'</span>, <span class="string">'君の声少し聞けたら  がんばれる&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'66.21'</span>, <span class="string">'何でも打ち明けられる&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'70.81'</span>, <span class="string">'ママにも言えないことも全部&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'75.77'</span>, <span class="string">'誰よりも分かってくれる&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'83.28'</span>, <span class="string">'嬉しい時は自分の事みたいに喜んでくれて&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'91.21'</span>, <span class="string">'ダメな時はちゃんと叱ってくれる存在&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'99.41'</span>, <span class="string">'ありがとう  君がいてくれて本当よかったよ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'107.75'</span>, <span class="string">'どんな時だっていつも  笑っていられる&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'115.88'</span>, <span class="string">'例えば、離れていても　何年経っても&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'124.00'</span>, <span class="string">'ずっと変わらないでしょ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'128.36'</span>, <span class="string">'私たちBest Friend&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'131.78'</span>, <span class="string">'好きだよ、大好きだよ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'144.67'</span>, <span class="string">'&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'149.49'</span>, <span class="string">'強がってもすぐにバレてる&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'153.63'</span>, <span class="string">'へこんでる時は&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'155.40'</span>, <span class="string">'真っ先にメールくれる優しさに&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'159.81'</span>, <span class="string">'もう何度も救われて&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'164.58'</span>, <span class="string">'泣きたい時はおもいっきり泣けばいい&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'170.72'</span>, <span class="string">'側にいるからって&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'174.26'</span>, <span class="string">'誰よりも強い味方&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'181.46'</span>, <span class="string">'そんな君に私は何かしてあげられてるかな?&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'189.77'</span>, <span class="string">'何かあったらすぐに飛んでくから、絶対&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'197.90'</span>, <span class="string">'ありがとう  君がいてくれて本当よかったよ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'206.27'</span>, <span class="string">'どんな時だっていつも&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'210.33'</span>, <span class="string">'笑っていられる&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'214.27'</span>, <span class="string">'例えば、離れていても　何年経っても&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'222.66'</span>, <span class="string">'ずっと変わらないでしょ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'226.75'</span>, <span class="string">'私たちBest Friend&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'230.29'</span>, <span class="string">'好きだよ、大好きだよ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'243.15'</span>, <span class="string">'&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'247.12'</span>, <span class="string">'どんな時も祈っているよ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'255.12'</span>, <span class="string">'世界で一番に幸せになってほしい&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'263.50'</span>, <span class="string">'ありがとう  君がいてくれて本当よかったよ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'272.03'</span>, <span class="string">'どんな時だっていつも&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'275.89'</span>, <span class="string">'笑っていられる&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'279.90'</span>, <span class="string">'例えば、離れていても　何年経っても&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'288.33'</span>, <span class="string">'ずっと変わらないでしょ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'292.38'</span>, <span class="string">'私たちBest Friend&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="javascript">bestFriend.add_lrc(<span class="string">'296.48'</span>, <span class="string">'好きだよ、大好きだよ&lt;br /&gt;'</span>);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">bestFriend.init();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2014/06/23/一个挺有意思的 html5 播放器/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2014/06/08/解决 wordpress 调用 Google 在线字体加载速度变慢的问题(续)/"><span>解决 wordpress 调用 Google 在线字体加载速度变慢的问题(续)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/06/08/解决 wordpress 调用 Google 在线字体加载速度变慢的问题(续)/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-06-08T04:24:58.000Z">
+          2014-06-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i s/fonts\.googleapis\.com/fonts.useso.com/g `grep fonts\.googleapis\.com -rl ./`</span><br></pre></td></tr></table></figure>
+<p>解决问题</p>
+<p><del>前几天码了篇文章，<a href="http://futa.ooo/1598.html">解决 wordpress 调用 Google 在线字体加载速度变慢的问题</a>，发现依旧还是有点慢，正好手边有电脑，用 Google 的开发者工具看了下，坑爹啊，Google Apis 调用的 themes.googleusercontent.com 也被。。。你懂的，简直不能忍！</del><br><a href="/uploads/2014/06/q_1.jpg"><img src="/uploads/2014/06/q_1-1024x551.jpg" alt="q_1"></a><br><a href="/uploads/2014/06/q_2.png"><img src="/uploads/2014/06/q_2-1024x551.png" alt="q_2"></a><br><a href="/uploads/2014/06/q_3.png"><img src="/uploads/2014/06/q_3-1024x551.png" alt="q_3"></a><br>于是，我就依葫芦画瓢，给 themes.googleusercontent.com 搭了个反代，不过呢，之前的 fonts.imjs.work 的规则得修改一下，因为需要对获取的 css 里面请求的 url 进行替换，先上处理 css 的 php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    $ch = curl_init();</span><br><span class="line">    curl_setopt($ch, CURLOPT_URL, <span class="string">"http://fonts.googleapis.com"</span>.$_SERVER[<span class="string">'REQUEST_URI'</span>]);</span><br><span class="line">    curl_setopt($ch, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">    curl_setopt($ch, CURLOPT_HEADER, <span class="number">0</span>);</span><br><span class="line">    curl_setopt($ch, CURLOPT_HEADER, <span class="keyword">TRUE</span>);</span><br><span class="line">    curl_setopt($ch, CURLOPT_NOBODY, <span class="keyword">FALSE</span>);</span><br><span class="line">    $response = curl_exec($ch);</span><br><span class="line">    <span class="keyword">if</span> (curl_getinfo($ch, CURLINFO_HTTP_CODE) == <span class="string">'200'</span>) &#123;</span><br><span class="line">        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);</span><br><span class="line">        $header = substr($response, <span class="number">0</span>, $headerSize);</span><br><span class="line">        $output_body = substr($response, $headerSize);</span><br><span class="line">    &#125;</span><br><span class="line">    curl_close($ch);</span><br><span class="line">    preg_match(<span class="string">"/Content-Type:.*?\r/"</span>,$header,$tmp);</span><br><span class="line">    <span class="keyword">if</span> ($tmp[<span class="number">0</span>]!==<span class="string">""</span>) &#123;</span><br><span class="line">        header($tmp[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> str_replace(<span class="string">'themes.googleusercontent.com'</span>,<span class="string">'themes.googleusercontent.imjs.work:20808'</span>,$output_body);</span><br><span class="line">    <span class="comment">//后面的 themes.googleusercontent.imjs.work:20808 就是我自己的 vps</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>原先的 fonts.imjs.work 的规则修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">server</span><br><span class="line">        &#123;</span><br><span class="line">                listen       80;</span><br><span class="line">                server_name fonts.imjs.work;</span><br><span class="line">                index index.html index.htm index.php default.html default.htm default.php;</span><br><span class="line">                root  /home/wwwroot/fonts.imjs.work;</span><br><span class="line"></span><br><span class="line">                rewrite ^ /index.php;</span><br><span class="line">                location ~ .*\.(php|php5)?$</span><br><span class="line">                        &#123;</span><br><span class="line">                                try_files $uri =404;</span><br><span class="line">                                fastcgi_pass  unix:/tmp/php-cgi.sock;</span><br><span class="line">                                fastcgi_index index.php;</span><br><span class="line">                                include fcgi.conf;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$</span><br><span class="line">                        &#123;</span><br><span class="line">                                expires      30d;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                location ~ .*\.(js|css)?$</span><br><span class="line">                        &#123;</span><br><span class="line">                                expires      12h;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                access_log off;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>绑定 themes.googleusercontent.imjs.work 到vps，附规则<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server        &#123;</span><br><span class="line">        listen          80;</span><br><span class="line">        server_name     themes.googleusercontent.imjs.work;</span><br><span class="line"> </span><br><span class="line">        location / &#123;</span><br><span class="line">        proxy_pass          http://themes.googleusercontent.com/;</span><br><span class="line">        proxy_redirect      off;</span><br><span class="line">        proxy_set_header    X-Real-IP       $remote_addr;</span><br><span class="line">        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后。。。终于能正常使用了，附截图。。。<br><a href="/uploads/2014/06/q_4.png"><img src="/uploads/2014/06/q_4-1024x551.png" alt="q_4"></a><br><a href="/uploads/2014/06/q_5.png"><img src="/uploads/2014/06/q_5-1024x551.png" alt="q_5"></a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2014/06/08/解决 wordpress 调用 Google 在线字体加载速度变慢的问题(续)/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2014/06/07/不是别人给你使绊儿，是你自己给自己埋雷/"><span>不是别人给你使绊儿，是你自己给自己埋雷</span></a></h3>
     
   
@@ -661,144 +793,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2014/04/11/童鞋下午拍的 s5，真机/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2014/03/31/别“听说”什么都信/"><span>别“听说”什么都信</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2014/03/31/别“听说”什么都信/" rel="bookmark">
-        <time class="entry-date published" datetime="2014-03-30T23:17:56.000Z">
-          2014-03-31
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>我爸最近在化疗，开始有人谴责我们为什么不去医院陪着他，还有心情上班，还有心情上网，还有心情在家过日子。这周回家，我跟我爸聊天说起这事，我爸给我讲了一个他这礼拜去上班，在班上遇到我妈同学（这位阿姨在我爸工作地方打扫卫生）的事。我妈的同学说“你家**（我妈名字）怎么不上班呀？”我爸说“不上，我养得起。”我妈同学又说“不上班连保险钱都挣不来。”我问我爸她怎么会这么想呢？我妈在家挣的比她打扫卫生挣的多呀？！我爸说“你知道你妈上班比她打扫卫生挣的多，她不知道呀！她不知道听谁说你妈不上班，就觉得跟她一样不上班就不挣钱。同样的，那些人一听化疗，就觉得这病指不定得多严重呢！可能就是听说了，都没细想想，细问问什么毛病呀？但凡能多想点儿的也会觉得一边化疗，一边还上班呢，肯定是不严重。”</p>
-<p>其实很多时候，我们都靠听说来判断。读《重新理解媒介》的时候里面有一节专门讲传播中的“信息完整度”。一个撰稿人说“错别字不影响约稿频率。谁谁就是错别字满篇，照样被各杂志约稿。”这可能就是个“信息完整度”不够的例子，谁谁的妈妈是某机构负责刊号审核的，他的文章有错别字杂志也会被约稿的原因会不会跟他妈妈有关呢？！可能啊！不知道是不是真的有关。片面的信息实际上会造成误解和分析的偏差。而大多数情况下“听说”恰恰是片面的，有偏差的，友邻“天人合一”提醒我“探究真理，而非人云亦云。避免因轻信、想当然而致不了解。经济学里的“信息不对称”的通感。”</p>
-<p>再比如，我运营来往扎堆，好几个人跟我说，听说阿里竞争不过腾讯要倒闭了，听说来往没什么人用，听说阿里要放弃来往了。其实只要他们加入我的扎堆，就会发现半个多月，我的扎堆已经有两万四千多成员了。</p>
-<p>很多事情瞎打听半天，“听说”什么都信，知道真相之后，是非常可笑的。比如有位编辑A问我写书评要多少稿费，我告诉他“5000”，他就到处打听，其他编辑都说不花钱呀！他就又到处打听为什么那些编辑不花钱，我也会写书评。于是我又被听说“跟某几位男编辑关系密切！”证据他们约稿我都会答应而且免费。可是我之所以告诉编辑A我收钱的原因是因为他在我线上活动发赠书帖从来不跟打招呼，就自己发，发完了还就完了，就不理了，不开奖也不维护。最关键的是，我把每天的工作都集中在下午的一个多小时里，他偏要在这一小时里不断的发QQ信息“土豆姐帮我推荐一下这个！”“求土豆推荐！”“土豆帮个忙！”看完这条信息，怎么都想不起自己想干嘛了。在这种时刻就仿佛孙悟空看到了白骨精，别说帮他，不发火都需要很大的忍耐力！而其他那几位编辑也不全是男的，大多数都是已经有孩子的大姐，只是名字比较像男生，他们跟我约稿，总是先问忙不忙，而且在得知我怀孕之后，还主动不再约恐怖、激烈的书，而尽量选择平和的书约稿。</p>
-<p>什么事屡屡碰壁的时候，我们习惯抱怨外在的因素，其实很多时候可能是内在的原因，向内找解决方法更快。读书群里，总是有个人抱怨其他人读书快，造成编辑要求收到书之后三周内交书评，而他根本没看完，写不出来。群里很多人教他怎么读书，如何能读的又快，又记的好。可是他就是不在意，只是一味的抱怨。其实只有冷静的想一下，就能想明白，这事不是他抱怨别人，要求其他几百人读书慢下来就能解决的。他如果能学习点读书方法，提高一下自己的读书速度。</p>
-<p>之前看乐嘉的书有这么一段“在微博的世界中，感性的人们可以遇事多点理性和思考，少点冲动和口号。在避免永远做围观的看客，让这个社会越来越冷漠的同时，也要避免我们自己怀善人心做恶人事。与此同时，对于那些内心有着强烈愿望和使命感，希望通过网络发声从而影响社会变革的朋友而言，学会说话，说的有效有理有利有节是重要的功课。任何变革难免要有牺牲，但盲目的牺牲绝对不是变革。如果我们暂时无法改变社会，至少我们每个人可从改变自己开始。”</p>
-<p>不是说听什么都不信，但是也别“听说”什么都信。对你没影响的事，听过就过了。对你有影响的事，好好想想，分析分析，真的去考证一下。刚才有个人问我，是不是因为我怀孕了，他骂我，我才不回应。是不是觉得怀孕了，全世界都该让着孕妇。其实我没怀孕的时候，别人骂我，我也不回应。之前有个人写了好几百字“爆黑幕”，分析出我是一写鸡汤文的屌丝男，有诸多缺点，精神分裂。后面这好几百人回复，唰唰每天都掉好几百粉，很多人就说你解释解释。我说我这经常写我肚子大了，我公公的事，我婆婆的事，这些解除关注的人，只要看看日记，广播就知道我是女的。很多解释和争论，完全没有意义，而且会让自己被负能量所影响。每次别人发给我链接说，你看他骂你，你看他说你，我都会发给他们我自我介绍里的一句话“解释和争论，只在两种情况下有意义，一种是这个人很重要，一种是这件事很重要。” </p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2014/03/31/别“听说”什么都信/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2014/03/22/如何面对别人对自己的评价/"><span>如何面对别人对自己的评价</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2014/03/22/如何面对别人对自己的评价/" rel="bookmark">
-        <time class="entry-date published" datetime="2014-03-22T02:23:50.000Z">
-          2014-03-22
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>领导要写论文了，这几天他一直研究社交的一些书，我也跟着看了一些书。在豆瓣上总有一些陌生人给我发邮件，希望我给他们建议。可是我根本不认识他们，他们说的问题，我也都没有接触过，大多数情况下我都会说“我没有类似经验，真没法回答这问题。”前天跟领导讨论的时候说到类似的问题，如何面对别人对自己的评价。领导有个观点：当一个人精神足够强大、阅历、知识都成熟之后，更应该自己反思，而非注重别人的评论。除非这个人的意见很重要会影响，比如对事情有决定权。或者找个人你很在意，在你生活中有很高地位。否则别人的意见就没什么用。原因有三点：第一，别人可能自己都没活明白呢！不一定是明白人。第二，别人不一定真的了解你。第三，别人的评论有自己的动机。</p>
-<p>既然深入了这个话题，我们俩决定做个实验。有个人经常说我写作水平差、文笔不好、都是鸡汤文，没什么用。最好别写了，女人不用有什么事业，安心生孩子带孩子得了。然后我们就选取了他为实验对象，研究他的评论。老奸巨猾的领导去试探了他，发现他其实没怎么看过我写的东西，他一直劝我不要写了，是因为我的专栏稿费比他的贵，他希望我别写了，他来写那几个稿费高的专栏。</p>
-<p>我们身边总有这样的聪明人。昨天下班接到某杂志编辑大姐约稿电话，看完资料开始写，1个小时后写完，种花，睡觉。早上起来开始改，改完交稿。我问编辑大姐为什么不夸我效率高，她在电话里沉默一会儿说“你一年也就几次有这效率，他（指我爱人）是不是出差了？！你一个人无聊的没事干呀？！”这个睿智的中年女人只是从我的交稿时间和一通电话就分析出我爱人出差，我很无聊的状态。在社交中，我们需要辨别出什么样的评论对自己是有益的，什么样评论不用去在意。</p>
-<p>有些评论非常有价值，是必须听取的，重点思考的。比如我第一次在编辑部改稿的时候，领导让三位老师给我改稿（三对、三校），一位老师拿过来没看完就暴躁的说，这没法要，简直太差了，根本不符合逻辑。一位老师认真的看，逐段的看写出批注、修改意见、思路。最后一位老师找前面那位老师讨论了半天之后，写了自己的总结。领导把没经过思考就说出来的评论叫“语言暴力”，把经过思考的评论叫做“建设性意见”。而建设性意见大多数时候充满了经验和智慧，是我们需要重视和学习的。</p>
-<p>我经常看某微信分享的案例故事，昨天的文章里有一句“未来感性的人才，会讲故事来打动人心的人，相较于理性思考的人才，可能会更加被企业和社会需要。”其实我倒是觉得，感性和理性是互补的，需要达到一种平衡，两样少了那一样，都会减弱自己的实力。</p>
-<p>《状元媒》里有句话：“大羹必有淡味，大巧必有小拙，白璧必有微瑕。物件和人一样，人尚无完人，更何况是物。”这与《成功这件小事》里迦尼萨说的“就像这个世界如果没有黑暗，就没有光明一样，缺点和优点也是自己拥有的同一个特质的表里两面。譬如说，喜欢独立作业的家伙，一见到人就会觉得累；相反，喜欢和别人打交道的家伙，就无法完全集中精神与独立作业。”两本书是不同国家的，不同类型的书，在人的优点和缺点上有类似的观点。</p>
-<p>那些没有任何建设性的批评，就像是破坏性地震，除了留下一堆废墟，没有什么意义。宁可跟明白人打顿架，不能跟混蛋说句话！价值观不一样，很多事情虽然浪费很多时间还是说不通！北京有句老话：我说玻璃球子，你听胯骨肘子。大家不在一个频率上，对一件事的评价是不一样的。有时候把事情想明白了，就算别人误解，也不会在意，人也更豁达。我公公有次出门扔垃圾，有个拿相机的小伙子问”大爷这是谁的家?”我公公说”我的家。”对方不屑的说”谁信呀？！”我公公无所谓的回答”你不信，我骗别人去。”扔了垃圾，顺手就把门关上了。我说“您怎么不跟他解释解释。”我公公说“一辈子可能就见这一次，他又不是玉皇大帝，甭管他有什么想法，房本也是我名字呀！”要学会控制情绪。解释和争论，只在两种情况下有意义，一种是这个人很重要，一种是这件事很重要。都不重要就算了，把时间放在自己喜欢的事上面吧！</p>
-<p>有个朋友说，其实你把时间和精力重点放在什么地方，你得到的收获就在什么地方多。大家同样混豆瓣，之前问一个每月在豆瓣上收入大概两万的友邻，挣这么多钱有什么技巧。他说把重点放在运营自己的账号上，而不是放在跟人家吵架上。</p>
-<p>读彼得·德鲁克的《旁观者》时，作者反复的强调人是多变的、多元以及独特的，而管理别人，管理自己都要顺应这些特质。实际上在我们生活、工作的社交过程中，无论别人的评价怎么样，我们都是有优点的，也肯定是有缺点的。通过别人或者自己的评价更好的认识自己，更好的发现自己的兴趣和特长，扬长避短发挥出自己的优势比人云亦云的评论更重要。每次我看成功学的书，我领导就重复一句话“大多数时候，别人的成功经验在你身上没什么用，你只需要把你擅长的发挥到极致。”《幸好还有，爱和梦想》的题记里有句话“人生教会我们的从来不是那些我们已经得到的，而是我们怎么得到的。”自我认知的过程，也是成长和收获的过程。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2014/03/22/如何面对别人对自己的评价/#comment">评论</a>
         </span>
       </span>
     </div>

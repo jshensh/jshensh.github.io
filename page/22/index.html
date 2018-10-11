@@ -61,6 +61,139 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/08/07/完美适用于LNMP-2f-AMH平滑升级Tengine最新版的方法/"><span>完美适用于LNMP/AMH平滑升级Tengine最新版的方法</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/08/07/完美适用于LNMP-2f-AMH平滑升级Tengine最新版的方法/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-08-06T19:57:06.000Z">
+          2013-08-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>相信现在用 VPS 的个人真的不少，对于许多人来说 LNMP 和 AMH 算是最好不过的环境了<br><a href="/uploads/201307/20130728180444699.png"><img src="/uploads/201307/20130728180444699.png" alt="20130728180444699"></a><br>关于 Tengine 的话介绍就不必多说，这个是阿里（某宝）的一项开源 Web 服务器项目。针对大访问量的网站和性能都有比较好的优化，当然、这是基于 Nginx 的！</p>
+<p>一、安装/编译，这个方法适合军哥的 LNMP 和 AMH，不多说、给你一坨代码执行即可：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://tengine.taobao.org/download/tengine-1.4.6.tar.gz &amp;&amp; tar zxvf tengine-1.4.6.tar.gz &amp;&amp; cd tengine-1.4.6/ &amp;&amp; ./configure &amp;&amp; make &amp;&amp; mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.old &amp;&amp; cp -r objs/nginx /usr/local/nginx/sbin/nginx &amp;&amp; vi /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure></p>
+<p>二、删除配置，上面后面会有专门讲解，你在这段代码过后就会进入编辑器、输入“ i ”，找出如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location /status &#123;</span><br><span class="line">	stub_status on;</span><br><span class="line">	access_log   off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>三、查看状态，找到上面代码之后果断删除，找不到就看看 Nginx 是否正常：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -t</span><br></pre></td></tr></table></figure></p>
+<p>如果有“ Successful ”结尾那就是没问题，最后收尾就好了！</p>
+<p>收尾工作：停止 Nginx 并重启然后查看目前版本：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -USR2 `cat /usr/local/nginx/logs/nginx.pid` &amp;&amp; kill -QUIT `cat /usr/local/nginx/logs/nginx.pid.oldbin` &amp;&amp; /etc/init.d/nginx restart &amp;&amp; /usr/local/nginx/sbin/nginx -v</span><br></pre></td></tr></table></figure></p>
+<p>如果你看到了 Tengine/1.4.6 的话那就是成功升级了！<br><a href="/uploads/201307/20130728180559502.jpg"><img src="/uploads/201307/20130728180559502.jpg" alt="20130728180559502"></a><br>如果没问题、就可以开始正常使用了！</p>
+<p>上面的代码详细讲解：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://tengine.taobao.org/download/tengine-1.4.6.tar.gz #获取压缩包</span><br><span class="line">tar zxvf tengine-1.4.6.tar.gz                                   #解压</span><br><span class="line">cd tengine-1.4.6/                                               #进入目录</span><br><span class="line">./configure                                                     #执行安装脚本</span><br><span class="line">make                                                            #编译</span><br><span class="line">mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.old  #备份配置</span><br><span class="line">cp -r objs/nginx /usr/local/nginx/sbin/nginx                    #复制配置粘贴</span><br><span class="line">vi /usr/local/nginx/conf/nginx.conf                             #配置 Nginx</span><br><span class="line">/usr/local/nginx/sbin/nginx -t                                  #查看状态</span><br><span class="line">kill -USR2 `cat /usr/local/nginx/logs/nginx.pid`                #杀进程</span><br><span class="line">kill -QUIT `cat /usr/local/nginx/logs/nginx.pid.oldbin`         #杀进程</span><br><span class="line">/etc/init.d/nginx restart                                       #重启Nginx</span><br><span class="line">/usr/local/nginx/sbin/nginx -v                                  #查看Nginx版本</span><br></pre></td></tr></table></figure></p>
+<p>我就不上那么多图了，看起来命令很多、事实上一下就执行完了！</p>
+<p>转载自：<a href="http://www.zntec.cn/archives/nginx-change-tengine.html" target="_blank" rel="noopener">http://www.zntec.cn/archives/nginx-change-tengine.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/08/07/完美适用于LNMP-2f-AMH平滑升级Tengine最新版的方法/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/08/06/突然发现本博客的关键词很奇葩。。。/"><span>突然发现本博客的关键词很奇葩。。。</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/08/06/突然发现本博客的关键词很奇葩。。。/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-08-06T11:14:55.000Z">
+          2013-08-06
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>不解释，看图<br><a href="/uploads/201308/-sxb_百度搜索.png"><img src="/uploads/201308/-sxb_百度搜索.png" alt="沈晓波 sxb_百度搜索"></a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/杂七杂八/">杂七杂八</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/08/06/突然发现本博客的关键词很奇葩。。。/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/08/06/Linux常用命令大全/"><span>Linux常用命令大全</span></a></h3>
     
   
@@ -606,137 +739,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2013/07/29/debian下安装gnome桌面和用vnc远程访问/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/07/28/使用 iptables 防火墙阻止 PhpDdos 对外发包造成攻击/"><span>使用 iptables 防火墙阻止 PhpDdos 对外发包造成攻击</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/07/28/使用 iptables 防火墙阻止 PhpDdos 对外发包造成攻击/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-07-27T20:01:00.000Z">
-          2013-07-28
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>对于许多主机商来说，PhpDDOS 既伤主机又伤他人。所以很多主机商目前都不允许高危的 Dedecms …</p>
-<p>即使这个方法不是用于主机商、很多人也是有 VPS 的可以尝试用一下这个方法，至少可以从根源上处理叼 PhpDDOS 对外发包。我们进入 SSH 开始吧！</p>
-<p>一、修改本机 DNS 以防无法联网<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo nameserver 8.8.8.8 &gt; /etc/resolv.conf &amp;&amp; /etc/init.d/network restart</span><br></pre></td></tr></table></figure></p>
-<p>二、允许需要 UDP 服务的端口<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I OUTPUT -p udp --dport 53 -d 8.8.8.8 -j ACCEPT</span><br></pre></td></tr></table></figure></p>
-<p>三、禁止本机对外发送 UDP 包<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -p udp -j DROP</span><br></pre></td></tr></table></figure></p>
-<p>就这样就完成了，其中的 8.8.8.8 就是你 DNS 的 IP 了。如果不知道的话可以直接按照本文来或者输入如下命令查看 IP 地址：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/resolv.conf |grep nameserver |awk 'NR==1&#123;print $2 &#125;'</span><br></pre></td></tr></table></figure></p>
-<p>转载自：<a href="http://www.zntec.cn/archives/iptables-fuck-phpddos.html" target="_blank" rel="noopener">http://www.zntec.cn/archives/iptables-fuck-phpddos.html</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/VPS-技术/">VPS 技术</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/07/28/使用 iptables 防火墙阻止 PhpDdos 对外发包造成攻击/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/07/26/微软发布Win7 IE11开发者预览版 开始改进开发工具讨好开发者/"><span>微软发布Win7 IE11开发者预览版 开始改进开发工具讨好开发者</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/07/26/微软发布Win7 IE11开发者预览版 开始改进开发工具讨好开发者/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-07-26T09:03:14.000Z">
-          2013-07-26
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>摘要：今天微软对外发布了Win7 IE11开发者预览版，虽然Win7上的IE11没有Modern界面，但在性能上也造就了它更多优势。除了整体性能有所提高之外，IE11开发者预览版改进还包括更新的标准支持和改进的开发工具。<br><a href="/uploads/201307/51f1d34c031c0.jpg"><img src="/uploads/201307/51f1d34c031c0.jpg" alt="51f1d34c031c0"></a><br>北京时间<a href="http://news.cnet.com/8301-1001_3-57595410-92/microsoft-readies-ie-11-for-windows-7-too/" target="_blank" rel="noopener">7月26日消息</a>，一个对浏览器爱好者的好消息，微软IE11除了随Windows 8.1一起发布外，这个最新的浏览器还会登录Windows 7，目前Windows 7 IE11开发者预览版已正式发布。<br>微软IE市场总监Roger Capriotti称，和Windows 7版IE10一样，Windows 7版IE11也不会有Modern界面，虽然有所遗憾，但也造就了它在性能上的优势。他指出，微软IE11浏览器速度比Chrome或Firefox还要快，这主要得益于更好的CPU处理时间、更好的用法以及更佳的整体载入速度。<br>除了整体性能有所提高之外，Windows 7 IE11开发者预览版改进还包括更新的标准支持和改进的开发工具。<br>对于Windows 7 IE11而言，大部分的后端变化还是在Windows 8.1版本中，而根据微软的信息显示，这些变化包括更快的网站加载等几个方面第一。<br>比如，IE11是第一个实现W3C资源优先级标准的浏览器，这使得开发者可以告诉浏览器哪部分页面需要优先加载；同时它也是第一个使用GPU渲染文本的浏览器，这便于更为直接的加速页面加载；另外它也是第一个天生能够使用GPU实时进行JPG图像解码的浏览器，这样的做法不但可以减少电量消耗还可以让网站载入速度更快。<br>之前出于安全考虑，IE11一直没有支持WebGL，而现在WebGL新的标准解决了安全隐患，所以IE11还开始支持WebGL，同时它也开始支持起源于谷歌以安全和速度为主的SPDY协议，除此之外，ECMAScript 6脚本语言现在也开始被IE11支持。</p>
-<p>微软开始讨好开发者<br><a href="/uploads/201307/51f1d3822bc6e.jpg"><img src="/uploads/201307/51f1d3822bc6e.jpg" alt="51f1d3822bc6e"></a><br>Roger Capriotti在谈论中反复强调，微软已把之前停滞不前的浏览器开发工作当做一个非常重要的事情在做，他称，IE团队的最终目标就是让开发者未来能在标准兼容上花费的时间更少，而在开发上能够投入更多时间。<br>为了得到开发人员的拥护，微软IE开发团队全面改进了“F12”开发工具，加入了新的内存管理工具，该工具设计简洁，能够实时显示内存峰值和其他问题。<br>同时，IE11还提供了一个新的仿真工具，允许开发者开发网站时能够在不同屏幕大小的设备上进行模拟测试，另外IE11还提供了包括特定区域的调试定位工具。<br>不过令人遗憾的是，这个新用户界面的开发工具在目前开发者预览版中还不能使用，它只会在最终版本上出现并应用。对于改进的开发者工具，Roger Capriotti最后称，相比之前它使用了更多的图形向开发者展示网站的表现，同时就颜色编码问题区域等说明都使用了实时的图表。<br>最后：值得夸奖的是，微软IE现在确实很上进了，这种上进确实可贵，但是不是有点晚了？因为他们的主要竞争对手Chrome和Firefox，都已进入移动操作系统世界寻求新的发展和机遇，而IE呢，还打算守着自己的一亩三分田吗？（文/张勇 责编/魏兵）</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/资讯/">资讯</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/07/26/微软发布Win7 IE11开发者预览版 开始改进开发工具讨好开发者/#comment">评论</a>
         </span>
       </span>
     </div>

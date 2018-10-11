@@ -61,6 +61,212 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/06/23/PHP中的错误处理、异常处理机制/"><span>PHP中的错误处理、异常处理机制</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/06/23/PHP中的错误处理、异常处理机制/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-06-23T05:49:42.000Z">
+          2013-06-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在编写php程序时，错误处理是一个重要的部分。如果程序中缺少错误检测代码，那么看上去很不专业，也为安全风险敞开了大门</p>
+<p>例：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">	$a = fopen(<span class="string">'test.txt'</span>,<span class="string">'r'</span>);</span><br><span class="line">	<span class="comment">//这里并没有对文件进行判断就打开了，如果文件不存在就会报错</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>那么正确的写法应该如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="keyword">if</span>(file_exists(<span class="string">'test.txt'</span>))&#123;</span><br><span class="line">		$f=fopen(<span class="string">'test.txt'</span>,<span class="string">'r'</span>);</span><br><span class="line">		<span class="comment">//使用完后关闭</span></span><br><span class="line">		fclose($f);</span><br><span class="line">	&#125; </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>一、PHP错误处理的三种方式</p>
+<p>A、简单的die()语句；<br>    等价于exit();<br>例：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!file_exists(<span class="string">'aa.txt'</span>))&#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">'文件不存在'</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="comment">//执行操作</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//如果上面die()被触发，那么这里echo接不被执行</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'ok'</span>;</span><br></pre></td></tr></table></figure></p>
+<pre><code>简洁写法：
+</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">file_exits(<span class="string">'aaa.txt'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'文件不存在'</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'ok'</span>;</span><br></pre></td></tr></table></figure>
+<p>B、自定义错误和错误触发器</p>
+<p>1、错误处理器（自定义错误，一般用于语法错误处理）<br>        创建自定义错误函数（处理器），该函数必须有能力处理至少两个参数（error_level和errormessage），但是可以接受最多五个参数（error_file、error_line、error_context）<br>        语法：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">error_function</span><span class="params">($error_level,$error_message,$error_file,$error_line,$error_context)</span></span></span><br><span class="line"><span class="function">//创建好后还需要改写<span class="title">set_error_handler</span><span class="params">()</span></span>;函数</span><br><span class="line">set_error_handler(<span class="string">'error_function'</span>,E_WARNING);<span class="comment">//这里error_function对应上面创建的自定义处理器名，第二个参数为使用自定义错误处理器的错误级别；</span></span><br></pre></td></tr></table></figure></p>
+<p>错误报告级别(了解即可)</p>
+<p>这些错误报告级别是错误处理程序旨在处理的错误的不同的类型：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>常量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>E_WARNING</td>
+<td>非致命的 run-time 错误。不暂停脚本执行。</td>
+</tr>
+<tr>
+<td>8</td>
+<td>E_NOTICE</td>
+<td>Run-time 通知。<br>脚本发现可能有错误发生，但也可能在脚本正常运行时发生。</td>
+</tr>
+<tr>
+<td>256</td>
+<td>E_USER_ERROR</td>
+<td>致命的用户生成的错误。这类似于程序员使用 PHP 函数 trigger_error() 设置的 E_ERROR。</td>
+</tr>
+<tr>
+<td>512</td>
+<td>E_USER_WARNING</td>
+<td>非致命的用户生成的警告。这类似于程序员使用 PHP 函数 trigger_error() 设置的 E_WARNING。</td>
+</tr>
+<tr>
+<td>1024</td>
+<td>E_USER_NOTICE</td>
+<td>用户生成的通知。这类似于程序员使用 PHP 函数 trigger_error() 设置的 E_NOTICE。</td>
+</tr>
+<tr>
+<td>4096</td>
+<td>E_RECOVERABLE_ERROR</td>
+<td>可捕获的致命错误。类似 E_ERROR，但可被用户定义的处理程序捕获。(参见 set_error_handler())</td>
+</tr>
+<tr>
+<td>8191</td>
+<td>E_ALL</td>
+<td>所有错误和警告，除级别 E_STRICT 以外。<br>（在 PHP 6.0，E_STRICT 是 E_ALL 的一部分）</td>
+</tr>
+</tbody>
+</table>
+<p>2、错误触发器（一般用于处理逻辑上的错误）<br>需求：比如要接收一个年龄，如果数字大于120，就认为是一个错误<br>传统方法：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>($age&gt;<span class="number">120</span>)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'年龄错误'</span>;<span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>使用触发器：
+</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>($age&gt;<span class="number">120</span>)&#123;</span><br><span class="line">	<span class="comment">//trigger_error('错误信息'[，'错误等级']);这里错误等级为可选项，用于定义该错误的级别</span></span><br><span class="line">	<span class="comment">//用户定义的级别包含以下三种：E_USER_WARNING 、E_USER_ERROR 、E_USER_NOTICE</span></span><br><span class="line">	trigger_error(<span class="string">'年龄错误'</span>);<span class="comment">//这里是调用的系统默认的错误处理方式，我们也可以用自定义处理器</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//自定义处理器，与上面相同</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myerror</span><span class="params">($error_level,$error_message)</span></span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'error text'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//同时需要改变系统默认的处理函数</span></span><br><span class="line">set_error_handler(<span class="string">'myerror'</span>,E_USER_WARNING);<span class="comment">//同上面，第一个参数为自定义函数的名称，第二个为错误级别【这里的错误级别通常为以下三种：E_USER_WARNING 、E_USER_ERROR 、E_USER_NOTICE】</span></span><br><span class="line"><span class="comment">//现在再使用trigger_error就可以使用自定义的错误处理函数了</span></span><br></pre></td></tr></table></figure>
+<p>练习题：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    date_default_timezone_set(<span class="string">'PRC'</span>);</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">myerror</span><span class="params">($error_level,$error_message)</span></span>&#123;</span><br><span class="line">        $info= <span class="string">"错误号：$error_level\n"</span>;</span><br><span class="line">        $info.= <span class="string">"错误信息：$error_message\n"</span>;</span><br><span class="line">        $info.= <span class="string">'发生时间：'</span>.date(<span class="string">'Y-m-d H:i:s'</span>);</span><br><span class="line">        $filename=<span class="string">'aa.txt'</span>;</span><br><span class="line">        <span class="keyword">if</span>(!$fp=fopen($filename,<span class="string">'a'</span>))&#123;</span><br><span class="line">            <span class="string">'创建文件'</span>.$filename.<span class="string">'失败'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(is_writeable($filename))&#123;</span><br><span class="line">            <span class="keyword">if</span>(!fwrite($fp,$info))&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'写入文件失败'</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'已成功记录错误信息'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">                        fclose($fp);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'文件'</span>.$filename.<span class="string">'不可写'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">exit</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    set_error_handler(<span class="string">'myerror'</span>,E_WARNING);</span><br><span class="line">    $fp=fopen(<span class="string">'aaa.txt'</span>,<span class="string">'r'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>C、错误日志 </p>
+<pre><code>默认的根据php.ini中error_log配置，php向服务器的错误记录系统或文件发送错误记录。通过使用error_log()函数可以向文件或远程目的地发送错误记录;
+语法：
+</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error_log(error[,type,destination,headers])</span><br></pre></td></tr></table></figure>
+<pre><code>type部分一般用3，表示在文件后面追加错误信息，而不会覆盖原内容
+destination表示目的地，即存放的文件或远程目的地
+如：``error_log(&quot;$error_info&quot;,3,&quot;errors.txt&quot;);``
+</code></pre><p>二、PHP异常处理【重点】</p>
+<p>1、基本语法<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">	<span class="comment">//可能出现错误或异常的代码</span></span><br><span class="line">	<span class="comment">//catch 捕获  Exception是php已定义好的异常类</span></span><br><span class="line">&#125; <span class="keyword">catch</span>(<span class="keyword">Exception</span> $e)&#123;</span><br><span class="line">	<span class="comment">//对异常处理，方法：</span></span><br><span class="line">		<span class="comment">//1、自己处理</span></span><br><span class="line">		<span class="comment">//2、不处理，将其再次抛出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2、处理程序应当包括：<br>Try - 使用异常的函数应该位于 “try”  代码块内。如果没有触发异常，则代码将照常继续执行。但是如果异常被触发，会抛出一个异常。<br>Throw - 这里规定如何触发异常。每一个 “throw” 必须对应至少一个 “catch”<br>Catch - “catch” 代码块会捕获异常，并创建一个包含异常信息的对象<br>让我们触发一个异常：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> <span class="comment">//创建可抛出一个异常的函数</span></span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">checkNum</span><span class="params">($number)</span></span>&#123;</span><br><span class="line">     <span class="keyword">if</span>($number&gt;<span class="number">1</span>)&#123;</span><br><span class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">"Value must be 1 or below"</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="comment">//在 "try" 代码块中触发异常</span></span><br><span class="line"> <span class="keyword">try</span>&#123;</span><br><span class="line">     checkNum(<span class="number">2</span>);</span><br><span class="line">     <span class="comment">//如果异常被抛出，那么下面一行代码将不会被输出</span></span><br><span class="line">     <span class="keyword">echo</span> <span class="string">'If you see this, the number is 1 or below'</span>;</span><br><span class="line"> &#125;<span class="keyword">catch</span>(<span class="keyword">Exception</span> $e)&#123;</span><br><span class="line">     <span class="comment">//捕获异常</span></span><br><span class="line">     <span class="keyword">echo</span> <span class="string">'Message: '</span> .$e-&gt;getMessage();</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>上面代码将获得类似这样一个错误：</p>
+<p>Message: Value must be 1 or below<br>例子解释：</p>
+<p>上面的代码抛出了一个异常，并捕获了它：</p>
+<p>创建 checkNum() 函数。它检测数字是否大于 1。如果是，则抛出一个异常。<br>在 “try” 代码块中调用 checkNum() 函数。<br>checkNum() 函数中的异常被抛出<br>“catch” 代码块接收到该异常，并创建一个包含异常信息的对象 ($e)。<br>通过从这个 exception 对象调用 $e-&gt;getMessage()，输出来自该异常的错误消息<br>不过，为了遵循“每个 throw 必须对应一个 catch”的原则，可以设置一个顶层的异常处理器来处理漏掉的错误。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">set_exception_handler()函数可设置处理所有未捕获异常的用户定义函数</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置一个顶级异常处理器</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myexception</span><span class="params">($e)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">　　 <span class="keyword">echo</span> <span class="string">'this is top exception'</span>;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">//修改默认的异常处理器</span></span><br><span class="line"></span><br><span class="line">set_exception_handler(<span class="string">"myexception"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">　　$i=<span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">if</span>($i&lt;<span class="number">10</span>)&#123;</span><br><span class="line"></span><br><span class="line">　　　　<span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">exception</span>(<span class="string">'$i must greater than 10'</span>);</span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">catch</span>(<span class="keyword">Exception</span> $e)&#123;</span><br><span class="line"></span><br><span class="line">　　<span class="comment">//处理异常</span></span><br><span class="line"></span><br><span class="line">　　<span class="keyword">echo</span> $e-&gt;getMessage().<span class="string">'  </span></span><br><span class="line"><span class="string">'</span>;</span><br><span class="line"></span><br><span class="line">　　<span class="comment">//不处理异常，继续抛出</span></span><br><span class="line"></span><br><span class="line">　　<span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">exception</span>(<span class="string">'errorinfo'</span>); <span class="comment">//也可以用throw $e 保留原错误信息;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">创建一个自定义的异常类</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">customException</span> <span class="keyword">extends</span> <span class="title">Exception</span></span>&#123;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">errorMessage</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">　　　　<span class="comment">//error message $errorMsg = 'Error on line '.$this-&gt;getLine().' in '.$this-&gt;getFile().': **'.$this-&gt;getMessage().'** is not a valid E-Mail address'; return $errorMsg;</span></span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">throw</span> <span class="keyword">new</span> customException(<span class="string">'error message'</span>);</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">catch</span>(customException $e)&#123;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">echo</span> $e-&gt;errorMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">可以使用多个<span class="keyword">catch</span>来返回不同情况下的错误信息</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">　　$i=<span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">if</span>($i&gt;<span class="number">0</span>)&#123;</span><br><span class="line"></span><br><span class="line">　　　　<span class="keyword">throw</span> <span class="keyword">new</span> customException(<span class="string">'error message'</span>);<span class="comment">//使用自定义异常类处理</span></span><br><span class="line"></span><br><span class="line">　　&#125; <span class="keyword">if</span>($i&lt;<span class="number">-10</span>)&#123;</span><br><span class="line"></span><br><span class="line">　　　　<span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">exception</span>(<span class="string">'error2'</span>);<span class="comment">//使用系统默认异常处理</span></span><br><span class="line"></span><br><span class="line">　　&#125;</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">catch</span>(customException $e)&#123;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">echo</span> $e-&gt;getMessage();</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">catch</span>(<span class="keyword">Exception</span> $e1)&#123;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">echo</span> $e1-&gt;getMessage();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>异常的规则</p>
+<ol>
+<li>需要进行异常处理的代码应该放入 try 代码块内，以便捕获潜在的异常。</li>
+<li>每个try或throw代码块必须至少拥有一个对应的 catch 代码块。</li>
+<li>使用多个 catch 代码块可以捕获不同种类的异常。</li>
+<li>可以在try代码内的catch 代码块中再次抛出（re-thrown）异常。</li>
+<li>简而言之：如果抛出了异常，就必须捕获它。</li>
+</ol>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/06/23/PHP中的错误处理、异常处理机制/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2013/06/20/网站内容的优化就是关键词的优化/"><span>网站内容的优化就是关键词的优化</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/06/20/网站内容的优化就是关键词的优化/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-06-20T05:31:46.000Z">
+          2013-06-20
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>　　网站内容的优化，其实也就是关键词的优化，站长都知道，一个网站想要好的排名是离不开内容的，即使你的网站内容质量不高，或者说不是原创的，最重要的是你必须要学会内容的优化，原创文章可以优化，一篇文章中你添加的关键词越多，这个关键词的排名就越好，那么如何去添加关键词了，怎么把握这个度，伪原创的内容也是可以优化的，整站优化不要只局限于外部优化，外部优化只是用来在短期内提高网站排名的，真真可以让网站保持排名的是内容的更新，我们应该每天定期的给网站添加内容，不一定要多，但是要保持规律，这样百度对我们的网站才会友好，下面网站优化就给介绍如何更新网扎内容。<br>　　想这个问题会难到一部分站长朋友，很多新手站长在优化内容时，喜欢在头段和尾段加上关键词，中间的部分就直接复制粘贴了。可以说这样的文章对于百度来说是没有效果的，百度会把这类文章归类为垃圾文章。还有的站长喜欢在文章中大量的添加关键词，每一句话都可能会出现，这样无疑触犯了百度的底线，一旦文章被收录了后期还有可能导致网站被惩罚或者是降权。<br>　　内容优化不能只是首尾两段，也不能刻意的去提高关键词的密度，关键词在文章中出现要保持规律，最好是自然出现，也就是和前后的语句衔接自然，这样用户在浏览时就会感到很亲切，用户喜欢的东西百度自然不会拒绝了。在内容中最好的方法是，在第一段前六十字以内出现关键词，然后一段出现关键词，一篇500字的文章可以分为三段或者四段，出现大概三到四次关键词都是比较合理的，网站尾端最好也要出现关键词，做到首尾呼应。关键词的布局解决了，不代表内容的优化就做好了，还有一个很重要的东西就是在文章中加上你网站首页或者是其它页面的链接，这样你的内容优化才算完整。那么如何添加锚文本链接了，一般情况下可以这么做，文章中首页的链接比例和其它页面的比例控制在七比三为好。首页的权重是最高的，所以要分的权重也要高点，其它页面合理的分配就可以了。当然在链接其它页面时，你还要注意相关性，不相关的内容不要进行链接，以免误导蜘蛛。<br>　　如果上面的工作你都完成了，那么恭喜你已经学会网站关键词优化了，接下来你需要做的就是坚持了，不要三天打鱼两天晒网，今天更新了一篇文章明天一下更新个十篇，后天又不更新了，这样对网站的发展非常不利，每天都应该保持一定数量的更新，最好是在同时段更新这样的效果更好，有利于网站的整体收录。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/06/20/网站内容的优化就是关键词的优化/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/06/19/网站优化如何提高用户体验度/"><span>网站优化如何提高用户体验度</span></a></h3>
     
   
@@ -568,139 +774,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2013/06/09/别为他人做嫁衣：金山发现国内首个比特币木马 或让电脑成奴隶/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/06/08/安贫乐道，是贫不是没有/"><span>安贫乐道，是贫不是没有</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/06/08/安贫乐道，是贫不是没有/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-06-08T02:23:35.000Z">
-          2013-06-08
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>前几天我的约稿编辑就跟我说过主题了，说实话，这些天我都很努力的想，查资料，甚至昨天晚上在吃多了樱桃闹肚子的情况下，去厕所的间隙里，我都站在书柜前翻书，以至于早上我爱人发现马桶旁的台子上有那么多书都小小惊讶了一下。。。</p>
-<p>下午回到家，在电脑前做了一个小时以后，无奈能力太差，实在写不出来，还是决定放弃了。为了平息编辑的怒火，我找了一个朋友替我。刚刚通电话的时候，朋友跟我说，你看这就是咱俩不一样的地方，你写不出来，就可以放弃。而我不行，我不写就没房租，没饭吃，没水电费，我就不可能说“我写不出来”这句话。</p>
-<p>挂了电话，想起了师傅以前常劝告我的话：经济基础决定上层建筑，安贫乐道，是贫不是没有，你要是有“安能摧眉折腰事权贵，使我不得开心颜！”的志气，就早点努力，让自己有说不的资本。以前太小，总觉得他说的太玄乎，大不了我找个地方种菜养猪，也能养活自己，越长越明白，没有那么简单，菜不是那么好种的，猪更不是好养的。听人劝，吃饱饭，幸好当年听师傅的，努力了，真是岁数越大，惰性也大。</p>
-<p>前一阵还收到一个豆油说：你以为想财务自由攒点钱就行了？！因为实在不知道怎么说，只能回了一个“对不起，我哗众取宠什么都不懂，您别往心里去。”一般我不知道说什么的时候，我都这么回。一前辈跟我说，解释和争论，只在两种情况下有意义，一种是这个人很重要，一种是这件事很重要。都不重要的时候，就认个错，让人家放过你就得了。。。</p>
-<p>后来跟朋友们聚会的时候，我有一次提到这个事，朋友问我，为什么一直提倡年轻人储蓄，我就简单说了一下。</p>
-<p>1、如果有父母，如果已经成年，那父母就上点岁数了，攒点钱防止父母有什么意外。<br>2、如果没父母，攒出未来三个月的生活费，防止自己有什么意外。<br>2、如果很年轻，攒点钱将来创业用。<br>3、如果打算去他乡，至少有点积蓄，不至于说，父母打算赞助你买房，你说我一分钱没有。<br>4、如果单身，攒点钱至少能去个像样的地方旅行。<br>5、如果有对象，至少对方想跟你结婚，你不至于说还得跟父母商量一下能不能答应。。。</p>
-<p>什么事都有度，虽然说通货膨胀下储蓄不是一个好的选择，但是也不能说月月透支，什么退路都没有。用我爸话说，你有才华，你有本事，鏰子没有，你空手套白狼呀？！马路边摆地摊都得有本钱吧。安贫乐道，是贫不是没有，欠一屁股债不是什么好事，万事给自己留个退路。。。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/06/08/安贫乐道，是贫不是没有/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/06/04/传微软考虑重大重组 或势在必行/"><span>传微软考虑重大重组 或势在必行</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/06/04/传微软考虑重大重组 或势在必行/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-06-04T14:51:43.000Z">
-          2013-06-04
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p><a href="http://bcs.duapp.com/sxbdotpw/51ad3c8a650f7.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/51ad3c8a650f7.jpg" alt="image"></a></p>
-<p>北京时间<a href="http://allthingsd.com/20130603/microsoft-ponders-major-restructuring-amid-renewed-wall-street-focus-on-stock/" target="_blank" rel="noopener">6月4日消息</a>，据熟知内情的消息人士透露，微软CEO Steve Ballmer正酝酿对微软进行重大重组，并考虑将几个高管移到更重要的岗位上。<br>该消息人士指出，这项重组是旨在让微软转变成一家以设备和服务为中心的公司。而在这之前，Steve Ballmer曾在去年10月的年度股东大会上写信称，相关计划仍在制定中，有些实质性东西未来仍然也会有所变化。<br>重组似乎是为了让微软从组织结构方面更加专注于企业、消费者领域的设备和服务，同时也为了简化管理。目前微软的组织机构相当复杂，拥有的部门主要包括企业解决方案部门、在线服务和MicroSoft Office。不过微软最主要的部门Windows未来将如何融入新的组织架构，目前仍在讨论中。<br>在这次重组中，可能被委以重任的几个人包括：服务器和工具部门总裁Satya Nadella、Skype通信部门总裁Tony Bates和互动娱乐部门总裁Don Mattrick，不过，他们几个人在重组后公司的最高管理层里担任什么职务和角色目前都还不清楚。<br>去年秋天Steve Ballmer对未来的重组这么写到：“这是一个重大的转变，作为一家设备和服务公司，无论我们做什么、我们如何看待自己，它都将影响到我们如何经营这家公司、如何开发新体验以及我们如何把产品推向市场中的消费者和企业。<br>另一方面，在重组之际微软受到投资者的压力也将越来越大，但令人奇怪的是，微软近期的股票却一直在上涨。与此同时，长期研究微软的野村证券股票研究分析师Rick Sherlund在上周写道，在即将到来的重组，股东可能要求在微软公司发展方向和股东回报方面能获得更大的发言权。同时，Rick Sherlund还建议，微软应考虑出售Bing搜索和Xbox游戏业务。此外，自从披露了ValueAct资本购买了大约1％的微软股票后，这种对股东回报的问题变得越来尖锐，Rick Sherlund指出，这次股权购买将使得对冲基金能够联合其他股东共同促进和推动微软的改革。<br>但与以前激进促使微软做出改变的Greenlight资本David Einhorn做法不同，ValueAct资本的Jeff Ubben态度则温和很多，他指出，未来发展趋势相融合时（例如云计算），微软拥有强大的软件背景和企业优势将会是关键。<br>Jeff Ubben在最近的一次演讲中称，微软有可能成为世界上最大的云计算公司，对于这点或许不少人会抱有其他看法，但不容置疑的是微软股市在一段时间表现疲弱后，投资者对微软的态度正开始回暖，尤其是在过去六个月中，微软股价上涨逾31％，这样的升值可能源于期待微软未来会有一些变化。<br>目前微软发言人拒绝置评。<br>微软重组势在必行<br>在PC时代，包括台式机和笔记本电脑，<a href="http://news.cnet.com/8301-10805_3-57587361-75/can-microsoft-thrive-if-just-20-percent-of-devices-run-windows/" target="_blank" rel="noopener">微软的Windows系统垄断了90％</a>以上的市场份额，那个时候微软也总能够吸引到最为优秀的人才和开发人员，然而当用户大规模转移到移动设备时，微软已经落后于市场前进的方向。<br>虽然PC已死的说法不准确，虽然微软仍然是桌面之王，但根据Net Applications的数据显示，2013年第一季度PC的销量下降了近14％，而根据IDC的统计，作为台式机替代品的平板电脑则越来越受欢迎，而微软Windows 8和Surface平板电脑却没有引发购买热潮。</p>
-<p><a href="http://bcs.duapp.com/sxbdotpw/51ad3cbd7b160.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/51ad3cbd7b160.jpg" alt="image"></a></p>
-<p>同时Net Applications的数据也清晰地显示，包括智能手机和平板电脑的移动操作系统上，苹果的市场份额超过59％，而微软则连2％都不到。传统的PC市场不断萎缩，而快速发展地移动市场微软又跟不上脚步，在这样的形势下微软如果再坐以待毙不寻求变革，那么未来它一定会走向平庸，所以微软的重组又势在必行。<br>最后：若不改革，微软必将平庸，这不是危言耸听。微软合作伙伴宏碁总裁翁建仁最近曾公开发表言论称，他将继续看衰Windows RT，并指出未来<a href="http://www.cnbeta.com/articles/239728.htm" target="_blank" rel="noopener">可能不会推出Windows RT平板电脑</a>……这样的公开炮轰言论在过去是不可想象的，而这种言论继去年出现后就“不绝于耳”，这也间接说明了微软影响力在下降。是的，若不再进行改变，微软的平庸将再所难免。（文/张勇 责编/魏兵）</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/资讯/">资讯</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/06/04/传微软考虑重大重组 或势在必行/#comment">评论</a>
         </span>
       </span>
     </div>

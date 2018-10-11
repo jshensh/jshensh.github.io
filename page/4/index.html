@@ -61,6 +61,137 @@
 
   
     
+    <h3 class="article-title"><a href="/2016/04/03/node.js 解析 POST 数据并返回 JSON 对象/"><span>node.js 解析 POST 数据并返回 JSON 对象</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/04/03/node.js 解析 POST 数据并返回 JSON 对象/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-04-02T19:47:19.000Z">
+          2016-04-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>网上许多教程都有部分遗漏，被坑惨的我查了官方教程（<a href="http://expressjs.com/en/4x/api.html#req.body" target="_blank" rel="noopener">http://expressjs.com/en/4x/api.html#req.body</a>），写篇文章做个笔记</p>
+<p>后端：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>).Server(app);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</span><br><span class="line"><span class="keyword">var</span> multer = <span class="built_in">require</span>(<span class="string">'multer'</span>);</span><br><span class="line"><span class="keyword">var</span> upload = multer();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/getJSON'</span>, upload.array(), <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    res.send(<span class="built_in">JSON</span>.stringify(req.body) || <span class="string">""</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>前端：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    type: <span class="string">'post'</span>,</span><br><span class="line">    url: <span class="string">'/getJSON'</span>,</span><br><span class="line">    dataType: <span class="string">'json'</span>,</span><br><span class="line">    timeout: <span class="number">5000</span>,</span><br><span class="line">    data: $(<span class="string">"#dataForm"</span>).serialize(),</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">re</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(re);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/04/03/node.js 解析 POST 数据并返回 JSON 对象/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/04/02/nginx与ngrok共存（nginx反代ngrok）/"><span>nginx与ngrok共存（nginx反代ngrok）</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/04/02/nginx与ngrok共存（nginx反代ngrok）/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-04-01T23:19:24.000Z">
+          2016-04-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>记得之前刚搭建起来ngrok时当时很兴奋觉得很舒服，但是很快产生了一个问题，ngrok占用80和443的话，那nginx该怎么办呢，虽然想过ngrok监听别的端口，但是一些程序却必须使用80和443，然后当时就想到了反代，但是泛域名反代而且端口不同，如何正确处理主机头成了问题，反代一个域名可以将主机头写成固定的，但是泛域名则是不确定主机头的，网上查了许久资料均未找到答案，后来不报希望的试了下，竟然成功了，今日想起来这件事情，便写博文记录下来。<br>下，竟然成功了，今日想起来这件事情，便写博文记录下来。</p>
+<p><strong>涉及到的配置文件<br>nginx的nginx.conf</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">user nginx;</span><br><span class="line">#上面用户可根据情况换成root（不推荐）</span><br><span class="line">worker_processes 1;</span><br><span class="line">error_log /var/log/nginx/error.log warn;</span><br><span class="line">pid /var/run/nginx.pid;</span><br><span class="line">events &#123;</span><br><span class="line">worker_connections 1024;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">include /etc/nginx/mime.types;</span><br><span class="line">default_type application/octet-stream;</span><br><span class="line">log_format main &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">&apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">&apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line">access_log /var/log/nginx/access.log main;</span><br><span class="line">sendfile on;</span><br><span class="line">keepalive_timeout 65;</span><br><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>ngrok反向代理文件（主要！）</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name *.0n0.win;</span><br><span class="line">    root html;</span><br><span class="line">    index index.html index.htm index.php;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:81;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        proxy_set_header Host $host:81;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;</span><br><span class="line">        proxy_max_temp_file_size 0;</span><br><span class="line">        proxy_connect_timeout 90;</span><br><span class="line">        proxy_send_timeout 90;</span><br><span class="line">        proxy_read_timeout 90;</span><br><span class="line">        proxy_buffer_size 4k;</span><br><span class="line">        proxy_buffers 4 32k;</span><br><span class="line">        proxy_busy_buffers_size 64k;</span><br><span class="line">        proxy_temp_file_write_size 64k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">    listen 443;</span><br><span class="line">    server_name *.0n0.win;</span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate /root/ngrok/rootCA.pem;</span><br><span class="line">    ssl_certificate_key /root/ngrok/rootCA.key;</span><br><span class="line">    root html;</span><br><span class="line">    index index.html index.htm index.php;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass https://127.0.0.1:444;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        proxy_set_header Host $host:444;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;</span><br><span class="line">        proxy_max_temp_file_size 0;</span><br><span class="line">        proxy_connect_timeout 90;</span><br><span class="line">        proxy_send_timeout 90;</span><br><span class="line">        proxy_read_timeout 90;</span><br><span class="line">        proxy_buffer_size 4k;</span><br><span class="line">        proxy_buffers 4 32k;</span><br><span class="line">        proxy_busy_buffers_size 64k;</span><br><span class="line">        proxy_temp_file_write_size 64k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>我的nginx包含的模块</strong><br>那两个模块可根据自己需要自行删除或添加<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-mail --with-mail_ssl_module --with-ipv6 --with-http_spdy_module --add-module=/root/mk/ngx_http_substitutions_filter_module --add-module=/root/mk/headers-more-nginx-module</span><br></pre></td></tr></table></figure></p>
+<p><strong>两个模块的git</strong><br>两个都是反代时替换内容用到的<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/mk &amp;&amp;cd /root/mk</span><br><span class="line">git clone https://github.com/openresty/headers-more-nginx-module.git</span><br><span class="line">git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git</span><br></pre></td></tr></table></figure></p>
+<p>转载自 <a href="https://blog.ni-co.moe/p/345.html" target="_blank" rel="noopener">https://blog.ni-co.moe/p/345.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/04/02/nginx与ngrok共存（nginx反代ngrok）/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2016/03/23/PHP_PDO 调用mysql 带返回参数的存储过程/"><span>PHP_PDO 调用mysql 带返回参数的存储过程</span></a></h3>
     
   
@@ -606,135 +737,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2016/02/28/MySQL中函数CONCAT及GROUP_CONCAT/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/02/13/curl不使用文件存取cookie php使用curl获取cookie示例/"><span>curl不使用文件存取cookie php使用curl获取cookie示例</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/02/13/curl不使用文件存取cookie php使用curl获取cookie示例/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-02-13T07:49:45.000Z">
-          2016-02-13
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*-----保存COOKIE-----*/</span></span><br><span class="line">$url = <span class="string">'www.xxx.com'</span>; <span class="comment">//url地址</span></span><br><span class="line">$post = <span class="string">"id=user&amp;pwd=123456"</span>; <span class="comment">//POST数据</span></span><br><span class="line">$ch = curl_init($url); <span class="comment">//初始化</span></span><br><span class="line">curl_setopt($ch,CURLOPT_HEADER,<span class="number">1</span>); <span class="comment">//将头文件的信息作为数据流输出</span></span><br><span class="line">curl_setopt($ch,CURLOPT_RETURNTRANSFER,<span class="number">1</span>); <span class="comment">//返回获取的输出文本流</span></span><br><span class="line">curl_setopt($ch,CURLOPT_POSTFIELDS,$post); <span class="comment">//发送POST数据</span></span><br><span class="line">$content = curl_exec($ch); <span class="comment">//执行curl并赋值给$content</span></span><br><span class="line">preg_match(<span class="string">'/Set-Cookie:(.*);/iU'</span>,$content,$str); <span class="comment">//正则匹配</span></span><br><span class="line">$cookie = $str[<span class="number">1</span>]; <span class="comment">//获得COOKIE（SESSIONID）</span></span><br><span class="line">curl_close($ch); <span class="comment">//关闭curl</span></span><br><span class="line"><span class="comment">/*-----使用COOKIE-----*/</span></span><br><span class="line">curl_setopt($ch,CURLOPT_COOKIE,$cookie);</span><br></pre></td></tr></table></figure>
-<p>转载自 <a href="http://www.jb51.net/article/46222.htm" target="_blank" rel="noopener">http://www.jb51.net/article/46222.htm</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/02/13/curl不使用文件存取cookie php使用curl获取cookie示例/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/02/11/使用nsenter进入Docker容器/"><span>使用nsenter进入Docker容器</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/02/11/使用nsenter进入Docker容器/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-02-11T09:00:09.000Z">
-          2016-02-11
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>Docker容器运行后，如何进入容器进行操作呢？起初我是用SSH。如果只启动一个容器，用SSH还能应付，只需要将容器的22端口映射到本机的一个端口即可。当我启动了五个容器后，每个容器默认是没有配置SSH Server的，安装配置SSHD，映射容器SSH端口，实在是麻烦。<br>我发现很多Docker镜像都是没有安装SSHD服务的，难道有其他方法进入Docker容器？<br>浏览了Docker的文档，我没有找到答案。还是要求助于无所不能的Google，万能的Google告诉我用nsenter吧。<br>在大多数Linux发行版中，util-linux包中含有nsenter.如果没有，你需要安装它.<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">curl https://www.kernel.org/pub/linux/utils/util-linux/v2.24/util-linux-2.24.tar.gz \</span><br><span class="line">  | tar -zxf-</span><br><span class="line">cd util-linux-2.24</span><br><span class="line">./configure --without-ncurses</span><br><span class="line">make nsenter</span><br><span class="line">cp nsenter /usr/local/bin</span><br></pre></td></tr></table></figure></p>
-<p>使用shell脚本 docker-enter，将如下代码保存为 docker-enter, chomod +x docker-enter<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line"></span><br><span class="line">if [ -e $(dirname "$0")/nsenter ]; then</span><br><span class="line"><span class="meta">  #</span> with boot2docker, nsenter is not in the PATH but it is in the same folder</span><br><span class="line">  NSENTER=$(dirname "$0")/nsenter</span><br><span class="line">else</span><br><span class="line">  NSENTER=nsenter</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ -z "$1" ]; then</span><br><span class="line">  echo "Usage: `basename "$0"` CONTAINER [COMMAND [ARG]...]"</span><br><span class="line">  echo ""</span><br><span class="line">  echo "Enters the Docker CONTAINER and executes the specified COMMAND."</span><br><span class="line">  echo "If COMMAND is not specified, runs an interactive shell in CONTAINER."</span><br><span class="line">else</span><br><span class="line">  PID=$(docker inspect --format "&#123;&#123;.State.Pid&#125;&#125;" "$1")</span><br><span class="line">  if [ -z "$PID" ]; then</span><br><span class="line">    exit 1</span><br><span class="line">  fi</span><br><span class="line">  shift</span><br><span class="line"></span><br><span class="line">  OPTS="--target $PID --mount --uts --ipc --net --pid --"</span><br><span class="line"></span><br><span class="line">  if [ -z "$1" ]; then</span><br><span class="line">    # No command given.</span><br><span class="line">    # Use su to clear all host environment variables except for TERM,</span><br><span class="line">    # initialize the environment variables HOME, SHELL, USER, LOGNAME, PATH,</span><br><span class="line">    # and start a login shell.</span><br><span class="line">    "$NSENTER" $OPTS su - root</span><br><span class="line">  else</span><br><span class="line">    # Use env to clear all host environment variables.</span><br><span class="line">    "$NSENTER" $OPTS env --ignore-environment -- "$@"</span><br><span class="line">  fi</span><br><span class="line">fi</span><br></pre></td></tr></table></figure></p>
-<p>运行 docker-enter  ，这样就进入到指定的容器中</p>
-<p>关于nsenter更详细的使用方法见这里 <a href="https://github.com/jpetazzo/nsenter" target="_blank" rel="noopener">https://github.com/jpetazzo/nsenter</a></p>
-<p>转载自 <a href="http://www.tuicool.com/articles/eYnUBrR" target="_blank" rel="noopener">http://www.tuicool.com/articles/eYnUBrR</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/VPS-技术/">VPS 技术</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/02/11/使用nsenter进入Docker容器/#comment">评论</a>
         </span>
       </span>
     </div>

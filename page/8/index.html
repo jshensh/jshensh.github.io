@@ -61,6 +61,265 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/06/09/运维角度浅谈：MySQL数据库优化（转）/"><span>运维角度浅谈：MySQL数据库优化（转）</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/06/09/运维角度浅谈：MySQL数据库优化（转）/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-06-09T06:23:00.000Z">
+          2015-06-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>本博文主要谈MySQL数据库发展周期中所面临的问题及优化方案，暂且抛开前端应用不说，大致分为以下五个阶段：</p>
+<p><strong>1、数据库表设计</strong><br>项目立项后，开发部根据产品部需求开发项目，开发工程师工作其中一部分就是对表结构设计。对于数据库来说，这点很重要，如果设计不当，会直接影响访问速度和用户体验。影响的因素很多，比如慢查询、低效的查询语句、没有适当建立索引、数据库堵塞（死锁）等。当然，有测试工程师的团队，会做压力测试，找bug。对于没有测试工程师的团队来说，大多数开发工程师初期不会太多考虑数据库设计是否合理，而是尽快完成功能实现和交付，等项目有一定访问量后，隐藏的问题就会暴露，这时再去修改就不是这么容易的事了。</p>
+<p><strong>2、数据库部署</strong><br>该运维工程师出场了，项目初期访问量不会很大，所以单台部署足以应对在1500左右的QPS（每秒查询率）。考虑到高可用性，可采用MySQL主从复制+Keepalived做双击热备，常见集群软件有Keepalived、Heartbeat。<br>双机热备博文：<a href="http://lizhenliang.blog.51cto.com/7876557/1362313" target="_blank" rel="noopener">http://lizhenliang.blog.51cto.com/7876557/1362313</a></p>
+<p><strong>3、数据库性能优化</strong><br>如果将MySQL部署到普通的X86服务器上，在不经过任何优化情况下，MySQL理论值正常可以处理2000左右QPS，经过优化后，有可能会提升到2500左右QPS，否则，访问量当达到1500左右并发连接时，数据库处理性能就会变慢，而且硬件资源还很富裕，这时就该考虑软件问题了。那么怎样让数据库最大化发挥性能呢？一方面可以单台运行多个MySQL实例让服务器性能发挥到最大化，另一方面是对数据库进行优化，往往操作系统和数据库默认配置都比较保守，会对数据库发挥有一定限制，可对这些配置进行适当的调整，尽可能的处理更多连接数。</p>
+<p>具体优化有以下三个层面：<br><strong>3.1 数据库配置优化</strong><br>MySQL常用有两种存储引擎，一个是MyISAM，不支持事务处理，读性能处理快，表级别锁。另一个是InnoDB，支持事务处理（ACID），设计目标是为处理大容量数据发挥最大化性能，行级别锁。</p>
+<p>表锁：开销小，锁定粒度大，发生死锁概率高，相对并发也低。<br>行锁：开销大，锁定粒度小，发生死锁概率低，相对并发也高。</p>
+<p>为什么会出现表锁和行锁呢？主要是为了保证数据的完整性，举个例子，一个用户在操作一张表，其他用户也想操作这张表，那么就要等第一个用户操作完，其他用户才能操作，表锁和行锁就是这个作用。否则多个用户同时操作一张表，肯定会数据产生冲突或者异常。<br>根据以上看来，使用InnoDB存储引擎是最好的选择，也是MySQL5.5以后版本中默认存储引擎。每个存储引擎相关联参数比较多，以下列出主要影响数据库性能的参数。</p>
+<p>公共参数默认值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">max_connections = 151</span><br><span class="line">#同时处理最大连接数，推荐设置最大连接数是上限连接数的80%左右</span><br><span class="line">sort_buffer_size = 2M</span><br><span class="line">#查询排序时缓冲区大小，只对order by和group by起作用，可增大此值为16M</span><br><span class="line">query_cache_limit = 1M</span><br><span class="line">#查询缓存限制，只有1M以下查询结果才会被缓存，以免结果数据较大把缓存池覆盖</span><br><span class="line">query_cache_size = 16M</span><br><span class="line">#查看缓冲区大小，用于缓存SELECT查询结果，下一次有同样SELECT查询将直接从缓存池返回结果，可适当成倍增加此值</span><br><span class="line">open_files_limit = 1024</span><br><span class="line">#打开文件数限制，如果show global status like &apos;open_files&apos;查看的值等于或者大于open_files_limit值时，程序会无法连接数据库或卡死</span><br></pre></td></tr></table></figure></p>
+<p>MyISAM参数默认值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">key_buffer_size = 16M</span><br><span class="line">#索引缓存区大小，一般设置物理内存的30-40%</span><br><span class="line">read_buffer_size = 128K</span><br><span class="line">#读操作缓冲区大小，推荐设置16M或32M</span><br></pre></td></tr></table></figure></p>
+<p>InnoDB参数默认值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">innodb_buffer_pool_size = 128M</span><br><span class="line">#索引和数据缓冲区大小，一般设置物理内存的60%-70%</span><br><span class="line">innodb_buffer_pool_instances = 1</span><br><span class="line">#缓冲池实例个数，推荐设置4个或8个</span><br><span class="line">innodb_flush_log_at_trx_commit = 1</span><br><span class="line">#关键参数，0代表大约每秒写入到日志并同步到磁盘，数据库故障会丢失1秒左右事务数据。1为每执行一条SQL后写入到日志并同步到磁盘，I/O开销大，执行完SQL要等待日志读写，效率低。2代表只把日志写入到系统缓存区，再每秒同步到磁盘，效率很高，如果服务器故障，才会丢失事务数据。对数据安全性要求不是很高的推荐设置2，性能高，修改后效果明显。</span><br><span class="line">innodb_file_per_table = OFF</span><br><span class="line">#默认是共享表空间，共享表空间idbdata文件不断增大，影响一定的I/O性能。推荐开启独立表空间模式，每个表的索引和数据都存在自己独立的表空间中，可以实现单表在不同数据库中移动。</span><br><span class="line">innodb_log_buffer_size = 8M</span><br><span class="line">#日志缓冲区大小，由于日志最长每秒钟刷新一次，所以一般不用超过16M</span><br></pre></td></tr></table></figure></p>
+<p><strong>3.2 系统内核优化</strong><br>大多数MySQL都部署在linux系统上，所以操作系统的一些参数也会影响到MySQL性能，以下对linux内核进行适当优化。</p>
+<p><strong>3.3 硬件配置</strong><br>加大物理内存，提高文件系统性能。linux内核会从内存中分配出缓存区（系统缓存和数据缓存）来存放热数据，通过文件系统延迟写入机制，等满足条件时（如缓存区大小到达一定百分比或者执行sync命令）才会同步到磁盘。也就是说物理内存越大，分配缓存区越大，缓存数据越多。当然，服务器故障会丢失一定的缓存数据。<br>SSD硬盘代替SAS硬盘，将RAID级别调整为RAID1+0，相对于RAID1和RAID5有更好的读写性能（IOPS），毕竟数据库的压力主要来自磁盘I/O方面。</p>
+<p><strong>4、数据库架构扩展</strong><br>随着业务量越来越大，单台数据库服务器性能已无法满足业务需求，该考虑加机器了，该做集群了~~~。主要思想是分解单台数据库负载，突破磁盘I/O性能，热数据存放缓存中，降低磁盘I/O访问频率。</p>
+<p><strong>4.1 主从复制与读写分离</strong><br>因为生产环境中，数据库大多都是读操作，所以部署一主多从架构，主数据库负责写操作，并做双击热备，多台从数据库做负载均衡，负责读操作，主流的负载均衡器有LVS、HAProxy、Nginx。怎么来实现读写分离呢？大多数企业是在代码层面实现读写分离，效率比较高。另一个种方式通过代理程序实现读写分离，企业中应用较少，常见代理程序有MySQL Proxy、Amoeba。在这样数据库集群架构中，大大增加数据库高并发能力，解决单台性能瓶颈问题。如果从数据库一台从库能处理2000 QPS，那么5台就能处理1w QPS，数据库横向扩展性也很容易。<br>有时，面对大量写操作的应用时，单台写性能达不到业务需求。如果做双主，就会遇到数据库数据不一致现象，产生这个原因是在应用程序不同的用户会有可能操作两台数据库，同时的更新操作造成两台数据库数据库数据发生冲突或者不一致。在单库时MySQL利用存储引擎机制表锁和行锁来保证数据完整性，怎样在多台主库时解决这个问题呢？有一套基于perl语言开发的主从复制管理工具，叫MySQL-MMM（Master-Master replication managerfor Mysql，Mysql主主复制管理器），这个工具最大的优点是在同一时间只提供一台数据库写操作，有效保证数据一致性。</p>
+<p><strong>4.2 增加缓存</strong><br>给数据库增加缓存系统，把热数据缓存到内存中，如果内存缓存中有要请求的数据就不再去数据库中返回结果，提高读性能。缓存实现有本地缓存和分布式缓存，本地缓存是将数据缓存到本地服务器内存中或者文件中，速度快。分布式可以缓存海量数据，扩展容易，主流的分布式缓存系统有memcached、redis，memcached性能稳定，数据缓存在内存中，速度很快，QPS可达8w左右。如果想数据持久化那就用redis，性能不低于memcached。</p>
+<p>工作过程：<br><a href="/uploads/2015/06/640.jpg"><img src="/uploads/2015/06/640.jpg" alt="640"></a></p>
+<p><strong>4.3 分库</strong><br>分库是根据业务不同把相关的表切分到不同的数据库中，比如web、bbs、blog等库。如果业务量很大，还可将切分后的库做主从架构，进一步避免单个库压力过大。</p>
+<p><strong>4.4 分表</strong><br>数据量的日剧增加，数据库中某个表有几百万条数据，导致查询和插入耗时太长，怎么能解决单表压力呢？你就该考虑是否把这个表拆分成多个小表，来减轻单个表的压力，提高处理效率，此方式称为分表。<br>分表技术比较麻烦，要修改程序代码里的SQL语句，还要手动去创建其他表，也可以用merge存储引擎实现分表，相对简单许多。分表后，程序是对一个总表进行操作，这个总表不存放数据，只有一些分表的关系，以及更新数据的方式，总表会根据不同的查询，将压力分到不同的小表上，因此提高并发能力和磁盘I/O性能。</p>
+<p><strong>分表分为垂直拆分和水平拆分：</strong><br>垂直拆分：把原来的一个很多字段的表拆分多个表，解决表的宽度问题。你可以把不常用的字段单独放到一个表中，也可以把大字段独立放一个表中，或者把关联密切的字段放一个表中。<br>水平拆分：把原来一个表拆分成多个表，每个表的结构都一样，解决单表数据量大的问题。</p>
+<p><strong>4.5 分区</strong><br>分区就是把一张表的数据分成多个区块，这些区块可以在一个磁盘上，也可以在不同的磁盘上，分区后，表面上还是一张表，但数据散列在多个位置，这样一来，多块硬盘同时处理不同的请求，从而提高磁盘I/O读写性能，实现比较简单。<br>注：增加缓存、分库、分表和分区主要由程序猿来实现。</p>
+<p><strong>5、数据库维护</strong><br>数据库维护是运维工程师或者DBA主要工作，包括性能监控、性能分析、性能调优、数据库备份和恢复等。</p>
+<p><strong>5.1 性能状态关键指标</strong></p>
+<ul>
+<li>QPS，Queries Per Second：每秒查询数，一台数据库每秒能够处理的查询次数；</li>
+</ul>
+<ul>
+<li>TPS，Transactions Per Second：每秒处理事务数。</li>
+</ul>
+<p>通过show status查看运行状态，会有300多条状态信息记录，其中有几个值帮可以我们计算出QPS和TPS，如下：</p>
+<ul>
+<li>Uptime：服务器已经运行的实际，单位秒</li>
+</ul>
+<ul>
+<li>Questions：已经发送给数据库查询数</li>
+</ul>
+<ul>
+<li>Com_select：查询次数，实际操作数据库的</li>
+</ul>
+<ul>
+<li>Com_insert：插入次数</li>
+</ul>
+<ul>
+<li>Com_delete：删除次数</li>
+</ul>
+<ul>
+<li>Com_update：更新次数</li>
+</ul>
+<ul>
+<li>Com_commit：事务次数</li>
+</ul>
+<ul>
+<li>Com_rollback：回滚次数</li>
+</ul>
+<p>那么，计算方法来了，基于Questions计算出QPS：</p>
+<p>QPS = Questions / Uptime</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show global status like 'Questions';</span><br><span class="line">mysql&gt; show global status like 'Uptime';</span><br></pre></td></tr></table></figure>
+<p>基于Com_commit和Com_rollback计算出TPS：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show global status like 'Com_commit';</span><br><span class="line">mysql&gt; show global status like 'Com_rollback';</span><br><span class="line">mysql&gt; show global status like 'Uptime';</span><br><span class="line">TPS = (Com_commit + Com_rollback) / Uptime</span><br></pre></td></tr></table></figure></p>
+<p>另一计算方式：基于Com_select、Com_insert、Com_delete、Com_update计算出QPS。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show global status where Variable_name in('com_select','com_insert','com_delete','com_update');</span><br><span class="line">等待1秒再执行，获取间隔差值，第二次每个变量值减去第一次对应的变量值，就是QPS</span><br></pre></td></tr></table></figure></p>
+<p>TPS计算方法：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show global status where Variable_name in('com_insert','com_delete','com_update');</span><br><span class="line">计算TPS，就不算查询操作了，计算出插入、删除、更新四个值即可。</span><br><span class="line">经网友对这两个计算方式的测试得出，当数据库中myisam表比较多时，使用Questions计算比较准确。当数据库中innodb表比较多时，则以Com_*计算比较准确。</span><br></pre></td></tr></table></figure></p>
+<p><strong>5.2 开启慢查询日志</strong><br>MySQL开启慢查询日志，分析出哪条SQL语句比较慢，使用set设置变量，重启服务失效，可以在my.cnf添加参数永久生效。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global slow-query-log=on #开启慢查询功能</span><br><span class="line">mysql&gt; set global slow_query_log_file='/var/log/mysql/mysql-slow.log'; #指定慢查询日志文件位置</span><br><span class="line">mysql&gt; set global log_queries_not_using_indexes=on; #记录没有使用索引的查询</span><br><span class="line">mysql&gt; set global long_query_time=1; #只记录处理时间1s以上的慢查询</span><br></pre></td></tr></table></figure></p>
+<p>分析慢查询日志，可以使用MySQL自带的mysqldumpslow工具，分析的日志较为简单。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> mysqldumpslow -t 3 /var/log/mysql/mysql-slow.log #查看最慢的前三个查询</span><br></pre></td></tr></table></figure></p>
+<p>也可以使用percona公司的pt-query-digest工具，日志分析功能全面，可分析slow log、binlog、general log。</p>
+<ul>
+<li>分析慢查询日志：pt-query-digest /var/log/mysql/mysql-slow.log</li>
+</ul>
+<ul>
+<li>分析binlog日志：mysqlbinlog mysql-bin.000001 &gt;mysql-bin.000001.sql</li>
+</ul>
+<ul>
+<li>pt-query-digest –type=binlog mysql-bin.000001.sql</li>
+</ul>
+<ul>
+<li>分析普通日志：pt-query-digest –type=genlog localhost.log</li>
+</ul>
+<p><strong>5.3 数据库备份</strong><br>备份数据库是最基本的工作，也是最重要的，否则后果很严重，你懂得！但由于数据库比较大，上百G，往往备份都很耗费时间，所以就该选择一个效率高的备份策略，对于数据量大的数据库，一般都采用增量备份。常用的备份工具有mysqldump、mysqlhotcopy、xtrabackup等，mysqldump比较适用于小的数据库，因为是逻辑备份，所以备份和恢复耗时都比较长。mysqlhotcopy和xtrabackup是物理备份，备份和恢复速度快，不影响数据库服务情况下进行热拷贝，建议使用xtrabackup，支持增量备份。<br>Xtrabackup备份工具使用博文：<a href="http://lizhenliang.blog.51cto.com/7876557/1612800" target="_blank" rel="noopener">http://lizhenliang.blog.51cto.com/7876557/1612800</a></p>
+<p><strong>5.4 数据库修复</strong><br>有时候MySQL服务器突然断电、异常关闭，会导致表损坏，无法读取表数据。这时就可以用到MySQL自带的两个工具进行修复，myisamchk和mysqlcheck。</p>
+<p>myisamchk：只能修复myisam表，需要停止数据库</p>
+<p>常用参数：<br>-f –force 强制修复，覆盖老的临时文件，一般不使用<br>-r –recover 恢复模式<br>-q –quik 快速恢复<br>-a –analyze 分析表<br>-o –safe-recover 老的恢复模式，如果-r无法修复，可以使用此参数试试<br>-F –fast 只检查没有正常关闭的表</p>
+<p>快速修复weibo数据库:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> cd /var/lib/mysql/weibo </span><br><span class="line"><span class="meta">#</span> myisamchk -r -q *.MYI</span><br></pre></td></tr></table></figure></p>
+<p>mysqlcheck：myisam和innodb表都可以用，不需要停止数据库，如修复单个表，可在数据库后面添加表名，以空格分割。</p>
+<p>常用参数：<br>-a –all-databases 检查所有的库<br>-r –repair 修复表<br>-c –check 检查表，默认选项<br>-a –analyze 分析表<br>-o –optimize 优化表<br>-q –quik 最快检查或修复表<br>-F –fast 只检查没有正常关闭的表</p>
+<p>快速修复weibo数据库:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlcheck -r -q -uroot -p123 weibo</span><br></pre></td></tr></table></figure></p>
+<p><strong>5.5 另外，查看CPU和I/O性能方法</strong></p>
+<ul>
+<li>查看CPU性能<a href="/uploads/2015/06/0.jpg"><img src="/uploads/2015/06/0-300x33.jpg" alt="0"></a></li>
+</ul>
+<ul>
+<li>参数-P是显示CPU数，ALL为所有，也可以只显示第几颗<a href="/uploads/2015/06/1.jpg"><img src="/uploads/2015/06/1-300x58.jpg" alt="1"></a></li>
+</ul>
+<ul>
+<li>查看I/O性能<a href="/uploads/2015/06/2.jpg"><img src="/uploads/2015/06/2-300x77.jpg" alt="2"></a></li>
+</ul>
+<p>参数-m是以M单位显示，默认K<br>%util：当达到100%时，说明I/O很忙。<br>await：请求在队列中等待时间，直接影响read时间。<br>I/O极限：IOPS（r/s+w/s）,一般在1200左右。（IOPS，每秒进行读写（I/O）操作次数）<br>I/O带宽：在顺序读写模式下SAS硬盘理论值在300M/s左右，SSD硬盘理论值在600M/s左右。</p>
+<p>以上是本人使用MySQL三年来总结的一些主要优化方案，能力有限，有些不太全面，但这些基本能够满足中小型企业数据库需求。由于关系型数据库初衷设计限制，一些BAT公司海量数据放到关系型数据库中，在海量数据查询和分析方面已经达不到更好的性能。因此NoSQL火起来了，非关系型数据库，大数据量，具有高性能，同时也弥补了关系型数据库某方面不足，渐渐大多数公司已经将部分业务数据库存放到NoSQL中，如MongoDB、HBase等。数据存储方面采用分布式文件系统，如HDFS、GFS等。海量数据计算分析采用Hadoop、Spark、Storm等。这些都是与运维相关的前沿技术，也是在存储方面主要学习对象，小伙伴们共同加油吧！哪位博友有更好的优化方案，欢迎交流哦。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/06/09/运维角度浅谈：MySQL数据库优化（转）/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/06/03/Rolling cURL: PHP并发最佳实践/"><span>Rolling cURL: PHP并发最佳实践</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/06/03/Rolling cURL: PHP并发最佳实践/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-06-03T06:28:52.000Z">
+          2015-06-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在实际项目或者自己编写小工具(比如新闻聚合,商品价格监控,比价)的过程中, 通常需要从第3方网站或者API接口获取数据, 在需要处理1个URL队列时, 为了提高性能, 可以采用cURL提供的curl_multi_*族函数实现简单的并发.</p>
+<p>本文将探讨两种具体的实现方法, 并对不同的方法做简单的性能对比.</p>
+<p><strong>1. 经典cURL并发机制及其存在的问题</strong><br>经典的cURL实现机制在网上很容易找到, 比如参考<a href="http://php.net/manual/en/function.curl-multi-init.php" target="_blank" rel="noopener">PHP在线手册</a>的如下实现方式:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">classic_curl</span><span class="params">($urls, $delay)</span> </span>&#123;</span><br><span class="line">    $queue = curl_multi_init();</span><br><span class="line">    $map = <span class="keyword">array</span>();</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">foreach</span> ($urls <span class="keyword">as</span> $url) &#123;</span><br><span class="line">        <span class="comment">// create cURL resources</span></span><br><span class="line">        $ch = curl_init();</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// set URL and other appropriate options</span></span><br><span class="line">        curl_setopt($ch, CURLOPT_URL, $url);</span><br><span class="line"> </span><br><span class="line">        curl_setopt($ch, CURLOPT_TIMEOUT, <span class="number">1</span>);</span><br><span class="line">        curl_setopt($ch, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">        curl_setopt($ch, CURLOPT_HEADER, <span class="number">0</span>);</span><br><span class="line">        curl_setopt($ch, CURLOPT_NOSIGNAL, <span class="keyword">true</span>);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// add handle</span></span><br><span class="line">        curl_multi_add_handle($queue, $ch);</span><br><span class="line">        $map[$url] = $ch;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    $active = <span class="keyword">null</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// execute the handles</span></span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        $mrc = curl_multi_exec($queue, $active);</span><br><span class="line">    &#125; <span class="keyword">while</span> ($mrc == CURLM_CALL_MULTI_PERFORM);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">while</span> ($active &gt; <span class="number">0</span> &amp;&amp; $mrc == CURLM_OK) &#123;</span><br><span class="line">        <span class="keyword">if</span> (curl_multi_select($queue, <span class="number">0.5</span>) != <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">do</span> &#123;</span><br><span class="line">                $mrc = curl_multi_exec($queue, $active);</span><br><span class="line">            &#125; <span class="keyword">while</span> ($mrc == CURLM_CALL_MULTI_PERFORM);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    $responses = <span class="keyword">array</span>();</span><br><span class="line">    <span class="keyword">foreach</span> ($map <span class="keyword">as</span> $url=&gt;$ch) &#123;</span><br><span class="line">        $responses[$url] = callback(curl_multi_getcontent($ch), $delay);</span><br><span class="line">        curl_multi_remove_handle($queue, $ch);</span><br><span class="line">        curl_close($ch);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    curl_multi_close($queue);</span><br><span class="line">    <span class="keyword">return</span> $responses;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>首先将所有的URL压入并发队列, 然后执行并发过程, 等待所有请求接收完之后进行数据的解析等后续处理. 在实际的处理过程中, 受网络传输的影响, 部分URL的内容会优先于其他URL返回, 但是经典cURL并发必须等待最慢的那个URL返回之后才开始处理, 等待也就意味着CPU的空闲和浪费. 如果URL队列很短, 这种空闲和浪费还处在可接受的范围, 但如果队列很长, 这种等待和浪费将变得不可接受.</p>
+<p><strong>2. 改进的Rolling cURL并发方式</strong><br>仔细分析不难发现经典cURL并发还存在优化的空间, 优化的方式时当某个URL请求完毕之后尽可能快的去处理它, 边处理边等待其他的URL返回, 而不是等待那个最慢的接口返回之后才开始处理等工作, 从而避免CPU的空闲和浪费. 闲话不多说, 下面贴上具体的实现:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rolling_curl</span><span class="params">($urls, $delay)</span> </span>&#123;</span><br><span class="line">    $queue = curl_multi_init();</span><br><span class="line">    $map = <span class="keyword">array</span>();</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">foreach</span> ($urls <span class="keyword">as</span> $url) &#123;</span><br><span class="line">        $ch = curl_init();</span><br><span class="line"> </span><br><span class="line">        curl_setopt($ch, CURLOPT_URL, $url);</span><br><span class="line">        curl_setopt($ch, CURLOPT_TIMEOUT, <span class="number">1</span>);</span><br><span class="line">        curl_setopt($ch, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span><br><span class="line">        curl_setopt($ch, CURLOPT_HEADER, <span class="number">0</span>);</span><br><span class="line">        curl_setopt($ch, CURLOPT_NOSIGNAL, <span class="keyword">true</span>);</span><br><span class="line"> </span><br><span class="line">        curl_multi_add_handle($queue, $ch);</span><br><span class="line">        $map[(string) $ch] = $url;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    $responses = <span class="keyword">array</span>();</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (($code = curl_multi_exec($queue, $active)) == CURLM_CALL_MULTI_PERFORM) ;</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">if</span> ($code != CURLM_OK) &#123; <span class="keyword">break</span>; &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// a request was just completed -- find out which one</span></span><br><span class="line">        <span class="keyword">while</span> ($done = curl_multi_info_read($queue)) &#123;</span><br><span class="line"> </span><br><span class="line">            <span class="comment">// get the info and content returned on the request</span></span><br><span class="line">            $info = curl_getinfo($done[<span class="string">'handle'</span>]);</span><br><span class="line">            $error = curl_error($done[<span class="string">'handle'</span>]);</span><br><span class="line">            $results = callback(curl_multi_getcontent($done[<span class="string">'handle'</span>]), $delay);</span><br><span class="line">            $responses[$map[(string) $done[<span class="string">'handle'</span>]]] = compact(<span class="string">'info'</span>, <span class="string">'error'</span>, <span class="string">'results'</span>);</span><br><span class="line"> </span><br><span class="line">            <span class="comment">// remove the curl handle that just completed</span></span><br><span class="line">            curl_multi_remove_handle($queue, $done[<span class="string">'handle'</span>]);</span><br><span class="line">            curl_close($done[<span class="string">'handle'</span>]);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// Block for data in / output; error handling is done by curl_multi_exec</span></span><br><span class="line">        <span class="keyword">if</span> ($active &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            curl_multi_select($queue, <span class="number">0.5</span>);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125; <span class="keyword">while</span> ($active);</span><br><span class="line"> </span><br><span class="line">    curl_multi_close($queue);</span><br><span class="line">    <span class="keyword">return</span> $responses;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>3. 两种并发实现的性能对比</strong><br>改进前后的性能对比试验在LINUX主机上进行, 测试时使用的并发队列如下:</p>
+<ul>
+<li><a href="http://item.taobao.com/item.htm?id=14392877692" target="_blank" rel="noopener">http://item.taobao.com/item.htm?id=14392877692</a></li>
+</ul>
+<ul>
+<li><a href="http://item.taobao.com/item.htm?id=16231676302" target="_blank" rel="noopener">http://item.taobao.com/item.htm?id=16231676302</a></li>
+</ul>
+<ul>
+<li><a href="http://item.taobao.com/item.htm?id=17037160462" target="_blank" rel="noopener">http://item.taobao.com/item.htm?id=17037160462</a></li>
+</ul>
+<ul>
+<li><a href="http://item.taobao.com/item.htm?id=5522416710" target="_blank" rel="noopener">http://item.taobao.com/item.htm?id=5522416710</a></li>
+</ul>
+<ul>
+<li><a href="http://item.taobao.com/item.htm?id=16551116403" target="_blank" rel="noopener">http://item.taobao.com/item.htm?id=16551116403</a></li>
+</ul>
+<ul>
+<li><a href="http://item.taobao.com/item.htm?id=14088310973" target="_blank" rel="noopener">http://item.taobao.com/item.htm?id=14088310973</a></li>
+</ul>
+<p>简要说明下实验设计的原则和性能测试结果的格式: 为保证结果的可靠, 每组实验重复20次, 在单次实验中, 给定相同的接口URL集合, 分别测量Classic(指经典的并发机制)和Rolling(指改进后的并发机制)两种并发机制的耗时(秒为单位), 耗时短者胜出(Winner), 并计算节省的时间(Excellence, 秒为单位)以及性能提升比例(Excel. %). 为了尽量贴近真实的请求而又保持实验的简单, 在对返回结果的处理上只是做了简单的正则表达式匹配, 而没有进行其他复杂的操作. 另外, 为了确定结果处理回调对性能对比测试结果的影响, 可以使用usleep模拟现实中比较负责的数据处理逻辑(如提取, 分词, 写入文件或数据库等).</p>
+<p>性能测试中用到的回调函数为:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span><span class="params">($data, $delay)</span> </span>&#123;</span><br><span class="line">    preg_match_all(<span class="string">'/&lt;h3&gt;(.+)&lt;\/h3&gt;/iU'</span>, $data, $matches);</span><br><span class="line">    usleep($delay);</span><br><span class="line">    <span class="keyword">return</span> compact(<span class="string">'data'</span>, <span class="string">'matches'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>数据处理回调无延迟时: Rolling Curl略优, 但性能提升效果不明显.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">Delay: 0 micro seconds, equals to 0 milli seconds</span><br><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">Counter         Classic         Rolling         Winner          Excellence      Excel. %</span><br><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">1               0.1193          0.0390          Rolling         0.0803          67.31%</span><br><span class="line">2               0.0556          0.0477          Rolling         0.0079          14.21%</span><br><span class="line">3               0.0461          0.0588          Classic         -0.0127         -21.6%</span><br><span class="line">4               0.0464          0.0385          Rolling         0.0079          17.03%</span><br><span class="line">5               0.0534          0.0448          Rolling         0.0086          16.1%</span><br><span class="line">6               0.0540          0.0714          Classic         -0.0174         -24.37%</span><br><span class="line">7               0.0386          0.0416          Classic         -0.0030         -7.21%</span><br><span class="line">8               0.0357          0.0398          Classic         -0.0041         -10.3%</span><br><span class="line">9               0.0437          0.0442          Classic         -0.0005         -1.13%</span><br><span class="line">10              0.0319          0.0348          Classic         -0.0029         -8.33%</span><br><span class="line">11              0.0529          0.0430          Rolling         0.0099          18.71%</span><br><span class="line">12              0.0503          0.0581          Classic         -0.0078         -13.43%</span><br><span class="line">13              0.0344          0.0225          Rolling         0.0119          34.59%</span><br><span class="line">14              0.0397          0.0643          Classic         -0.0246         -38.26%</span><br><span class="line">15              0.0368          0.0489          Classic         -0.0121         -24.74%</span><br><span class="line">16              0.0502          0.0394          Rolling         0.0108          21.51%</span><br><span class="line">17              0.0592          0.0383          Rolling         0.0209          35.3%</span><br><span class="line">18              0.0302          0.0285          Rolling         0.0017          5.63%</span><br><span class="line">19              0.0248          0.0553          Classic         -0.0305         -55.15%</span><br><span class="line">20              0.0137          0.0131          Rolling         0.0006          4.38%</span><br><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">Average         0.0458          0.0436          Rolling         0.0022          4.8%</span><br><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">Summary: Classic wins 10 times, while Rolling wins 10 times</span><br></pre></td></tr></table></figure></p>
+<p>数据处理回调延迟5毫秒: Rolling Curl完胜, 性能提升40%左右.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">Delay: 5000 micro seconds, equals to 5 milli seconds</span><br><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">Counter         Classic         Rolling         Winner          Excellence      Excel. %</span><br><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">1               0.0658          0.0352          Rolling         0.0306          46.5%</span><br><span class="line">2               0.0728          0.0367          Rolling         0.0361          49.59%</span><br><span class="line">3               0.0732          0.0387          Rolling         0.0345          47.13%</span><br><span class="line">4               0.0783          0.0347          Rolling         0.0436          55.68%</span><br><span class="line">5               0.0658          0.0286          Rolling         0.0372          56.53%</span><br><span class="line">6               0.0687          0.0362          Rolling         0.0325          47.31%</span><br><span class="line">7               0.0787          0.0337          Rolling         0.0450          57.18%</span><br><span class="line">8               0.0676          0.0391          Rolling         0.0285          42.16%</span><br><span class="line">9               0.0668          0.0351          Rolling         0.0317          47.46%</span><br><span class="line">10              0.0603          0.0317          Rolling         0.0286          47.43%</span><br><span class="line">11              0.0714          0.0350          Rolling         0.0364          50.98%</span><br><span class="line">12              0.0627          0.0215          Rolling         0.0412          65.71%</span><br><span class="line">13              0.0617          0.0401          Rolling         0.0216          35.01%</span><br><span class="line">14              0.0721          0.0226          Rolling         0.0495          68.65%</span><br><span class="line">15              0.0701          0.0428          Rolling         0.0273          38.94%</span><br><span class="line">16              0.0674          0.0352          Rolling         0.0322          47.77%</span><br><span class="line">17              0.0452          0.0425          Rolling         0.0027          5.97%</span><br><span class="line">18              0.0596          0.0366          Rolling         0.0230          38.59%</span><br><span class="line">19              0.0679          0.0480          Rolling         0.0199          29.31%</span><br><span class="line">20              0.0657          0.0338          Rolling         0.0319          48.55%</span><br><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">Average         0.0671          0.0354          Rolling         0.0317          47.24%</span><br><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">Summary: Classic wins 0 times, while Rolling wins 20 times</span><br></pre></td></tr></table></figure></p>
+<p>通过上面的性能对比, 在处理URL队列并发的应用场景中Rolling cURL应该是更加的选择, 并发量非常大(1000+)时, 可以控制并发队列的最大长度, 比如20, 每当1个URL返回并处理完毕之后立即加入1个尚未请求的URL到队列中, 这样写出来的代码会更加健壮, 不至于并发数太大而卡死或崩溃. 详细的实现请参考: <a href="http://code.google.com/p/rolling-curl/" target="_blank" rel="noopener">http://code.google.com/p/rolling-curl/</a>（博主注：<a href="/uploads/2015/06/temp.zip">rolling-curl 源码下载</a>）</p>
+<p><strong>5. 参考资料和延伸阅读</strong></p>
+<ul>
+<li>Client URL Library <a href="http://www.php.net/manual/en/book.curl.php" target="_blank" rel="noopener">http://www.php.net/manual/en/book.curl.php</a></li>
+</ul>
+<ul>
+<li>Parallel CURL Requests with PHP <a href="http://blog.rob.cx/multi-curl" target="_blank" rel="noopener">http://blog.rob.cx/multi-curl</a></li>
+</ul>
+<ul>
+<li>A more efficient multi-curl library for PHP (non-blocking) <a href="http://code.google.com/p/rolling-curl/" target="_blank" rel="noopener">http://code.google.com/p/rolling-curl/</a></li>
+</ul>
+<ul>
+<li>PHP: Parallel cURL Performance <a href="http://stackoverflow.com/questions/10485199/php-parallel-curl-performance-rollingcurl-vs-parallelcurl" target="_blank" rel="noopener">http://stackoverflow.com/questions/10485199/php-parallel-curl-performance-rollingcurl-vs-parallelcurl</a></li>
+</ul>
+<p>转载自 <a href="http://www.searchtb.com/2012/06/rolling-curl-best-practices.html" target="_blank" rel="noopener">http://www.searchtb.com/2012/06/rolling-curl-best-practices.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/06/03/Rolling cURL: PHP并发最佳实践/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/06/02/Ubuntu 14.04 安装 QQ 7.2/"><span>Ubuntu 14.04 安装 QQ 7.2</span></a></h3>
     
   
@@ -625,150 +884,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2015/03/11/用javascript实现本地图片预览(HTML5)/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/03/04/js数组删除元素/"><span>js数组删除元素</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/03/04/js数组删除元素/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-03-04T03:36:41.000Z">
-          2015-03-04
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr=[<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</span><br></pre></td></tr></table></figure>
-<p>若要删除其中的’b’,有两种方法：<br><strong>1.delete方法:delete arr[1]</strong><br>这种方式数组长度不变,此时arr[1]变为undefined了,但是也有好处原来数组的索引也保持不变,此时要遍历数组元素可以才用<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(index <span class="keyword">in</span> arr)</span><br><span class="line">&#123;</span><br><span class="line">　　 <span class="built_in">document</span>.write(<span class="string">'arr['</span>+index+<span class="string">']='</span>+arr[index]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这种遍历方式跳过其中undefined的元素</p>
-<ul>
-<li>该方式IE4.o以后都支持了</li>
-</ul>
-<p><strong>2.数组对象splice方法:arr.splice(1,1);</strong><br>这种方式数组长度相应改变,但是原来的数组索引也相应改变<br>splice参数中第一个1,是删除的起始索引(从0算起),在此是数组第二个元素<br>第二个1,是删除元素的个数,在此只删除一个元素,即’b’;<br>此时遍历数组元素可以用普通遍历数组的方式,比如for,因为删除的元素在<br>数组中并不保留</p>
-<ul>
-<li>该方法IE5.5以后才支持<br>值得一提的是splice方法在删除数组元素的同时,还可以新增入数组元素<br>比如arr.splice(1,1,’d’,’e’),d,e两个元素就被加入数组arr了<br>结果数组变成arr:’a’,’d’,’e’,’c’</li>
-</ul>
-<p>外一篇：<br>　　JavaScript通过设置数组的length属性来截断数组是惟一一种缩短数组长度的方法.如果使用delete运算符来删除数组中元素,虽然那个元素变成未定义的,但是数组的length属性并不改变两种删除元素,数组长度也改变的方法.</p>
-<p>　 /<em>
-　 </em>　方法:<strong>Array.remove(dx)</strong><br>　 <em>　功能:删除数组元素.
-　 </em>　参数:dx删除元素的下标.<br>　 <em>　返回:在原数组上修改数组
-　 </em>/<br>　　<br>　//经常用的是通过遍历,重构数组.<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.remove=<span class="function"><span class="keyword">function</span>(<span class="params">dx</span>)</span></span><br><span class="line"><span class="function">　</span>&#123;</span><br><span class="line">　　<span class="keyword">if</span>(<span class="built_in">isNaN</span>(dx)||dx&gt;<span class="keyword">this</span>.length)&#123;<span class="keyword">return</span> <span class="literal">false</span>;&#125;</span><br><span class="line">　　<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>,n=<span class="number">0</span>;i&lt;<span class="keyword">this</span>.length;i++)</span><br><span class="line">　　&#123;</span><br><span class="line">　　　　<span class="keyword">if</span>(<span class="keyword">this</span>[i]!=<span class="keyword">this</span>[dx])</span><br><span class="line">　　　　&#123;</span><br><span class="line">　　　　　　<span class="keyword">this</span>[n++]=<span class="keyword">this</span>[i]</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;</span><br><span class="line">　　<span class="keyword">this</span>.length-=<span class="number">1</span></span><br><span class="line">　&#125;</span><br><span class="line">　a = [<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>,<span class="string">'4'</span>,<span class="string">'5'</span>];</span><br><span class="line">　alert(<span class="string">"elements: "</span>+a+<span class="string">"nLength: "</span>+a.length);</span><br><span class="line">　a.remove(<span class="number">0</span>); <span class="comment">//删除下标为0的元素</span></span><br><span class="line">　alert(<span class="string">"elements: "</span>+a+<span class="string">"nLength: "</span>+a.length);</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">　 *　方法:Array.baoremove(dx)</span></span><br><span class="line"><span class="comment">　 *　功能:删除数组元素.</span></span><br><span class="line"><span class="comment">　 *　参数:dx删除元素的下标.</span></span><br><span class="line"><span class="comment">　 *　返回:在原数组上修改数组.</span></span><br><span class="line"><span class="comment">　 */</span></span><br><span class="line">　　</span><br><span class="line">　<span class="comment">//我们也可以用splice来实现.</span></span><br><span class="line">　　</span><br><span class="line">　<span class="built_in">Array</span>.prototype.baoremove = <span class="function"><span class="keyword">function</span>(<span class="params">dx</span>)</span></span><br><span class="line"><span class="function">　</span>&#123;</span><br><span class="line">　　<span class="keyword">if</span>(<span class="built_in">isNaN</span>(dx)||dx&gt;<span class="keyword">this</span>.length)&#123;<span class="keyword">return</span> <span class="literal">false</span>;&#125;</span><br><span class="line">　　<span class="keyword">this</span>.splice(dx,<span class="number">1</span>);</span><br><span class="line">　&#125;</span><br><span class="line">　b = [<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>,<span class="string">'4'</span>,<span class="string">'5'</span>];</span><br><span class="line">　alert(<span class="string">"elements: "</span>+b+<span class="string">"nLength: "</span>+b.length);</span><br><span class="line">　b.baoremove(<span class="number">1</span>); <span class="comment">//删除下标为1的元素</span></span><br><span class="line">　alert(<span class="string">"elements: "</span>+b+<span class="string">"nLength: "</span>+b.length);</span><br></pre></td></tr></table></figure>
-<p>　　我们知道，在IE5或更低的版本中，JavaScript的Array（数组）对象并未提供现成的删除数组元素的方法。在IE5.5+的版本中，虽然有splice方法，但是并不是删除某一项（或几项），而仅仅是将某一项（或几项）的值清除，也就是说该项仍然存在，数组的长度并没有改变。<br>　　事实上，我们可以自己为数组增加一个删除方法（注意，这里指的是将数组的某一项真正的从数组成员中移除）。或许你会想到用循环来为数组重新赋值，这样做当然可以，但效率很低。<br>　　下面我们介绍利用Array对象的两个方法slice、concat来自定义删除数组的方法。<br>　　具体代码如下，请注意里面的注释。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.del=<span class="function"><span class="keyword">function</span>(<span class="params">n</span>) </span>&#123;　<span class="comment">//n表示第几项，从0开始算起。</span></span><br><span class="line"><span class="comment">//prototype为对象原型，注意这里为对象增加自定义方法的方法。</span></span><br><span class="line">　<span class="keyword">if</span>(n&lt;<span class="number">0</span>)　<span class="comment">//如果n&lt;0，则不进行任何操作。</span></span><br><span class="line">　　<span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">　<span class="keyword">else</span></span><br><span class="line">　　<span class="keyword">return</span> <span class="keyword">this</span>.slice(<span class="number">0</span>,n).concat(<span class="keyword">this</span>.slice(n+<span class="number">1</span>,<span class="keyword">this</span>.length));</span><br><span class="line">　　<span class="comment">/*</span></span><br><span class="line"><span class="comment">　　　concat方法：返回一个新数组，这个新数组是由两个或更多数组组合而成的。</span></span><br><span class="line"><span class="comment">　　　　　　　　　这里就是返回this.slice(0,n)/this.slice(n+1,this.length)</span></span><br><span class="line"><span class="comment">　　 　　　　　　组成的新数组，这中间，刚好少了第n项。</span></span><br><span class="line"><span class="comment">　　　slice方法： 返回一个数组的一段，两个参数，分别指定开始和结束的位置。</span></span><br><span class="line"><span class="comment">　　*/</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//我们来试一试这个自己增加的方法</span></span><br><span class="line"><span class="keyword">var</span> test=<span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">test=test.del(<span class="number">3</span>);　<span class="comment">//从0算起，这里也就是删除第4项。</span></span><br><span class="line">alert(test);</span><br></pre></td></tr></table></figure></p>
-<p>这样，仅仅灵活运用了Array对象的两个方法，就实现了我们的要求。</p>
-<p>转载自 <a href="http://www.cnblogs.com/qiantuwuliang/archive/2010/09/01/1814706.html" target="_blank" rel="noopener">http://www.cnblogs.com/qiantuwuliang/archive/2010/09/01/1814706.html</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/03/04/js数组删除元素/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/03/01/检查素数的正则表达式分享/"><span>检查素数的正则表达式分享</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/03/01/检查素数的正则表达式分享/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-03-01T02:27:15.000Z">
-          2015-03-01
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>一般来说，我们会使用正规表达式来做字符串匹配，今天在网上浏览的时候，看到了有人用正则表达式来检查一个数字是否为素数（质数），让我非常感兴趣<br>这个正则表达式如图所示：<br><a href="/uploads/2015/03/regexpr-for-prime-number.jpg"><img src="/uploads/2015/03/regexpr-for-prime-number-300x30.jpg" alt="regexpr-for-prime-number"></a><br>检查素数与否的正则表达式<br>要使用这个正规则表达式，你需要把自然数转成多个1的字符串，如：2 要写成 “11”， 3 要写成 “111”, 17 要写成“11111111111111111”，这种工作使用一些脚本语言可以轻松的完成。<br>一开始我对这个表达式持怀疑态度，但仔细研究了一下这个表达式，发现是非常合理的，下面，让我带你来细细剖析一下是这个表达式的工作原理。<br>首先，我们看到这个表达式中有“|”，也就是说这个表达式可以分成两个部分：/^1?$/ 和 /^(11+?)\1+$/<br>第一部分：/^1?$/， 这个部分相信不用我多说了，其表示匹配“空串”以及字串中只有一个“1”的字符串。<br>第二部分：/^(11+?)\1+$/，这个部分是整个表达式的关键部分。其可以分成两个部分，(11+?) 和\1+$，前半部很简单了，匹配以“11”开头的并重复0或n个1的字符串，后面的部分意思是把前半部分作为一个字串去匹配还剩下的字符串1次或多次（这句话的意思是——剩余的字串的1的个数要是前面字串1个数的整数倍）。<br>可见这个正规则表达式是取非素数，要得到素数还得要对整个表达式求反。通过上面的分析，我们知道，第二部分是最重要的，对于第二部分，举几个例子，<br>示例一：判断自然数8。我们可以知道，8转成我们的格式就是“11111111”，对于(11+?)，其匹配了“11”，于是还剩下“111111”，而\1+$正好匹配了剩下的“111111”，因为，“11”这个模式在“111111”出现了三次，符合模式匹配，返回true。所以，匹配成功，于是这个数不是质数。<br>示例二：判断自然数11。转成我们需要的格式是“11111111111”（十一个1），对于(11+?)，其匹配了“11”（前两个1），还剩下“111111111”（九个1），而\1+$无法为“11”匹配那“九个1”，因为“11”这个模式并没有在“九个1”这个串中正好出现N次。于是，我们的正则表达式引擎会尝试下一种方法，先匹配“111”（前三个1），然后把“111”作为模式去匹配剩下的“11111111”（八个1），很明显，那“八个1”并没有匹配“三个1”多次。所以，引擎会继续向下尝试……直至尝试所有可能都无法匹配成功。所以11是素数。<br>通过示例二，我们可以得到这样的等价数算算法，正则表达式会匹配这若干个1中有没有出现“二个1”的整数倍，“三个1”的整数倍，“四个1”的整数倍……，而，这正好是我们需要的算素数的算法。现在大家明白了吧。<br>下面，我们用perl来使用这个正规则表达式不停地输出素数：（关于perl的语法我就不多说了，请注意表达式前的取反操作符）<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">perl -e'$|++;(1 x$_)!~/^1?$|^(11+?)\1+$/&amp;&amp;print"$_ "while ++$_'</span><br></pre></td></tr></table></figure></p>
-<p>另外，让我们来举一反三，根据上述的这种方法，我们甚至可以用正则表达式来求证某方式是否有解，如：<br>二元方程：17x + 12y = 51   判断其是否有解的正则表达式是：^(.<em>)\1{16}(.</em>)\2{11}$<br>三元方程：11x + 2y + 5z = 115 判断其是否有解的正则表达式是：^(.<em>)\1{10}(.</em>)\2{1}(.*)\3{4}$<br>大家不妨自己做做练习，为什么上述的两个正则表达式可以判断方程是否有解。如果无法参透其中的奥妙的话，你可以读读这篇<a href="http://blog.stevenlevithan.com/archives/algebra-with-regexes" target="_blank" rel="noopener">英文文章</a>。</p>
-<p>转载自 <a href="http://www.jb51.net/article/27859.htm" target="_blank" rel="noopener">http://www.jb51.net/article/27859.htm</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/计算机技术/">计算机技术</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/03/01/检查素数的正则表达式分享/#comment">评论</a>
         </span>
       </span>
     </div>

@@ -61,6 +61,143 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/01/30/解决json_encode中文UNICODE转码问题/"><span>解决json_encode中文UNICODE转码问题</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/30/解决json_encode中文UNICODE转码问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-30T00:32:22.000Z">
+          2015-01-30
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>前段时间做东西时用到了 json，php 自带的 json_encode 会将 unicode 字符转码，以 \uxxxx 的形式输出，这样不方便调试，并且，不方便插入数据库（mysql 会自动去掉反斜杠，变成 uxxxx）。于是在网上找到了如下两种解决方案：</p>
+<ol>
+<li><p>JSON_UNESCAPED_UNICODE：<br>该方法只适用于 php 5.4 及以上版本，使用方法：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> json_encode(<span class="string">"中文"</span>, JSON_UNESCAPED_UNICODE);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自己写 function 处理：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ch_json_encode</span><span class="params">($data)</span> </span>&#123;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">ch_urlencode</span><span class="params">($data)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (is_array($data) || is_object($data)) &#123;</span><br><span class="line">           <span class="keyword">foreach</span> ($data <span class="keyword">as</span> $k =&gt; $v) &#123;</span><br><span class="line">               <span class="keyword">if</span> (is_scalar($v)) &#123;</span><br><span class="line">                   <span class="keyword">if</span> (is_array($data)) &#123;</span><br><span class="line">                       $data[$k] = urlencode($v);</span><br><span class="line">                   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (is_object($data)) &#123;</span><br><span class="line">                       $data-&gt;$k = urlencode($v);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125; <span class="keyword">else</span> <span class="keyword">if</span> (is_array($data)) &#123;</span><br><span class="line">                   $data[$k] = ch_urlencode($v); <span class="comment">//递归调用该函数</span></span><br><span class="line">               &#125; <span class="keyword">else</span> <span class="keyword">if</span> (is_object($data)) &#123;</span><br><span class="line">                   $data-&gt;$k = ch_urlencode($v);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> $data;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   $ret = ch_urlencode($data);</span><br><span class="line">   $ret = json_encode($ret);</span><br><span class="line">   <span class="keyword">return</span> urldecode($ret);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>个人觉得第二种方法有 bug，以前有过输出 \’ 的经历。</p>
+<p>参考 <a href="http://blog.csdn.net/lanqiao825/article/details/26700809" target="_blank" rel="noopener">http://blog.csdn.net/lanqiao825/article/details/26700809</a>、<a href="http://blog.sina.com.cn/s/blog_6ad6243801016zqo.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_6ad6243801016zqo.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/01/30/解决json_encode中文UNICODE转码问题/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/01/28/mysql中You can't specify target table for update in FROM clause错误/"><span>mysql中You can&#39;t specify target table for update in FROM clause错误</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/01/28/mysql中You can't specify target table for update in FROM clause错误/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-01-27T22:24:07.000Z">
+          2015-01-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>mysql中You can’t specify target table  for update in FROM clause错误的意思是说，不能先select出同一表中的某些值，再update这个表(在同一语句中)。 例如下面这个sql：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> tbl <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span> </span><br><span class="line">(</span><br><span class="line">        <span class="keyword">select</span> <span class="keyword">max</span>(<span class="keyword">id</span>) <span class="keyword">from</span> tbl a <span class="keyword">where</span> <span class="keyword">EXISTS</span></span><br><span class="line">        (</span><br><span class="line">            <span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> tbl b <span class="keyword">where</span> a.tac=b.tac <span class="keyword">group</span> <span class="keyword">by</span> tac <span class="keyword">HAVING</span> <span class="keyword">count</span>(<span class="number">1</span>)&gt;<span class="number">1</span></span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">group</span> <span class="keyword">by</span> tac</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>改写成下面就行了：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> tbl <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span> </span><br><span class="line">(</span><br><span class="line">    <span class="keyword">select</span> a.id <span class="keyword">from</span> </span><br><span class="line">    (</span><br><span class="line">        <span class="keyword">select</span> <span class="keyword">max</span>(<span class="keyword">id</span>) <span class="keyword">id</span> <span class="keyword">from</span> tbl a <span class="keyword">where</span> <span class="keyword">EXISTS</span></span><br><span class="line">        (</span><br><span class="line">            <span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> tbl b <span class="keyword">where</span> a.tac=b.tac <span class="keyword">group</span> <span class="keyword">by</span> tac <span class="keyword">HAVING</span> <span class="keyword">count</span>(<span class="number">1</span>)&gt;<span class="number">1</span></span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">group</span> <span class="keyword">by</span> tac</span><br><span class="line">    ) a</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>也就是说将select出的结果再通过中间表select一遍，这样就规避了错误。注意，这个问题只出现于mysql，mssql和oracle不会出现此问题。</p>
+<p>转载自：<a href="http://blog.csdn.net/priestmoon/article/details/8016121" target="_blank" rel="noopener">http://blog.csdn.net/priestmoon/article/details/8016121</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/01/28/mysql中You can't specify target table for update in FROM clause错误/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/01/21/使用 php 连接 websocket 服务器/"><span>使用 php 连接 websocket 服务器</span></a></h3>
     
   
@@ -693,134 +830,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2014/12/16/PHP 快速读取大文件/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2014/12/10/脚上的泡都是自己走的/"><span>脚上的泡都是自己走的</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2014/12/10/脚上的泡都是自己走的/" rel="bookmark">
-        <time class="entry-date published" datetime="2014-12-10T06:49:04.000Z">
-          2014-12-10
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>早上爸爸送妹妹去上课，我正好去超市买东西，大家一起走，回家的路上，碰上以前同学在等公交，爸爸说要捎上她，我拒绝了。爸爸有点不高兴的说“都认识人，捎一段给她送家去，她自己从公交站走到家得走挺老远的呢！”我就跟爸爸说了我们小时候的一件事，我们一起上学的时候，有一次连着下雨好多天，我几双鞋都湿了，怎么都晾不干，我妈找出一双旧鞋让我穿。这位同学看到之后说“这鞋是你捡的吧？我前天刚扔垃圾桶的！”我说“这鞋我的。”她坚持“我前天扔垃圾桶的，就是这双！”无论我怎么解释，她就说这是她扔的，还找来跟她不错的同学作证！说我这鞋是捡她的，连着好多天，不停的说我从垃圾桶捡了她的鞋。把我烦的不行，回家我让我妈把我的鞋烤干了，把那双旧鞋给了她。我以为这事完了，没想到她就自以为她说的是对的，到处跟人说我捡她旧鞋。一连说了好几年。从那儿以后只要看见她，我就想起这事，我爸一说要捎着她，我果断就拒绝了。</p>
-<p>无独有偶，我高中同学里有个类似的事，同学A没事就欺负同学B，比如冬天半夜趁着同学B上厕所，把宿舍门锁上，同学B在门口敲门不让其他人开，同学B只好去找宿管老师，可还是冻两小时发烧了。再比如大家一起去洗澡，他把同学B的衣服带走，让同学B找不到衣服。再比如挑拨别的同学打同学B，等等损人不利己的事。大家毕业以后，各奔东西，巧的是，同学B开了公司，当了老板，同学A去他公司面试，同学B找借口没有收同学A。同学A在我们的同学群里谴责同学B，不讲同学情谊，一点也没有人情味。</p>
-<p>最近陪爸妈看电视，有个大叔家里拆迁，他回家要分家产，父母和兄弟姐妹都不同意，大叔很可怜，家里只有个两居室，儿子要结婚了，可是没房子，老两口的退休金根本不够给孩子买房子，想趁着这次拆迁要点钱，给儿子买房子，可是家里都不给。本来挺可怜这大叔的，可是等大叔父母和兄弟姐妹诉说之后，有了戏剧性的转折。大叔父母拿出了一个协议，大叔二十多年前结婚的时候跟父母商定，父母给一万块钱，他离家结婚，对父母生的时候不养，死了不用葬。大叔拿了钱，真的履行了协议，除了春节带着孩子回家看看父母以外，父母生病、盖房、搬家等等从来没管过。律师看了协议之后说协议无效，大叔很高兴，说是不是可以分家里拆迁的钱和房子。律师说家里财产是父母的，爱给谁给谁。协议无效，子女对父母有赡养义务，你必须赡养父母。</p>
-<p>很多遇到困难的人总说自己很可怜，总说别人不对，遇到不顺的事就抱怨。我就是这样，每次我跟我妈抱怨，我妈就告诉我“脚上的泡都是自己走的”。我很喜欢《生命的寻路人》里的一句话“每件事都不止是表面呈现的样貌。看得见的世界只是知觉的一种层次。”一方面是说我们不要对别人的故事妄下结论，事情可能不像我们看到的一样。另外一方面是指我们面对困难的时候，要多想自己是不是有什么不对。人生路上，有些绊脚的石头，是我们自己放的。 </p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/鼹鼠的土豆/">鼹鼠的土豆</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2014/12/10/脚上的泡都是自己走的/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2014/11/29/mssql 时间格式化/"><span>mssql 时间格式化</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2014/11/29/mssql 时间格式化/" rel="bookmark">
-        <time class="entry-date published" datetime="2014-11-29T08:51:04.000Z">
-          2014-11-29
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>1 取值后格式化<br>{0:d}小型：如2005-5-6<br>{0:D}大型：如2005年5月6日<br>{0:f}完整型<br>2 当前时间获取<br>DateTime.Now.ToShortDateString<br>3 取值中格式化<br>SQL Server里面可能经常会用到的日期格式转换方法:<br>sql server使用convert来取得datetime日期数据，以下实例包含各种日期格式的转换<br>语句及查询结果：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">0</span>): <span class="number">05</span> <span class="number">16</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>AM</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">1</span>): <span class="number">05</span>/<span class="number">16</span>/<span class="number">06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">2</span>): <span class="number">06.05</span><span class="number">.16</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">3</span>): <span class="number">16</span>/<span class="number">05</span>/<span class="number">06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">4</span>): <span class="number">16.05</span><span class="number">.06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">5</span>): <span class="number">16</span><span class="number">-05</span><span class="number">-06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">6</span>): <span class="number">16</span> <span class="number">05</span> <span class="number">06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">7</span>): <span class="number">05</span> <span class="number">16</span>, <span class="number">06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">8</span>): <span class="number">10</span>:<span class="number">57</span>:<span class="number">46</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">9</span>): <span class="number">05</span> <span class="number">16</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">46</span>:<span class="number">827</span>AM</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">10</span>): <span class="number">05</span><span class="number">-16</span><span class="number">-06</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">11</span>): <span class="number">06</span>/<span class="number">05</span>/<span class="number">16</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">12</span>): <span class="number">060516</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">13</span>): <span class="number">16</span> <span class="number">05</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">46</span>:<span class="number">937</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">14</span>): <span class="number">10</span>:<span class="number">57</span>:<span class="number">46</span>:<span class="number">967</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">20</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">47</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">21</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">47.157</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">22</span>): <span class="number">05</span>/<span class="number">16</span>/<span class="number">06</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">47</span> AM</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">23</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">24</span>): <span class="number">10</span>:<span class="number">57</span>:<span class="number">47</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">25</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">47.250</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">100</span>): <span class="number">05</span> <span class="number">16</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>AM</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">101</span>): <span class="number">05</span>/<span class="number">16</span>/<span class="number">2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">102</span>): <span class="number">2006.05</span><span class="number">.16</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">103</span>): <span class="number">16</span>/<span class="number">05</span>/<span class="number">2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">104</span>): <span class="number">16.05</span><span class="number">.2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">105</span>): <span class="number">16</span><span class="number">-05</span><span class="number">-2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">106</span>): <span class="number">16</span> <span class="number">05</span> <span class="number">2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">107</span>): <span class="number">05</span> <span class="number">16</span>, <span class="number">2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">108</span>): <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">109</span>): <span class="number">05</span> <span class="number">16</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span>:<span class="number">437</span>AM</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">110</span>): <span class="number">05</span><span class="number">-16</span><span class="number">-2006</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">111</span>): <span class="number">2006</span>/<span class="number">05</span>/<span class="number">16</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">112</span>): <span class="number">20060516</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">113</span>): <span class="number">16</span> <span class="number">05</span> <span class="number">2006</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span>:<span class="number">513</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">114</span>): <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span>:<span class="number">547</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">120</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">121</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49.700</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">126</span>): <span class="number">2006</span><span class="number">-05</span><span class="number">-16</span>T10:<span class="number">57</span>:<span class="number">49.827</span></span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">130</span>): <span class="number">18</span> ???? ?????? <span class="number">1427</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span>:<span class="number">907</span>AM</span><br><span class="line"><span class="keyword">Select</span> <span class="keyword">CONVERT</span>(<span class="built_in">varchar</span>(<span class="number">100</span>), <span class="keyword">GETDATE</span>(), <span class="number">131</span>): <span class="number">18</span>/<span class="number">04</span>/<span class="number">1427</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">49</span>:<span class="number">920</span>AM</span><br></pre></td></tr></table></figure></p>
-<p>转载自 <a href="http://blog.csdn.net/dlyhs/archive/2009/05/12/4170986.aspx" target="_blank" rel="noopener">http://blog.csdn.net/dlyhs/archive/2009/05/12/4170986.aspx</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2014/11/29/mssql 时间格式化/#comment">评论</a>
         </span>
       </span>
     </div>

