@@ -61,6 +61,70 @@
 
   
     
+    <h3 class="article-title"><a href="/2014/09/25/javascript 使用四舍六入五成双法规范数字/"><span>javascript 使用四舍六入五成双法规范数字</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/09/25/javascript 使用四舍六入五成双法规范数字/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-09-25T02:56:28.000Z">
+          2014-09-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近因为一些特殊原因，要用到使用 <a href="http://baike.baidu.com/view/1245064.htm" target="_blank" rel="noopener">四舍六入五成双</a> 的规则进行有效数字的规范。百度了半天没找到解决方法，居然还有人说 Math.round 是用这种方法的，简直坑爹。。。于是我自写了个算法，要是有什么 bug 欢迎各位帮忙指正，谢谢。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_significant_figure</span>(<span class="params">num,len</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> num=<span class="built_in">parseFloat</span>(num);</span><br><span class="line">    <span class="keyword">var</span> len=<span class="built_in">parseInt</span>(len);</span><br><span class="line">    <span class="keyword">var</span> _len=len;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">parseFloat</span>(num)==<span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> num;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> yxsz=<span class="built_in">parseInt</span>(<span class="built_in">String</span>(num).replace(<span class="regexp">/[^\d]/g</span>,<span class="string">""</span>));</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">String</span>(yxsz)[<span class="number">0</span>]&gt;=<span class="number">8</span>) &#123;</span><br><span class="line">        len-=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (len&lt;=<span class="number">0</span>) &#123;</span><br><span class="line">        len=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (len&gt;=<span class="built_in">String</span>(yxsz).length) &#123;</span><br><span class="line">        <span class="keyword">return</span> num.toPrecision(len);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> tmp=<span class="built_in">String</span>((<span class="built_in">Math</span>.floor(yxsz/<span class="built_in">Math</span>.pow(<span class="number">10</span>,(<span class="built_in">String</span>(yxsz).length-len))*<span class="number">100</span>)/<span class="number">100</span>).toFixed(<span class="number">2</span>)).split(<span class="string">"."</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;tmp.length;i++) &#123;</span><br><span class="line">            tmp[i]=<span class="built_in">parseInt</span>(tmp[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (tmp[<span class="number">1</span>]/<span class="number">100</span>&gt;<span class="number">0.5</span>) &#123;</span><br><span class="line">            tmp[<span class="number">0</span>]++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tmp[<span class="number">1</span>]/<span class="number">100</span>==<span class="number">0.5</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">parseInt</span>(<span class="built_in">String</span>(tmp[<span class="number">0</span>])[<span class="built_in">String</span>(tmp[<span class="number">0</span>]).length<span class="number">-1</span>])%<span class="number">2</span>==<span class="number">1</span>) &#123;</span><br><span class="line">                tmp[<span class="number">0</span>]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (tmp[<span class="number">0</span>]*(<span class="built_in">Math</span>.pow(<span class="number">10</span>,(<span class="built_in">String</span>(yxsz).length+(<span class="built_in">parseInt</span>(<span class="built_in">String</span>(yxsz)[<span class="number">0</span>])&gt;=<span class="number">8</span>?<span class="number">1</span>:<span class="number">0</span>)-<span class="built_in">String</span>(tmp[<span class="number">0</span>]).length)))*(num/yxsz)).toPrecision(_len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>原理是取出所有的有效数字，并截取要求截取的长度 +2，两位用来判断是否需要进位。最后填充 0 直至结果整数与开始时获取到的有效数字长度一致，并根据最初的有效数字与输入数字的比来还原结果，如果长度不符合要求就继续填充 0。例如 3.16501 要求保留三位有效数字，那就是这样的 3.16501–&gt;316501–&gt;31650–&gt;316.50–&gt;316–&gt;316<em>1e(4-3)</em>(3.165/3165)–&gt;3160–&gt;3.16。</p>
+<p>P.S. 我们还要求首位有效数字如果大于等于 8 则多看一位。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2014/09/25/javascript 使用四舍六入五成双法规范数字/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2014/09/20/怎样输入完美的TeX公式/"><span>怎样输入完美的TeX公式</span></a></h3>
     
   
@@ -827,76 +891,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2014/08/17/关于debian系统下crontab执行时间不正常的设置/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2014/08/16/AMH 4.2 虚拟主机面板 安装教程/"><span>AMH 4.2 虚拟主机面板 安装教程</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2014/08/16/AMH 4.2 虚拟主机面板 安装教程/" rel="bookmark">
-        <time class="entry-date published" datetime="2014-08-15T23:11:04.000Z">
-          2014-08-16
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p><strong>一、面板介绍</strong><br>Amysql Host 面板，简称AMH，是一个基于Nginx架构的类似 虚拟主机 独立面板。这个面板安装简单，非常适合Linux新手，以及一些恐惧命令行的Linux VPS用户。<br>AMH的主要功能有：在线划分虚拟主机（多个网站）、FTP帐号自定义、MYSQL在线创建和管理、数据备份（支持本地和异地备份）、任务计划（crontab自动任务）、以及模块扩展，可以通过AMH官方在面板的基础功能上扩展更多的功能。面板支持在线升级，减少工作量，更傻瓜化、简单化。<br>Amysql Host 官方：<a href="http://amysql.com/AMH.htm" target="_blank" rel="noopener">http://amysql.com/AMH.htm</a> AMH<br>演示：<a href="http://108.61.194.60:8888/index.php?c=index&amp;a=login" target="_blank" rel="noopener">http://108.61.194.60:8888/index.php?c=index&a;=login</a><br>账号： amh，密码：amh_password</p>
-<p><strong>二、面板模块</strong><br>AMH已全面支持运行于 Centos Ubuntu ( Ubuntu 12系列或以下) Debian<br>AMH含有模块 Nginx 1.4.7 MySQL 5.5.34 PHP 5.3.27 PureFTPd 1.0.36</p>
-<p><strong>三、安装</strong><br>请使用纯净的系统,不要存在类似的服务,比如WDCP 或者其他编译的程序<br>第一步:使用root账号连接SSH<br>第二步:下载并运行AMH安装脚本<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://amysql.com/file/AMH/4.2/amh.sh; chmod 775 amh.sh; ./amh.sh 2&gt;&amp;1 | tee amh.log;</span><br></pre></td></tr></table></figure></p>
-<p>或者<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://api.ifdream.net/linux/amh/amh.sh; chmod 775 amh.sh; ./amh.sh 2&gt;&amp;1 | tee amh.log;</span><br></pre></td></tr></table></figure></p>
-<p>根据提示输入选择1~3选项。1为安装amh，2为卸载amh，3为退出不做操作。如下图：<br><a href="/uploads/2014/08/QQ截图20140722234319.png"><img src="/uploads/2014/08/QQ截图20140722234319.png" alt="QQ截图20140722234319"></a><br>输入1回车，接着输入MySQL Root密码与AMH面板管理员密码即进入安装流程，如下图。<br><a href="/uploads/2014/08/QQ截图20140722234509.png"><img src="/uploads/2014/08/QQ截图20140722234509.png" alt="QQ截图20140722234509"></a><br>安装过程大约需10~20分钟(以服务器性能为准)，最后如看到安装成功提示，说明系统已安装完成。</p>
-<p>访问<a href="http://ip:8888" target="_blank" rel="noopener">http://ip:8888</a> 即可进入AMH web端管理，默认账号为admin。如下图<br><a href="/uploads/2014/08/QQ截图20140723002730.png"><img src="/uploads/2014/08/QQ截图20140723002730.png" alt="QQ截图20140723002730"></a></p>
-<p><strong>四、AMH面板 常用命令</strong><br>以下命令适合在SSH中操作。<br>虚拟主机 : amh host<br>PHP管理 : amh php<br>Nginx管理 : amh nginx<br>MySQL管理 : amh mysql<br>FTP管理 : amh ftp<br>数据备份 : amh backup<br>一键还原 : amh revert<br>参数设置 : amh SetParam<br>模块扩展 : amh module<br>任务计划 : amh crontab<br>在线升级 : amh upgrade<br>面板信息 : amh info</p>
-<p><strong>五、AMH相关目录</strong><br>网站目录 : /home/wwwroot<br>Nginx目录 : /usr/local/nginx<br>PHP目录 : /usr/local/php<br>MySQL目录 : /usr/local/mysql<br>MySQL数据目录 : /usr/local/mysql/data</p>
-<p>转载自 <a href="http://blog.ifdream.net/linux/amh42/" target="_blank" rel="noopener">http://blog.ifdream.net/linux/amh42/</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/VPS-技术/">VPS 技术</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2014/08/16/AMH 4.2 虚拟主机面板 安装教程/#comment">评论</a>
         </span>
       </span>
     </div>

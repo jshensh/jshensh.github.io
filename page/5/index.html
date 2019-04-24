@@ -61,6 +61,81 @@
 
   
     
+    <h3 class="article-title"><a href="/2016/02/28/MySQL中函数CONCAT及GROUP_CONCAT/"><span>MySQL中函数CONCAT及GROUP_CONCAT</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/02/28/MySQL中函数CONCAT及GROUP_CONCAT/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-02-27T23:57:06.000Z">
+          2016-02-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>一、CONCAT（）函数<br>CONCAT（）函数用于将多个字符串连接成一个字符串。<br>使用数据表Info作为示例，其中SELECT id,name FROM info LIMIT 1;的返回结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+----+--------+</span><br><span class="line">| id | name   |</span><br><span class="line">+----+--------+</span><br><span class="line">|  1 | BioCyc |</span><br><span class="line">+----+--------+</span><br></pre></td></tr></table></figure></p>
+<p>1、语法及使用特点：<br><code>CONCAT(str1,str2,…)</code><br>返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL。可以有一个或多个参数。</p>
+<p>2、使用示例：<br><code>SELECT CONCAT(id, ‘，’, name) AS con FROM info LIMIT 1;</code> 返回结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+----------+</span><br><span class="line">| con      |</span><br><span class="line">+----------+</span><br><span class="line">| 1,BioCyc |</span><br><span class="line">+----------+</span><br></pre></td></tr></table></figure></p>
+<p><code>SELECT CONCAT(‘My’, NULL, ‘QL’);</code> 返回结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+--------------------------+</span><br><span class="line">| CONCAT(&apos;My&apos;, NULL, &apos;QL&apos;) |</span><br><span class="line">+--------------------------+</span><br><span class="line">| NULL                     |</span><br><span class="line">+--------------------------+</span><br></pre></td></tr></table></figure></p>
+<p>3、如何指定参数之间的分隔符<br>使用函数CONCAT_WS（）。使用语法为：<code>CONCAT_WS(separator,str1,str2,…)</code><br>CONCAT_WS() 代表 CONCAT With Separator ，是CONCAT()的特殊形式。第一个参数是其它参数的分隔符。分隔符的位置放在要连接的两个字符串之间。分隔符可以是一个字符串，也可以是其它参数。如果分隔符为 NULL，则结果为 NULL。函数会忽略任何分隔符参数后的 NULL 值。但是CONCAT_WS()不会忽略任何空字符串。 (然而会忽略所有的 NULL）。</p>
+<p>如 <code>SELECT CONCAT_WS(&#39;_&#39;,id,name) AS con_ws FROM info LIMIT 1;</code> 返回结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+----------+</span><br><span class="line">| con_ws   |</span><br><span class="line">+----------+</span><br><span class="line">| 1_BioCyc |</span><br><span class="line">+----------+</span><br></pre></td></tr></table></figure></p>
+<p><code>SELECT CONCAT_WS(&#39;,&#39;,&#39;First name&#39;,NULL,&#39;Last Name&#39;);</code> 返回结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+----------------------------------------------+</span><br><span class="line">| CONCAT_WS(&apos;,&apos;,&apos;First name&apos;,NULL,&apos;Last Name&apos;) |</span><br><span class="line">+----------------------------------------------+</span><br><span class="line">| First name,Last Name                         |</span><br><span class="line">+----------------------------------------------+</span><br></pre></td></tr></table></figure></p>
+<p>二、GROUP_CONCAT（）函数<br>GROUP_CONCAT函数返回一个字符串结果，该结果由分组中的值连接组合而成。<br>使用表info作为示例，其中语句 <code>SELECT locus,id,journal FROM info WHERE locus IN(&#39;AB086827&#39;,&#39;AF040764&#39;);</code> 的返回结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+----------+----+--------------------------+</span><br><span class="line">| locus    | id | journal                  |</span><br><span class="line">+----------+----+--------------------------+</span><br><span class="line">| AB086827 |  1 | Unpublished              |</span><br><span class="line">| AB086827 |  2 | Submitted (20-JUN-2002)  |</span><br><span class="line">| AF040764 | 23 | Unpublished              |</span><br><span class="line">| AF040764 | 24 | Submitted (31-DEC-1997)  |</span><br><span class="line">+----------+----+--------------------------+</span><br></pre></td></tr></table></figure></p>
+<p>1、使用语法及特点：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GROUP_CONCAT([DISTINCT] expr [,expr ...]</span><br><span class="line">[ORDER BY &#123;unsigned_integer | col_name | formula&#125; [ASC | DESC] [,col ...]]</span><br><span class="line">[SEPARATOR str_val])</span><br></pre></td></tr></table></figure></p>
+<p>在 MySQL 中，你可以得到表达式结合体的连结值。通过使用 DISTINCT 可以排除重复值。如果希望对结果中的值进行排序，可以使用 ORDER BY 子句。<br>SEPARATOR 是一个字符串值，它被用于插入到结果值中。缺省为一个逗号 (“,”)，可以通过指定 SEPARATOR “” 完全地移除这个分隔符。<br>可以通过变量 group_concat_max_len 设置一个最大的长度。在运行时执行的句法如下： <code>SET [SESSION | GLOBAL] group_concat_max_len = unsigned_integer;</code><br>如果最大长度被设置，结果值被剪切到这个最大长度。如果分组的字符过长，可以对系统参数进行设置：<code>SET @@global.group_concat_max_len=40000;</code></p>
+<p>2、使用示例：<br>语句 <code>SELECT locus,GROUP_CONCAT(id) FROM info WHERE locus IN(&#39;AB086827&#39;,&#39;AF040764&#39;) GROUP BY locus;</code> 的返回结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+----------+------------------+</span><br><span class="line">| locus    | GROUP_CONCAT(id) |</span><br><span class="line">+----------+------------------+</span><br><span class="line">| AB086827 | 1,2              |</span><br><span class="line">| AF040764 | 23,24            |</span><br><span class="line">+----------+------------------+</span><br></pre></td></tr></table></figure></p>
+<p>语句 <code>SELECT locus,GROUP_CONCAT(distinct id ORDER BY id DESC SEPARATOR &#39;_&#39;) FROM info WHERE locus IN(&#39;AB086827&#39;,&#39;AF040764&#39;) GROUP BY locus;</code>的返回结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+----------+----------------------------------------------------------+</span><br><span class="line">| locus    | GROUP_CONCAT(distinct id ORDER BY id DESC SEPARATOR &apos;_&apos;) |</span><br><span class="line">+----------+----------------------------------------------------------+</span><br><span class="line">| AB086827 | 2_1                                                      |</span><br><span class="line">| AF040764 | 24_23                                                    |</span><br><span class="line">+----------+----------------------------------------------------------+</span><br></pre></td></tr></table></figure></p>
+<p>语句 <code>SELECT locus,GROUP_CONCAT(concat_ws(&#39;, &#39;,id,journal) ORDER BY id DESC SEPARATOR &#39;. &#39;) FROM info WHERE locus IN(&#39;AB086827&#39;,&#39;AF040764&#39;) GROUP BY locus;</code> 的返回结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+----------+--------------------------------------------------------------------------+</span><br><span class="line">| locus    | GROUP_CONCAT(concat_ws(&apos;, &apos;,id,journal) ORDER BY id DESC SEPARATOR &apos;. &apos;) |</span><br><span class="line">+----------+--------------------------------------------------------------------------+</span><br><span class="line">| AB086827 | 2, Submitted (20-JUN-2002). 1, Unpublished                               |</span><br><span class="line">| AF040764 | 24, Submitted (31-DEC-1997) . 23, Unpublished                            |</span><br><span class="line">+----------+--------------------------------------------------------------------------+</span><br></pre></td></tr></table></figure></p>
+<p>转载自 <a href="http://www.cnblogs.com/appleat/archive/2012/09/03/2669033.html" target="_blank" rel="noopener">http://www.cnblogs.com/appleat/archive/2012/09/03/2669033.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/02/28/MySQL中函数CONCAT及GROUP_CONCAT/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2016/02/13/curl不使用文件存取cookie php使用curl获取cookie示例/"><span>curl不使用文件存取cookie php使用curl获取cookie示例</span></a></h3>
     
   
@@ -731,163 +806,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2015/11/23/微信公众平台OAuth2.0网页授权php示例/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/11/22/常用正则表达式/"><span>常用正则表达式</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/11/22/常用正则表达式/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-11-22T06:31:29.000Z">
-          2015-11-22
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>说明：正则表达式通常用于两种任务：1.验证，2.搜索/替换。用于验证时，通常需要在前后分别加上^和$，以匹配整个待验证字符串；搜索/替换时是否加上此限定则根据搜索的要求而定，此外，也有可能要在前后加上\b而不是^和$。此表所列的常用正则表达式，除个别外均未在前后加上任何限定，请根据需要，自行处理。</p>
-<table>
-<thead>
-<tr>
-<th>说明</th>
-<th>正则表达式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>网址（URL）</td>
-<td>[a-zA-z]+://[^\s]*</td>
-</tr>
-<tr>
-<td>IP地址(IP Address)</td>
-<td>((2[0-4]\d&#124;25[0-5]&#124;[01]?\d\d?).){3}(2[0-4]\d&#124;25[0-5]&#124;[01]?\d\d?)</td>
-</tr>
-<tr>
-<td>电子邮件(Email)</td>
-<td>\w+([-+.]\w+)<em>@\w+([-.]\w+)</em>.\w+([-.]\w+)*</td>
-</tr>
-<tr>
-<td>QQ号码</td>
-<td>[1-9]\d{4,}</td>
-</tr>
-<tr>
-<td>HTML标记(包含内容或自闭合)</td>
-<td>&lt;(.<em>)(.</em>)&gt;.<em>&lt;\/\1&gt;&#124;&lt;(.</em>) \/&gt;</td>
-</tr>
-<tr>
-<td>密码(由数字/大写字母/小写字母/标点符号组成，四种都必有，8位以上)</td>
-<td>(?=^.{8,}$)(?=.<em>\d)(?=.</em>\W+)(?=.<em>[A-Z])(?=.</em>[a-z])(?!.<em>\n).</em>$</td>
-</tr>
-<tr>
-<td>日期(年-月-日)</td>
-<td>(\d{4}&#124;\d{2})-((1[0-2])&#124;(0?[1-9]))-(([12][0-9])&#124;(3[01])&#124;(0?[1-9]))</td>
-</tr>
-<tr>
-<td>日期(月/日/年)</td>
-<td>((1[0-2])&#124;(0?[1-9]))/(([12][0-9])&#124;(3[01])&#124;(0?[1-9]))/(\d{4}&#124;\d{2})</td>
-</tr>
-<tr>
-<td>时间(小时:分钟, 24小时制)</td>
-<td>((1&#124;0?)[0-9]&#124;2[0-3]):([0-5][0-9])</td>
-</tr>
-<tr>
-<td>汉字(字符)</td>
-<td>[\u4e00-\u9fa5]</td>
-</tr>
-<tr>
-<td>中文及全角标点符号(字符)</td>
-<td>[\u3000-\u301e\ufe10-\ufe19\ufe30-\ufe44\ufe50-\ufe6b\uff01-\uffee]</td>
-</tr>
-<tr>
-<td>中国大陆固定电话号码</td>
-<td>(\d{4}-&#124;\d{3}-)?(\d{8}&#124;\d{7})</td>
-</tr>
-<tr>
-<td>中国大陆手机号码</td>
-<td>1\d{10}</td>
-</tr>
-<tr>
-<td>中国大陆邮政编码</td>
-<td>[1-9]\d{5}</td>
-</tr>
-<tr>
-<td>中国大陆身份证号(15位或18位)</td>
-<td>\d{15}(\d\d[0-9xX])?</td>
-</tr>
-<tr>
-<td>非负整数(正整数或零)</td>
-<td>\d+</td>
-</tr>
-<tr>
-<td>正整数</td>
-<td>[0-9]<em>[1-9][0-9]</em></td>
-</tr>
-<tr>
-<td>负整数</td>
-<td>-[0-9]<em>[1-9][0-9]</em></td>
-</tr>
-<tr>
-<td>整数</td>
-<td>-?\d+</td>
-</tr>
-<tr>
-<td>小数</td>
-<td>(-?\d+)(.\d+)?</td>
-</tr>
-<tr>
-<td>不包含abc的单词</td>
-<td>\b((?!abc)\w)+\b</td>
-</tr>
-</tbody>
-</table>
-<p>转载自 <a href="http://deerchao.net/tutorials/regex/common.htm" target="_blank" rel="noopener">http://deerchao.net/tutorials/regex/common.htm</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/11/22/常用正则表达式/#comment">评论</a>
         </span>
       </span>
     </div>

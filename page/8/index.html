@@ -61,6 +61,70 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/07/11/高效率去掉js数组中重复项/"><span>高效率去掉js数组中重复项</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/07/11/高效率去掉js数组中重复项/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-07-11T05:29:02.000Z">
+          2015-07-11
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>Array类型并没有提供去重复的方法，如果要把数组的重复元素干掉，那得自己想办法：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = [], isRepeated;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = arr.length; i &lt; len; i++) &#123;</span><br><span class="line">        isRepeated = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>, len = result.length; j &lt; len; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[i] == result[j]) &#123;   </span><br><span class="line">                isRepeated = <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!isRepeated) &#123;</span><br><span class="line">            result.push(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>总体思路是把数组元素逐个搬运到另一个数组，搬运的过程中检查这个元素是否有重复，如果有就直接丢掉。从嵌套循环就可以看出，这种方法效率极低。我们可以 用一个hashtable的结构记录已有的元素，这样就可以避免内层循环。恰好，在Javascript中实现hashtable是极为简单的，改进如 下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = [], hash = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, elem; (elem = arr[i]) != <span class="literal">null</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!hash[elem]) &#123;</span><br><span class="line">            result.push(elem);</span><br><span class="line">            hash[elem] = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line"><span class="comment">//http://www.cnblogs.com/sosoft/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>转载自 <a href="http://www.cnblogs.com/sosoft/archive/2013/12/08/3463830.html" target="_blank" rel="noopener">http://www.cnblogs.com/sosoft/archive/2013/12/08/3463830.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/07/11/高效率去掉js数组中重复项/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/06/09/运维角度浅谈：MySQL数据库优化（转）/"><span>运维角度浅谈：MySQL数据库优化（转）</span></a></h3>
     
   
@@ -820,70 +884,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2015/03/20/搭建coreseek(sphinx+mmseg3)详细安装配置+php之sphinx扩展安装+php调用示例/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/03/11/用javascript实现本地图片预览(HTML5)/"><span>用javascript实现本地图片预览(HTML5)</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/03/11/用javascript实现本地图片预览(HTML5)/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-03-11T02:56:51.000Z">
-          2015-03-11
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>使用FileReader实现打开本地图片并预览。<br>挺方便的，可惜不是所有浏览器都支持，坑爹的IE。 </p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">preImg</span>(<span class="params">sourceId, targetId</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">if</span> (<span class="keyword">typeof</span> FileReader === <span class="string">'undefined'</span>) &#123;</span></span><br><span class="line"><span class="javascript">		alert(<span class="string">'Your browser does not support FileReader...'</span>);</span></span><br><span class="line"><span class="javascript">		<span class="keyword">return</span>;</span></span><br><span class="line"><span class="undefined">	&#125;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">	reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">var</span> img = <span class="built_in">document</span>.getElementById(targetId);</span></span><br><span class="line"><span class="javascript">		img.src = <span class="keyword">this</span>.result;</span></span><br><span class="line"><span class="undefined">	&#125;</span></span><br><span class="line"><span class="javascript">	reader.readAsDataURL(<span class="built_in">document</span>.getElementById(sourceId).files[<span class="number">0</span>]);</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"imgOne"</span> <span class="attr">id</span>=<span class="string">"imgOne"</span> <span class="attr">onchange</span>=<span class="string">"preImg(this.id,'imgPre');"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">"imgPre"</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">style</span>=<span class="string">"display: block;"</span> /&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>转载自 <a href="http://crayster.iteye.com/blog/1543058" target="_blank" rel="noopener">http://crayster.iteye.com/blog/1543058</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/03/11/用javascript实现本地图片预览(HTML5)/#comment">评论</a>
         </span>
       </span>
     </div>

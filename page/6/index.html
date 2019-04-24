@@ -61,6 +61,163 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/11/22/常用正则表达式/"><span>常用正则表达式</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/11/22/常用正则表达式/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-11-22T06:31:29.000Z">
+          2015-11-22
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>说明：正则表达式通常用于两种任务：1.验证，2.搜索/替换。用于验证时，通常需要在前后分别加上^和$，以匹配整个待验证字符串；搜索/替换时是否加上此限定则根据搜索的要求而定，此外，也有可能要在前后加上\b而不是^和$。此表所列的常用正则表达式，除个别外均未在前后加上任何限定，请根据需要，自行处理。</p>
+<table>
+<thead>
+<tr>
+<th>说明</th>
+<th>正则表达式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>网址（URL）</td>
+<td>[a-zA-z]+://[^\s]*</td>
+</tr>
+<tr>
+<td>IP地址(IP Address)</td>
+<td>((2[0-4]\d&#124;25[0-5]&#124;[01]?\d\d?).){3}(2[0-4]\d&#124;25[0-5]&#124;[01]?\d\d?)</td>
+</tr>
+<tr>
+<td>电子邮件(Email)</td>
+<td>\w+([-+.]\w+)<em>@\w+([-.]\w+)</em>.\w+([-.]\w+)*</td>
+</tr>
+<tr>
+<td>QQ号码</td>
+<td>[1-9]\d{4,}</td>
+</tr>
+<tr>
+<td>HTML标记(包含内容或自闭合)</td>
+<td>&lt;(.<em>)(.</em>)&gt;.<em>&lt;\/\1&gt;&#124;&lt;(.</em>) \/&gt;</td>
+</tr>
+<tr>
+<td>密码(由数字/大写字母/小写字母/标点符号组成，四种都必有，8位以上)</td>
+<td>(?=^.{8,}$)(?=.<em>\d)(?=.</em>\W+)(?=.<em>[A-Z])(?=.</em>[a-z])(?!.<em>\n).</em>$</td>
+</tr>
+<tr>
+<td>日期(年-月-日)</td>
+<td>(\d{4}&#124;\d{2})-((1[0-2])&#124;(0?[1-9]))-(([12][0-9])&#124;(3[01])&#124;(0?[1-9]))</td>
+</tr>
+<tr>
+<td>日期(月/日/年)</td>
+<td>((1[0-2])&#124;(0?[1-9]))/(([12][0-9])&#124;(3[01])&#124;(0?[1-9]))/(\d{4}&#124;\d{2})</td>
+</tr>
+<tr>
+<td>时间(小时:分钟, 24小时制)</td>
+<td>((1&#124;0?)[0-9]&#124;2[0-3]):([0-5][0-9])</td>
+</tr>
+<tr>
+<td>汉字(字符)</td>
+<td>[\u4e00-\u9fa5]</td>
+</tr>
+<tr>
+<td>中文及全角标点符号(字符)</td>
+<td>[\u3000-\u301e\ufe10-\ufe19\ufe30-\ufe44\ufe50-\ufe6b\uff01-\uffee]</td>
+</tr>
+<tr>
+<td>中国大陆固定电话号码</td>
+<td>(\d{4}-&#124;\d{3}-)?(\d{8}&#124;\d{7})</td>
+</tr>
+<tr>
+<td>中国大陆手机号码</td>
+<td>1\d{10}</td>
+</tr>
+<tr>
+<td>中国大陆邮政编码</td>
+<td>[1-9]\d{5}</td>
+</tr>
+<tr>
+<td>中国大陆身份证号(15位或18位)</td>
+<td>\d{15}(\d\d[0-9xX])?</td>
+</tr>
+<tr>
+<td>非负整数(正整数或零)</td>
+<td>\d+</td>
+</tr>
+<tr>
+<td>正整数</td>
+<td>[0-9]<em>[1-9][0-9]</em></td>
+</tr>
+<tr>
+<td>负整数</td>
+<td>-[0-9]<em>[1-9][0-9]</em></td>
+</tr>
+<tr>
+<td>整数</td>
+<td>-?\d+</td>
+</tr>
+<tr>
+<td>小数</td>
+<td>(-?\d+)(.\d+)?</td>
+</tr>
+<tr>
+<td>不包含abc的单词</td>
+<td>\b((?!abc)\w)+\b</td>
+</tr>
+</tbody>
+</table>
+<p>转载自 <a href="http://deerchao.net/tutorials/regex/common.htm" target="_blank" rel="noopener">http://deerchao.net/tutorials/regex/common.htm</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/11/22/常用正则表达式/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/11/12/Redis 未授权访问配合 SSH key 文件利用分析/"><span>Redis 未授权访问配合 SSH key 文件利用分析</span></a></h3>
     
   
@@ -780,116 +937,6 @@ def parse_attack(self, result):
         <i class="icon-comments"></i>
         <span>
           <a href="/2015/10/07/重写了下博客的播放器/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/10/04/NodeJS中 package.json 解析/"><span>NodeJS中 package.json 解析</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/10/04/NodeJS中 package.json 解析/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-10-04T08:44:33.000Z">
-          2015-10-04
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>package.json 中包含各种所需模块以及项目的配置信息（名称、版本、许可证等）meta 信息。<br><strong>包含可配置项</strong></p>
-<ul>
-<li>name 名称</li>
-</ul>
-<ul>
-<li>应用描述 description</li>
-</ul>
-<ul>
-<li>版本号 version</li>
-</ul>
-<ul>
-<li>应用的配置项 config</li>
-</ul>
-<ul>
-<li>作者 author</li>
-</ul>
-<ul>
-<li>资源仓库地址 respository</li>
-</ul>
-<ul>
-<li>授权方式 licenses</li>
-</ul>
-<ul>
-<li>目录 directories</li>
-</ul>
-<ul>
-<li>应用入口文件 main</li>
-</ul>
-<ul>
-<li>命令行文件 bin</li>
-</ul>
-<ul>
-<li>项目应用运行依赖模块 dependencies</li>
-</ul>
-<ul>
-<li>项目应用开发环境依赖 devDependencies</li>
-</ul>
-<ul>
-<li>运行引擎 engines</li>
-</ul>
-<ul>
-<li>脚本 script</li>
-</ul>
-<h1 id="简单模式"><a href="#简单模式" class="headerlink" title="简单模式"></a>简单模式</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">name: "myApp",</span><br><span class="line"></span><br><span class="line">version :"0.0.1"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="完整模式"><a href="#完整模式" class="headerlink" title="完整模式"></a>完整模式</h1><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="attr">"name"</span>: <span class="string">"myApp"</span>,</span><br><span class="line"><span class="attr">"version"</span>: <span class="string">"0.0.0"</span>,</span><br><span class="line"><span class="attr">"author"</span> : <span class="string">"simple"</span>,</span><br><span class="line"><span class="attr">"description"</span> : <span class="string">"Nodejs Package json介绍"</span>,</span><br><span class="line"><span class="attr">"keywords"</span> : <span class="string">"javascript, nodejs"</span>,</span><br><span class="line"><span class="attr">"respository"</span> : &#123;</span><br><span class="line"><span class="attr">"type"</span> :<span class="string">"git"</span>,</span><br><span class="line"><span class="attr">"url"</span> :<span class="string">"http://path/to/url"</span></span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="attr">"bugs"</span> : &#123;</span><br><span class="line"><span class="attr">"url"</span> : <span class="string">"http://path/to/bug"</span>,</span><br><span class="line"><span class="attr">"email"</span> : <span class="string">"bug@example.com"</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">"contributors"</span> : [</span><br><span class="line"></span><br><span class="line">&#123;<span class="attr">"name"</span> : <span class="string">"zhangsan"</span>, <span class="attr">"email"</span> : <span class="string">"zhangsan@example.com"</span></span><br><span class="line"></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="string">"license"</span> : <span class="string">"MIT"</span>,</span><br><span class="line"><span class="attr">"engines"</span> : &#123; <span class="attr">"node"</span> : <span class="string">"0.10.x"</span>&#125;,</span><br><span class="line"><span class="attr">"script"</span> : &#123;</span><br><span class="line"><span class="attr">"start"</span> : <span class="string">"node index.js"</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">"private"</span>: <span class="literal">true</span>,</span><br><span class="line"><span class="attr">"scripts"</span>: &#123;</span><br><span class="line"><span class="attr">"start"</span>: <span class="string">"node ./bin/www"</span></span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="attr">"dependencies"</span>: &#123;</span><br><span class="line"><span class="attr">"express"</span>: <span class="string">"~4.9.0"</span>,</span><br><span class="line"><span class="attr">"body-parser"</span>: <span class="string">"~1.8.1"</span>,</span><br><span class="line"><span class="attr">"cookie-parser"</span>: <span class="string">"~1.3.3"</span>,</span><br><span class="line"><span class="attr">"morgan"</span>: <span class="string">"~1.3.0"</span>,</span><br><span class="line"><span class="attr">"serve-favicon"</span>: <span class="string">"~2.1.3"</span>,</span><br><span class="line"><span class="attr">"debug"</span>: <span class="string">"~2.0.0"</span>,</span><br><span class="line"><span class="attr">"jade"</span>: <span class="string">"~1.6.0"</span></span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="attr">"devDependencies"</span>: &#123;</span><br><span class="line"><span class="attr">"bower"</span> : <span class="string">"~1.2.8"</span>,</span><br><span class="line"><span class="attr">"grunt"</span> : <span class="string">"~0.4.1"</span>,</span><br><span class="line"><span class="attr">"grunt-contrib-concat"</span> : <span class="string">"~0.3.0"</span>,</span><br><span class="line"><span class="attr">"grunt-contrib-jshint"</span> : <span class="string">"~0.7.2"</span>,</span><br><span class="line"><span class="attr">"grunt-contrib-uglify"</span> : <span class="string">"~0.2.7"</span>,</span><br><span class="line"><span class="attr">"grunt-contrib-clean"</span> : <span class="string">"~0.5.0"</span>,</span><br><span class="line"><span class="attr">"browserify"</span> : <span class="string">"2.36.1"</span>,</span><br><span class="line"><span class="attr">"grunt-browserify"</span> : <span class="string">"~1.3.0"</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>1.scripts</strong><br>运行指定脚本命令。</p>
-<p><strong>2.</strong><br><strong>npm install express –save</strong><br><strong>npm install express –save-dev</strong><br><strong>上面代码表示单独安装express模块，</strong><br>–save参数表示将该模块写入dependencies属性，<br>–save-dev表示将该模块写入devDependencies属性。</p>
-<p><strong>3.关于指定版本号</strong><br>_（1）波浪号~（tilde）+指定版本：比如~1.2.2，表示安装1.2.x的最新版本（不低于1.2.2），但是不安装1.3.x，也就是说安装时不改变大版本号和次要版本号。 _</p>
-<p>转载自 <a href="http://www.cnphp6.com/archives/57964?utm_source=tuicool" target="_blank" rel="noopener">http://www.cnphp6.com/archives/57964?utm_source=tuicool</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/10/04/NodeJS中 package.json 解析/#comment">评论</a>
         </span>
       </span>
     </div>

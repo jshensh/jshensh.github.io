@@ -61,6 +61,76 @@
 
   
     
+    <h3 class="article-title"><a href="/2014/08/16/AMH 4.2 虚拟主机面板 安装教程/"><span>AMH 4.2 虚拟主机面板 安装教程</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/08/16/AMH 4.2 虚拟主机面板 安装教程/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-08-15T23:11:04.000Z">
+          2014-08-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>一、面板介绍</strong><br>Amysql Host 面板，简称AMH，是一个基于Nginx架构的类似 虚拟主机 独立面板。这个面板安装简单，非常适合Linux新手，以及一些恐惧命令行的Linux VPS用户。<br>AMH的主要功能有：在线划分虚拟主机（多个网站）、FTP帐号自定义、MYSQL在线创建和管理、数据备份（支持本地和异地备份）、任务计划（crontab自动任务）、以及模块扩展，可以通过AMH官方在面板的基础功能上扩展更多的功能。面板支持在线升级，减少工作量，更傻瓜化、简单化。<br>Amysql Host 官方：<a href="http://amysql.com/AMH.htm" target="_blank" rel="noopener">http://amysql.com/AMH.htm</a> AMH<br>演示：<a href="http://108.61.194.60:8888/index.php?c=index&amp;a=login" target="_blank" rel="noopener">http://108.61.194.60:8888/index.php?c=index&a;=login</a><br>账号： amh，密码：amh_password</p>
+<p><strong>二、面板模块</strong><br>AMH已全面支持运行于 Centos Ubuntu ( Ubuntu 12系列或以下) Debian<br>AMH含有模块 Nginx 1.4.7 MySQL 5.5.34 PHP 5.3.27 PureFTPd 1.0.36</p>
+<p><strong>三、安装</strong><br>请使用纯净的系统,不要存在类似的服务,比如WDCP 或者其他编译的程序<br>第一步:使用root账号连接SSH<br>第二步:下载并运行AMH安装脚本<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://amysql.com/file/AMH/4.2/amh.sh; chmod 775 amh.sh; ./amh.sh 2&gt;&amp;1 | tee amh.log;</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://api.ifdream.net/linux/amh/amh.sh; chmod 775 amh.sh; ./amh.sh 2&gt;&amp;1 | tee amh.log;</span><br></pre></td></tr></table></figure></p>
+<p>根据提示输入选择1~3选项。1为安装amh，2为卸载amh，3为退出不做操作。如下图：<br><a href="/uploads/2014/08/QQ截图20140722234319.png"><img src="/uploads/2014/08/QQ截图20140722234319.png" alt="QQ截图20140722234319"></a><br>输入1回车，接着输入MySQL Root密码与AMH面板管理员密码即进入安装流程，如下图。<br><a href="/uploads/2014/08/QQ截图20140722234509.png"><img src="/uploads/2014/08/QQ截图20140722234509.png" alt="QQ截图20140722234509"></a><br>安装过程大约需10~20分钟(以服务器性能为准)，最后如看到安装成功提示，说明系统已安装完成。</p>
+<p>访问<a href="http://ip:8888" target="_blank" rel="noopener">http://ip:8888</a> 即可进入AMH web端管理，默认账号为admin。如下图<br><a href="/uploads/2014/08/QQ截图20140723002730.png"><img src="/uploads/2014/08/QQ截图20140723002730.png" alt="QQ截图20140723002730"></a></p>
+<p><strong>四、AMH面板 常用命令</strong><br>以下命令适合在SSH中操作。<br>虚拟主机 : amh host<br>PHP管理 : amh php<br>Nginx管理 : amh nginx<br>MySQL管理 : amh mysql<br>FTP管理 : amh ftp<br>数据备份 : amh backup<br>一键还原 : amh revert<br>参数设置 : amh SetParam<br>模块扩展 : amh module<br>任务计划 : amh crontab<br>在线升级 : amh upgrade<br>面板信息 : amh info</p>
+<p><strong>五、AMH相关目录</strong><br>网站目录 : /home/wwwroot<br>Nginx目录 : /usr/local/nginx<br>PHP目录 : /usr/local/php<br>MySQL目录 : /usr/local/mysql<br>MySQL数据目录 : /usr/local/mysql/data</p>
+<p>转载自 <a href="http://blog.ifdream.net/linux/amh42/" target="_blank" rel="noopener">http://blog.ifdream.net/linux/amh42/</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2014/08/16/AMH 4.2 虚拟主机面板 安装教程/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2014/08/15/免费超大量邮件发送服务Mailgun提供SMTP和API支持/"><span>免费超大量邮件发送服务Mailgun提供SMTP和API支持</span></a></h3>
     
   
@@ -772,69 +842,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2014/07/02/关于百度音乐的 lrc 歌词 api/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2014/06/27/无聊帮童鞋做的 vb 作业/"><span>无聊帮童鞋做的 vb 作业</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2014/06/27/无聊帮童鞋做的 vb 作业/" rel="bookmark">
-        <time class="entry-date published" datetime="2014-06-27T07:28:38.000Z">
-          2014-06-27
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>表示刚知道高中有会考。。。会考考信息。。。信息考 vb。。。下面是题和我做出的答案，有兴趣的可以讨论一下。。。说实话暑假的确挺无聊的。。。</p>
-<p><a href="/uploads/2014/06/1-2.jpg"><img src="/uploads/2014/06/1-2.jpg" alt="1-2"></a><br><a href="/uploads/2014/06/1.jpg"><img src="/uploads/2014/06/1-1024x546.jpg" alt="1"></a><br><a href="/uploads/2014/06/2.jpg"><img src="/uploads/2014/06/2-1024x546.jpg" alt="2"></a><br><a href="/uploads/2014/06/3-4.jpg"><img src="/uploads/2014/06/3-4.jpg" alt="3-4"></a><br><a href="/uploads/2014/06/3.jpg"><img src="/uploads/2014/06/3-1024x546.jpg" alt="3"></a><br><a href="/uploads/2014/06/4.jpg"><img src="/uploads/2014/06/4-1024x546.jpg" alt="4"></a><br><a href="/uploads/2014/06/5-6.jpg"><img src="/uploads/2014/06/5-6.jpg" alt="5-6"></a><br><a href="/uploads/2014/06/5.jpg"><img src="/uploads/2014/06/5-1024x549.jpg" alt="5"></a><br><a href="/uploads/2014/06/6.jpg"><img src="/uploads/2014/06/6-1024x546.jpg" alt="6"></a><br><a href="/uploads/2014/06/7-9.jpg"><img src="/uploads/2014/06/7-9.jpg" alt="7-9"></a><br><a href="/uploads/2014/06/7.jpg"><img src="/uploads/2014/06/7-1024x546.jpg" alt="7"></a><br><a href="/uploads/2014/06/8.jpg"><img src="/uploads/2014/06/8-1024x546.jpg" alt="8"></a><br><a href="/uploads/2014/06/9.jpg"><img src="/uploads/2014/06/9-1024x546.jpg" alt="9"></a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/杂七杂八/">杂七杂八</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2014/06/27/无聊帮童鞋做的 vb 作业/#comment">评论</a>
         </span>
       </span>
     </div>
