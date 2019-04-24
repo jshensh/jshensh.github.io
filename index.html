@@ -81,13 +81,15 @@
   <div class="article-content">
     <div class="entry">
       
-        <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+        <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><hr>
+<ol>
 <li>如果用作旁路由，则 N1 接主路由的的LAN口</li>
 <li>如果用作主路由，则 N1 接入交换机或AP模式的路由器或不插 WAN 口的路由器</li>
 <li>以上的交换机或路由器设置为 192.168.1.X，但不能为 192.168.1.1，关闭除了 N1 外所有设备的 dhcp 服务</li>
 <li>开 udp 转发，请：<code>opkg install iptables-mod-tproxy</code></li>
 </ol>
-<h2 id="制作镜像"><a href="#制作镜像" class="headerlink" title="制作镜像"></a>制作镜像</h2><ol>
+<h2 id="制作镜像"><a href="#制作镜像" class="headerlink" title="制作镜像"></a>制作镜像</h2><hr>
+<ol>
 <li>首先创建目录 openwrt</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir openwrt</span><br></pre></td></tr></table></figure>
@@ -144,7 +146,7 @@
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">umount /media</span><br><span class="line">losetup -d /dev/loop0</span><br></pre></td></tr></table></figure>
 <p>现在 Armbian_5.60_Aml-s9xxx_Debian_stretch_default_4.18.7_20180922.img 已被修改为 openwrt 系统。</p>
-<h2 id="路由相关设置"><a href="#路由相关设置" class="headerlink" title="路由相关设置"></a>路由相关设置</h2><p><br></p>
+<h2 id="路由相关设置"><a href="#路由相关设置" class="headerlink" title="路由相关设置"></a>路由相关设置</h2><hr>
 <h3 id="主路由设置"><a href="#主路由设置" class="headerlink" title="主路由设置"></a>主路由设置</h3><ol>
 <li>进入 Network –&gt; Interfaces</li>
 <li>编辑 lan 口</li>
