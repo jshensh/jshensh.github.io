@@ -61,6 +61,68 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/07/02/PHP中数字检测 is_numeric 与 ctype_digit 的区别介绍/"><span>PHP中数字检测 is_numeric 与 ctype_digit 的区别介绍</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/07/02/PHP中数字检测 is_numeric 与 ctype_digit 的区别介绍/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-07-01T21:47:57.000Z">
+          2013-07-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>PHP中的两个函数is_numeric和ctype_digit都是检测字符串是否是数字，但也存在一点区别<br>is_numeric：检测是否为数字字符串，可为负数和小数<br>ctype_digit：检测字符串中的字符是否都是数字，负数和小数会检测不通过<br>注意，参数一定要是字符串，如果不是字符串，则会返回0/FASLE<br>下面是测试例子：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="number">0001111222</span> ; </span><br><span class="line">var_dump($a); </span><br><span class="line">var_dump(is_numeric($a)); <span class="comment">//true </span></span><br><span class="line">var_dump(ctype_digit($a)); <span class="comment">//true </span></span><br><span class="line">$a = <span class="number">0.1</span> ; </span><br><span class="line">var_dump($a); </span><br><span class="line">var_dump(is_numeric($a)); <span class="comment">//true </span></span><br><span class="line">var_dump(ctype_digit($a)); <span class="comment">//false </span></span><br><span class="line">$a = <span class="number">-1</span> ; </span><br><span class="line">var_dump($a); </span><br><span class="line">var_dump(is_numeric($a)); <span class="comment">//true </span></span><br><span class="line">var_dump(ctype_digit($a)); <span class="comment">//false </span></span><br><span class="line">$a = <span class="string">'a'</span> ; </span><br><span class="line">var_dump($a); </span><br><span class="line">var_dump(is_numeric($a)); <span class="comment">//false </span></span><br><span class="line">var_dump(ctype_digit($a)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/07/02/PHP中数字检测 is_numeric 与 ctype_digit 的区别介绍/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/07/01/成功申请Payoneer美国万事达信用卡和激活开通美国银行账号全过程/"><span>成功申请Payoneer美国万事达信用卡和激活开通美国银行账号全过程</span></a></h3>
     
   
@@ -721,68 +783,6 @@ destination表示目的地，即存放的文件或远程目的地
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/06/11/神舟十号发射成功！/"><span>神舟十号发射成功！</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/06/11/神舟十号发射成功！/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-06-11T02:00:01.000Z">
-          2013-06-11
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>今天下午17时38分，神舟十号载人飞船发射成功！执行本次发射任务的是长征二号F遥十火箭，该火箭于昨天下午正式加注燃料并做好了发射前的准备工作。<br>早在今天下午16时左右三名航天员就在辅助人员的协助下在辅助人员的协助下，这三名航天员分别是张晓光、王亚平以及聂海胜，其中聂海胜的军衔为少将，成为我国首位进入太空的将军。<br>根据此前的介绍来看，神舟十号将在轨飞行15天。飞船入轨后，将按照预定程序，先后与天宫一号进行1次自动交会对接和1次航天员手控交会对接。组合体飞行期间，航天员进驻天宫一号，并开展航天医学实验、技术试验及太空授课活动。完成组合体飞行后，飞船撤离并返回着陆场，天宫一号转至长期运营轨道。<br>目前，天宫一号运行在预定的交会对接轨道上，状态稳定，设备工作正常，推进剂等消耗性资源充足，满足交会对接任务要求和航天员进驻条件。<br><a href="http://bcs.duapp.com/sxbdotpw/s_ab127d2d1e4e4a51add7cdf771836951.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_ab127d2d1e4e4a51add7cdf771836951.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_cc55671af458423084c719574f21e3cb.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_cc55671af458423084c719574f21e3cb.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_c218c305e3bd4596a2ba0dcf0c52df41.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_c218c305e3bd4596a2ba0dcf0c52df41.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_72050e22e9964a8b803c49e78e824c98.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_72050e22e9964a8b803c49e78e824c98.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_a38c61f9a3ba44ad994b90de2f3bf57b.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_a38c61f9a3ba44ad994b90de2f3bf57b.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_1427533423da42c0b2b1337609dc6b44.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_1427533423da42c0b2b1337609dc6b44.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_ed5a46f6d5ee4d029d49c083682d482b.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_ed5a46f6d5ee4d029d49c083682d482b.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_bfdda0854bf04dacbc74720e4943ff0a.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_bfdda0854bf04dacbc74720e4943ff0a.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_f3a9ef55b97140728316cf42ef56cf39.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_f3a9ef55b97140728316cf42ef56cf39.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_1fa88193ea5d4aec914f9a6f07c61d1c.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_1fa88193ea5d4aec914f9a6f07c61d1c.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_1fa88193ea5d4aec914f9a6f07c61d1c.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_1fa88193ea5d4aec914f9a6f07c61d1c.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_c44533b4d26a4e5bb4cea82bf6f21e15.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_c44533b4d26a4e5bb4cea82bf6f21e15.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_2593e427be28494aab3aa49c55c2787c.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_2593e427be28494aab3aa49c55c2787c.jpg" alt="image"></a><br><a href="http://bcs.duapp.com/sxbdotpw/s_7763702b912b48fd9b1c438747253a29.jpg" target="_blank" rel="noopener"><img src="http://bcs.duapp.com/sxbdotpw/s_7763702b912b48fd9b1c438747253a29.jpg" alt="image"></a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/资讯/">资讯</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/06/11/神舟十号发射成功！/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -800,7 +800,7 @@ destination表示目的地，即存放的文件或远程目的地
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2019 403 Forbidden
+    &copy; 2020 403 Forbidden
     
   </p>
 </footer>

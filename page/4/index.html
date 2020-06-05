@@ -61,6 +61,79 @@
 
   
     
+    <h3 class="article-title"><a href="/2016/04/06/树莓派系统的备份/"><span>树莓派系统的备份</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/04/06/树莓派系统的备份/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-04-06T02:36:15.000Z">
+          2016-04-06
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>本文所在环境：<br>PC：Ubuntu 15.10 live<br>Pi2：Centos 7.2，已将 Boot 分离（可参考教程 <a href="http://futa.ooo/2295.html">将树莓派系统迁移至 U 盘上</a>）</p>
+<p><strong>第一步，压缩系统分区</strong><br>打开 GParted<br><a href="/uploads/2016/04/Screenshot-from-2016-04-06-17-54-44.png"><img src="/uploads/2016/04/Screenshot-from-2016-04-06-17-54-44.png" alt="Screenshot from 2016-04-06 17-54-44"></a><br>切换至你的设备<br><a href="/uploads/2016/04/Screenshot-from-2016-04-06-17-56-50.png"><img src="/uploads/2016/04/Screenshot-from-2016-04-06-17-56-50.png" alt="Screenshot from 2016-04-06 17-56-50"></a><br>卸载设备<br><a href="/uploads/2016/04/Screenshot-from-2016-04-06-17-57-24.png"><img src="/uploads/2016/04/Screenshot-from-2016-04-06-17-57-24.png" alt="Screenshot from 2016-04-06 17-57-24"></a><br>按需压缩<br><a href="/uploads/2016/04/Screenshot-from-2016-04-06-17-58-23.png"><img src="/uploads/2016/04/Screenshot-from-2016-04-06-17-58-23.png" alt="Screenshot from 2016-04-06 17-58-23"></a><br>有个警告提示，Apply 即可<br><a href="/uploads/2016/04/Screenshot-from-2016-04-06-17-59-05.png"><img src="/uploads/2016/04/Screenshot-from-2016-04-06-17-59-05.png" alt="Screenshot from 2016-04-06 17-59-05"></a><br>等待操作完成即可进行下一步操作<br><a href="/uploads/2016/04/Screenshot-from-2016-04-06-10-02-59.png"><img src="/uploads/2016/04/Screenshot-from-2016-04-06-10-02-59.png" alt="Screenshot from 2016-04-06 10-02-59"></a></p>
+<p><strong>第二步，导出全盘</strong><br><a href="/uploads/2016/04/Screenshot-from-2016-04-06-10-16-07.png"><img src="/uploads/2016/04/Screenshot-from-2016-04-06-10-16-07.png" alt="Screenshot from 2016-04-06 10-16-07"></a><br>注：</p>
+<ol>
+<li>所有操作均需提权后才能进行</li>
+</ol>
+<ol start="2">
+<li>fdisk -l 出来最后分区的 End Block 是 dd 中的 count 参数</li>
+</ol>
+<p><strong>第三步，还原分区（可选）</strong><br>按第一步操作，还原分区大小</p>
+<p><strong>还原备份文件</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=/YourPath/img.img of=/dev/YourDevice</span><br></pre></td></tr></table></figure></p>
+<p>即第二步中的 if of 参数对换并去掉其他的无用参数</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Linux-Desktop/">Linux Desktop</a>, <a href="/categories/Linux-Desktop/树莓派/">树莓派</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/04/06/树莓派系统的备份/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2016/04/03/树莓派教程：利用 Ngrok 穿透内网访问树莓派/"><span>树莓派教程：利用 Ngrok 穿透内网访问树莓派</span></a></h3>
     
   
@@ -700,76 +773,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/03/01/jquery事件重复绑定解决办法/"><span>jquery事件重复绑定解决办法</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/03/01/jquery事件重复绑定解决办法/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-03-01T07:09:43.000Z">
-          2016-03-01
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <ol>
-<li><p>$.fn.live 重复绑定<br>解决：使用die()方法，在live()方法绑定前，将此元素上的前面被绑定的事件统统解除，然后再通过live()方法绑定新的事件。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//先通过die()方法解除，再通过live()绑定</span></span><br><span class="line">$(“#selectAll”).die().live(“click”,function()&#123;</span><br><span class="line"><span class="comment">//事件运行代码</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>click等事件<br>解决:使用unbind(“click”)方法先解除绑定的事件再绑定新事件,即在给对象绑定事件之前先移除该对象上的原有事件<br>完整测试代码:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"box"</span>&gt;</span><br><span class="line">    &lt;button id=<span class="string">"test"</span>&gt;重复绑定触发按钮&lt;<span class="regexp">/button&gt;(点击此按钮两次及以上,即可触发重复绑定,再点击下面的按钮就可看到结果)</span></span><br><span class="line"><span class="regexp">    &lt;br/</span>&gt;<span class="xml"><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></span><br><span class="line">    &lt;button id=<span class="string">"test1"</span>&gt;click重复绑定测试按钮&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button id="test2"&gt;click绑定一次测试按钮&lt;/</span>button&gt;</span><br><span class="line">    &lt;button id=<span class="string">"test3"</span>&gt;live重复绑定测试按钮&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;button id="test4"&gt;live绑定一次测试按钮&lt;/</span>button&gt;</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;script type="text/</span>javascript<span class="string">" src="</span>../<span class="keyword">static</span>/jquery<span class="number">-1.6</span><span class="number">.1</span>.min.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">&lt;script type="</span>text/javascript<span class="string">"&gt;</span></span><br><span class="line"><span class="string">    $(function()&#123;</span></span><br><span class="line"><span class="string">        var i = 1,j=1,k=1,h=1,n=1;</span></span><br><span class="line"><span class="string">        var triggerBind = function()&#123;</span></span><br><span class="line">            $("#test1").click(function() &#123;</span><br><span class="line">                alert(<span class="string">"click未解除绑定重复绑定执行第"</span> + j++ + <span class="string">"次"</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">            $(<span class="string">"#test2"</span>).unbind(<span class="string">'click'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                alert(<span class="string">"click解除绑定执行"</span> + k++ + <span class="string">"次"</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">            </span><br><span class="line">            $(<span class="string">"#test3"</span>).live(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                alert(<span class="string">"live未解除绑定重复执行第"</span> + h++ + <span class="string">"次"</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">            $(<span class="string">"#test4"</span>).die().live(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                alert(<span class="string">"live解除绑定后执行"</span> + n++ + <span class="string">"次"</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;                </span><br><span class="line">        $(<span class="string">"#test"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            triggerBind();</span><br><span class="line">            alert(<span class="string">"触发绑定点击第"</span> + i++ + <span class="string">"次"</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>转载自 <a href="http://www.cnblogs.com/heiniuhaha/archive/2011/08/07/jquery-event-repeat-bind.html" target="_blank" rel="noopener">http://www.cnblogs.com/heiniuhaha/archive/2011/08/07/jquery-event-repeat-bind.html</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/03/01/jquery事件重复绑定解决办法/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -787,7 +790,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2019 403 Forbidden
+    &copy; 2020 403 Forbidden
     
   </p>
 </footer>

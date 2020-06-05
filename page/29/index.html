@@ -61,6 +61,69 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/05/01/本博客新增加“历史上的今天”小工具栏/"><span>本博客新增加“历史上的今天”小工具栏</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/05/01/本博客新增加“历史上的今天”小工具栏/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-05-01T05:58:34.000Z">
+          2013-05-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>效果肿么样亲们 :)</p>
+<p>源码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php">	header(<span class="string">"Content-type: text/html; charset=utf-8"</span>);</span></span><br><span class="line"><span class="php">	<span class="function"><span class="keyword">function</span> <span class="title">html_get_contents</span><span class="params">($url)</span> </span>&#123;</span></span><br><span class="line"><span class="php">		$ch = curl_init();</span></span><br><span class="line"><span class="php">		curl_setopt($ch, CURLOPT_URL, $url);</span></span><br><span class="line"><span class="php">		curl_setopt($ch, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</span></span><br><span class="line"><span class="php">		curl_setopt($ch, CURLOPT_HEADER, <span class="number">0</span>);</span></span><br><span class="line"><span class="php">		curl_setopt($ch, CURLOPT_TIMEOUT, <span class="number">5</span>);</span></span><br><span class="line"><span class="php">		$output = curl_exec($ch);</span></span><br><span class="line"><span class="php">		curl_close($ch);</span></span><br><span class="line"><span class="php">		<span class="keyword">if</span> ($output===<span class="keyword">false</span>) &#123;</span></span><br><span class="line"><span class="php">			<span class="keyword">return</span> <span class="keyword">false</span>;</span></span><br><span class="line"><span class="php">		&#125;</span></span><br><span class="line"><span class="php">		<span class="keyword">return</span> $output;</span></span><br><span class="line"><span class="php">	&#125;</span></span><br><span class="line"><span class="php">	$wiki=html_get_contents(<span class="string">'http://zh.m.wikipedia.org/zh-cn/Wikipedia:%E9%A6%96%E9%A1%B5'</span>);</span></span><br><span class="line"><span class="php">	<span class="keyword">if</span> ($wiki===<span class="keyword">false</span>) &#123;</span></span><br><span class="line"><span class="php">      <span class="keyword">echo</span> <span class="string">&lt;&lt;&lt;eof</span></span></span><br><span class="line"><span class="php">&lt;p&gt;无法获取维基百科页面，请 &lt;a href=<span class="string">"#php_widget-2"</span> id=<span class="string">"reloadwiki"</span>&gt;刷新&lt;/a&gt; 重试&lt;/p&gt;</span></span><br><span class="line"><span class="php">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="php">$(<span class="string">"#reloadwiki"</span>).click( <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="php">$(<span class="string">"#wikipedia"</span>).html(<span class="string">"正在刷新，请稍候"</span>);</span></span><br><span class="line"><span class="php">$.get(<span class="string">"/wiki.php"</span>,<span class="function"><span class="keyword">function</span><span class="params">(wiki)</span> </span>&#123;</span></span><br><span class="line"><span class="php">$(<span class="string">"#wikipedia"</span>).html(wiki);</span></span><br><span class="line"><span class="php">&#125;);</span></span><br><span class="line"><span class="php">&#125;);</span></span><br><span class="line"><span class="php">&lt;/script&gt;</span></span><br><span class="line"><span class="php">eof;</span></span><br><span class="line"><span class="php">      <span class="keyword">exit</span>();</span></span><br><span class="line"><span class="php">	&#125;</span></span><br><span class="line"><span class="php">	preg_match_all(<span class="string">"/历史上的今天&lt;\/span&gt;&lt;\/h2&gt;(.*?)更多历史事件&lt;\/a&gt;&lt;\/li&gt;\n&lt;\/ul&gt;/isu"</span>,$wiki,$output);</span></span><br><span class="line"><span class="php"><span class="keyword">echo</span> str_replace(<span class="keyword">array</span>(<span class="string">'&lt;dl&gt;'</span>,<span class="string">'&lt;/dl&gt;'</span>,<span class="string">'&lt;dt&gt;'</span>,<span class="string">'&lt;/dt&gt;'</span>,<span class="string">'&lt;dd&gt;'</span>,<span class="string">'&lt;/dd&gt;'</span>,<span class="string">'src="//'</span>),<span class="keyword">array</span>(<span class="string">'&lt;p&gt;'</span>,<span class="string">'&lt;/p&gt;'</span>,<span class="string">'&lt;b&gt;'</span>,<span class="string">'&lt;/b&gt;'</span>,<span class="string">'&lt;br /&gt;'</span>,<span class="string">'&lt;br /&gt;'</span>,<span class="string">'src="http://'</span>),preg_replace(<span class="string">"/( class=\".*?\"|&lt;span(.*?)&gt;|&lt;div(.*?)&gt;|&lt;\/div&gt;|历史上的今天&lt;\/span&gt;&lt;\/h2&gt;)/"</span>,<span class="string">''</span>,preg_replace(<span class="string">'/href="\/wiki\/(.*?)"/isu'</span>,<span class="string">'href="http://zh.wikipedia.org/wiki/\\1" target="_blank" nofollow="nofollow"'</span>,$output[<span class="number">0</span>][<span class="number">0</span>])));</span></span><br><span class="line"><span class="php"><span class="meta">?&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/程序发布/">程序发布</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/05/01/本博客新增加“历史上的今天”小工具栏/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/04/28/简单解决网站中无法使用SMTP发送邮件的问题(转载)/"><span>简单解决网站中无法使用SMTP发送邮件的问题(转载)</span></a></h3>
     
   
@@ -698,7 +761,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2019 403 Forbidden
+    &copy; 2020 403 Forbidden
     
   </p>
 </footer>

@@ -61,6 +61,77 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/10/09/开启Nginx的目录文件列表功能/"><span>开启Nginx的目录文件列表功能</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/10/09/开启Nginx的目录文件列表功能/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-10-08T20:15:48.000Z">
+          2013-10-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><strong>ngx_http_autoindex_module  此模块用于自动生成目录列表，ngx_http_autoindex_module只在 ngx_http_index_module模块未找到索引文件时发出请求.</strong></p>
+<p>nginx默认是不允许列出整个目录的。</p>
+<p><strong>开启目录列表：</strong><br>打开nginx.conf文件，在location server 或 http段中加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">autoindex on;</span><br></pre></td></tr></table></figure></p>
+<p>具体：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    autoindex on;//自动显示目录</span><br><span class="line">    autoindex_exact_size off;//人性化方式显示文件大小否则以byte显示</span><br><span class="line">    autoindex_localtime on;//按服务器时间显示，否则以gmt时间显示</span><br><span class="line"></span><br><span class="line">    server_names_hash_bucket_size 128;</span><br><span class="line">    client_header_buffer_size 32k;</span><br><span class="line">    large_client_header_buffers 4 32k;</span><br><span class="line">    client_max_body_size 8m;</span><br><span class="line">    limit_zone one $binary_remote_addr 32k;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    keepalive_timeout  60;</span><br><span class="line">    tcp_nodelay on;</span><br><span class="line"></span><br><span class="line">    gzip  on;</span><br><span class="line">    gzip_min_length  1k;</span><br><span class="line">    gzip_buffers     4 16k;</span><br><span class="line">    gzip_http_version 1.0;</span><br><span class="line">    gzip_comp_level 2;</span><br><span class="line">    gzip_types       text/plain application/x-javascript text/css application/xml;</span><br><span class="line">    gzip_vary on;</span><br><span class="line"></span><br><span class="line">    log_format  wwwlogs  &apos;$remote_addr - $remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for&apos;;</span><br><span class="line">    #include default.conf;</span><br><span class="line">    include vhost/*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外两个参数最好也加上去:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">autoindex_exact_size off;</span><br></pre></td></tr></table></figure></p>
+<p>默认为on，显示出文件的确切大小，单位是bytes。<br>改为off后，显示出文件的大概大小，单位是kB或者MB或者GB<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">autoindex_localtime on;</span><br></pre></td></tr></table></figure></p>
+<p>默认为off，显示的文件时间为GMT时间。<br>改为on后，显示的文件时间为文件的服务器时间</p>
+<p>配置Nginx目录列表的方法详细参照:<a href="http://wiki.nginx.org/NginxChsHttpAutoindexModule" target="_blank" rel="noopener">http://wiki.nginx.org/NginxChsHttpAutoindexModule</a></p>
+<p>如果想希望目录列表支持header,footer则可以安装三方插件: <a href="http://wiki.nginx.org/NginxNgxFancyIndex" target="_blank" rel="noopener">http://wiki.nginx.org/NginxNgxFancyIndex</a></p>
+<p><a href="/uploads/201310//09090.png"><img src="/uploads/201310//09090.png" alt="09090"></a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/10/09/开启Nginx的目录文件列表功能/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/10/09/演讲稿，暂存/"><span>演讲稿，暂存</span></a></h3>
     
   
@@ -618,70 +689,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/09/30/求各种前端大神啊啊啊/"><span>求各种前端大神啊啊啊</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/09/30/求各种前端大神啊啊啊/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-09-30T10:26:24.000Z">
-          2013-09-30
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>报了学校的网页制作班。。。现在各种后悔啊。。。尼玛第二节课就让我们做这种东西。。。什么意思啊尼玛。。。求各位大神帮忙搞定啊啊啊啊啊 = =</p>
-<p>做完了哈哈哈，下载：<a href="/uploads/201310//2013-10-02.zip">2013-10-02</a>，在线版（本人实验室，用的 Host1Free，打不开见怪不怪）：<a href="http://lab.imjs.work/2013-10-02" target="_blank" rel="noopener">http://lab.imjs.work/2013-10-02</a></p>
-<p>附素材和效果图：<br><a href="/uploads/201309//zuoye.zip">素材下载</a><br><a href="/uploads/201309//11.png"><img src="/uploads/201309//11.png" alt="11"></a><br><a href="/uploads/201309//12.png"><img src="/uploads/201309//12.png" alt="12"></a><br><a href="/uploads/201309//13.png"><img src="/uploads/201309//13.png" alt="13"></a><br><a href="/uploads/201309//14.png"><img src="/uploads/201309//14.png" alt="14"></a><br><a href="/uploads/201309//15.png"><img src="/uploads/201309//15.png" alt="15"></a><br><a href="/uploads/201309//16.png"><img src="/uploads/201309//16.png" alt="16"></a><br><a href="/uploads/201309//17.png"><img src="/uploads/201309//17.png" alt="17"></a><br><a href="/uploads/201309//18.png"><img src="/uploads/201309//18.png" alt="18"></a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/09/30/求各种前端大神啊啊啊/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -699,7 +706,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2019 403 Forbidden
+    &copy; 2020 403 Forbidden
     
   </p>
 </footer>
