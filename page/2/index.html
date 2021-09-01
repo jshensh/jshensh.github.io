@@ -61,6 +61,69 @@
 
   
     
+    <h3 class="article-title"><a href="/2017/10/28/PHP无限级分类实现（递归+非递归）/"><span>PHP无限级分类实现（递归+非递归）</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/10/28/PHP无限级分类实现（递归+非递归）/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-10-28T04:21:16.000Z">
+          2017-10-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by PhpStorm.</span></span><br><span class="line"><span class="comment"> * User: qishou</span></span><br><span class="line"><span class="comment"> * Date: 15-8-2</span></span><br><span class="line"><span class="comment"> * Time: 上午12:00</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//准备数组，代替从数据库中检索出的数据(共有三个必须字段id,name,pid)</span></span><br><span class="line">header(<span class="string">"content-type:text/html;charset=utf-8"</span>);</span><br><span class="line">$categories = <span class="keyword">array</span>(</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">1</span>,<span class="string">'name'</span>=&gt;<span class="string">'电脑'</span>,<span class="string">'pid'</span>=&gt;<span class="number">0</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">2</span>,<span class="string">'name'</span>=&gt;<span class="string">'手机'</span>,<span class="string">'pid'</span>=&gt;<span class="number">0</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">3</span>,<span class="string">'name'</span>=&gt;<span class="string">'笔记本'</span>,<span class="string">'pid'</span>=&gt;<span class="number">1</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">4</span>,<span class="string">'name'</span>=&gt;<span class="string">'台式机'</span>,<span class="string">'pid'</span>=&gt;<span class="number">1</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">5</span>,<span class="string">'name'</span>=&gt;<span class="string">'智能机'</span>,<span class="string">'pid'</span>=&gt;<span class="number">2</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">6</span>,<span class="string">'name'</span>=&gt;<span class="string">'功能机'</span>,<span class="string">'pid'</span>=&gt;<span class="number">2</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">7</span>,<span class="string">'name'</span>=&gt;<span class="string">'超级本'</span>,<span class="string">'pid'</span>=&gt;<span class="number">3</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">8</span>,<span class="string">'name'</span>=&gt;<span class="string">'游戏本'</span>,<span class="string">'pid'</span>=&gt;<span class="number">3</span>),</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*======================非递归实现========================*/</span></span><br><span class="line">$tree = <span class="keyword">array</span>();</span><br><span class="line"><span class="comment">//第一步，将分类id作为数组key,并创建children单元</span></span><br><span class="line"><span class="keyword">foreach</span>($categories <span class="keyword">as</span> $category)&#123;</span><br><span class="line">    $tree[$category[<span class="string">'id'</span>]] = $category;</span><br><span class="line">    $tree[$category[<span class="string">'id'</span>]][<span class="string">'children'</span>] = <span class="keyword">array</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//第二步，利用引用，将每个分类添加到父类children数组中，这样一次遍历即可形成树形结构。</span></span><br><span class="line"><span class="keyword">foreach</span>($tree <span class="keyword">as</span> $key=&gt;$item)&#123;</span><br><span class="line">    <span class="keyword">if</span>($item[<span class="string">'pid'</span>] != <span class="number">0</span>)&#123;</span><br><span class="line">        $tree[$item[<span class="string">'pid'</span>]][<span class="string">'children'</span>][] = &amp;$tree[$key];<span class="comment">//注意：此处必须传引用否则结果不对</span></span><br><span class="line">        <span class="keyword">if</span>($tree[$key][<span class="string">'children'</span>] == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">unset</span>($tree[$key][<span class="string">'children'</span>]); <span class="comment">//如果children为空，则删除该children元素（可选）</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">////第三步，删除无用的非根节点数据</span></span><br><span class="line"><span class="keyword">foreach</span>($tree <span class="keyword">as</span> $key=&gt;$category)&#123;</span><br><span class="line">    <span class="keyword">if</span>($category[<span class="string">'pid'</span>] != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">unset</span>($tree[$key]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print_r($tree);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*======================递归实现========================*/</span></span><br><span class="line">$tree = $categories;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_attr</span><span class="params">($a,$pid)</span></span>&#123;</span><br><span class="line">    $tree = <span class="keyword">array</span>();                                <span class="comment">//每次都声明一个新数组用来放子元素</span></span><br><span class="line">    <span class="keyword">foreach</span>($a <span class="keyword">as</span> $v)&#123;</span><br><span class="line">        <span class="keyword">if</span>($v[<span class="string">'pid'</span>] == $pid)&#123;                      <span class="comment">//匹配子记录</span></span><br><span class="line">            $v[<span class="string">'children'</span>] = get_attr($a,$v[<span class="string">'id'</span>]); <span class="comment">//递归获取子记录</span></span><br><span class="line">            <span class="keyword">if</span>($v[<span class="string">'children'</span>] == <span class="keyword">null</span>)&#123;</span><br><span class="line">                <span class="keyword">unset</span>($v[<span class="string">'children'</span>]);             <span class="comment">//如果子元素为空则unset()进行删除，说明已经到该分支的最后一个元素了（可选）</span></span><br><span class="line">            &#125;</span><br><span class="line">            $tree[] = $v;                           <span class="comment">//将记录存入新数组</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $tree;                                  <span class="comment">//返回新数组</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;"</span>;</span><br><span class="line"></span><br><span class="line">print_r(get_attr($tree,<span class="number">0</span>));</span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://blog.csdn.net/qishouzhang/article/details/47204359" target="_blank" rel="noopener">http://blog.csdn.net/qishouzhang/article/details/47204359</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/10/28/PHP无限级分类实现（递归+非递归）/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2017/03/20/aria2配置示例/"><span>aria2配置示例</span></a></h3>
     
   
@@ -770,72 +833,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/08/09/针对 bs 的 collapse 写了个添加项的 func/"><span>针对 bs 的 collapse 写了个添加项的 func</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/08/09/针对 bs 的 collapse 写了个添加项的 func/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-08-09T09:42:58.000Z">
-          2016-08-09
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>最近在做个项目，用到了 bs 的 collapse，模拟了 select 的操作。但是其中选择的项不是很方便更改，于是写了个 function 来更改其中的 li。在这做个笔记，避免日后忘记，大神见笑。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> createPanel=<span class="function"><span class="keyword">function</span>(<span class="params">to,id,title,lis</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> collapseIn=<span class="keyword">typeof</span> <span class="built_in">arguments</span>[<span class="number">4</span>]!==<span class="string">"undefined"</span>?<span class="built_in">arguments</span>[<span class="number">4</span>]:$(<span class="string">"#"</span>+to+<span class="string">" .panel"</span>).length?<span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">    $(<span class="string">"#"</span>+to).append($(<span class="string">'&lt;div class="panel panel-default" id="panel_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'"&gt;&lt;div class="panel-heading" role="tab" id="heading_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'"&gt;&lt;h4 class="panel-title"&gt;&lt;a'</span>+(collapseIn?<span class="string">''</span>:<span class="string">' class="collapsed"'</span>)+<span class="string">' role="button" data-toggle="collapse" data-parent="#'</span>+to+<span class="string">'" href="#collapse_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'" aria-expanded="'</span>+(collapseIn?<span class="string">'false'</span>:<span class="string">'true'</span>)+<span class="string">'" aria-controls="collapse_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'"&gt;'</span>+title+<span class="string">'&lt;/a&gt;&lt;/h4&gt;&lt;/div&gt;&lt;div id="collapse_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'" class="panel-collapse collapse'</span>+(collapseIn?<span class="string">''</span>:<span class="string">' in'</span>)+<span class="string">'" role="tabpanel" aria-labelledby="heading_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'"&gt;&lt;ul class="list-group"&gt;'</span>+((<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">var</span> op=<span class="string">""</span>; <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> lis) &#123; op+=<span class="string">'&lt;li class="list-group-item" data-menuid="'</span>+i+<span class="string">'"&gt;'</span>+lis[i]+<span class="string">'&lt;/li&gt;'</span>; &#125; <span class="keyword">return</span> op; &#125;)())+<span class="string">'&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;'</span>));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>用法：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mixed createPanel ( string appendToDomId, mixed panelId, mixed title, object liData, [ bool collapseIn ] )</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel-group"</span> <span class="attr">id</span>=<span class="string">"subject"</span> <span class="attr">role</span>=<span class="string">"tablist"</span> <span class="attr">aria-multiselectable</span>=<span class="string">"true"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">createPanel(<span class="string">"subject"</span>,<span class="number">0</span>,<span class="string">"学科1"</span>,&#123;<span class="number">1</span>:<span class="string">"Chinese"</span>,<span class="number">2</span>:<span class="string">"English"</span>,<span class="number">3</span>:<span class="string">"German"</span>&#125;,<span class="literal">true</span>);</span><br><span class="line">createPanel(<span class="string">"subject"</span>,<span class="string">"1"</span>,<span class="string">"学科2"</span>,&#123;<span class="number">1</span>:<span class="string">"Physics"</span>,<span class="number">2</span>:<span class="string">"Economics"</span>&#125;);</span><br></pre></td></tr></table></figure>
-<p>我不忍吐槽 bs 的文档，汉化根本不完全。。。这是原文档链接 <a href="http://v3.bootcss.com/javascript/#collapse" target="_blank" rel="noopener">http://v3.bootcss.com/javascript/#collapse</a>。嗯，就这样吧。。。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/08/09/针对 bs 的 collapse 写了个添加项的 func/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -853,7 +850,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 403 Forbidden
+    &copy; 2021 403 Forbidden
     
   </p>
 </footer>

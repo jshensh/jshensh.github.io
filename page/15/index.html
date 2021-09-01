@@ -61,6 +61,70 @@
 
   
     
+    <h3 class="article-title"><a href="/2014/04/28/基于curl的并行请求，实现php中的伪多线程/"><span>基于curl的并行请求，实现php中的伪多线程</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2014/04/28/基于curl的并行请求，实现php中的伪多线程/" rel="bookmark">
+        <time class="entry-date published" datetime="2014-04-27T17:13:09.000Z">
+          2014-04-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 基于 curl_multi 的并行处理</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 使用示例</span></span><br><span class="line"><span class="comment"> * Helper_Multicurl::add_curl('url1', Helper_Multicurl::mk_curl('get', $url1));</span></span><br><span class="line"><span class="comment"> * Helper_Multicurl::add_curl('url2', Helper_Multicurl::mk_curl('get', $url2));</span></span><br><span class="line"><span class="comment"> * $ret = Helper_Multicurl::multi_exec();</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>  肖武 &lt;tsxw24<span class="doctag">@gmail</span>.com&gt;</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 2012-9-14 15:06 #multicurl.php</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Helper_Multicurl</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">private</span> $mh     = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">private</span> $arr_ch = <span class="keyword">array</span>();<span class="comment">//curl句柄列表</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建curl会话，返回curl句柄</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $type   请求方式，取值：get，post</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $url    url地址，可包含问号</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> array  $data   key-value对，post或get的参数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> array  $ex_arg 扩展参数,常用参数如下：</span></span><br><span class="line"><span class="comment">     * array(</span></span><br><span class="line"><span class="comment">     *  CURLOPT_COOKIE     =&gt; string 设定HTTP请求中"Cookie: "部分的内容。多个cookie用分号分隔，分号后带一个空格(例如， "fruit=apple; colour=red")。</span></span><br><span class="line"><span class="comment">     *  CURLOPT_REFERER    =&gt; string 请求头中"Referer: "的内容</span></span><br><span class="line"><span class="comment">     *  CURLOPT_USERAGENT  =&gt; string "User-Agent: "头的字符串。如：“Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)”</span></span><br><span class="line"><span class="comment">     *  CURLOPT_HTTPHEADER =&gt; array  header头列表，如：array('host:http://abc.com','Content-type: text/plain')</span></span><br><span class="line"><span class="comment">     *  CURLOPT_TIMEOUT    =&gt; int    超时时间，秒</span></span><br><span class="line"><span class="comment">     * )</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> resource</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">mk_curl</span><span class="params">($type, $url, array $data=array<span class="params">()</span>, array $ex_arg=array<span class="params">()</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//初始化curl会话</span></span><br><span class="line">        $ch = curl_init();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//curl参数</span></span><br><span class="line">        $option = <span class="keyword">array</span>(</span><br><span class="line">            CURLOPT_RETURNTRANSFER =&gt; <span class="number">1</span>,<span class="comment">//返回请求结果</span></span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">//get 参数处理(url处理)</span></span><br><span class="line">        <span class="keyword">if</span> ($type==<span class="string">'get'</span> &amp;&amp; $data) &#123;</span><br><span class="line">            $url .= (strpos($url, <span class="string">'?'</span>) ? <span class="string">'&amp;'</span> : <span class="string">'?'</span>).http_build_query($data);</span><br><span class="line">        &#125;</span><br><span class="line">        $option[CURLOPT_URL] = $url;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//post 参数处理</span></span><br><span class="line">        <span class="keyword">if</span> ($type==<span class="string">'post'</span> &amp;&amp; $data) &#123;</span><br><span class="line">            $option[CURLOPT_POSTFIELDS] = $data;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//其它参数合并</span></span><br><span class="line">        $option += $ex_arg;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//批量设置会话参数</span></span><br><span class="line">        curl_setopt_array($ch, $option);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $ch;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 初始化批量curl会话</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">_multi_init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (is_null(<span class="keyword">self</span>::$mh)) &#123;</span><br><span class="line">            <span class="keyword">self</span>::$mh = curl_multi_init();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  清理数据，恢复初始状态</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">_clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">self</span>::$mh     = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">self</span>::$arr_ch = <span class="keyword">array</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加curl句柄到批量处理中</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string   $k  用于区分不同请求的key，最终的返回结果会和key对应。若有重复后面的覆盖前面</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> resource $ch curl会话的句柄</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> boolean</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add_curl</span><span class="params">($k, $ch)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">self</span>::_multi_init();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//添加curl句柄</span></span><br><span class="line">        $ret = curl_multi_add_handle(<span class="keyword">self</span>::$mh, $ch);</span><br><span class="line">        <span class="keyword">if</span> ($ret != <span class="number">0</span>) &#123;<span class="comment">//添加失败</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//若原来有相同$k,则删除，以便覆盖之</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="keyword">self</span>::$arr_ch[$k])) &#123;</span><br><span class="line">            curl_multi_remove_handle(<span class="keyword">self</span>::$mh, <span class="keyword">self</span>::$arr_ch[$k]);<span class="comment">//移除原curl句柄</span></span><br><span class="line">            curl_close(<span class="keyword">self</span>::$arr_ch[$k]);<span class="comment">//关闭原curl会话</span></span><br><span class="line">            <span class="keyword">unset</span>(<span class="keyword">self</span>::$arr_ch[$k]);<span class="comment">//删除原$k</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">self</span>::$arr_ch[$k] = $ch;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 执行批量请求，返回批量数据。原设置的k与其结果一一对应</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> array $arr_ch 可选参数。key-curl句柄相对应的列表，用于批量设置curl句柄</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> array</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">multi_exec</span><span class="params">(array $arr_ch = array<span class="params">()</span>)</span> </span>&#123;</span><br><span class="line">        $data = <span class="keyword">array</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//批量添加curl会话句柄</span></span><br><span class="line">        <span class="keyword">foreach</span> ($arr_ch <span class="keyword">as</span> $k =&gt; $ch) &#123;</span><br><span class="line">            <span class="keyword">self</span>::add_curl($k, $ch);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//无批量执行句柄，返回空数组</span></span><br><span class="line">        <span class="keyword">if</span> (is_null(<span class="keyword">self</span>::$mh)) &#123;</span><br><span class="line">            <span class="keyword">return</span> $data;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//执行</span></span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            $mrc = curl_multi_exec(<span class="keyword">self</span>::$mh,$active);</span><br><span class="line">        &#125; <span class="keyword">while</span> ($mrc == CURLM_CALL_MULTI_PERFORM);</span><br><span class="line">        <span class="keyword">while</span> ($active &amp;&amp; $mrc == CURLM_OK)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (curl_multi_select(<span class="keyword">self</span>::$mh) != <span class="number">-1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">do</span> &#123;</span><br><span class="line">                    $mrc = curl_multi_exec(<span class="keyword">self</span>::$mh, $active);</span><br><span class="line">                &#125; <span class="keyword">while</span> ($mrc == CURLM_CALL_MULTI_PERFORM);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//获取返回结果</span></span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">self</span>::$arr_ch <span class="keyword">as</span> $k =&gt; $ch) &#123;</span><br><span class="line">            $data[$k] = curl_multi_getcontent($ch);</span><br><span class="line">            curl_multi_remove_handle(<span class="keyword">self</span>::$mh, $ch);<span class="comment">//移除句柄</span></span><br><span class="line">            curl_close($ch);<span class="comment">//关闭会话</span></span><br><span class="line">        &#125;</span><br><span class="line">        curl_multi_close(<span class="keyword">self</span>::$mh);<span class="comment">//关闭批量会话</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//清理数据，恢复初始状态，为下一次使用做好准备</span></span><br><span class="line">        <span class="keyword">self</span>::_clear();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这工具本质是发起并行请求，但若请求的自己定义的特殊接口，完全可以实现php伪多线程，进行某些数据的并行处理。<br>如自定义一个db查询接口，参数是sql（当然还有一下其它安全验证的参数等），返回值是查询结果。然后使用这个curl并行请求这个接口，那实现多条sql语句同时查询的功能。<br>并行查询数据库只是一个简单的例子，原则上所有不相互依赖的业务逻辑，都可以使用这种方法转为并行处理。</p>
+<p>转载自 <a href="http://blog.csdn.net/tsxw24/article/details/7979172" target="_blank" rel="noopener">http://blog.csdn.net/tsxw24/article/details/7979172</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2014/04/28/基于curl的并行请求，实现php中的伪多线程/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2014/04/17/鲜为人知的中国计数——知道3,892,179,868,480,350,000,000这个数怎么念吗？/"><span>鲜为人知的中国计数——知道3,892,179,868,480,350,000,000这个数怎么念吗？</span></a></h3>
     
   
@@ -676,68 +740,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2014/02/13/筒子们情人节快乐/"><span>筒子们情人节快乐</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2014/02/13/筒子们情人节快乐/" rel="bookmark">
-        <time class="entry-date published" datetime="2014-02-13T09:24:23.000Z">
-          2014-02-13
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>额，过不了情人节的童鞋就祝你们元宵节快乐吧哈哈，我呢继续在这里扯扯淡权当过节了吧。<br>一眨眼的功夫，就迎来了正月十五，过了今天，也就算是过完了今年的春节了吧，相信大部分的童鞋在这个星期一就已经开学了，之所以说大部分，是因为我还没有，哈哈哈。好吧，这样有点不厚道，不过晚一个礼拜开学也没什么意思，前段时间还能叫几个童鞋出来玩玩，而现在呢，只能闷闷的待家里玩手机。<br>昨天四点，在情人节的来临以及一个人的无聊再加上半夜的情绪波动三重影响下，我又想到了那个不可能的人，呵呵，但我能做到的只有想办法去忘记你，可这样我自己又不舍得啊唉，哭 Q_Q。想着离你的生日也没几个月了，而且我也不知道在这几个月里我究竟会有多少变化，于是我提前在博客里写下了一篇给你的文章，也是为了将那在我脑海中兜兜转转挥之不去的记忆抽一点出来扔进博客的数据库，我怀疑我如果不这样做早晚会被自己折磨疯的啊。。。话说我这样说是不是有点像邓布利多的冥想盆咳咳 →_→<br>不知道为什么从这个学期结束开始，我的心理承受能力莫名就变差了，我会因为别人的几句话而生气好久，然后又会将自己的负面情绪影响给别人，别人再在自己的圈子里传播，最终还是一个恶性循环。嗯，其实我整个寒假都不怎么开心，结果正巧有位可怜的娃撞我枪口上了。。。以前在这里说过，详见 <a href="http://futa.ooo/1256.html">你又不是人民币</a>。<br>嗯再过几天我也要开学了，总之应该也和各位一样吧，该背的背，该默的默，该做卷子的做卷子，只是希望能用这些冲淡我的那些固执的思绪 = = 筒子们求安慰啊。。。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/杂七杂八/">杂七杂八</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2014/02/13/筒子们情人节快乐/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -755,7 +757,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 403 Forbidden
+    &copy; 2021 403 Forbidden
     
   </p>
 </footer>

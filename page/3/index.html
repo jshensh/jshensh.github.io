@@ -61,6 +61,72 @@
 
   
     
+    <h3 class="article-title"><a href="/2016/08/09/针对 bs 的 collapse 写了个添加项的 func/"><span>针对 bs 的 collapse 写了个添加项的 func</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/08/09/针对 bs 的 collapse 写了个添加项的 func/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-08-09T09:42:58.000Z">
+          2016-08-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近在做个项目，用到了 bs 的 collapse，模拟了 select 的操作。但是其中选择的项不是很方便更改，于是写了个 function 来更改其中的 li。在这做个笔记，避免日后忘记，大神见笑。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> createPanel=<span class="function"><span class="keyword">function</span>(<span class="params">to,id,title,lis</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> collapseIn=<span class="keyword">typeof</span> <span class="built_in">arguments</span>[<span class="number">4</span>]!==<span class="string">"undefined"</span>?<span class="built_in">arguments</span>[<span class="number">4</span>]:$(<span class="string">"#"</span>+to+<span class="string">" .panel"</span>).length?<span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">    $(<span class="string">"#"</span>+to).append($(<span class="string">'&lt;div class="panel panel-default" id="panel_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'"&gt;&lt;div class="panel-heading" role="tab" id="heading_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'"&gt;&lt;h4 class="panel-title"&gt;&lt;a'</span>+(collapseIn?<span class="string">''</span>:<span class="string">' class="collapsed"'</span>)+<span class="string">' role="button" data-toggle="collapse" data-parent="#'</span>+to+<span class="string">'" href="#collapse_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'" aria-expanded="'</span>+(collapseIn?<span class="string">'false'</span>:<span class="string">'true'</span>)+<span class="string">'" aria-controls="collapse_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'"&gt;'</span>+title+<span class="string">'&lt;/a&gt;&lt;/h4&gt;&lt;/div&gt;&lt;div id="collapse_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'" class="panel-collapse collapse'</span>+(collapseIn?<span class="string">''</span>:<span class="string">' in'</span>)+<span class="string">'" role="tabpanel" aria-labelledby="heading_'</span>+to+<span class="string">'_'</span>+id+<span class="string">'"&gt;&lt;ul class="list-group"&gt;'</span>+((<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">var</span> op=<span class="string">""</span>; <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> lis) &#123; op+=<span class="string">'&lt;li class="list-group-item" data-menuid="'</span>+i+<span class="string">'"&gt;'</span>+lis[i]+<span class="string">'&lt;/li&gt;'</span>; &#125; <span class="keyword">return</span> op; &#125;)())+<span class="string">'&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;'</span>));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>用法：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mixed createPanel ( string appendToDomId, mixed panelId, mixed title, object liData, [ bool collapseIn ] )</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel-group"</span> <span class="attr">id</span>=<span class="string">"subject"</span> <span class="attr">role</span>=<span class="string">"tablist"</span> <span class="attr">aria-multiselectable</span>=<span class="string">"true"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">createPanel(<span class="string">"subject"</span>,<span class="number">0</span>,<span class="string">"学科1"</span>,&#123;<span class="number">1</span>:<span class="string">"Chinese"</span>,<span class="number">2</span>:<span class="string">"English"</span>,<span class="number">3</span>:<span class="string">"German"</span>&#125;,<span class="literal">true</span>);</span><br><span class="line">createPanel(<span class="string">"subject"</span>,<span class="string">"1"</span>,<span class="string">"学科2"</span>,&#123;<span class="number">1</span>:<span class="string">"Physics"</span>,<span class="number">2</span>:<span class="string">"Economics"</span>&#125;);</span><br></pre></td></tr></table></figure>
+<p>我不忍吐槽 bs 的文档，汉化根本不完全。。。这是原文档链接 <a href="http://v3.bootcss.com/javascript/#collapse" target="_blank" rel="noopener">http://v3.bootcss.com/javascript/#collapse</a>。嗯，就这样吧。。。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/08/09/针对 bs 的 collapse 写了个添加项的 func/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2016/07/25/iptables防火墙规则的添加、删除、修改、保存/"><span>iptables防火墙规则的添加、删除、修改、保存</span></a></h3>
     
   
@@ -728,76 +794,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/04/08/CentOS 安装 pip/"><span>CentOS 安装 pip</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/04/08/CentOS 安装 pip/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-04-08T08:36:08.000Z">
-          2016-04-08
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>之前有的朋友问我，CentOS版本怎么安装python的pip，我之前给出的Ubuntu下apt-get的方法<br>ubuntu 需要先安装下pip吧，<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python-pip</span><br></pre></td></tr></table></figure></p>
-<p>安装requests<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br></pre></td></tr></table></figure></p>
-<p>但是有的朋友由于是centos的，直接 yum install pip 或者 yum install python-pip 都是不行的。<br>其实不能yum那就直接下载编译安装呗。。。</p>
-<p>方法如下：<br>截至写本文的时候，pip最新为 8.1.1<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/pypa/pip/archive/8.1.1.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>注意：wget获取https的时候要加上：–no-check-certificate</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar zvxf 8.1.1.tar.gz    #解压文件</span><br><span class="line">cd pip-8.1.1/</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
-<p>OK，这样就安装好pip了，</p>
-<p>下面来安装 requests吧。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br></pre></td></tr></table></figure></p>
-<p>转载自 <a href="http://www.linuxde.net/2014/05/15576.html" target="_blank" rel="noopener">http://www.linuxde.net/2014/05/15576.html</a> 有删改</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/VPS-技术/">VPS 技术</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/04/08/CentOS 安装 pip/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -815,7 +811,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 403 Forbidden
+    &copy; 2021 403 Forbidden
     
   </p>
 </footer>

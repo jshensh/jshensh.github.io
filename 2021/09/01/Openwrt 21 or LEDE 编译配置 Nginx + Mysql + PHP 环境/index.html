@@ -1,0 +1,266 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Openwrt 21 / LEDE 编译配置 Nginx + Mysql + PHP 环境 | 博客</title>
+
+  
+  <meta name="author" content="403 Forbidden">
+  
+
+  
+  <meta name="description" content="编译时勾选以下 mod
+
+Languages
+PHP7
+php7
+PHP7 LIBXML support
+Use system timezone data instead of php’s built-in database
+
+
+php7-cli
+php7-fpm
+php7-mod-bcmath
+p">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Openwrt 21 / LEDE 编译配置 Nginx + Mysql + PHP 环境"/>
+
+  <meta property="og:site_name" content="博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">博客</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/about.html">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Openwrt 21 / LEDE 编译配置 Nginx + Mysql + PHP 环境</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/09/01/Openwrt 21 or LEDE 编译配置 Nginx + Mysql + PHP 环境/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-09-01T01:27:09.000Z">
+          2021-09-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>编译时勾选以下 mod</p>
+<ul>
+<li>Languages<ul>
+<li>PHP7<ul>
+<li>php7</li>
+<li>PHP7 LIBXML support<ul>
+<li>Use system timezone data instead of php’s built-in database</li>
+</ul>
+</li>
+<li>php7-cli</li>
+<li>php7-fpm</li>
+<li>php7-mod-bcmath</li>
+<li>php7-mod-calendar</li>
+<li>php7-mod-ctype</li>
+<li>php7-mod-curl</li>
+<li>php7-mod-dom</li>
+<li>php7-mod-exif</li>
+<li>php7-mod-fileinfo</li>
+<li>php7-mod-filter</li>
+<li>php7-mod-ftp</li>
+<li>php7-mod-gd</li>
+<li>php7-mod-gettext</li>
+<li>php7-mod-gmp</li>
+<li>php7-mod-iconv</li>
+<li>php7-mod-imap</li>
+<li>php7-mod-json</li>
+<li>php7-mod-ldap</li>
+<li>php7-mod-mbstring</li>
+<li>php7-mod-mysqli</li>
+<li>php7-mod-mysqlnd</li>
+<li>php7-mod-opcache</li>
+<li>php7-mod-openssl</li>
+<li>php7-mod-pcntl</li>
+<li>php7-mod-pdo</li>
+<li>php7-mod-pdo-mysql</li>
+<li>php7-mod-phar</li>
+<li>php7-mod-session</li>
+<li>php7-mod-simplexml</li>
+<li>php7-mod-sockets</li>
+<li>php7-mod-tokenizer</li>
+<li>php7-mod-xml</li>
+<li>php7-mod-xmlreader</li>
+<li>php7-mod-xmlwriter</li>
+<li>php7-mod-zip</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>LuCI<ul>
+<li>Collections<ul>
+<li>luci-nginx</li>
+<li>luci-ssl-nginx</li>
+<li>luci-ssl-openssl</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Network<ul>
+<li>SSH<ul>
+<li>openssh-sftp-server</li>
+</ul>
+</li>
+<li>Web Servers/Proxies<ul>
+<li>nginx-all-module</li>
+<li>nginx-mod-luci</li>
+<li>nginx-ssl-util</li>
+<li>uwsgi</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Utilities<ul>
+<li>Compression<ul>
+<li>unzip</li>
+</ul>
+</li>
+<li>Database<ul>
+<li>mariadb-common<ul>
+<li>mariadb-client-base<ul>
+<li>mariadb-client</li>
+</ul>
+</li>
+<li>mariadb-server-base<ul>
+<li>mariadb-server</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>并调整 <code>Target Images</code> 中的 <code>Root filesystem partition size</code></p>
+<p>刷入后配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">domain="$&#123;HOSTNAME,,&#125;.lan"</span><br><span class="line">ip=$(ip r | grep br-lan | awk '&#123;print $NF&#125;')</span><br><span class="line">wwwroot="/mnt/mmcblk2p4/wwwroot"</span><br><span class="line"></span><br><span class="line">cd ~</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> dnsmasq</span><br><span class="line">uci add_list dhcp.@dnsmasq[0].address="/.$&#123;domain&#125;/$&#123;ip&#125;"</span><br><span class="line">uci commit dhcp</span><br><span class="line">/etc/init.d/dnsmasq restart</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> nginx</span><br><span class="line">sed -i 's/\(fastcgi_param  \)SCRIPT_NAME.*/\1SCRIPT_FILENAME    $document_root$fastcgi_script_name;/' /etc/nginx/fastcgi_params</span><br><span class="line">sed -i 's/http &#123;/http &#123;\n        server_names_hash_bucket_size 64;/' /etc/nginx/uci.conf.template</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> php</span><br><span class="line">ln -s /usr/bin/php-cli /usr/bin/php</span><br><span class="line">sed -i 's/memory_limit = 8M/memory_limit = 1024M/' /etc/php.ini</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> mariadb</span><br><span class="line">uci set mysqld.general.enabled='1'</span><br><span class="line">uci set mysqld.general.options='--datadir=/mnt/mmcblk2p4/mariadb'</span><br><span class="line">uci commit mysqld</span><br><span class="line">sed -i 's/\(datadir\s\+\=\).*/\1\/mnt\/mmcblk2p4\/mariadb/' /etc/mysql/conf.d/50-server.cnf</span><br><span class="line">mysql_install_db --user=mariadb --basedir=/usr --datadir=/mnt/mmcblk2p4/mariadb</span><br><span class="line">/etc/init.d/mysqld start</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> composer</span><br><span class="line">php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"</span><br><span class="line">php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') &#123; echo 'Installer verified'; &#125; else &#123; echo 'Installer corrupt'; unlink('composer-setup.php'); &#125; echo PHP_EOL;"</span><br><span class="line">php composer-setup.php</span><br><span class="line">php -r "unlink('composer-setup.php');"</span><br><span class="line">mv composer.phar /usr/bin/composer</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> vhost</span><br><span class="line">mkdir -p "$&#123;wwwroot&#125;/php.$&#123;domain&#125;"</span><br><span class="line">cd "$&#123;wwwroot&#125;/php.$&#123;domain&#125;"</span><br><span class="line">cat &gt; "/etc/nginx/conf.d/php.$&#123;domain&#125;.conf" &lt;&lt;EOF</span><br><span class="line">server</span><br><span class="line">    &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        #listen [::]:80;</span><br><span class="line">        server_name php.openwrt.lan;</span><br><span class="line">        index index.html index.htm index.php default.html default.htm default.php;</span><br><span class="line">        root  $&#123;wwwroot&#125;/php.$&#123;domain&#125;;</span><br><span class="line"></span><br><span class="line">        location ~ [^/]\.php(/|$)</span><br><span class="line">        &#123;</span><br><span class="line">            try_files \$uri =404;</span><br><span class="line">            fastcgi_pass  unix:/tmp/run/php7-fpm.sock;</span><br><span class="line">            fastcgi_index index.php;</span><br><span class="line">            include /etc/nginx/fastcgi_params;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~ /.well-known &#123;</span><br><span class="line">            allow all;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~ /\.</span><br><span class="line">        &#123;</span><br><span class="line">            deny all;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        access_log off;</span><br><span class="line">    &#125;</span><br><span class="line">EOF</span><br><span class="line">/etc/init.d/nginx restart</span><br><span class="line">wget https://files.phpmyadmin.net/phpMyAdmin/5.1.1/phpMyAdmin-5.1.1-all-languages.zip</span><br><span class="line">unzip phpMyAdmin-5.1.1-all-languages.zip</span><br><span class="line">rm phpMyAdmin-5.1.1-all-languages.zip</span><br><span class="line">mv phpMyAdmin-5.1.1-all-languages phpmyadmin</span><br><span class="line">chmod +x phpmyadmin/index.php</span><br><span class="line">mkdir phpmyadmin/tmp</span><br><span class="line">chmod 0777 phpmyadmin/tmp</span><br><span class="line">cp phpmyadmin/config.sample.inc.php phpmyadmin/config.inc.php</span><br><span class="line">sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['host'\] = \).*/\\1'127.0.0.1';/" phpmyadmin/config.inc.php</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/openwrt/">openwrt</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+	<section id="comment" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'futa-ooo';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 403 Forbidden
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

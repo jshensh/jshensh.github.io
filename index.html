@@ -61,6 +61,162 @@
 
   
     
+    <h3 class="article-title"><a href="/2021/09/01/Openwrt 21 or LEDE 编译配置 Nginx + Mysql + PHP 环境/"><span>Openwrt 21 / LEDE 编译配置 Nginx + Mysql + PHP 环境</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/09/01/Openwrt 21 or LEDE 编译配置 Nginx + Mysql + PHP 环境/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-09-01T01:27:09.000Z">
+          2021-09-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>编译时勾选以下 mod</p>
+<ul>
+<li>Languages<ul>
+<li>PHP7<ul>
+<li>php7</li>
+<li>PHP7 LIBXML support<ul>
+<li>Use system timezone data instead of php’s built-in database</li>
+</ul>
+</li>
+<li>php7-cli</li>
+<li>php7-fpm</li>
+<li>php7-mod-bcmath</li>
+<li>php7-mod-calendar</li>
+<li>php7-mod-ctype</li>
+<li>php7-mod-curl</li>
+<li>php7-mod-dom</li>
+<li>php7-mod-exif</li>
+<li>php7-mod-fileinfo</li>
+<li>php7-mod-filter</li>
+<li>php7-mod-ftp</li>
+<li>php7-mod-gd</li>
+<li>php7-mod-gettext</li>
+<li>php7-mod-gmp</li>
+<li>php7-mod-iconv</li>
+<li>php7-mod-imap</li>
+<li>php7-mod-json</li>
+<li>php7-mod-ldap</li>
+<li>php7-mod-mbstring</li>
+<li>php7-mod-mysqli</li>
+<li>php7-mod-mysqlnd</li>
+<li>php7-mod-opcache</li>
+<li>php7-mod-openssl</li>
+<li>php7-mod-pcntl</li>
+<li>php7-mod-pdo</li>
+<li>php7-mod-pdo-mysql</li>
+<li>php7-mod-phar</li>
+<li>php7-mod-session</li>
+<li>php7-mod-simplexml</li>
+<li>php7-mod-sockets</li>
+<li>php7-mod-tokenizer</li>
+<li>php7-mod-xml</li>
+<li>php7-mod-xmlreader</li>
+<li>php7-mod-xmlwriter</li>
+<li>php7-mod-zip</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>LuCI<ul>
+<li>Collections<ul>
+<li>luci-nginx</li>
+<li>luci-ssl-nginx</li>
+<li>luci-ssl-openssl</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Network<ul>
+<li>SSH<ul>
+<li>openssh-sftp-server</li>
+</ul>
+</li>
+<li>Web Servers/Proxies<ul>
+<li>nginx-all-module</li>
+<li>nginx-mod-luci</li>
+<li>nginx-ssl-util</li>
+<li>uwsgi</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Utilities<ul>
+<li>Compression<ul>
+<li>unzip</li>
+</ul>
+</li>
+<li>Database<ul>
+<li>mariadb-common<ul>
+<li>mariadb-client-base<ul>
+<li>mariadb-client</li>
+</ul>
+</li>
+<li>mariadb-server-base<ul>
+<li>mariadb-server</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>并调整 <code>Target Images</code> 中的 <code>Root filesystem partition size</code></p>
+<p>刷入后配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">domain="$&#123;HOSTNAME,,&#125;.lan"</span><br><span class="line">ip=$(ip r | grep br-lan | awk '&#123;print $NF&#125;')</span><br><span class="line">wwwroot="/mnt/mmcblk2p4/wwwroot"</span><br><span class="line"></span><br><span class="line">cd ~</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> dnsmasq</span><br><span class="line">uci add_list dhcp.@dnsmasq[0].address="/.$&#123;domain&#125;/$&#123;ip&#125;"</span><br><span class="line">uci commit dhcp</span><br><span class="line">/etc/init.d/dnsmasq restart</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> nginx</span><br><span class="line">sed -i 's/\(fastcgi_param  \)SCRIPT_NAME.*/\1SCRIPT_FILENAME    $document_root$fastcgi_script_name;/' /etc/nginx/fastcgi_params</span><br><span class="line">sed -i 's/http &#123;/http &#123;\n        server_names_hash_bucket_size 64;/' /etc/nginx/uci.conf.template</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> php</span><br><span class="line">ln -s /usr/bin/php-cli /usr/bin/php</span><br><span class="line">sed -i 's/memory_limit = 8M/memory_limit = 1024M/' /etc/php.ini</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> mariadb</span><br><span class="line">uci set mysqld.general.enabled='1'</span><br><span class="line">uci set mysqld.general.options='--datadir=/mnt/mmcblk2p4/mariadb'</span><br><span class="line">uci commit mysqld</span><br><span class="line">sed -i 's/\(datadir\s\+\=\).*/\1\/mnt\/mmcblk2p4\/mariadb/' /etc/mysql/conf.d/50-server.cnf</span><br><span class="line">mysql_install_db --user=mariadb --basedir=/usr --datadir=/mnt/mmcblk2p4/mariadb</span><br><span class="line">/etc/init.d/mysqld start</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> composer</span><br><span class="line">php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"</span><br><span class="line">php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') &#123; echo 'Installer verified'; &#125; else &#123; echo 'Installer corrupt'; unlink('composer-setup.php'); &#125; echo PHP_EOL;"</span><br><span class="line">php composer-setup.php</span><br><span class="line">php -r "unlink('composer-setup.php');"</span><br><span class="line">mv composer.phar /usr/bin/composer</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> vhost</span><br><span class="line">mkdir -p "$&#123;wwwroot&#125;/php.$&#123;domain&#125;"</span><br><span class="line">cd "$&#123;wwwroot&#125;/php.$&#123;domain&#125;"</span><br><span class="line">cat &gt; "/etc/nginx/conf.d/php.$&#123;domain&#125;.conf" &lt;&lt;EOF</span><br><span class="line">server</span><br><span class="line">    &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        #listen [::]:80;</span><br><span class="line">        server_name php.openwrt.lan;</span><br><span class="line">        index index.html index.htm index.php default.html default.htm default.php;</span><br><span class="line">        root  $&#123;wwwroot&#125;/php.$&#123;domain&#125;;</span><br><span class="line"></span><br><span class="line">        location ~ [^/]\.php(/|$)</span><br><span class="line">        &#123;</span><br><span class="line">            try_files \$uri =404;</span><br><span class="line">            fastcgi_pass  unix:/tmp/run/php7-fpm.sock;</span><br><span class="line">            fastcgi_index index.php;</span><br><span class="line">            include /etc/nginx/fastcgi_params;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~ /.well-known &#123;</span><br><span class="line">            allow all;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~ /\.</span><br><span class="line">        &#123;</span><br><span class="line">            deny all;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        access_log off;</span><br><span class="line">    &#125;</span><br><span class="line">EOF</span><br><span class="line">/etc/init.d/nginx restart</span><br><span class="line">wget https://files.phpmyadmin.net/phpMyAdmin/5.1.1/phpMyAdmin-5.1.1-all-languages.zip</span><br><span class="line">unzip phpMyAdmin-5.1.1-all-languages.zip</span><br><span class="line">rm phpMyAdmin-5.1.1-all-languages.zip</span><br><span class="line">mv phpMyAdmin-5.1.1-all-languages phpmyadmin</span><br><span class="line">chmod +x phpmyadmin/index.php</span><br><span class="line">mkdir phpmyadmin/tmp</span><br><span class="line">chmod 0777 phpmyadmin/tmp</span><br><span class="line">cp phpmyadmin/config.sample.inc.php phpmyadmin/config.inc.php</span><br><span class="line">sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['host'\] = \).*/\\1'127.0.0.1';/" phpmyadmin/config.inc.php</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/openwrt/">openwrt</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2021/09/01/Openwrt 21 or LEDE 编译配置 Nginx + Mysql + PHP 环境/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2020/06/06/记一次给家宽 DDNS 配置 ssl 双向认证/"><span>记一次给家宽 DDNS 配置 ssl 双向认证</span></a></h3>
     
   
@@ -294,84 +450,6 @@
 
   
     
-    <h3 class="article-title"><a href="/2018/10/10/解决dnsmasq安装好之后主机不能解析其他域名的问题/"><span>解决dnsmasq安装好之后主机不能解析其他域名的问题</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2018/10/10/解决dnsmasq安装好之后主机不能解析其他域名的问题/" rel="bookmark">
-        <time class="entry-date published" datetime="2018-10-10T06:49:43.000Z">
-          2018-10-10
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>事情是这样的，我想在阿里云上搭建一个dns服务器，没错就是吃空了，在阿里云上搭建一个本地的dns服务器，安装好之后发现不能ping域名了，难道是dns服务器的问题，换成114的dns也没有用，后来终于找到解决的方法了</p>
-<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>首先看下我的配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resolv-file=/etc/resolv.conf</span><br><span class="line">strict-order</span><br><span class="line">listen-address=47.100.210.53</span><br><span class="line">address=/hello.bboysoul.com/198.13.55.44</span><br></pre></td></tr></table></figure></p>
-<p>没错我加了这个 <code>resolv-file=/etc/resolv.conf</code><br>也就是说的我的上游dns服务器地址应该是存在这个文件里面的，之后查看这个文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)</span><br><span class="line">#     DO NOT EDIT THIS FILE BY HAND -- YOUR CHANGES WILL BE OVERWRITTEN</span><br><span class="line">nameserver 127.0.0.1</span><br><span class="line">options timeout:2 attempts:3 rotate single-request-reopen</span><br></pre></td></tr></table></figure></p>
-<p>这就是问题所在了，之后我们修改我们本机的dns服务器地址<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/resolvconf/resolv.conf.d/head</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nameserver 47.100.210.53</span><br><span class="line">nameserver 114.114.114.114</span><br></pre></td></tr></table></figure>
-<p>有人说ubuntu16.04是修改下面这个文件才可以修改dns服务器地址的，反正我是没有成功过，你们看着办<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/resolvconf/resolv.conf.d/base</span><br></pre></td></tr></table></figure></p>
-<p>但是绝对不能编辑下面这个文件，因为一旦重启网络，这个文件会被重写<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/resolv.conf</span><br></pre></td></tr></table></figure></p>
-<p>之后我们重启网络<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart networking</span><br></pre></td></tr></table></figure></p>
-<p>重启dnsmasq<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart dnsmasq</span><br></pre></td></tr></table></figure></p>
-<p>其实貌似直接重启dnsmasq就可以，因为重启这个貌似会直接重启网络的<br>如果你碰到同样ping不通主机的问题，但是我的方法没有帮助到你，那么也许下面是你的问题所在</p>
-<h2 id="第二种情况"><a href="#第二种情况" class="headerlink" title="第二种情况"></a>第二种情况</h2><p>首先看下这个进程是怎么启动的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">╭─root@bboysoul-aliyun ~  </span><br><span class="line">╰─➤  ps -ef |grep dnsmasq</span><br><span class="line">dnsmasq  19842     1  0 17:02 ?        00:00:00 /usr/sbin/dnsmasq -x /var/run/dnsmasq/dnsmasq.pid -u dnsmasq -r /var/run/dnsmasq/resolv.conf -7 /etc/dnsmasq.d,.dpkg-dist,.dpkg-old,.dpkg-new --local-service --trust-anchor=.,19036,8,2,49aac11d7b6f6446702e54a1607371607a1a41855200fd2ce1cdde32f24e8fb5 --trust-anchor=.,20326,8,2,e06d44b80b8f1d39a95c0b0d7c65d08458e880409bbc683457104237c7f8ec8d</span><br><span class="line">root     20371 20335  0 21:03 pts/1    00:00:00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn dnsmasq</span><br></pre></td></tr></table></figure></p>
-<p>你可以看到上面这么一段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-r /var/run/dnsmasq/resolv.conf</span><br></pre></td></tr></table></figure></p>
-<p>看下上面这个文件的路径和内容，如果不行那么修改下面这个文件，忽略掉上面这个文件之后重启dnsmasq<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/dnsmasq</span><br></pre></td></tr></table></figure></p>
-<p>取消下面这行注释<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IGNORE_RESOLVCONF=yes</span><br></pre></td></tr></table></figure></p>
-<p>之后手动指定上游dns服务器也就是dnsmasq的配置文件vim /etc/dnsmasq.conf加上下面这行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resolv-file=/etc/resolv.conf</span><br></pre></td></tr></table></figure></p>
-<p>之后就是重复我上面第一种情况的操作了</p>
-<p>转载自 <a href="https://www.jianshu.com/p/81c0221de34c" target="_blank" rel="noopener">https://www.jianshu.com/p/81c0221de34c</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/VPS-技术/">VPS 技术</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2018/10/10/解决dnsmasq安装好之后主机不能解析其他域名的问题/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
     <h3 class="article-title"><a href="/2018/10/10/N1 盒子 Ubuntu 3.14 内核开启无线热点/"><span>N1 盒子 Ubuntu 3.14 内核开启无线热点</span></a></h3>
     
   
@@ -441,6 +519,84 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2018/10/10/N1 盒子 Ubuntu 3.14 内核开启无线热点/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2018/10/10/解决dnsmasq安装好之后主机不能解析其他域名的问题/"><span>解决dnsmasq安装好之后主机不能解析其他域名的问题</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2018/10/10/解决dnsmasq安装好之后主机不能解析其他域名的问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2018-10-10T06:49:43.000Z">
+          2018-10-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>事情是这样的，我想在阿里云上搭建一个dns服务器，没错就是吃空了，在阿里云上搭建一个本地的dns服务器，安装好之后发现不能ping域名了，难道是dns服务器的问题，换成114的dns也没有用，后来终于找到解决的方法了</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>首先看下我的配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resolv-file=/etc/resolv.conf</span><br><span class="line">strict-order</span><br><span class="line">listen-address=47.100.210.53</span><br><span class="line">address=/hello.bboysoul.com/198.13.55.44</span><br></pre></td></tr></table></figure></p>
+<p>没错我加了这个 <code>resolv-file=/etc/resolv.conf</code><br>也就是说的我的上游dns服务器地址应该是存在这个文件里面的，之后查看这个文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)</span><br><span class="line">#     DO NOT EDIT THIS FILE BY HAND -- YOUR CHANGES WILL BE OVERWRITTEN</span><br><span class="line">nameserver 127.0.0.1</span><br><span class="line">options timeout:2 attempts:3 rotate single-request-reopen</span><br></pre></td></tr></table></figure></p>
+<p>这就是问题所在了，之后我们修改我们本机的dns服务器地址<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/resolvconf/resolv.conf.d/head</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nameserver 47.100.210.53</span><br><span class="line">nameserver 114.114.114.114</span><br></pre></td></tr></table></figure>
+<p>有人说ubuntu16.04是修改下面这个文件才可以修改dns服务器地址的，反正我是没有成功过，你们看着办<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/resolvconf/resolv.conf.d/base</span><br></pre></td></tr></table></figure></p>
+<p>但是绝对不能编辑下面这个文件，因为一旦重启网络，这个文件会被重写<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/resolv.conf</span><br></pre></td></tr></table></figure></p>
+<p>之后我们重启网络<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart networking</span><br></pre></td></tr></table></figure></p>
+<p>重启dnsmasq<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart dnsmasq</span><br></pre></td></tr></table></figure></p>
+<p>其实貌似直接重启dnsmasq就可以，因为重启这个貌似会直接重启网络的<br>如果你碰到同样ping不通主机的问题，但是我的方法没有帮助到你，那么也许下面是你的问题所在</p>
+<h2 id="第二种情况"><a href="#第二种情况" class="headerlink" title="第二种情况"></a>第二种情况</h2><p>首先看下这个进程是怎么启动的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">╭─root@bboysoul-aliyun ~  </span><br><span class="line">╰─➤  ps -ef |grep dnsmasq</span><br><span class="line">dnsmasq  19842     1  0 17:02 ?        00:00:00 /usr/sbin/dnsmasq -x /var/run/dnsmasq/dnsmasq.pid -u dnsmasq -r /var/run/dnsmasq/resolv.conf -7 /etc/dnsmasq.d,.dpkg-dist,.dpkg-old,.dpkg-new --local-service --trust-anchor=.,19036,8,2,49aac11d7b6f6446702e54a1607371607a1a41855200fd2ce1cdde32f24e8fb5 --trust-anchor=.,20326,8,2,e06d44b80b8f1d39a95c0b0d7c65d08458e880409bbc683457104237c7f8ec8d</span><br><span class="line">root     20371 20335  0 21:03 pts/1    00:00:00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn dnsmasq</span><br></pre></td></tr></table></figure></p>
+<p>你可以看到上面这么一段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-r /var/run/dnsmasq/resolv.conf</span><br></pre></td></tr></table></figure></p>
+<p>看下上面这个文件的路径和内容，如果不行那么修改下面这个文件，忽略掉上面这个文件之后重启dnsmasq<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/dnsmasq</span><br></pre></td></tr></table></figure></p>
+<p>取消下面这行注释<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IGNORE_RESOLVCONF=yes</span><br></pre></td></tr></table></figure></p>
+<p>之后手动指定上游dns服务器也就是dnsmasq的配置文件vim /etc/dnsmasq.conf加上下面这行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resolv-file=/etc/resolv.conf</span><br></pre></td></tr></table></figure></p>
+<p>之后就是重复我上面第一种情况的操作了</p>
+<p>转载自 <a href="https://www.jianshu.com/p/81c0221de34c" target="_blank" rel="noopener">https://www.jianshu.com/p/81c0221de34c</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2018/10/10/解决dnsmasq安装好之后主机不能解析其他域名的问题/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -896,69 +1052,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/10/28/PHP无限级分类实现（递归+非递归）/"><span>PHP无限级分类实现（递归+非递归）</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/10/28/PHP无限级分类实现（递归+非递归）/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-10-28T04:21:16.000Z">
-          2017-10-28
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by PhpStorm.</span></span><br><span class="line"><span class="comment"> * User: qishou</span></span><br><span class="line"><span class="comment"> * Date: 15-8-2</span></span><br><span class="line"><span class="comment"> * Time: 上午12:00</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//准备数组，代替从数据库中检索出的数据(共有三个必须字段id,name,pid)</span></span><br><span class="line">header(<span class="string">"content-type:text/html;charset=utf-8"</span>);</span><br><span class="line">$categories = <span class="keyword">array</span>(</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">1</span>,<span class="string">'name'</span>=&gt;<span class="string">'电脑'</span>,<span class="string">'pid'</span>=&gt;<span class="number">0</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">2</span>,<span class="string">'name'</span>=&gt;<span class="string">'手机'</span>,<span class="string">'pid'</span>=&gt;<span class="number">0</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">3</span>,<span class="string">'name'</span>=&gt;<span class="string">'笔记本'</span>,<span class="string">'pid'</span>=&gt;<span class="number">1</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">4</span>,<span class="string">'name'</span>=&gt;<span class="string">'台式机'</span>,<span class="string">'pid'</span>=&gt;<span class="number">1</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">5</span>,<span class="string">'name'</span>=&gt;<span class="string">'智能机'</span>,<span class="string">'pid'</span>=&gt;<span class="number">2</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">6</span>,<span class="string">'name'</span>=&gt;<span class="string">'功能机'</span>,<span class="string">'pid'</span>=&gt;<span class="number">2</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">7</span>,<span class="string">'name'</span>=&gt;<span class="string">'超级本'</span>,<span class="string">'pid'</span>=&gt;<span class="number">3</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'id'</span>=&gt;<span class="number">8</span>,<span class="string">'name'</span>=&gt;<span class="string">'游戏本'</span>,<span class="string">'pid'</span>=&gt;<span class="number">3</span>),</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*======================非递归实现========================*/</span></span><br><span class="line">$tree = <span class="keyword">array</span>();</span><br><span class="line"><span class="comment">//第一步，将分类id作为数组key,并创建children单元</span></span><br><span class="line"><span class="keyword">foreach</span>($categories <span class="keyword">as</span> $category)&#123;</span><br><span class="line">    $tree[$category[<span class="string">'id'</span>]] = $category;</span><br><span class="line">    $tree[$category[<span class="string">'id'</span>]][<span class="string">'children'</span>] = <span class="keyword">array</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//第二步，利用引用，将每个分类添加到父类children数组中，这样一次遍历即可形成树形结构。</span></span><br><span class="line"><span class="keyword">foreach</span>($tree <span class="keyword">as</span> $key=&gt;$item)&#123;</span><br><span class="line">    <span class="keyword">if</span>($item[<span class="string">'pid'</span>] != <span class="number">0</span>)&#123;</span><br><span class="line">        $tree[$item[<span class="string">'pid'</span>]][<span class="string">'children'</span>][] = &amp;$tree[$key];<span class="comment">//注意：此处必须传引用否则结果不对</span></span><br><span class="line">        <span class="keyword">if</span>($tree[$key][<span class="string">'children'</span>] == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">unset</span>($tree[$key][<span class="string">'children'</span>]); <span class="comment">//如果children为空，则删除该children元素（可选）</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">////第三步，删除无用的非根节点数据</span></span><br><span class="line"><span class="keyword">foreach</span>($tree <span class="keyword">as</span> $key=&gt;$category)&#123;</span><br><span class="line">    <span class="keyword">if</span>($category[<span class="string">'pid'</span>] != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">unset</span>($tree[$key]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print_r($tree);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*======================递归实现========================*/</span></span><br><span class="line">$tree = $categories;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_attr</span><span class="params">($a,$pid)</span></span>&#123;</span><br><span class="line">    $tree = <span class="keyword">array</span>();                                <span class="comment">//每次都声明一个新数组用来放子元素</span></span><br><span class="line">    <span class="keyword">foreach</span>($a <span class="keyword">as</span> $v)&#123;</span><br><span class="line">        <span class="keyword">if</span>($v[<span class="string">'pid'</span>] == $pid)&#123;                      <span class="comment">//匹配子记录</span></span><br><span class="line">            $v[<span class="string">'children'</span>] = get_attr($a,$v[<span class="string">'id'</span>]); <span class="comment">//递归获取子记录</span></span><br><span class="line">            <span class="keyword">if</span>($v[<span class="string">'children'</span>] == <span class="keyword">null</span>)&#123;</span><br><span class="line">                <span class="keyword">unset</span>($v[<span class="string">'children'</span>]);             <span class="comment">//如果子元素为空则unset()进行删除，说明已经到该分支的最后一个元素了（可选）</span></span><br><span class="line">            &#125;</span><br><span class="line">            $tree[] = $v;                           <span class="comment">//将记录存入新数组</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $tree;                                  <span class="comment">//返回新数组</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;"</span>;</span><br><span class="line"></span><br><span class="line">print_r(get_attr($tree,<span class="number">0</span>));</span><br></pre></td></tr></table></figure>
-<p>转载自 <a href="http://blog.csdn.net/qishouzhang/article/details/47204359" target="_blank" rel="noopener">http://blog.csdn.net/qishouzhang/article/details/47204359</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2017/10/28/PHP无限级分类实现（递归+非递归）/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -974,7 +1067,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 403 Forbidden
+    &copy; 2021 403 Forbidden
     
   </p>
 </footer>

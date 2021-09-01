@@ -61,6 +61,72 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/10/12/用jQuery改变图片(image src)/"><span>用jQuery改变图片(image src)</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/10/12/用jQuery改变图片(image src)/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-10-11T22:16:03.000Z">
+          2013-10-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>可以使用jQuery的attr()函数，请看下面的例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">"my_image"</span> <span class="attr">src</span>=<span class="string">"first.jpg"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>jQuery改变src:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#my_image"</span>).attr(<span class="string">"src"</span>,<span class="string">"second.jpg"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>绑定onclick事件:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#my_image"</span>).click( <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      $(<span class="string">"#my_image"</span>).attr(<span class="string">"src"</span>,<span class="string">"second.jpg"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>单机更改图片:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"img"</span>).click( <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> src = ($(<span class="keyword">this</span>).attr(<span class="string">"src"</span>) === <span class="string">"img1_on.jpg"</span>)</span><br><span class="line">                    ? <span class="string">"img2_on.jpg"</span> </span><br><span class="line">                    : <span class="string">"img1_on.jpg"</span>;</span><br><span class="line">      $(<span class="keyword">this</span>).attr(<span class="string">"src"</span>, src);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/10/12/用jQuery改变图片(image src)/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/10/09/开启Nginx的目录文件列表功能/"><span>开启Nginx的目录文件列表功能</span></a></h3>
     
   
@@ -626,69 +692,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/10/02/用JQuery来监听浏览器改变窗口大小事件/"><span>用JQuery来监听浏览器改变窗口大小事件</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/10/02/用JQuery来监听浏览器改变窗口大小事件/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-10-01T20:18:59.000Z">
-          2013-10-02
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>做web开发的时候会遇到需要监听浏览器窗口大小改变事件，而进行相关操作。这里向大家介绍一下 JQuery 浏览器窗口改变事件。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">window</span>).resize();</span><br></pre></td></tr></table></figure></p>
-<p>这里需要注意 这个事件不要写在页面加载完成事件（ $(function(){…} ）内部，而需要写在他外面。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">”text/javascript”</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">$(<span class="built_in">window</span>).resize(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> width = $(<span class="keyword">this</span>).width();</span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> height = $(<span class="keyword">this</span>).height();</span></span><br><span class="line"><span class="javascript">alert(<span class="string">'width'</span>+width+<span class="string">'-height'</span>+height);</span></span><br><span class="line"><span class="undefined">&#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/10/02/用JQuery来监听浏览器改变窗口大小事件/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -706,7 +709,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 403 Forbidden
+    &copy; 2021 403 Forbidden
     
   </p>
 </footer>

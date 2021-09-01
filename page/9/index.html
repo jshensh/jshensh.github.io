@@ -61,6 +61,69 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/04/07/Redbean：入门(一) - 增删改查/"><span>Redbean：入门(一) - 增删改查</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/04/07/Redbean：入门(一) - 增删改查/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-04-07T07:05:30.000Z">
+          2015-04-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">require_once</span> <span class="string">'rb.php'</span>;</span><br><span class="line">    $tableName = <span class="string">"link"</span>;</span><br><span class="line">    <span class="comment">//链接数据库</span></span><br><span class="line">    R::setup(<span class="string">"mysql:host=localhost;dbname=hwibs_model"</span>,<span class="string">"root"</span>,<span class="string">""</span>);</span><br><span class="line">    <span class="comment">//创建一个表（也可以指为实例化一个表）</span></span><br><span class="line">    $handler = R::dispense($tableName);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#####################################   add #####################################</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/*同上[同时实例化多个表]</span></span><br><span class="line"><span class="comment">        list($handler_1,$handler_2) = R::dispenseALL("test_1,test_2");</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">//对象方式给字段赋值</span></span><br><span class="line">    <span class="comment">//::注意，如果字段不存在，store方法过后，会自动添加对应的字段，并且自动根据字段值设置字段的对应字段类型</span></span><br><span class="line">    $handler-&gt;name = <span class="string">"haha"</span>;</span><br><span class="line">    $handler-&gt;url = <span class="string">"isxiugai"</span>;</span><br><span class="line">    $handler-&gt;plushtime = time() - <span class="number">5000</span>;</span><br><span class="line">    <span class="comment">//如果有下划线的字段名，则可以使用驼峰法命名，将自动转换为下划线</span></span><br><span class="line">    $handler-&gt;isMyName = <span class="keyword">false</span>;<span class="comment">// = is_my_name</span></span><br><span class="line">    <span class="comment">//执行,此静态方法会返回添加成功后的自增id值(单个)</span></span><br><span class="line">    $inser_id = R::store($handler);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#####################################   query ####################################</span></span><br><span class="line">    <span class="comment">//获取记录句柄(参数1为表名，参数2为id值),返回值为对象集合</span></span><br><span class="line">    <span class="comment">//如果id不存在，则返回0</span></span><br><span class="line">    <span class="comment">//注意，这个获取到的句柄，可以用于删除操作</span></span><br><span class="line">    $bean  = R::load($tableName,<span class="number">4</span>);<span class="comment">//获取单个</span></span><br><span class="line">    $beans = R::loadAll($tableName,<span class="keyword">array</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>));<span class="comment">//获取多个</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#####################################   update #####################################</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//1.注意，修改跟add的唯一区别就是id，如果id不为空，则为修改，否则则为添加!</span></span><br><span class="line">    <span class="comment">//2.如果id不存在的情况下，既不会添加，也不会修改！所以一般在修改前，需要事先用load进行判断是否存在</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">foreach</span> ($beans <span class="keyword">as</span> $k=&gt;$v)&#123;</span><br><span class="line">        $beans[$k]-&gt;url = rand(<span class="number">100</span>,<span class="number">5555</span>);<span class="comment">//测试[循环将每个记录对象中的url赋值一个随机数]</span></span><br><span class="line">    &#125;</span><br><span class="line">    R::storeAll($beans);<span class="comment">//执行修改</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#####################################   delete #####################################</span></span><br><span class="line">    <span class="comment">//删除单个::成功或失败都是返回null</span></span><br><span class="line">    var_dump(R::trash(R::load($tableName,<span class="number">1</span>)));</span><br><span class="line">    <span class="comment">//删除多个::如果有不存在的，则会只删除存在的,成功或失败都是返回null</span></span><br><span class="line">    var_dump(R::trashAll(R::loadALL($tableName,<span class="keyword">array</span>(<span class="number">117</span>,<span class="number">118</span>))));</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#####################################   other #####################################</span></span><br><span class="line">    <span class="comment">//清除表中所有数据::相当于truncate，因为会将自增指针重置</span></span><br><span class="line">    <span class="comment">//R::wipe($tableName);</span></span><br><span class="line">    <span class="comment">//删除数据库中所有的表,[无语的功能，要这个搞毛]</span></span><br><span class="line">    <span class="comment">//var_dump(R::nuke());</span></span><br><span class="line">    <span class="comment">//关闭链接</span></span><br><span class="line">    R::close();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://www.cnblogs.com/shibazi/archive/2014/08/02/3887246.html" target="_blank" rel="noopener">http://www.cnblogs.com/shibazi/archive/2014/08/02/3887246.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/04/07/Redbean：入门(一) - 增删改查/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/03/20/搭建coreseek(sphinx+mmseg3)详细安装配置+php之sphinx扩展安装+php调用示例/"><span>搭建coreseek(sphinx+mmseg3)详细安装配置+php之sphinx扩展安装+php调用示例</span></a></h3>
     
   
@@ -694,73 +757,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/02/08/php class中public,private,protected,static的区别，以及实例/"><span>php class中public,private,protected,static的区别，以及实例</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/02/08/php class中public,private,protected,static的区别，以及实例/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-02-08T08:16:35.000Z">
-          2015-02-08
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p><strong>一，public,private,protected的区别</strong><br>public:权限是最大的，可以内部调用，实例调用等。<br>protected: 受保护类型，用于本类和继承类调用。<br>private: 私有类型，只有在本类中使用。</p>
-<p><strong>二，实例</strong><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(E_ALL);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">test</span></span>&#123;</span><br><span class="line"> <span class="keyword">public</span> $public;</span><br><span class="line"> <span class="keyword">private</span> $private;</span><br><span class="line"> <span class="keyword">protected</span> $protected;</span><br><span class="line"> <span class="keyword">static</span> $instance;</span><br><span class="line"> <span class="keyword">public</span>  <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">$this</span>-&gt;public    = <span class="string">'public     &lt;br&gt;'</span>;</span><br><span class="line"> <span class="keyword">$this</span>-&gt;private   = <span class="string">'private    &lt;br&gt;'</span>;</span><br><span class="line"> <span class="keyword">$this</span>-&gt;protected = <span class="string">'protected  &lt;br&gt;'</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">tank</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="keyword">self</span>::$instance[get_class()]))</span><br><span class="line"> &#123;</span><br><span class="line"> $c = get_class();</span><br><span class="line"> <span class="keyword">self</span>::$instance = <span class="keyword">new</span> $c;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">self</span>::$instance;</span><br><span class="line"> &#125;    </span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pub_function</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"you request public function&lt;br&gt;"</span>;</span><br><span class="line"> <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;public;</span><br><span class="line"> <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;private;        <span class="comment">//private,内部可以调用</span></span><br><span class="line"> <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;protected;      <span class="comment">//protected,内部可以调用</span></span><br><span class="line"> <span class="keyword">$this</span>-&gt;pri_function();      <span class="comment">//private方法，内部可以调用</span></span><br><span class="line"> <span class="keyword">$this</span>-&gt;pro_function();      <span class="comment">//protected方法，内部可以调用</span></span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">protected</span>  <span class="function"><span class="keyword">function</span> <span class="title">pro_function</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"you request protected function&lt;br&gt;"</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">pri_function</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"you request private function&lt;br&gt;"</span>;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$test = test::tank();</span><br><span class="line"><span class="keyword">echo</span> $test-&gt;public;</span><br><span class="line"><span class="keyword">echo</span> $test-&gt;private;    <span class="comment">//Fatal error: Cannot access private property test::$private</span></span><br><span class="line"><span class="keyword">echo</span> $test-&gt;protected;  <span class="comment">//Fatal error: Cannot access protected property test::$protected</span></span><br><span class="line">$test-&gt;pub_function();</span><br><span class="line">$test-&gt;pro_function();  <span class="comment">//Fatal error: Call to protected method test::pro_function() from context</span></span><br><span class="line">$test-&gt;pri_function();  <span class="comment">//Fatal error: Call to private method test::pri_function() from context</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>从上面的例子中，我们可以看出，<br>public:    可以class内部调用，可以实例化调用。<br>private:   可以class内部调用，实例化调用报错。<br>protected：  可以class内部调用，实例化调用报错。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">test</span></span>&#123;</span><br><span class="line"> <span class="keyword">public</span> $public;</span><br><span class="line"> <span class="keyword">private</span> $private;</span><br><span class="line"> <span class="keyword">protected</span> $protected;</span><br><span class="line"> <span class="keyword">static</span> $instance;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span>  <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">$this</span>-&gt;public    = <span class="string">'public     &lt;br&gt;'</span>;</span><br><span class="line"> <span class="keyword">$this</span>-&gt;private   = <span class="string">'private    &lt;br&gt;'</span>;</span><br><span class="line"> <span class="keyword">$this</span>-&gt;protected = <span class="string">'protected  &lt;br&gt;'</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">tank</span><span class="params">()</span></span>&#123;                          <span class="comment">//私有方法不能继承，换成public,protected</span></span><br><span class="line"> <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="keyword">self</span>::$instance[get_class()]))</span><br><span class="line"> &#123;</span><br><span class="line"> $c = get_class();</span><br><span class="line"> <span class="keyword">self</span>::$instance = <span class="keyword">new</span> $c;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">self</span>::$instance;</span><br><span class="line"> &#125;    </span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pub_function</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"you request public function&lt;br&gt;"</span>;</span><br><span class="line"> <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;public;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">protected</span>  <span class="function"><span class="keyword">function</span> <span class="title">pro_function</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"you request protected function&lt;br&gt;"</span>;</span><br><span class="line"> <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;protected;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">pri_function</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"you request private function&lt;br&gt;"</span>;</span><br><span class="line"> <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;private;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">test1</span> <span class="keyword">extends</span> <span class="title">test</span></span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">parent</span>::tank();</span><br><span class="line"> <span class="keyword">parent</span>::__construct();</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">tank</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;public;</span><br><span class="line"> <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;private;       <span class="comment">//Notice: Undefined property: test1::$private</span></span><br><span class="line"> <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;protected;</span><br><span class="line"> <span class="keyword">$this</span>-&gt;pub_function();</span><br><span class="line"> <span class="keyword">$this</span>-&gt;pro_function();</span><br><span class="line"> <span class="keyword">$this</span>-&gt;pri_function();    <span class="comment">//Fatal error: Call to private method test::pri_function() from context 'test1'</span></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span>  <span class="function"><span class="keyword">function</span> <span class="title">pro_extends_function</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"you request extends_protected function&lt;br&gt;"</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pri_extends_function</span><span class="params">()</span></span>&#123;</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">"you request extends_private function&lt;br&gt;"</span>;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">error_reporting(E_ALL);</span><br><span class="line">$test = <span class="keyword">new</span> test1();</span><br><span class="line">$test -&gt; tank();       <span class="comment">//子类和父类有相同名字的属性和方法，实例化子类时，子类的中的属性和方法会盖掉父类的。</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>从上面的例子中，我们可以看出，<br>public:    test中的public可以被继承。<br>private:   test中的private不可以被继承。<br>protected：  test中的protected可以被继承。<br>static：        test中的static可以被继承。</p>
-<p>转载自 <a href="http://blog.163.com/wz_pk007/blog/static/170627050201143104938560/" target="_blank" rel="noopener">http://blog.163.com/wz_pk007/blog/static/170627050201143104938560/</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/Web-开发/">Web 开发</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/02/08/php class中public,private,protected,static的区别，以及实例/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -778,7 +774,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 403 Forbidden
+    &copy; 2021 403 Forbidden
     
   </p>
 </footer>

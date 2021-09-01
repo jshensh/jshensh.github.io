@@ -61,6 +61,68 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/08/12/jQuery倒计时--显示详细的天、小时、分、秒/"><span>jQuery倒计时--显示详细的天、小时、分、秒</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/08/12/jQuery倒计时--显示详细的天、小时、分、秒/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-08-11T20:29:11.000Z">
+          2013-08-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1999/xhtml"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=gbk"</span> /&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>Jquery实现倒计时效果<span class="tag">&lt;/<span class="name">title</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"> </span></span><br><span class="line"><span class="javascript"> <span class="keyword">var</span> SysSecond; </span></span><br><span class="line"><span class="javascript"> <span class="keyword">var</span> InterValObj; </span></span><br><span class="line"><span class="undefined">  </span></span><br><span class="line"><span class="javascript"> $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span></span><br><span class="line"><span class="javascript">  SysSecond = <span class="built_in">parseInt</span>($(<span class="string">"#remainSeconds"</span>).html()); <span class="comment">//这里获取倒计时的起始时间 </span></span></span><br><span class="line"><span class="javascript">  InterValObj = <span class="built_in">window</span>.setInterval(SetRemainTime, <span class="number">1000</span>); <span class="comment">//间隔函数，1秒执行 </span></span></span><br><span class="line"><span class="undefined"> &#125;); </span></span><br><span class="line"><span class="undefined"> </span></span><br><span class="line"><span class="javascript"> <span class="comment">//将时间减去1秒，计算天、时、分、秒 </span></span></span><br><span class="line"><span class="javascript"> <span class="function"><span class="keyword">function</span> <span class="title">SetRemainTime</span>(<span class="params"></span>) </span>&#123; </span></span><br><span class="line"><span class="javascript">  <span class="keyword">if</span> (SysSecond &gt; <span class="number">0</span>) &#123; </span></span><br><span class="line"><span class="undefined">   SysSecond = SysSecond - 1; </span></span><br><span class="line"><span class="javascript">   <span class="keyword">var</span> second = <span class="built_in">Math</span>.floor(SysSecond % <span class="number">60</span>);             <span class="comment">// 计算秒     </span></span></span><br><span class="line"><span class="javascript">   <span class="keyword">var</span> minite = <span class="built_in">Math</span>.floor((SysSecond / <span class="number">60</span>) % <span class="number">60</span>);      <span class="comment">//计算分 </span></span></span><br><span class="line"><span class="javascript">   <span class="keyword">var</span> hour = <span class="built_in">Math</span>.floor((SysSecond / <span class="number">3600</span>) % <span class="number">24</span>);      <span class="comment">//计算小时 </span></span></span><br><span class="line"><span class="javascript">   <span class="keyword">var</span> day = <span class="built_in">Math</span>.floor((SysSecond / <span class="number">3600</span>) / <span class="number">24</span>);        <span class="comment">//计算天 </span></span></span><br><span class="line"><span class="undefined"> </span></span><br><span class="line"><span class="javascript">   $(<span class="string">"#remainTime"</span>).html(day + <span class="string">"天"</span> + hour + <span class="string">"小时"</span> + minite + <span class="string">"分"</span> + second + <span class="string">"秒"</span>); </span></span><br><span class="line"><span class="javascript">  &#125; <span class="keyword">else</span> &#123;<span class="comment">//剩余时间小于或等于0的时候，就停止间隔函数 </span></span></span><br><span class="line"><span class="javascript">   <span class="built_in">window</span>.clearInterval(InterValObj); </span></span><br><span class="line"><span class="javascript">   <span class="comment">//这里可以添加倒计时时间为0后需要执行的事件 </span></span></span><br><span class="line"><span class="undefined">  &#125; </span></span><br><span class="line"><span class="undefined"> &#125; </span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span> </span><br><span class="line">     </span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"remainSeconds"</span> <span class="attr">style</span>=<span class="string">"display:none"</span>&gt;</span>360000<span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"remainTime"</span> <span class="attr">style</span>=<span class="string">"font-size:20px;font-weight:800;color:#FF9900"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/08/12/jQuery倒计时--显示详细的天、小时、分、秒/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/08/10/CDN未来的机遇和挑战/"><span>CDN未来的机遇和挑战</span></a></h3>
     
   
@@ -737,70 +799,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/07/31/linux系统如何下载百度网盘的附件/"><span>linux系统如何下载百度网盘的附件</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/07/31/linux系统如何下载百度网盘的附件/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-07-30T20:01:08.000Z">
-          2013-07-31
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>在vps上经常下载东西，常用的命令就是wget命令，大家经常会用百度网盘来存放程序和软件，国外比较有名的是Dropbox。<br>但是在美国的vps上直接下百度网盘的东西是没办法直接下载的，经过网上查询到一个很简单快速的方法。<br>首先打开要下载的百度网盘的地址：<br>如图<br><a href="/uploads/201307/a0171365385747.jpg"><img src="/uploads/201307/a0171365385747.jpg" alt="a0171365385747"></a><br>用谷浏览器打开直接复制连接地址<br><a href="/uploads/201307/e09b1365385747.jpg"><img src="/uploads/201307/e09b1365385747.jpg" alt="e09b1365385747"></a><br>然后在ssh下输入以下命令 wget -O ‘文件名’ “链接地址”<br>如:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O &apos;a.zip&apos; &quot;http://www.baidupcs.com/file/f1f1a9a4419a14b844ca977e130734b5?fid=1476933591-250528-1865097549&amp;time=1365385609&amp;sign=FDTA-DCb740ccc5511e5e8fedcff06b081203-lS%2FR48D9royZ3X3IzW9tN8b3m68%3D&amp;expires=8h&amp;sh=1&amp;response-cache-control=private&quot;</span><br></pre></td></tr></table></figure></p>
-<p>然后就可以解压缩使用了。</p>
-<p>转载自：<a href="http://www.ovzxen.com/post-44.html" target="_blank" rel="noopener">http://www.ovzxen.com/post-44.html</a> ，有删改</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/VPS-技术/">VPS 技术</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/07/31/linux系统如何下载百度网盘的附件/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -818,7 +816,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 403 Forbidden
+    &copy; 2021 403 Forbidden
     
   </p>
 </footer>

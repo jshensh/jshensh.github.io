@@ -61,6 +61,76 @@
 
   
     
+    <h3 class="article-title"><a href="/2016/04/08/CentOS 安装 pip/"><span>CentOS 安装 pip</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/04/08/CentOS 安装 pip/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-04-08T08:36:08.000Z">
+          2016-04-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>之前有的朋友问我，CentOS版本怎么安装python的pip，我之前给出的Ubuntu下apt-get的方法<br>ubuntu 需要先安装下pip吧，<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python-pip</span><br></pre></td></tr></table></figure></p>
+<p>安装requests<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br></pre></td></tr></table></figure></p>
+<p>但是有的朋友由于是centos的，直接 yum install pip 或者 yum install python-pip 都是不行的。<br>其实不能yum那就直接下载编译安装呗。。。</p>
+<p>方法如下：<br>截至写本文的时候，pip最新为 8.1.1<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/pypa/pip/archive/8.1.1.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>注意：wget获取https的时候要加上：–no-check-certificate</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar zvxf 8.1.1.tar.gz    #解压文件</span><br><span class="line">cd pip-8.1.1/</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
+<p>OK，这样就安装好pip了，</p>
+<p>下面来安装 requests吧。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br></pre></td></tr></table></figure></p>
+<p>转载自 <a href="http://www.linuxde.net/2014/05/15576.html" target="_blank" rel="noopener">http://www.linuxde.net/2014/05/15576.html</a> 有删改</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/VPS-技术/">VPS 技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/04/08/CentOS 安装 pip/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2016/04/06/树莓派系统的备份/"><span>树莓派系统的备份</span></a></h3>
     
   
@@ -700,79 +770,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/03/03/使用 aria2 搭建自己的离线下载服务器/"><span>使用 aria2 搭建自己的离线下载服务器</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/03/03/使用 aria2 搭建自己的离线下载服务器/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-03-03T06:09:08.000Z">
-          2016-03-03
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>先上两个项目的最新版下载地址：</p>
-<ul>
-<li><a href="http://binux.github.io/yaaw/" target="_blank" rel="noopener">http://binux.github.io/yaaw/</a></li>
-</ul>
-<ul>
-<li><a href="https://github.com/aria2/aria2/releases/latest" target="_blank" rel="noopener">https://github.com/aria2/aria2/releases/latest</a></li>
-</ul>
-<p>完整操作：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget "https://github.com/aria2/aria2/releases/download/release-1.31.0/aria2-1.31.0.tar.gz" -O aria2-1.31.0.tar.gz</span><br><span class="line">tar zxvf aria2-1.31.0.tar.gz</span><br><span class="line">cd aria2-1.31.0</span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">vi /root/aria2.conf</span><br></pre></td></tr></table></figure></p>
-<p>/root/aria2.conf 内容（更多配置项见 <a href="http://futa.ooo/2726.html">aria2配置示例</a>）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#设置下载目录</span><br><span class="line">dir=/home/wwwroot/***/downloads </span><br><span class="line">disable-ipv6=true</span><br><span class="line">enable-rpc=true</span><br><span class="line">rpc-allow-origin-all=true</span><br><span class="line">rpc-listen-all=true</span><br><span class="line">#设置下载端口</span><br><span class="line">rpc-listen-port=2333</span><br><span class="line">#设置密码</span><br><span class="line">rpc-secret=qwertyuiop1</span><br><span class="line">continue=true</span><br><span class="line">input-file=/root/aria2.session</span><br><span class="line">save-session=/root/aria2.session</span><br><span class="line">save-session-interval=60</span><br><span class="line">max-concurrent-downloads=3</span><br></pre></td></tr></table></figure></p>
-<p>添加自启动：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo '/usr/local/bin/aria2c --conf-path=/root/aria2.conf' &gt;&gt; /etc/init.d/rc.local</span><br></pre></td></tr></table></figure></p>
-<p>然后布置 web 端（基于 lnmp 1.2）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">lnmp vhost add</span><br><span class="line">cd /home/wwwroot/***  #设置下载目录</span><br><span class="line">wget https://github.com/binux/yaaw/zipball/master</span><br><span class="line">unzip master</span><br><span class="line">mv binux-yaaw-8c8d226/* .</span><br><span class="line">rm -rf binux-yaaw-8c8d226/ master</span><br><span class="line">mkdir downloads</span><br><span class="line">chown -R www .</span><br><span class="line">chmod -R 755 .</span><br><span class="line">chmod -R 777 downloads</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure></p>
-<p>之后打开你配置的域名，设置 JSON-RPC Path 为 <code>http://token:你的密码@域名:端口/jsonrpc</code> 即可</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/VPS-技术/">VPS 技术</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2016/03/03/使用 aria2 搭建自己的离线下载服务器/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -790,7 +787,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 403 Forbidden
+    &copy; 2021 403 Forbidden
     
   </p>
 </footer>

