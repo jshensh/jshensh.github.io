@@ -61,6 +61,87 @@
 
   
     
+    <h3 class="article-title"><a href="/2022/02/02/记录一下家里网络的一些配置/"><span>记录一下家里网络的一些配置</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2022/02/02/记录一下家里网络的一些配置/" rel="bookmark">
+        <time class="entry-date published" datetime="2022-02-02T09:23:43.000Z">
+          2022-02-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>家里使用的三线接入主路由进行拨号，mwan3 优先级分别为 电信 &gt; 即插即用 5G RNDIS &gt; 长城宽带，网内还有一个 Debian 系统的透明网关，记录下重要配置供以后参考。</p>
+<p>参考链接：</p>
+<ul>
+<li><a href="https://www.right.com.cn/forum/thread-2670532-1-1.html" target="_blank" rel="noopener">openwrt负载均衡最详细设置-小白进阶篇 - OPENWRT专版 - 恩山无线论坛 -  Powered by Discuz!</a></li>
+<li><a href="https://www.youtube.com/watch?v=vHWYH_5ooEY" target="_blank" rel="noopener">OpenWRT - Configure Multiwan Failover with mwan3 - YouTube</a></li>
+<li><a href="https://github.com/Dreamacro/clash/issues/555" target="_blank" rel="noopener">Dreamacro/clash #555 clash本机做透明代理iptables规则请教</a></li>
+</ul>
+<h2 id="Openwrt-上的："><a href="#Openwrt-上的：" class="headerlink" title="Openwrt 上的："></a>Openwrt 上的：</h2><p><code>/etc/config/network</code> 包含一些 switch、interface 相关的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">config interface &apos;loopback&apos;</span><br><span class="line">        option ifname &apos;lo&apos;</span><br><span class="line">        option proto &apos;static&apos;</span><br><span class="line">        option ipaddr &apos;127.0.0.1&apos;</span><br><span class="line">        option netmask &apos;255.0.0.0&apos;</span><br><span class="line"></span><br><span class="line">config globals &apos;globals&apos;</span><br><span class="line">        option ula_prefix &apos;fd53:0f22:53b4::/48&apos;</span><br><span class="line"></span><br><span class="line">config interface &apos;lan&apos;</span><br><span class="line">        option type &apos;bridge&apos;</span><br><span class="line">        option ifname &apos;eth0.1&apos;</span><br><span class="line">        option proto &apos;static&apos;</span><br><span class="line">        option netmask &apos;255.255.255.0&apos;</span><br><span class="line">        option ip6assign &apos;60&apos;</span><br><span class="line">        option ipaddr &apos;192.168.1.1&apos;</span><br><span class="line"></span><br><span class="line">config interface &apos;wan&apos;</span><br><span class="line">        option ifname &apos;eth0.2&apos;</span><br><span class="line">        option _orig_ifname &apos;eth0.2&apos;</span><br><span class="line">        option _orig_bridge &apos;false&apos;</span><br><span class="line">        option proto &apos;pppoe&apos;</span><br><span class="line">        option keepalive &apos;0&apos;</span><br><span class="line">        option username &apos;ad******69&apos;</span><br><span class="line">        option password &apos;42****08&apos;</span><br><span class="line">        option metric &apos;40&apos;</span><br><span class="line">        option ipv6 &apos;auto&apos;</span><br><span class="line"></span><br><span class="line">config interface &apos;wan6&apos;</span><br><span class="line">        option ifname &apos;eth0.2&apos;</span><br><span class="line">        option _orig_ifname &apos;eth0.2&apos;</span><br><span class="line">        option _orig_bridge &apos;false&apos;</span><br><span class="line">        option proto &apos;dhcpv6&apos;</span><br><span class="line"></span><br><span class="line">config switch</span><br><span class="line">        option name &apos;switch0&apos;</span><br><span class="line">        option reset &apos;1&apos;</span><br><span class="line">        option enable_vlan &apos;1&apos;</span><br><span class="line"></span><br><span class="line">config switch_vlan</span><br><span class="line">        option device &apos;switch0&apos;</span><br><span class="line">        option vlan &apos;1&apos;</span><br><span class="line">        option ports &apos;2 5t&apos;</span><br><span class="line"></span><br><span class="line">config switch_vlan</span><br><span class="line">        option device &apos;switch0&apos;</span><br><span class="line">        option vlan &apos;2&apos;</span><br><span class="line">        option ports &apos;3 5t&apos;</span><br><span class="line"></span><br><span class="line">config interface &apos;wan_gwbn&apos;</span><br><span class="line">        option proto &apos;pppoe&apos;</span><br><span class="line">        option ifname &apos;eth0.3&apos;</span><br><span class="line">        option username &apos;090******982&apos;</span><br><span class="line">        option password &apos;im******&apos;</span><br><span class="line">        option ipv6 &apos;auto&apos;</span><br><span class="line">        option keepalive &apos;0&apos;</span><br><span class="line">        option peerdns &apos;0&apos;</span><br><span class="line">        option dns &apos;223.5.5.5 223.6.6.6&apos;</span><br><span class="line">        option metric &apos;42&apos;</span><br><span class="line"></span><br><span class="line">config switch_vlan</span><br><span class="line">        option device &apos;switch0&apos;</span><br><span class="line">        option vlan &apos;3&apos;</span><br><span class="line">        option ports &apos;1 5t&apos;</span><br><span class="line"></span><br><span class="line">config switch_vlan</span><br><span class="line">        option device &apos;switch0&apos;</span><br><span class="line">        option ports &apos;0t 5t&apos;</span><br><span class="line">        option vlan &apos;85&apos;</span><br><span class="line"></span><br><span class="line">config switch_vlan</span><br><span class="line">        option device &apos;switch0&apos;</span><br><span class="line">        option ports &apos;0t 5t&apos;</span><br><span class="line">        option vlan &apos;51&apos;</span><br><span class="line"></span><br><span class="line">config switch_vlan</span><br><span class="line">        option device &apos;switch0&apos;</span><br><span class="line">        option ports &apos;0t 5t&apos;</span><br><span class="line">        option vlan &apos;46&apos;</span><br><span class="line"></span><br><span class="line">config interface &apos;iptv&apos;</span><br><span class="line">        option proto &apos;dhcp&apos;</span><br><span class="line">        option ifname &apos;eth0.85&apos;</span><br><span class="line">        option hostname &apos;HuaWei&apos;</span><br><span class="line"></span><br><span class="line">config interface &apos;tr069&apos;</span><br><span class="line">        option proto &apos;dhcp&apos;</span><br><span class="line">        option ifname &apos;eth0.46&apos;</span><br><span class="line">        option hostname &apos;HuaWei&apos;</span><br><span class="line"></span><br><span class="line">config route</span><br><span class="line">        option interface &apos;tr069&apos;</span><br><span class="line">        option target &apos;28.0.0.0&apos;</span><br><span class="line">        option netmask &apos;255.0.0.0&apos;</span><br><span class="line">        option gateway &apos;28.39.127.254&apos;</span><br><span class="line"></span><br><span class="line">config route</span><br><span class="line">        option target &apos;124.75.34.37&apos;</span><br><span class="line">        option netmask &apos;255.255.255.255&apos;</span><br><span class="line">        option gateway &apos;23.39.127.254&apos;</span><br><span class="line">        option interface &apos;iptv&apos;</span><br><span class="line"></span><br><span class="line">config interface &apos;rndis&apos;</span><br><span class="line">        option proto &apos;dhcp&apos;</span><br><span class="line">        option macaddr &apos;2C:B2:1A:5D:8A:00&apos;</span><br><span class="line">        option metric &apos;41&apos;</span><br><span class="line">        option _orig_ifname &apos;usb0&apos;</span><br><span class="line">        option _orig_bridge &apos;false&apos;</span><br><span class="line">        option ifname &apos;usb0&apos;</span><br></pre></td></tr></table></figure>
+<p><code>/etc/config/dhcp</code> 包含 DHCP 相关的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">config dnsmasq</span><br><span class="line">        option localise_queries &apos;1&apos;</span><br><span class="line">        option rebind_protection &apos;1&apos;</span><br><span class="line">        option rebind_localhost &apos;1&apos;</span><br><span class="line">        option local &apos;/lan/&apos;</span><br><span class="line">        option domain &apos;lan&apos;</span><br><span class="line">        option expandhosts &apos;1&apos;</span><br><span class="line">        option authoritative &apos;1&apos;</span><br><span class="line">        option readethers &apos;1&apos;</span><br><span class="line">        option leasefile &apos;/tmp/dhcp.leases&apos;</span><br><span class="line">        option resolvfile &apos;/tmp/resolv.conf.d/resolv.conf.auto&apos;</span><br><span class="line">        option nonwildcard &apos;1&apos;</span><br><span class="line">        option localservice &apos;1&apos;</span><br><span class="line">        option filter_aaaa &apos;1&apos;</span><br><span class="line">        option cachesize &apos;0&apos;</span><br><span class="line">        option doh_backup_noresolv &apos;-1&apos;</span><br><span class="line">        list doh_backup_server &apos;&apos;</span><br><span class="line">        list server &apos;127.0.0.1#5054&apos;</span><br><span class="line">        list server &apos;127.0.0.1#5053&apos;</span><br><span class="line">        option noresolv &apos;0&apos;</span><br><span class="line"></span><br><span class="line">config dhcp &apos;lan&apos;</span><br><span class="line">        option interface &apos;lan&apos;</span><br><span class="line">        option start &apos;100&apos;</span><br><span class="line">        option limit &apos;150&apos;</span><br><span class="line">        option leasetime &apos;12h&apos;</span><br><span class="line">        option ra_slaac &apos;1&apos;</span><br><span class="line">        list ra_flags &apos;managed-config&apos;</span><br><span class="line">        list ra_flags &apos;other-config&apos;</span><br><span class="line">        option dhcpv6 &apos;hybrid&apos;</span><br><span class="line">        option ndp &apos;hybrid&apos;</span><br><span class="line">        option ra_management &apos;1&apos;</span><br><span class="line">        list dhcp_option &apos;6,192.168.1.234&apos;</span><br><span class="line">        list dhcp_option &apos;3,192.168.1.234&apos;</span><br><span class="line">        option ra &apos;server&apos;</span><br><span class="line">        list dns &apos;2001:4860:4860::8888&apos;</span><br><span class="line">        list dns &apos;2001:4860:4860::8844&apos;</span><br><span class="line">        list dns &apos;2400:3200:baba::1&apos;</span><br><span class="line"></span><br><span class="line">config dhcp &apos;wan&apos;</span><br><span class="line">        option interface &apos;wan&apos;</span><br><span class="line">        option ignore &apos;1&apos;</span><br><span class="line"></span><br><span class="line">config odhcpd &apos;odhcpd&apos;</span><br><span class="line">        option maindhcp &apos;0&apos;</span><br><span class="line">        option leasefile &apos;/tmp/hosts/odhcpd&apos;</span><br><span class="line">        option leasetrigger &apos;/usr/sbin/odhcpd-update&apos;</span><br><span class="line">        option loglevel &apos;4&apos;</span><br><span class="line"></span><br><span class="line">config srvhost</span><br><span class="line">        option srv &apos;_vlmcs._tcp&apos;</span><br><span class="line">        option target &apos;OpenWrt&apos;</span><br><span class="line">        option port &apos;1688&apos;</span><br><span class="line">        option class &apos;0&apos;</span><br><span class="line">        option weight &apos;100&apos;</span><br></pre></td></tr></table></figure>
+<p><code>/etc/config/mwan3</code> 三线故障自动切换相关配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">config globals &apos;globals&apos;</span><br><span class="line">        option mmx_mask &apos;0x3F00&apos;</span><br><span class="line">        option local_source &apos;lan&apos;</span><br><span class="line"></span><br><span class="line">config interface &apos;wan&apos;</span><br><span class="line">        option enabled &apos;1&apos;</span><br><span class="line">        option initial_state &apos;online&apos;</span><br><span class="line">        option family &apos;ipv4&apos;</span><br><span class="line">        option reliability &apos;1&apos;</span><br><span class="line">        option count &apos;1&apos;</span><br><span class="line">        option size &apos;56&apos;</span><br><span class="line">        option timeout &apos;2&apos;</span><br><span class="line">        option interval &apos;5&apos;</span><br><span class="line">        option failure_interval &apos;5&apos;</span><br><span class="line">        option recovery_interval &apos;5&apos;</span><br><span class="line">        option down &apos;3&apos;</span><br><span class="line">        option up &apos;3&apos;</span><br><span class="line">        option flush_conntrack &apos;never&apos;</span><br><span class="line">        option check_quality &apos;0&apos;</span><br><span class="line">        option track_method &apos;httping&apos;</span><br><span class="line">        list track_ip &apos;101.95.49.100&apos;</span><br><span class="line">        list track_ip &apos;182.61.200.7&apos;</span><br><span class="line"></span><br><span class="line">config interface &apos;wan_gwbn&apos;</span><br><span class="line">        option enabled &apos;1&apos;</span><br><span class="line">        option initial_state &apos;online&apos;</span><br><span class="line">        option family &apos;ipv4&apos;</span><br><span class="line">        option reliability &apos;1&apos;</span><br><span class="line">        option count &apos;1&apos;</span><br><span class="line">        option size &apos;56&apos;</span><br><span class="line">        option timeout &apos;2&apos;</span><br><span class="line">        option interval &apos;5&apos;</span><br><span class="line">        option failure_interval &apos;5&apos;</span><br><span class="line">        option recovery_interval &apos;5&apos;</span><br><span class="line">        option down &apos;3&apos;</span><br><span class="line">        option up &apos;3&apos;</span><br><span class="line">        option check_quality &apos;1&apos;</span><br><span class="line">        option failure_latency &apos;1000&apos;</span><br><span class="line">        option failure_loss &apos;20&apos;</span><br><span class="line">        option recovery_latency &apos;500&apos;</span><br><span class="line">        option recovery_loss &apos;5&apos;</span><br><span class="line">        option flush_conntrack &apos;never&apos;</span><br><span class="line">        list track_ip &apos;101.95.49.100&apos;</span><br><span class="line">        list track_ip &apos;182.61.200.7&apos;</span><br><span class="line">        option track_method &apos;httping&apos;</span><br><span class="line"></span><br><span class="line">config interface &apos;rndis&apos;</span><br><span class="line">        option enabled &apos;1&apos;</span><br><span class="line">        option initial_state &apos;online&apos;</span><br><span class="line">        option family &apos;ipv4&apos;</span><br><span class="line">        option track_method &apos;ping&apos;</span><br><span class="line">        option reliability &apos;1&apos;</span><br><span class="line">        option count &apos;1&apos;</span><br><span class="line">        option size &apos;56&apos;</span><br><span class="line">        option check_quality &apos;0&apos;</span><br><span class="line">        option timeout &apos;2&apos;</span><br><span class="line">        option interval &apos;5&apos;</span><br><span class="line">        option failure_interval &apos;5&apos;</span><br><span class="line">        option recovery_interval &apos;5&apos;</span><br><span class="line">        option down &apos;3&apos;</span><br><span class="line">        option up &apos;3&apos;</span><br><span class="line">        list track_ip &apos;101.95.48.168&apos;</span><br><span class="line"></span><br><span class="line">config member &apos;wan_m1_w1&apos;</span><br><span class="line">        option interface &apos;wan&apos;</span><br><span class="line">        option weight &apos;1&apos;</span><br><span class="line">        option metric &apos;1&apos;</span><br><span class="line"></span><br><span class="line">config member &apos;gwbn_m3_w1&apos;</span><br><span class="line">        option interface &apos;wan_gwbn&apos;</span><br><span class="line">        option metric &apos;3&apos;</span><br><span class="line">        option weight &apos;1&apos;</span><br><span class="line"></span><br><span class="line">config member &apos;rndis_m2_w1&apos;</span><br><span class="line">        option interface &apos;rndis&apos;</span><br><span class="line">        option metric &apos;2&apos;</span><br><span class="line">        option weight &apos;1&apos;</span><br><span class="line"></span><br><span class="line">config policy &apos;wan_rndis_gwbn&apos;</span><br><span class="line">        list use_member &apos;wan_m1_w1&apos;</span><br><span class="line">        list use_member &apos;rndis_m2_w1&apos;</span><br><span class="line">        list use_member &apos;gwbn_m3_w1&apos;</span><br><span class="line">        option last_resort &apos;unreachable&apos;</span><br><span class="line"></span><br><span class="line">config rule &apos;default&apos;</span><br><span class="line">        option proto &apos;all&apos;</span><br><span class="line">        option sticky &apos;0&apos;</span><br><span class="line">        option use_policy &apos;wan_rndis_gwbn&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="Debian-上的"><a href="#Debian-上的" class="headerlink" title="Debian 上的"></a>Debian 上的</h2><p>先记录下相关命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd clash</span><br><span class="line">systemctl daemon-reload</span><br><span class="line">dpkg-reconfigure iptables-persistent</span><br></pre></td></tr></table></figure>
+<p><code>/etc/iptables/rules.v4</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># Generated by xtables-save v1.8.2 on Tue Feb  1 21:38:39 2022</span><br><span class="line">*filter</span><br><span class="line">:INPUT ACCEPT [548218:33768536]</span><br><span class="line">:FORWARD ACCEPT [4007331:1147712841]</span><br><span class="line">:OUTPUT ACCEPT [138420135:45087071504]</span><br><span class="line">-A INPUT -i lo -j ACCEPT</span><br><span class="line">-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT</span><br><span class="line">-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT</span><br><span class="line">-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT</span><br><span class="line">-A INPUT -p tcp -m tcp --dport 3306 -j DROP</span><br><span class="line">-A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT</span><br><span class="line">-A INPUT -p tcp -m tcp --dport 6379 -j DROP</span><br><span class="line">COMMIT</span><br><span class="line"># Completed on Tue Feb  1 21:38:39 2022</span><br><span class="line"># Generated by xtables-save v1.8.2 on Tue Feb  1 21:38:39 2022</span><br><span class="line">*nat</span><br><span class="line">:PREROUTING ACCEPT [232419:19971158]</span><br><span class="line">:INPUT ACCEPT [496939:30207727]</span><br><span class="line">:POSTROUTING ACCEPT [820158:120174857]</span><br><span class="line">:OUTPUT ACCEPT [720450:109425267]</span><br><span class="line">:CLASH - [0:0]</span><br><span class="line">-A PREROUTING -p tcp -j CLASH</span><br><span class="line">-A OUTPUT -p tcp -m owner ! --uid-owner 1003 -j REDIRECT --to-ports 7892</span><br><span class="line">-A CLASH -p tcp -j REDIRECT --to-ports 7892</span><br><span class="line">-A CLASH -d 0.0.0.0/8 -j RETURN</span><br><span class="line">-A CLASH -d 10.0.0.0/8 -j RETURN</span><br><span class="line">-A CLASH -d 127.0.0.0/8 -j RETURN</span><br><span class="line">-A CLASH -d 169.254.0.0/16 -j RETURN</span><br><span class="line">-A CLASH -d 172.16.0.0/12 -j RETURN</span><br><span class="line">-A CLASH -d 192.168.0.0/16 -j RETURN</span><br><span class="line">-A CLASH -d 224.0.0.0/4 -j RETURN</span><br><span class="line">-A CLASH -d 240.0.0.0/4 -j RETURN</span><br><span class="line">COMMIT</span><br><span class="line"># Completed on Tue Feb  1 21:38:39 2022</span><br></pre></td></tr></table></figure>
+<p><code>/etc/systemd/system/clash.service</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=clash service</span><br><span class="line">Requires=systemd-networkd-wait-online.service</span><br><span class="line">After=systemd-networkd-wait-online.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">User=clash</span><br><span class="line">Group=clash</span><br><span class="line">Type=simple</span><br><span class="line">CapabilityBoundingSet=CAP_NET_BIND_SERVICE</span><br><span class="line">AmbientCapabilities=CAP_NET_BIND_SERVICE</span><br><span class="line">ExecStart=/usr/local/bin/clash -d /etc/clash/</span><br><span class="line">Restart=on-failure</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p><code>/etc/clash/config.yaml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">port: 7890</span><br><span class="line">socks-port: 7891</span><br><span class="line">redir-port: 7892</span><br><span class="line">allow-lan: true</span><br><span class="line">external-controller: 192.168.1.234:9090</span><br><span class="line">secret: &quot;******&quot;</span><br><span class="line">mode: Rule</span><br><span class="line">log-level: warning</span><br><span class="line"># log-level: info</span><br><span class="line"></span><br><span class="line">experimental:</span><br><span class="line">  ignore-resolve-fail: false</span><br><span class="line"></span><br><span class="line">proxies:</span><br><span class="line">  - name: Proxy</span><br><span class="line">    type: **</span><br><span class="line">    server: **</span><br><span class="line">    port: **</span><br><span class="line">    uuid: **</span><br><span class="line">    alterId: 0</span><br><span class="line">    cipher: auto</span><br><span class="line">    tls: true</span><br><span class="line">    network: ws</span><br><span class="line">    ws-path: **</span><br><span class="line">    ws-headers:</span><br><span class="line">      Host: **</span><br><span class="line"></span><br><span class="line">dns:</span><br><span class="line">  enable: true</span><br><span class="line">  listen: 0.0.0.0:53</span><br><span class="line">  enhanced-mode: redir-host</span><br><span class="line">  nameserver:</span><br><span class="line">    - 127.0.0.1:5335</span><br><span class="line"></span><br><span class="line">rules:</span><br><span class="line">  - DOMAIN-SUFFIX,mlsub.net,DIRECT</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/openwrt/">openwrt</a>, <a href="/categories/openwrt/debian/">debian</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2022/02/02/记录一下家里网络的一些配置/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2021/09/01/Openwrt 21 or LEDE 编译配置 Nginx + Mysql + PHP 环境/"><span>Openwrt 21 / LEDE 编译配置 Nginx + Mysql + PHP 环境</span></a></h3>
     
   
@@ -919,139 +1000,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/11/04/斐讯 K3 流光金开箱与 TTL 刷 LEDE 教程（适用于 v21.5.39.260 系统）/"><span>斐讯 K3 流光金开箱与 TTL 刷 LEDE 教程（适用于 v21.5.39.260 系统）</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/11/04/斐讯 K3 流光金开箱与 TTL 刷 LEDE 教程（适用于 v21.5.39.260 系统）/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-11-04T10:40:13.000Z">
-          2017-11-04
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p><strong>注意：V21.5.39.260 集成的 CFE 编译日期为 8月2日，斐讯封堵了 CFE 网页执行命令，而且固件采用公私钥验证，除了 TTL 手动执行命令基本无法刷入其他固件（<a href="http://www.right.com.cn/forum/thread-212725-1-1.html" target="_blank" rel="noopener">斐讯K3 官方固件root版本 安装插件 entware </a>）</strong></p>
-<p><strong>本文分四段：开箱，拆机加 TTL，CFE 刷官改固件，网页刷 LEDE 固件</strong></p>
-<p><strong>在刷入 LEDE 固件之前，不要给 k3 连网！避免自动升级！<br>在刷入 LEDE 固件之前，不要给 k3 连网！避免自动升级！<br>在刷入 LEDE 固件之前，不要给 k3 连网！避免自动升级！</strong></p>
-<p>11 月 1 号 K3 流光金首发送贼快的闪迪 U 盘，趁活动入了两台：<br><a href="/uploads/2017/11/QQ截图20171105012114.png"><img src="/uploads/2017/11/QQ截图20171105012114.png" alt=""></a></p>
-<p>先上购买链接：</p>
-<ul>
-<li>斐讯K3流光金 AC3150：<a href="http://t.cn/RWIdtzy" target="_blank" rel="noopener">https://item.jd.com/5428209.html</a></li>
-</ul>
-<ul>
-<li>斐讯K3星空银 AC3150：<a href="http://t.cn/RO955lB" target="_blank" rel="noopener">https://item.jd.com/3959251.html</a></li>
-</ul>
-<p>到手开箱全家福：<br><a href="/uploads/2017/11/20171102_120516.jpg"><img src="/uploads/2017/11/20171102_120516-1024x768.jpg" alt=""></a></p>
-<p>四网口 + USB 3.0：<br><a href="/uploads/2017/11/20171102_120552.jpg"><img src="/uploads/2017/11/20171102_120552-768x1024.jpg" alt=""></a></p>
-<p>整机照：<br><a href="/uploads/2017/11/20171102_121232.jpg"><img src="/uploads/2017/11/20171102_121232-768x1024.jpg" alt=""></a></p>
-<p>mmp 的系统版本 v21.5.39.260：<br><a href="/uploads/2017/11/QQ截图20171102121540.png"><img src="/uploads/2017/11/QQ截图20171102121540.png" alt=""></a></p>
-<p>嗯废话说完，先给各位拆个机</p>
-<p>第一步先扯下底部脚垫，卸下四个螺丝。注意这里有保修易碎贴，如果还要保修的话，拿电吹风吹下挑开：<br><a href="/uploads/2017/11/20171104_154507.jpg"><img src="/uploads/2017/11/20171104_154507-768x1024.jpg" alt=""></a></p>
-<p>第二步从如图位置插入塑料卡片撬开两侧侧面面板。最好不要用美工刀、钢尺等锐利的物品操作，会留下撬痕：<br><a href="/uploads/2017/11/20171104_155201.jpg"><img src="/uploads/2017/11/20171104_155201-768x1024.jpg" alt=""></a></p>
-<p>第三步拆开侧面面板，轻轻取下上方天线（注意侧面有卡扣，把塑料外壳往外掰一下就可以取出来了），取下后搁在上面就行，目的是为了卸螺丝。<br><a href="/uploads/2017/11/20171104_155356.jpg"><img src="/uploads/2017/11/20171104_155356-1024x768.jpg" alt=""></a></p>
-<p>第四步卸下固定两块主板用的八颗螺丝（在螺丝边上上胶的家伙我谢谢你全家）：</p>
-<p><a href="/uploads/2017/11/20171104_160635.jpg"><img src="/uploads/2017/11/20171104_160635-1024x768.jpg" alt=""></a></p>
-<p><a href="/uploads/2017/11/20171104_164950.jpg"><img src="/uploads/2017/11/20171104_164950-768x1024.jpg" alt=""></a></p>
-<p>第五步在下方主板的右侧 TX RX GND 塞 TTL 线并固定（如果要保修的话，不要固定，我是为了方便以后刷机）我用的热熔胶，如果希望牢固一点的话可以用焊锡。线可以从边上散热孔引出：<br><a href="/uploads/2017/11/20171104_165104.jpg"><img src="/uploads/2017/11/20171104_165104-768x1024.jpg" alt=""></a></p>
-<p><a href="/uploads/2017/11/20171104_185431.jpg"><img src="/uploads/2017/11/20171104_185431-768x1024.jpg" alt=""></a></p>
-<p>第六步接 TTL 小板调试（TX 接 RXD，RX 接 TXD，GND 接 GND），115200，如果有输出，就是正常的：<br><a href="/uploads/2017/11/20171104_171541.jpg"><img src="/uploads/2017/11/20171104_171541-768x1024.jpg" alt=""></a></p>
-<p>最后合上侧面面板：<br><a href="/uploads/2017/11/20171104_191757.jpg"><img src="/uploads/2017/11/20171104_191757-1024x768.jpg" alt=""></a></p>
-<p>PS 最后找公司的硬件工程师帮忙把引出的线改成了座儿，用热熔胶固定在了散热口：<br><a href="/uploads/2017/11/20171105_222222.jpg"><img src="/uploads/2017/11/20171105_222222-768x1024.jpg" alt=""></a></p>
-<p><a href="/uploads/2017/11/20171105_231846.jpg"><img src="/uploads/2017/11/20171105_231846-768x1024.jpg" alt=""></a></p>
-<p>有了 TTL，我们需要先刷入破解了 root 的官改固件并降级，为刷入 LEDE 固件做准备：</p>
-<p>以下是需要的软件：</p>
-<ul>
-<li>Tftpd：<a href="http://tftpd32.jounin.net/" target="_blank" rel="noopener">http://tftpd32.jounin.net/</a></li>
-</ul>
-<ul>
-<li>官改固件下载：<a href="/uploads/2017/11/k3_root.zip">k3_root</a></li>
-</ul>
-<ul>
-<li>低版本 mtd6 镜像下载：<a href="/uploads/2017/11/K3-linux-partition-mtd6.zip">K3-linux-partition-mtd6</a></li>
-</ul>
-<p>第一步下载固件，安装运行 Tftpd 工具。使用网线连接至 k3 上，设置静态 IP 192.168.2.100，网关 192.168.2.1，将 Tftpd 中的目录切换到你存放解压出来的固件目录，并切换网卡（应该是 192.168.2.100，我因为刷机后截的图地址不一样）：<br><a href="/uploads/2017/11/QQ图片20171105020419.png"><img src="/uploads/2017/11/QQ图片20171105020419.png" alt=""></a></p>
-<p>第二步给路由器断电，连接 TTL，捅 Reset 通电开机，如果成功进入 CFE 会出现下一步图中以 CFE&gt; 开头的界面</p>
-<p>第三步输入命令，CFE 会拉取你本机上的固件：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flash -noheader 192.168.2.100:/k3_root.bin nflash0.trx</span><br></pre></td></tr></table></figure></p>
-<p><a href="/uploads/2017/11/QQ图片20171105020442.jpg"><img src="/uploads/2017/11/QQ图片20171105020442.jpg" alt=""></a></p>
-<p>第四步等写入完成后输入 reboot 重启</p>
-<p>第五步在 TTL 输入以下命令，将 mtd6 镜像拉至路由器上并写入（<strong>镜像大小 44M，刷写时间比较长，大约需要 20 ~ 30 分钟（尽量多等一段时间），刷写过程中不要断开路由器的电源或拔网线，以免变砖！！！</strong>）：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">tftp -g -l K3-linux-partition-mtd6.img -r K3-linux-partition-mtd6.img 192.168.2.100</span><br><span class="line">cat /tmp/K3-linux-partition-mtd6.img &gt; /dev/mtd6</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure></p>
-<p>最后进入功能设置 –&gt; 手动升级看到如图系统版本就说明成功了<br><a href="/uploads/2017/11/QQ图片20171105021238.png"><img src="/uploads/2017/11/QQ图片20171105021238.png" alt=""></a></p>
-<p>随后开始刷 LEDE</p>
-<p>固件下载：</p>
-<ul>
-<li>基础包（无密码）：<a href="/uploads/2017/11/lede-bcm53xx-phicomm-k3-squashfs-factory.zip">lede-bcm53xx-phicomm-k3-squashfs-factory</a></li>
-</ul>
-<ul>
-<li>升级包（默认登录密码是 password）：<a href="/uploads/2017/11/LEDE-17.01.2-R7.3.2-bcm53xx-phicomm-k3-squashfs.rar">LEDE-17.01.2-R7.3.2-bcm53xx-phicomm-k3-squashfs</a></li>
-</ul>
-<p>第一步刷入基础包，进入功能设置 –&gt; 手动升级，上传：<br><a href="/uploads/2017/11/QQ图片20171105021247.png"><img src="/uploads/2017/11/QQ图片20171105021247.png" alt=""></a></p>
-<p><a href="/uploads/2017/11/QQ图片20171105022757.png"><img src="/uploads/2017/11/QQ图片20171105022757.png" alt=""></a></p>
-<p>第二步打开 192.168.1.1，进入 System –&gt; Backup / Flash Firmware，上传升级包固件<br><a href="/uploads/2017/11/QQ图片20171105023217.png"><img src="/uploads/2017/11/QQ图片20171105023217.png" alt=""></a></p>
-<p>最后重启完成，重新打开 192.168.1.1，使用 root / password 登录即可：<br><a href="/uploads/2017/11/QQ截图20171105022906.png"><img src="/uploads/2017/11/QQ截图20171105022906.png" alt=""></a></p>
-<p>该固件带屏幕驱动，感谢 Lean 大的无私奉献！<br><a href="/uploads/2017/11/20171105_011645.jpg"><img src="/uploads/2017/11/20171105_011645-711x1024.jpg" alt=""></a></p>
-<p>参考以下文章：</p>
-<ol>
-<li>拆机部分：<a href="http://www.xinxunwei.com/wxjs/qtcjjc/2017/0327/7300.html" target="_blank" rel="noopener">斐讯路由器怎么样？斐讯K3拆机图解</a></li>
-</ol>
-<ol start="2">
-<li>官改固件：<a href="http://www.right.com.cn/forum/thread-212725-1-1.html" target="_blank" rel="noopener">斐讯K3 官方固件root版本 安装插件 entware</a></li>
-</ol>
-<ol start="3">
-<li>固件降级：<a href="http://koolshare.cn/thread-95398-1-2.html" target="_blank" rel="noopener">K3原厂固件从217版降级212版方法</a></li>
-</ol>
-<ol start="4">
-<li>Lean 大 LEDE：<a href="http://www.right.com.cn/forum/thread-214087-1-1.html" target="_blank" rel="noopener">斐讯 K3 OPENWRT LEDE R7.3  固件，Adbyby Plus，潘多拉多拨，S…</a></li>
-</ol>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/openwrt/">openwrt</a>, <a href="/categories/openwrt/斐讯/">斐讯</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2017/11/04/斐讯 K3 流光金开箱与 TTL 刷 LEDE 教程（适用于 v21.5.39.260 系统）/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -1067,10 +1015,11 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2021 403 Forbidden
+    &copy; 2022 403 Forbidden
     
   </p>
 </footer>
+    
     
   </div>
 </div>

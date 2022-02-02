@@ -61,6 +61,70 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/08/13/JS日期时间类型(Y-m-d H:i:s)与时间戳互转/"><span>JS日期时间类型(Y-m-d H:i:s)与时间戳互转</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/08/13/JS日期时间类型(Y-m-d H:i:s)与时间戳互转/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-08-12T19:35:19.000Z">
+          2013-08-13
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>JS中没有类似PHP那样简便的函数可以直接将时间戳与日期类型格式相互转换。于是只好自己写一个函数，使用时方便调用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">datetime_to_unix</span>(<span class="params">datetime</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> tmp_datetime = datetime.replace(<span class="regexp">/:/g</span>,<span class="string">'-'</span>);</span><br><span class="line">    tmp_datetime = tmp_datetime.replace(<span class="regexp">/ /g</span>,<span class="string">'-'</span>);</span><br><span class="line">    <span class="keyword">var</span> arr = tmp_datetime.split(<span class="string">"-"</span>);</span><br><span class="line">    <span class="keyword">var</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="built_in">Date</span>.UTC(arr[<span class="number">0</span>],arr[<span class="number">1</span>]<span class="number">-1</span>,arr[<span class="number">2</span>],arr[<span class="number">3</span>]<span class="number">-8</span>,arr[<span class="number">4</span>],arr[<span class="number">5</span>]));</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">parseInt</span>(now.getTime()/<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unix_to_datetime</span>(<span class="params">unix</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="built_in">parseInt</span>(unix) * <span class="number">1000</span>);</span><br><span class="line">    <span class="keyword">return</span> now.toLocaleString().replace(<span class="regexp">/年|月/g</span>, <span class="string">"-"</span>).replace(<span class="regexp">/日/g</span>, <span class="string">" "</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> datetime = <span class="string">'2012-11-16 10:36:50'</span>;</span><br><span class="line"><span class="keyword">var</span> unix = datetime_to_unix(datetime);</span><br><span class="line"><span class="built_in">document</span>.write(datetime+<span class="string">' 转换后的时间戳为: '</span>+unix+<span class="string">'</span></span><br><span class="line"><span class="string">'</span>);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> unix = <span class="number">1353033300</span>;</span><br><span class="line"><span class="keyword">var</span> datetime = unix_to_datetime(unix);</span><br><span class="line"><span class="built_in">document</span>.write(unix+<span class="string">' 转换后的日期为: '</span>+datetime);</span><br></pre></td></tr></table></figure>
+<p>转载自：<a href="http://www.qttc.net/201211246.html" target="_blank" rel="noopener">http://www.qttc.net/201211246.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/08/13/JS日期时间类型(Y-m-d H:i:s)与时间戳互转/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/08/12/jQuery倒计时--显示详细的天、小时、分、秒/"><span>jQuery倒计时--显示详细的天、小时、分、秒</span></a></h3>
     
   
@@ -736,69 +800,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/08/02/windows下的mysql数据库备份导入/"><span>windows下的mysql数据库备份导入</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/08/02/windows下的mysql数据库备份导入/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-08-01T20:19:15.000Z">
-          2013-08-02
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>在本地测试一个程序源码的时候，数据备份是130多兆，phpmyadmin最大支持上传备份30多兆，于是在windows下的mysql用命令直接导入，但是与linux系统下的mysql导入命令不同，<br>linux下的命令是mysqldump -u root -p database &lt; beifen.sql 。<br>win下的备份命令是这样的<br>进入win下的mysql<br>mysql的安装目录下的bin目录<br><code>mysql -u root -p</code><br>然后输入密码<br>进入后 选择你要导入的数据库<br><code>use test ‘test为数据名</code><br>然后执行 <code>mysql  source d:\beifen.sql</code><br>最后等一会就导入完成了。</p>
-<p>转载自：<a href="http://www.ovzxen.com/post-43.html" target="_blank" rel="noopener">http://www.ovzxen.com/post-43.html</a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/建站相关/">建站相关</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/08/02/windows下的mysql数据库备份导入/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -816,10 +817,11 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2021 403 Forbidden
+    &copy; 2022 403 Forbidden
     
   </p>
 </footer>
+    
     
   </div>
 </div>

@@ -61,6 +61,83 @@
 
   
     
+    <h3 class="article-title"><a href="/2013/12/30/如何解决安装了多版本office启动时需要重新配置的问题/"><span>如何解决安装了多版本office启动时需要重新配置的问题</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2013/12/30/如何解决安装了多版本office启动时需要重新配置的问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2013-12-29T23:14:08.000Z">
+          2013-12-30
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>Microsoft Office软件有2003、2007、2010和最新的2013四个常用版本。很多人的电脑安装的不止一个版本，有的是为了尝鲜，有的是为了演示教程方便截图，目的我们在此不做讨论。在安装多个版本之后，每次启动，都会要求你重新配置，这样一等就是半天，很是麻烦。</p>
+<p>①在开始菜单–所有程序–Microsoft Office文件夹里面可以看到小编的本本安装了三个版本，是为了截图方便各个版本的使用者。</p>
+<p><a href="/uploads/2013/12/3_130508155924_1.jpg"><img src="/uploads/2013/12/3_130508155924_1-237x300.jpg" alt="3_130508155924_1"></a></p>
+<p>②我启动Word2010，就会出现重新配置的界面，很耽误时间，而且每次都这样，要知道小编的时间可是十分宝贵的。</p>
+<p><a href="/uploads/2013/12/3_130508155924_2.jpg"><img src="/uploads/2013/12/3_130508155924_2-300x243.jpg" alt="3_130508155924_2"></a></p>
+<p>③下面教大家一个十分简单的解决办法，按下Win+R打开运行对话框，输入下面的指定。</p>
+<p>命令1（用于Office 2003）：</p>
+<p>reg add HKCU\Software\Microsoft\Office\11.0\Word\Options /v NoReReg /t REG_DWORD /d 1</p>
+<p>命令2（用于Office 2007）：</p>
+<p>reg add HKCU\Software\Microsoft\Office\12.0\Word\Options /v NoReReg /t REG_DWORD /d 1</p>
+<p>命令3（用于Office 2010）：</p>
+<p>reg add HKCU\Software\Microsoft\Office\14.0\Word\Options /v NoReReg /t REG_DWORD /d 1</p>
+<p><a href="/uploads/2013/12/3_130508155924_3.jpg"><img src="/uploads/2013/12/3_130508155924_3-300x169.jpg" alt="3_130508155924_3"></a></p>
+<p>④输入完毕，按下确定键，重新打开Word2010，没有出现配置界面了，而是直接启动。这样就很好的解决了这个常见的问题。</p>
+<p><a href="/uploads/2013/12/3_130508155924_4.jpg"><img src="/uploads/2013/12/3_130508155924_4-300x200.jpg" alt="3_130508155924_4"></a></p>
+<p>转载自：<a href="http://www.wordlm.com/Office/JiChu/2993.html" target="_blank" rel="noopener">http://www.wordlm.com/Office/JiChu/2993.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/计算机技术/">计算机技术</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2013/12/30/如何解决安装了多版本office启动时需要重新配置的问题/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2013/12/24/好久没写了，看到几句不错的词，发下/"><span>好久没写了，看到几句不错的词，发下</span></a></h3>
     
   
@@ -676,69 +753,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2013/10/18/帮激活 Office 2013/"><span>帮激活 Office 2013</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2013/10/18/帮激活 Office 2013/" rel="bookmark">
-        <time class="entry-date published" datetime="2013-10-18T08:15:38.000Z">
-          2013-10-18
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>帮激活 Office 2013，要激活的回复本博文，附上你的九组 ID，我将在双休日晚回复在本页面。如需邮件通知请附上你的 E-mail。不过希望各位激活完了可以多多访问我的博客 :)<br>P.S. 留邮箱的附通话录音</p>
-<p>天哪。。我不说什么了<br><a href="/uploads/201310//QQ图片20131020004108.jpg"><img src="/uploads/201310//QQ图片20131020004108.jpg" alt="QQ图片20131020004108"></a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/杂七杂八/">杂七杂八</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2013/10/18/帮激活 Office 2013/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -756,10 +770,11 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2021 403 Forbidden
+    &copy; 2022 403 Forbidden
     
   </p>
 </footer>
+    
     
   </div>
 </div>

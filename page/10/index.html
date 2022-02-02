@@ -61,6 +61,69 @@
 
   
     
+    <h3 class="article-title"><a href="/2015/02/09/PHP 利用 redis 做统计缓存mysql的压力/"><span>PHP 利用 redis 做统计缓存mysql的压力</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2015/02/09/PHP 利用 redis 做统计缓存mysql的压力/" rel="bookmark">
+        <time class="entry-date published" datetime="2015-02-09T07:41:09.000Z">
+          2015-02-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    header(<span class="string">"Content-Type:text/html;charset=utf-8"</span>);</span><br><span class="line">    <span class="keyword">include</span> <span class="string">'lib/mysql.class.php'</span>;</span><br><span class="line">    $mysql_obj = mysql::getConn();</span><br><span class="line">    <span class="comment">//redis </span></span><br><span class="line">    $redis = <span class="keyword">new</span> Redis();</span><br><span class="line">    $redis-&gt;pconnect(<span class="string">'127.0.0.1'</span>, <span class="number">6379</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_SERVER[<span class="string">'HTTP_REFERER'</span>]))&#123;</span><br><span class="line">        $url_md5 = md5($_SERVER[<span class="string">'HTTP_REFERER'</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    $adve_key = <span class="string">'adve'</span>; </span><br><span class="line">    $adve_key_exists = <span class="string">'adve_exists'</span>;</span><br><span class="line">    <span class="keyword">if</span>(!$redis-&gt;exists($adve_key_exists))&#123;</span><br><span class="line">        $list = $mysql_obj-&gt;fetch_array(<span class="string">"select * from user_online_adve"</span>);</span><br><span class="line">        <span class="keyword">if</span>($list)&#123;</span><br><span class="line">            <span class="keyword">foreach</span> ($list <span class="keyword">as</span> $key =&gt; $value) &#123;</span><br><span class="line">                $url_hash = md5($value[<span class="string">'adve_url'</span>]);</span><br><span class="line">                $adve_hash_key = $adve_key.<span class="string">":"</span>.$url_hash;</span><br><span class="line">                $id = $value[<span class="string">'id'</span>];</span><br><span class="line">                $redis-&gt;set($adve_hash_key,$id);</span><br><span class="line">                $redis-&gt;set($adve_key_exists,<span class="keyword">true</span>);</span><br><span class="line">                <span class="comment">//$redis-&gt;hmset($adve_hash_key, array('id' =&gt;$id));</span></span><br><span class="line">                <span class="comment">//print_r($redis-&gt;get($adve_hash_key));</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    $adve_new_key = $adve_key.<span class="string">':'</span>.$url_md5;</span><br><span class="line">    <span class="keyword">if</span>($redis-&gt;exists($adve_new_key))&#123;</span><br><span class="line">            $adve_plus = $adve_new_key.<span class="string">":plus"</span> ;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(!$redis-&gt;exists($adve_plus))&#123;</span><br><span class="line">                $redis-&gt;set($adve_plus,<span class="number">1</span>);  </span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                $redis-&gt;incr($adve_plus);</span><br><span class="line">                $num = $redis-&gt;get($adve_plus);</span><br><span class="line">                <span class="keyword">if</span>($num &gt;<span class="number">10</span>)&#123;</span><br><span class="line">                    $id = $redis-&gt;get($adve_new_key);</span><br><span class="line">                    <span class="comment">// insert to sql;</span></span><br><span class="line">                    $mysql_obj-&gt;query(<span class="string">"update user_online_adve set adve_num=adve_num+$num where id=$id"</span>);</span><br><span class="line">                    $redis-&gt;set($adve_plus,<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    header(<span class="string">'HTTP/1.0 301 Moved Permanently'</span>);</span><br><span class="line">    header(<span class="string">'Location: https://itunes.apple.com/cn/app/san-guo-zhi15-ba-wangno-da-lu/id694974270?mt=8'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    if()&#123;</span></span><br><span class="line"><span class="comment">            $adve_plus = $adve_key.":plus" ;</span></span><br><span class="line"><span class="comment">            if($redis-&gt;exists($adve_plus))&#123;</span></span><br><span class="line"><span class="comment">                $redis-&gt;incr($adve_plus);</span></span><br><span class="line"><span class="comment">            &#125;else&#123;</span></span><br><span class="line"><span class="comment">                $redis-&gt;set($adve_plus,1);  </span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">            echo $redis-&gt;get($adve_plus);</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    foreach ($list as $key =&gt; $value) &#123;</span></span><br><span class="line"><span class="comment">            $url_hash = md5($value['adve_url']);</span></span><br><span class="line"><span class="comment">            $id = $value['id'];</span></span><br><span class="line"><span class="comment">            $adve_num = $value['adve_num'];</span></span><br><span class="line"><span class="comment">            $adve_plus = $adve_key.":plus" ;</span></span><br><span class="line"><span class="comment">            if($redis-&gt;exists($adve_plus))&#123;</span></span><br><span class="line"><span class="comment">                $redis-&gt;incr($adve_plus);</span></span><br><span class="line"><span class="comment">            &#125;else&#123;</span></span><br><span class="line"><span class="comment">                $redis-&gt;set($adve_plus,1);  </span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">            echo $redis-&gt;get($adve_plus);</span></span><br><span class="line"><span class="comment">            //if($redis-&gt;)</span></span><br><span class="line"><span class="comment">            //$redis-&gt;hmset($adve_key, array('id' =&gt;$id, 'adve_num'=&gt;$adve_num));</span></span><br><span class="line"><span class="comment">            //print_r($redis-&gt;hmget("adve:$url_hash", array('adve_num')));</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        print_r($list);</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>转载自 <a href="http://www.cnblogs.com/jackluo/p/3401999.html" target="_blank" rel="noopener">http://www.cnblogs.com/jackluo/p/3401999.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Web-开发/">Web 开发</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2015/02/09/PHP 利用 redis 做统计缓存mysql的压力/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2015/02/08/php class中public,private,protected,static的区别，以及实例/"><span>php class中public,private,protected,static的区别，以及实例</span></a></h3>
     
   
@@ -697,73 +760,6 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2015/01/03/记一下 openwrt 可能忘记的常用命令/"><span>记一下 openwrt 可能忘记的常用命令</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2015/01/03/记一下 openwrt 可能忘记的常用命令/" rel="bookmark">
-        <time class="entry-date published" datetime="2015-01-03T09:04:05.000Z">
-          2015-01-03
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>将 /dev/sda1 分区挂载为 swap 交换区：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkswap /dev/sda1</span><br><span class="line">swapon /dev/sda1</span><br></pre></td></tr></table></figure></p>
-<p>挂载 vfat：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">opkg install kmod-fs-vfat // fat，fat32</span><br><span class="line">opkg install kmod-nls-utf8 kmod-nls-cp437 kmod-nls-iso8859-1 // 文件系统的语言支持</span><br><span class="line">mkdir sda1</span><br><span class="line">mount -t vfat /dev/sda1 sda1</span><br></pre></td></tr></table></figure></p>
-<p>挂载 ntfs：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">opkg install kmod-fuse ntfs-3g</span><br><span class="line">mkdir sda1</span><br><span class="line">ntfs-3g /dev/sda1 sda1</span><br></pre></td></tr></table></figure></p>
-<p>格式化分区：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opkg install e2fsprogs</span><br><span class="line">mkfs.ext4 /dev/sda1</span><br></pre></td></tr></table></figure></p>
-<p>支持 extroot：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opkg install block-mount</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure></p>
-<p>复制flash根分区文件到外部存储<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir /mnt/sda1</span><br><span class="line">mount /dev/sda1 /mnt/sda1</span><br><span class="line">mkdir -p /tmp/cproot</span><br><span class="line">mount --bind / /tmp/cproot/</span><br><span class="line">tar -C /tmp/cproot/ -cvf - . | tar -C /mnt/sda1 -xf -</span><br><span class="line">umount /dev/sda1</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-      
-
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/categories/openwrt/">openwrt</a>
-    </span>
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2015/01/03/记一下 openwrt 可能忘记的常用命令/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
@@ -781,10 +777,11 @@
     Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
     </br>
     
-    &copy; 2021 403 Forbidden
+    &copy; 2022 403 Forbidden
     
   </p>
 </footer>
+    
     
   </div>
 </div>
